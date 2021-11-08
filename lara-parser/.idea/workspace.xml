@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="81e9ecb0-d6af-4cc8-9742-0110041df082" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/AuthenticatedSessionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/AuthenticatedSessionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/ConfirmablePasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/ConfirmablePasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/EmailVerificationNotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/EmailVerificationNotificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/EmailVerificationPromptController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/EmailVerificationPromptController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/NewPasswordController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/NewPasswordController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/PasswordResetLinkController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/PasswordResetLinkController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/RegisteredUserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/RegisteredUserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Auth/VerifyEmailController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Auth/VerifyEmailController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Controller.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Controller.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/DashboardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/DashboardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/PageController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/PageController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/ParserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/ParserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/ProfileController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/ProfileController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/ProxySettingsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/Parser/Admin/ProxySettingsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../app/Http/Controllers/ParserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/../app/Http/Controllers/ParserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/application-logo.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/application-logo.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/auth-card.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/auth-card.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/auth-session-status.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/auth-session-status.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/auth-validation-errors.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/auth-validation-errors.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/button.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/button.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/dropdown-link.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/dropdown-link.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/dropdown.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/dropdown.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/input.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/input.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/label.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/label.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/nav-link.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/nav-link.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/responsive-nav-link.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/responsive-nav-link.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/components/sidebar.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/components/sidebar.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/pages/parser/page.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/pages/parser/page.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/pages/parser/parser.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/pages/parser/parser.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/pages/parser/proxy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/pages/parser/proxy.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../resources/views/pages/parser/showproxy.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/../resources/views/pages/parser/showproxy.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/../routes/web.php" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1xZlsyGMMocJllFyl7Wjjz2OXt6" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="81e9ecb0-d6af-4cc8-9742-0110041df082" name="Default Changelist" comment="" />
+      <created>1630570704682</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1630570704682</updated>
+      <workItem from="1630570706595" duration="23000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
