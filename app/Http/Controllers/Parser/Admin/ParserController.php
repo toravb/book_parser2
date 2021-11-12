@@ -48,8 +48,8 @@ class ParserController extends Controller
 /**/
     public function parseLink(Request $request)
     {
-        DB::table('sites')->where('site', $request->site)->update(['doParseLinks' => true]);
-        DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'links'],
+        DB::table('sites')->where('id', '=', 1)->update(['doParseLinks' => true]);
+        DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 0],
             ['Count' => 0, 'Progress' => 0, 'last_parsing' => null]);
 
         return back()->with('success', 'Парсинг ссылок запущен');
@@ -57,16 +57,16 @@ class ParserController extends Controller
 
     public function parseBooks(Request $request)
     {
-        DB::table('sites')->where('site', $request->site)->update(['doParseBooks' => !$request->doParseBooks]);
+        DB::table('sites')->where('id', '=', 1)->update(['doParseBooks' => !$request->doParseBooks]);
 
         if ($request->doParseBooks == false) {
             $count = DB::table('book_links')->where('doParse', '=', 1)->count();
 
-            DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'books'],
+            DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 1],
                 ['Count' => $count, 'Progress' => 0, 'last_parsing' => null]);
         }
         if ($request->doParseBooks == true) {
-            DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'books'],['last_parsing' => now()]);
+            DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 1],['last_parsing' => now()]);
         }
 
         return back();
@@ -74,16 +74,16 @@ class ParserController extends Controller
 
     public function parsePages(Request $request){
 
-        DB::table('sites')->where('site', $request->site)->update(['doParsePages' => !$request->doParsePages]);
+        DB::table('sites')->where('id', '=', 1)->update(['doParsePages' => !$request->doParsePages]);
 
         if ($request->doParsePages == false) {
             $count = DB::table('page_links')->where('doParse', '=', 1)->count();
 
-            DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'page'],
+            DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 2],
                 ['Count' => $count, 'Progress' => 0, 'last_parsing' => null]);
         }
         if ($request->doParsePages == true) {
-            DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'page'],['last_parsing' => now()]);
+            DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 2],['last_parsing' => now()]);
         }
 
 
@@ -92,16 +92,16 @@ class ParserController extends Controller
 
     public function parseImages(Request $request){
 
-        DB::table('sites')->where('site', $request->site)->update(['doParseImages' => !$request->doParseImages]);
+        DB::table('sites')->where('id', '=', 1)->update(['doParseImages' => !$request->doParseImages]);
 
         if ($request->doParseImages == false) {
             $count = DB::table('images')->where('doParse', '=', 1)->count();
 
-            DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'images'],
+            DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 3],
                 ['Count' => $count, 'Progress' => 0, 'last_parsing' => null]);
         }
         if ($request->doParsePages == true) {
-            DB::table('parsing_status')->updateOrInsert(['site_id' => $request->id, 'parse_type' => 'images'],['last_parsing' => now()]);
+            DB::table('parsing_status')->updateOrInsert(['site_id' => 1, 'parse_type' => 3],['last_parsing' => now()]);
         }
 
 
@@ -124,7 +124,7 @@ class ParserController extends Controller
                 $page = DB::table('product_url')->where('site_id', $data->id)->where('doParsePages', false)->update(['doParsePages' => true]);
 
                 $count = DB::table('product_url')->where('site_id', $data->id)->where('doParsePages', '=', 1)->count();
-                DB::table('parsing_status')->updateOrInsert(['site_id' => $data->id, 'parse_type' => 'page'],
+                DB::table('parsing_status')->updateOrInsert(['site_id' => $data->id, 'parse_type' => 2],
                     ['Count' => $count, 'Progress' => 0, 'last_parsing' => null]);
 //                $image = DB::table('images')->where('site_id', $data->id)->where('doParse', false)->update(['doParse' => true]);
 

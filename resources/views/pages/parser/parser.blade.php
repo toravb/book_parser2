@@ -40,7 +40,7 @@
                     </div>
                 </form>
                 @foreach($parsingStatus as $element)
-                    @if($element->parse_type == 'links' && $element->Count != 0)
+                    @if($element->parse_type == '0' && $element->Count != 0)
 
                         <span class="sr-only">
                             @if($element->last_parsing != null)
@@ -84,7 +84,7 @@
                 </span>
                 @endif
                 @foreach($parsingStatus as $element)
-                    @if($element->parse_type == 'books' && $element->Count != 0)
+                    @if($element->parse_type == '1' && $element->Count != 0)
 
                         <span class="sr-only">
                             @if($element->last_parsing != null)
@@ -128,7 +128,7 @@
                 </span>
                 @endif
                 @foreach($parsingStatus as $element)
-                    @if($element->parse_type == 'page' && $element->Count != 0)
+                    @if($element->parse_type == '2' && $element->Count != 0)
 
                         <span class="sr-only">
                             @if($element->last_parsing != null)
@@ -171,7 +171,7 @@
                 </span>
                 @endif
                 @foreach($parsingStatus as $element)
-                    @if($element->parse_type == 'images' && $element->Count != 0)
+                    @if($element->parse_type == '3' && $element->Count != 0)
 
                         <span class="sr-only">
                             @if($element->last_parsing != null)

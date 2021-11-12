@@ -35,20 +35,33 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:restart')
             ->everyThirtyMinutes();
 
-        $schedule->command('queue:work --name=doParsePages --queue=doParsePages  --daemon')
+        $schedule->command('queue:work --name=doParsePages100 --queue=doParsePages  --daemon')
             ->everyMinute()
             ->withoutOverlapping();
-        $schedule->command('queue:work --name=doParseImages --queue=doParseImages  --daemon')
+        $schedule->command('queue:work --name=doParsePages101 --queue=doParsePages  --daemon')
             ->everyMinute()
             ->withoutOverlapping();
-        $schedule->command('queue:work --name=doParseBooks --queue=doParseBooks  --daemon')
+        $schedule->command('queue:work --name=doParsePages102 --queue=doParsePages  --daemon')
             ->everyMinute()
             ->withoutOverlapping();
-        $schedule->command('queue:work --queue=default --timeout=0  --daemon')
+        $schedule->command('queue:work --name=doParsePages103 --queue=doParsePages  --daemon')
             ->everyMinute()
             ->withoutOverlapping();
+        $schedule->command('queue:work --name=doParsePages104 --queue=doParsePages  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+
+//        $schedule->command('queue:work --name=doParseImages --queue=doParseImages  --daemon')
+//            ->everyMinute()
+//            ->withoutOverlapping();
+//        $schedule->command('queue:work --name=doParseBooks --queue=doParseBooks  --daemon')
+//            ->everyMinute()
+//            ->withoutOverlapping();
+//        $schedule->command('queue:work --queue=default --timeout=0  --daemon')
+//            ->everyMinute()
+//            ->withoutOverlapping();
 //
-        $loveread = DB::table('sites')->where('site', '=', 'loveread.ec')
+        $loveread = DB::table('sites')->where('id', '=', 1)
             ->select()->first();
 
         $schedule->job((new ParseLinksJob)::dispatchIf($loveread->doParseLinks)->onQueue('default'))->everyFiveMinutes();
