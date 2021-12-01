@@ -13,7 +13,8 @@ class PageLink extends Model
 
     protected $fillable = [
         'link',
-        'doParse'
+        'doParse',
+        'book_id'
     ];
 
     public static function create($fields){

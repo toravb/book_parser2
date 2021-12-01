@@ -41,15 +41,12 @@ def req(uri):
 
 def parseLinks(uri, domain):
     link = uri
-    i = 1
     links = []
-    while i <= 29:
-        soup = req(link+str(i))
-        page = BeautifulSoup(soup.read(), 'lxml')
-        list = page.find_all('a', class_='letter_nav_s')
-        for a in list:
-            links.append({'link': domain + '/' + a.get('href')})
-        i += 1
+    soup = req(link)
+    page = BeautifulSoup(soup.read(), 'lxml')
+    list = page.find_all('a', class_='letter_nav_s')
+    for a in list:
+        links.append({'link': domain + '/' + a.get('href')})
     jsonData = json.dumps(links)
     print(jsonData)
 
@@ -60,7 +57,7 @@ def parseBook(uri, domain):
     page = BeautifulSoup(soup.read(), 'lxml')
     td_center_color = page.find_all('tr', class_='td_center_color')
     # text = td_center_color[0].find('p').text
-    text = td_center_color[0].find('p').get_text(strip=True, separator='$$').split('$$')
+    text = td_center_color[0].find('p').get_text(strip=True, separator='||||').split('||||')
     book = {}
     book['search'] = {}
     book['database'] = {}
@@ -125,6 +122,9 @@ def parsePage(uri, type, domain):
             div[0].decompose()
         content = page.find('div', class_='MsoNormal')
 
+        for iframe in content.find_all('iframe'):
+            iframe.decompose()
+
         if type == 'link':
             nav = page.find('div', class_='navigation').find_all('a')
             urls = []
@@ -140,7 +140,8 @@ def parsePage(uri, type, domain):
             return urls
         else:
             for img in content.find_all('img'):
-                img['src'] = '/' + img['src']
+                if 'src' in img:
+                    img['src'] = '/' + img['src']
 
             page_content = {}
             page_content['content'] = content.prettify()
@@ -148,7 +149,8 @@ def parsePage(uri, type, domain):
             imgs = content.find_all('img')
             i = 0
             while i < len(imgs):
-                page_content['imgs'].append({'link': domain+'/'+imgs[i].get('src')})
+                if imgs[i].get('src') != None:
+                    page_content['imgs'].append({'link': domain+'/'+imgs[i].get('src')})
                 i += 1
             # print(content.encode('utf-8'))
 

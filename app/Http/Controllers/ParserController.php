@@ -35,23 +35,30 @@ class ParserController extends Controller
     public static function parseLinks()
     {
         DB::table('sites')->where('site', '=', 'loveread.ec')->update(['doParseLinks'=>false]);
-        $links = self::startParsing(self::$books_uri, 'links')['data'];
-        DB::table('parsing_status')->where('parse_type', '=', 'links')->update(['Count' => count($links)]);
-        $i = 1;
-        foreach ($links as $link){
-            BookLink::firstOrCreate($link);
-            DB::table('parsing_status')->where('parse_type', '=', 'links')->update(['Progress' => $i]);
-            $i++;
+        for ($j = 1; $j <= 29; $j++) {
+            $links = self::startParsing(self::$books_uri.$j, 'links')['data'];
+            DB::table('parsing_status')->where('parse_type', '=', 0)->update(['Count' => count($links)]);
+
+            foreach ($links as $link) {
+                try {
+                    BookLink::create($link);
+                }catch (\Exception $e){
+                    continue;
+                }
+                DB::table('parsing_status')->where('parse_type', '=', 0)->increment('Progress');
+            }
         }
     }
 
     public static function parseBooks()
     {
-        if (DB::table('sites')->where('site', '=', 'loveread.ec')->first()->doParseBooks) {
-            $link = BookLink::where('doParse', true)->first();
+        if (DB::table('sites')->where('id', '=', 1)->first()->doParseBooks) {
+            $link = BookLink::where('doParse', '=', 1)->first();
             if (!$link) {
-                DB::table('sites')->where('site', '=', 'loveread.ec')->update(['doParseBooks' => false]);
+                DB::table('sites')->where('id', '=', 1)->update(['doParseBooks' => false]);
             } else {
+                $link->doParse = 2;
+                $link->save();
                 $data = self::startParsing($link->link, 'book')['data'];
 
                 $book = $data['database'];
@@ -60,10 +67,12 @@ class ParserController extends Controller
                 $book['series_id'] = ($search['series'] != null) ? Series::firstOrCreate(['series' => $search['series']])->id : null;
 //                $book['link'] = $link->link;
                 $book['params'] = json_encode($data['params']);
-                $created_book = DB::table('books')->where('link', '=', $link->link)->first();
+                $donor_id = explode('id=', $link->link)[1];
+                $created_book = Book::where('donor_id', '=', $donor_id)->first();
 
-                if ($created_book->isEmpty()){
+                if ($created_book == null){
                     $book['link'] = $link->link;
+                    $book['donor_id'] = $donor_id;
                     $created_book = Book::create($book);
 
                     $author_to_books = [];
@@ -88,13 +97,25 @@ class ParserController extends Controller
                             PublisherToBook::firstOrCreate($insert);
                         }
                     }
+                }
 
-                    $created_book->image()->create($data['image']);
-                    if ($data['pages'] == 0){
-                        $created_book->active = false;
-                        $created_book->save();
-                    } else {
-                        $created_book->pageLinks()->createMany($data['pages']);
+                try {
+                    $data['image']['book_id'] = $created_book->id;
+                    Image::create($data['image']);
+                }catch (\Exception $e){
+
+                }
+
+                if ($data['pages'] == 0){
+                    DB::table('books')->where('donor_id', '=', $donor_id)->update(['active' => false]);
+                } else {
+                    foreach ($data['pages'] as $page_link){
+                        try {
+                            $page_link['book_id'] = $created_book->id;
+                            PageLink::create($page_link);
+                        }catch (\Exception $e){
+                            continue;
+                        }
                     }
                 }
 
@@ -134,8 +155,8 @@ class ParserController extends Controller
 //                }
 
 
-                $link->update(['doParse' => false]);
-                DB::table('parsing_status')->where('parse_type', '=', 'books')->increment('Progress');
+                $link->update(['doParse' => 0]);
+                DB::table('parsing_status')->where('parse_type', '=', 1)->increment('Progress');
 
                 ParseBookJob::dispatch()->onQueue('doParseBooks');
             }
@@ -168,7 +189,16 @@ class ParserController extends Controller
                         'page_number' => $page_num
                     ];
                     $created_page = Page::create($fields);
-                    $created_page->images()->createMany($data['imgs']);
+//                    $created_page->images()->createMany($data['imgs']);
+                }
+                if (count($data['imgs']) > 0){
+                    foreach ($data['imgs'] as $image){
+                        try {
+                            Image::create($image);
+                        }catch (\Exception $e){
+                            continue;
+                        }
+                    }
                 }
 //                $created_page = Page::firstOrCreate(
 //                    ['link' => $link->link, 'book_id' => $link->book_id],
@@ -191,15 +221,17 @@ class ParserController extends Controller
 
     public static function parseImage()
     {
-        if (DB::table('sites')->where('site', '=', 'loveread.ec')->first()->doParseImages) {
-            $link = Image::where('doParse', true)->first();
+        if (DB::table('sites')->where('id', '=', 1)->first()->doParseImages) {
+            $link = Image::where('doParse', '=', 1)->first();
             if (!$link) {
-                DB::table('sites')->where('site', '=', 'loveread.ec')->update(['doParseImages' => false]);
+                DB::table('sites')->where('id', '=', 1)->update(['doParseImages' => false]);
             } else {
+                $link->doParse = 2;
+                $link->save();
                 $data = self::startParsing($link->link, 'image')['data'];
 
-                $link->update(['doParse' => false]);
-                DB::table('parsing_status')->where('parse_type', '=', 'images')->increment('Progress');
+                $link->update(['doParse' => 0]);
+                DB::table('parsing_status')->where('parse_type', '=', 3)->increment('Progress');
                 ParseImageJob::dispatch()->onQueue('doParseImages');
             }
         }

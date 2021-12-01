@@ -17,7 +17,8 @@ class Book extends Model
         'year_id',
         'link',
         'params',
-        'text'
+        'text',
+        'donor_id'
     ];
 
     public static function create($fields){
