@@ -35,23 +35,23 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:restart')
             ->everyThirtyMinutes();
 //
-//        $schedule->command('queue:work --name=doParsePages1 --queue=doParsePages  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
-//        $schedule->command('queue:work --name=doParsePages2 --queue=doParsePages  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
-//        $schedule->command('queue:work --name=doParsePages3 --queue=doParsePages  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
-//
-//        $schedule->command('queue:work --name=doParsePages4 --queue=doParsePages  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
-//        $schedule->command('queue:work --name=doParsePages5 --queue=doParsePages  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
-//
+        $schedule->command('queue:work --name=doParsePages1 --queue=doParsePages  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+        $schedule->command('queue:work --name=doParsePages2 --queue=doParsePages  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+        $schedule->command('queue:work --name=doParsePages3 --queue=doParsePages  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+
+        $schedule->command('queue:work --name=doParsePages4 --queue=doParsePages  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+        $schedule->command('queue:work --name=doParsePages5 --queue=doParsePages  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+
         $schedule->command('queue:work --name=doParseImages --queue=doParseImages  --daemon')
             ->everyMinute()
             ->withoutOverlapping();
@@ -68,20 +68,20 @@ class Kernel extends ConsoleKernel
         $schedule->command('queue:work --name=doParseImages5 --queue=doParseImages  --daemon')
             ->everyMinute()
             ->withoutOverlapping();
-//
-//        $schedule->command('queue:work --name=doParseBooks --queue=doParseBooks  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
-//        $schedule->command('queue:work --queue=default --timeout=0  --daemon')
-//            ->everyMinute()
-//            ->withoutOverlapping();
+
+        $schedule->command('queue:work --name=doParseBooks --queue=doParseBooks  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
+        $schedule->command('queue:work --queue=default --timeout=0  --daemon')
+            ->everyMinute()
+            ->withoutOverlapping();
 ////
         $loveread = DB::table('sites')->where('id', '=', 1)
             ->select()->first();
 //
-//        $schedule->job((new ParseLinksJob)::dispatchIf($loveread->doParseLinks)->onQueue('default'))->everyFiveMinutes();
-//        $schedule->job((new ParseBookJob)::dispatchIf($loveread->doParseBooks)->onQueue('doParseBooks'))->everyFiveMinutes();
-//        $schedule->job((new ParsePageJob)::dispatchIf($loveread->doParsePages)->onQueue('doParsePages'))->everyFiveMinutes();
+        $schedule->job((new ParseLinksJob)::dispatchIf($loveread->doParseLinks)->onQueue('default'))->everyFiveMinutes();
+        $schedule->job((new ParseBookJob)::dispatchIf($loveread->doParseBooks)->onQueue('doParseBooks'))->everyFiveMinutes();
+        $schedule->job((new ParsePageJob)::dispatchIf($loveread->doParsePages)->onQueue('doParsePages'))->everyFiveMinutes();
         $schedule->job((new ParseImageJob())::dispatchIf($loveread->doParseImages)->onQueue('doParseImages'))->everyFiveMinutes();
     }
 

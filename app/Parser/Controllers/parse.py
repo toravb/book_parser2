@@ -181,7 +181,8 @@ def parsePage(uri, type, domain):
 def parseImage(uri):
     image = req(uri).read()
     path = uri.split('/')
-    img_dir = 'public/'
+#     img_dir = 'public/'
+    img_dir = '/mnt/volume_fra1_01/'
     i = 3
     while i < len(path)-1:
         img_dir += path[i] + '/'

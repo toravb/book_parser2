@@ -23,7 +23,7 @@ use function Sodium\increment;
 class ParserController extends Controller
 {
 
-    protected static $books_uri = 'http://loveread.ec/letter_nav.php?let=';
+    public static $books_uri = 'http://loveread.ec/letter_nav.php?let=';
 
 //    $parsing_statuses = [
 //        0 => 'links',
