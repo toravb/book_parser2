@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Audio;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -142,23 +143,28 @@ class AudioParserController extends Controller
     {
         $links = [];
 
-        $response = file_get_contents($url);
-        $html = str_get_html($response);
+        $headers = get_headers($url);
+        $code = substr($headers[0], 9, 3);
 
-        foreach ($html->find('div.common_list') as $element){
-            foreach ($element->find('div.common_list_item') as $el){
-                foreach ($el->find('a.author_item_name') as $link){
-                    $links[] = self::$domain . trim($link->getAttribute('href'));
+        if ($code == 200){
+            $response = file_get_contents($url);
+            $html = str_get_html($response);
+
+            foreach ($html->find('div.common_list') as $element) {
+                foreach ($element->find('div.common_list_item') as $el) {
+                    foreach ($el->find('a.author_item_name') as $link) {
+                        $links[] = self::$domain . trim($link->getAttribute('href'));
+                    }
                 }
             }
-        }
 
-        dd($links);
+            return $links;
+        }
+        return false;
     }
 
-    public static function parseAuthor()
+    public static function parseAuthor($url)
     {
-        $url = 'https://knigavuhe.org/author/artur-alekhin/';
         $links = [];
         $j = 0;
 
@@ -182,7 +188,7 @@ class AudioParserController extends Controller
                 self::parseAuthorBookLinks($parse_url, $links);
             }
         }
-        dd($links);
+        return $links;
     }
 
     private static function parseAuthorBookLinks($url, &$array, $content = null){

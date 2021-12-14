@@ -2,7 +2,10 @@
 
 namespace App\Console\Commands\Audio;
 
-use App\Http\Controllers\AudioParserController;
+use App\Http\Controllers\Audio\AudioParserController;
+use App\Jobs\Audio\ParseAudioNavigationJob;
+use App\Models\AudioAuthorsLink;
+use App\Models\AudioLetter;
 use Illuminate\Console\Command;
 
 class Request extends Command
@@ -38,8 +41,9 @@ class Request extends Command
      */
     public function handle()
     {
-        AudioParserController::parseAuthor();
+        $a = AudioParserController::parseAuthor('https://knigavuhe.org/author/a-rina-ra/');
 
+        dd($a);
         return 0;
     }
 }
