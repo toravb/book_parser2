@@ -12,9 +12,8 @@ class AudioParserController extends Controller
 {
     public static string $domain = 'https://knigavuhe.org';
 
-    public static function parse()
+    public static function parse($url)
     {
-        $url = 'https://knigavuhe.org/book/prikljuchenija-toma-bombadila-i-drugie-istoriiiz-alojj-knigi-zapadnykh-predelov/';
         $title = '';
         $genre = '';
         $authors = [];
@@ -24,6 +23,7 @@ class AudioParserController extends Controller
         $params = [];
         $audio_links = [];
         $images = [];
+        $litres = false;
 
         $response = file_get_contents($url);
         //audio links
@@ -106,20 +106,25 @@ class AudioParserController extends Controller
                 $params[$param_name][] = $el->innertext;
             }
         }
+        //litres
+        foreach ($html->find('div.book_buy_wrap') as $element){
+            $litres = true;
+        }
 
 
 
-        dd([
-            $title,
-            $genre,
-            $images,
-            $authors,
-            $readers,
-            $series,
-            $description,
-            $params,
-            $audio_links,
-        ]);
+        return [
+            'title' => $title,
+            'genre' => $genre,
+            'images' => $images,
+            'authors' => $authors,
+            'readers' => $readers,
+            'series' => $series,
+            'description' => $description,
+            'params' => $params,
+            'audio_links' => $audio_links,
+            'litres' => $litres,
+        ];
     }
 
     public static function parseLetters()

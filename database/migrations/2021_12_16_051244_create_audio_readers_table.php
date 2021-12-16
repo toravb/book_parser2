@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAudioAuthorsLinks extends Migration
+class CreateAudioReadersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateAudioAuthorsLinks extends Migration
      */
     public function up()
     {
-        Schema::create('audio_authors_links', function (Blueprint $table) {
+        Schema::create('audio_readers', function (Blueprint $table) {
             $table->id();
-            $table->string('link')->unique();
-            $table->boolean('doParse')->default(true)->index();
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateAudioAuthorsLinks extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('audio_authors_links');
+        Schema::dropIfExists('audio_readers');
     }
 }

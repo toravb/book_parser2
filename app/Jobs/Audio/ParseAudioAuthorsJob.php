@@ -32,10 +32,12 @@ class ParseAudioAuthorsJob implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param $author
      * @return void
      */
-    public function handle(AudioAuthorsLink $author)
+    public function handle()
     {
+        $author = $this->getAuthor();
         $books = AudioParserController::parseAuthor($author->link);
         foreach ($books as $book){
             try {
@@ -44,7 +46,7 @@ class ParseAudioAuthorsJob implements ShouldQueue
                 ]);
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
-                    ParseAudioAuthorsJob::dispatch()->onQueue('audio_default');
+//                    ParseAudioAuthorsJob::dispatch($author)->onQueue('audio_parse_authors');
                     $this->fail($e);
                 }
                 continue;
@@ -52,5 +54,13 @@ class ParseAudioAuthorsJob implements ShouldQueue
         }
         $author->doParse = 0;
         $author->save();
+    }
+
+    /**
+     * @return AudioAuthorsLink
+     */
+    public function getAuthor(): AudioAuthorsLink
+    {
+        return $this->author;
     }
 }

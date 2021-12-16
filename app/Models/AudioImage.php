@@ -5,28 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AudioBooksLink extends Model
+class AudioImage extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'link',
-        'doParse',
+        'book_id',
+        'doParse'
     ];
 
     public static function create($fields){
-        $link = new static();
-        $link->fill($fields);
-        $link->save();
+        $image = new static();
+        $image->fill($fields);
+        $image->save();
 
-        return $link;
+        return $image;
     }
 
     public function book()
     {
-        return $this->hasOne(
+        return $this->belongsTo(
             AudioBook::class,
-            'link_id',
+            'book_id',
             'id',
         );
     }

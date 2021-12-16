@@ -41,8 +41,10 @@ class Request extends Command
      */
     public function handle()
     {
-        $a = AudioParserController::parseAuthor('https://knigavuhe.org/author/a-rina-ra/');
-
+        $a = AudioParserController::parse('https://knigavuhe.org/book/ponedelnik-nachinaetsja-v-subbotu/');
+//        $a = AudioParserController::parse('https://knigavuhe.org/book/chjornyjj-predel/');
+//        $a = $authors = AudioAuthorsLink::where('doParse', '=', 1)->limit(1000)->get();
+//        dd($a->count());
         dd($a);
         return 0;
     }
