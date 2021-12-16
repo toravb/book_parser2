@@ -51,6 +51,7 @@
                     </ul>
                 </li>
             </ul>
+            @if(isset($sites))
             @foreach($sites as $site)
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
@@ -87,6 +88,7 @@
                 </li>
             </ul>
             @endforeach
+            @endif
             @if(isset($audio_sites))
                 @foreach($audio_sites as $site)
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">

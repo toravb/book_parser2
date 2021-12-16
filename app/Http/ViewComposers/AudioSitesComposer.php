@@ -4,12 +4,14 @@
 namespace App\Http\ViewComposers;
 
 use App\Models\AudioSite;
+use Illuminate\Support\Facades\DB;
 use  Illuminate\View\View;
 
 
 class AudioSitesComposer
 {
     public $audio_sites = null;
+    public $sites = null;
 
     /**
      * Create a document composer.
@@ -19,6 +21,7 @@ class AudioSitesComposer
     public function __construct()
     {
         $this->audio_sites = AudioSite::all();
+        $this->sites = DB::table('sites')->get();
     }
 
 
@@ -32,7 +35,7 @@ class AudioSitesComposer
     {
 //        dd($this->routeToDocument);
 
-        $view->with('audio_sites', $this->audio_sites);
+        $view->with('audio_sites', $this->audio_sites)->with('sites', $this->sites);
     }
 
 }
