@@ -15,7 +15,7 @@ class CreateAudioAuthorsTable extends Migration
     {
         Schema::create('audio_authors', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', 300)->unique();
             $table->timestamps();
         });
     }

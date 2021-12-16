@@ -5,6 +5,7 @@ namespace App\Console;
 use App\Http\Controllers\ParserController;
 use App\Jobs\Audio\ParseAudioAuthorsLinksJob;
 use App\Jobs\Audio\ParseAudioNavigationJob;
+use App\Jobs\Audio\ReleaseAudioBooksLinksJob;
 use App\Jobs\ParseBookJob;
 use App\Jobs\ParseImageJob;
 use App\Jobs\ParseLinksJob;
@@ -87,7 +88,8 @@ class Kernel extends ConsoleKernel
 //        $schedule->job((new ParsePageJob)::dispatchIf($loveread->doParsePages)->onQueue('doParsePages'))->everyFiveMinutes();
 //        $schedule->job((new ParseImageJob())::dispatchIf($loveread->doParseImages)->onQueue('doParseImages'))->everyFiveMinutes();
 
-        $schedule->job((new ParseAudioNavigationJob)::dispatchIf(true)->onQueue('audio_default'))->everyFiveMinutes();
+//        $schedule->job((new ParseAudioNavigationJob)::dispatchIf(true)->onQueue('audio_default'))->everyFiveMinutes();
+        $schedule->job((new ReleaseAudioBooksLinksJob)::dispatchIf(true)->onQueue('audio_default'))->everyFiveMinutes();
     }
 
     /**

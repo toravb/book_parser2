@@ -54,6 +54,7 @@ class ParseAudioAuthorsLinksJob implements ShouldQueue
                     if ($e->getCode() != 23000){
                         ParseAudioAuthorsLinksJob::dispatch()->onQueue('audio_default');
                         $this->fail($e);
+                        return;
                     }
                     continue;
                 }
@@ -61,6 +62,5 @@ class ParseAudioAuthorsLinksJob implements ShouldQueue
             $link->doParse = 0;
             $link->save();
         }
-        ReleaseAudioAuthorsJob::dispatch()->onQueue('audio_default');
     }
 }

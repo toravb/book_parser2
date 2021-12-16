@@ -43,7 +43,6 @@ class AudioParserController extends Controller
         }
 
         $html = str_get_html($response);
-
         //genre
         foreach ($html->find('div.book_genre_pretitle') as $element){
             foreach ($element->find('a') as $text){

@@ -42,6 +42,7 @@ class ParseAudioNavigationJob implements ShouldQueue
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
+                    return;
                 }
                 continue;
             }

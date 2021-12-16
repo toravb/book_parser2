@@ -15,7 +15,7 @@ class CreateAudioImagesTable extends Migration
     {
         Schema::create('audio_images', function (Blueprint $table) {
             $table->id();
-            $table->string('link');
+            $table->string('link', 300);
             $table->foreignId('book_id');
             $table->boolean('doParse')->default(1)->index();
             $table->timestamps();

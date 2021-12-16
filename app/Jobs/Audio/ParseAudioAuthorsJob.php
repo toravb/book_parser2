@@ -48,6 +48,7 @@ class ParseAudioAuthorsJob implements ShouldQueue
                 if ($e->getCode() != 23000){
 //                    ParseAudioAuthorsJob::dispatch($author)->onQueue('audio_parse_authors');
                     $this->fail($e);
+                    return;
                 }
                 continue;
             }
@@ -62,5 +63,12 @@ class ParseAudioAuthorsJob implements ShouldQueue
     public function getAuthor(): AudioAuthorsLink
     {
         return $this->author;
+    }
+
+    public function failed()
+    {
+        $author = $this->getAuthor();
+        $author->doParse = 2;
+        $author->save();
     }
 }

@@ -15,7 +15,7 @@ class CreateAudioBooksLinksTable extends Migration
     {
         Schema::create('audio_books_links', function (Blueprint $table) {
             $table->id();
-            $table->string('link')->unique();
+            $table->string('link', 500)->unique();
             $table->boolean('doParse')->default(true)->index();
             $table->timestamps();
         });

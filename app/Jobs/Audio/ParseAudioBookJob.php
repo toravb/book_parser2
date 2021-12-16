@@ -80,6 +80,7 @@ class ParseAudioBookJob implements ShouldQueue
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
+                    return;
                 }
                 continue;
             }
@@ -91,6 +92,7 @@ class ParseAudioBookJob implements ShouldQueue
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
+                    return;
                 }
                 continue;
             }
@@ -103,6 +105,7 @@ class ParseAudioBookJob implements ShouldQueue
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
+                    return;
                 }
                 continue;
             }
@@ -117,14 +120,24 @@ class ParseAudioBookJob implements ShouldQueue
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
+                    return;
                 }
                 continue;
             }
         }
+        $url->doParse = 0;
+        $url->save();
     }
 
     public function getLink() :AudioBooksLink
     {
         return $this->link;
+    }
+
+    public function failed()
+    {
+        $link = $this->getLink();
+        $link->doParse = 2;
+        $link->save();
     }
 }

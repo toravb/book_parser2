@@ -15,7 +15,7 @@ class CreateAudioLettersTable extends Migration
     {
         Schema::create('audio_letters', function (Blueprint $table) {
             $table->id();
-            $table->string('link')->unique();
+            $table->string('link', 300)->unique();
             $table->boolean('doParse')->default(true)->index();
             $table->timestamps();
         });

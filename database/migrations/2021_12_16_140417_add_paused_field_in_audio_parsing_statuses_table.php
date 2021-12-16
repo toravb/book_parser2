@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAudioAuthorsLinks extends Migration
+class AddPausedFieldInAudioParsingStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateAudioAuthorsLinks extends Migration
      */
     public function up()
     {
-        Schema::create('audio_authors_links', function (Blueprint $table) {
-            $table->id();
-            $table->string('link', 300)->unique();
-            $table->boolean('doParse')->default(true)->index();
-            $table->timestamps();
+        Schema::table('audio_parsing_statuses', function (Blueprint $table) {
+            $table->boolean('paused')->default(false);
         });
     }
 
@@ -28,6 +25,8 @@ class CreateAudioAuthorsLinks extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('audio_authors_links');
+        Schema::table('audio_parsing_statuses', function (Blueprint $table) {
+            $table->dropColumn(['paused']);
+        });
     }
 }

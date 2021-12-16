@@ -15,7 +15,7 @@ class CreateAudioSeriesTable extends Migration
     {
         Schema::create('audio_series', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', 300)->unique();
             $table->timestamps();
         });
     }

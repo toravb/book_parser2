@@ -45,4 +45,9 @@ Route::get('/parser/excel/download','App\Http\Controllers\Parser\Admin\ParserCon
 Route::get('/parser/excel/generate','App\Http\Controllers\Parser\Admin\ParserController@generateExcel')->middleware(['auth'])->name('parser.parse.generate');
 
 
+Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
+    Route::get('/menu', [\App\Http\Controllers\Audio\AdminController::class, 'index'])->name('menu');
+});
+
+
 require __DIR__.'/auth.php';

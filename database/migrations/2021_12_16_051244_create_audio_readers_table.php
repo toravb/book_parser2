@@ -15,7 +15,7 @@ class CreateAudioReadersTable extends Migration
     {
         Schema::create('audio_readers', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name', 300)->unique();
             $table->timestamps();
         });
     }
