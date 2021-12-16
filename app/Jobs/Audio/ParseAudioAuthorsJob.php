@@ -5,6 +5,7 @@ namespace App\Jobs\Audio;
 use App\Http\Controllers\Audio\AudioParserController;
 use App\Models\AudioAuthorsLink;
 use App\Models\AudioBooksLink;
+use App\Models\AudioParsingStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -18,15 +19,17 @@ class ParseAudioAuthorsJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $author;
+    protected $status;
 
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(AudioAuthorsLink $author)
+    public function __construct(AudioAuthorsLink $author, AudioParsingStatus $status)
     {
         $this->author = $author;
+        $this->status = $status;
     }
 
     /**
@@ -37,6 +40,7 @@ class ParseAudioAuthorsJob implements ShouldQueue
      */
     public function handle()
     {
+        $status = $this->getStatus();
         $author = $this->getAuthor();
         $books = AudioParserController::parseAuthor($author->link);
         foreach ($books as $book){
@@ -53,6 +57,7 @@ class ParseAudioAuthorsJob implements ShouldQueue
                 continue;
             }
         }
+        $status->increment('min_count');
         $author->doParse = 0;
         $author->save();
     }
@@ -70,5 +75,10 @@ class ParseAudioAuthorsJob implements ShouldQueue
         $author = $this->getAuthor();
         $author->doParse = 2;
         $author->save();
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

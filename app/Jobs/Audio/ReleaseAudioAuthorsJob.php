@@ -3,6 +3,7 @@
 namespace App\Jobs\Audio;
 
 use App\Models\AudioAuthorsLink;
+use App\Models\AudioParsingStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,14 +15,15 @@ class ReleaseAudioAuthorsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $status;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AudioParsingStatus $status)
     {
-        //
+        $this->status = $status;
     }
 
     /**
@@ -32,12 +34,21 @@ class ReleaseAudioAuthorsJob implements ShouldQueue
     public function handle()
     {
 //        $authors = AudioAuthorsLink::where('doParse', '=', 1)->get();
+        $status = $this->getStatus();
+
         while ($authors = $this->getAuthors()) {
+            $status->increment('max_count', count($authors));
             foreach ($authors as $author) {
                 $author->doParse = 2;
                 $author->save();
-                ParseAudioAuthorsJob::dispatch($author)->onQueue('audio_parse_authors');
+                ParseAudioAuthorsJob::dispatch($author, $status)->onQueue('audio_parse_authors');
             }
+        }
+        if ($status->max_count > 0){
+            $status->update([
+                'doParse' => 1,
+                'status' => 'Парсим авторов',
+            ]);
         }
     }
 
@@ -48,5 +59,10 @@ class ReleaseAudioAuthorsJob implements ShouldQueue
             return $authors;
         }
         return false;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

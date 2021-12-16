@@ -8,6 +8,7 @@ use App\Models\AudioAuthorsToBook;
 use App\Models\AudioBook;
 use App\Models\AudioBooksLink;
 use App\Models\AudioGenre;
+use App\Models\AudioParsingStatus;
 use App\Models\AudioReader;
 use App\Models\AudioReadersToBook;
 use App\Models\AudioSeries;
@@ -23,14 +24,16 @@ class ParseAudioBookJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $link;
+    protected $status;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(AudioBooksLink $link)
+    public function __construct(AudioBooksLink $link, AudioParsingStatus $status)
     {
         $this->link = $link;
+        $this->status = $status;
     }
 
     /**
@@ -40,6 +43,7 @@ class ParseAudioBookJob implements ShouldQueue
      */
     public function handle()
     {
+        $status = $this->getStatus();
         $url = $this->getLink();
         $data = AudioParserController::parse($url->link);
         $book = $url->book()->first();
@@ -125,6 +129,7 @@ class ParseAudioBookJob implements ShouldQueue
                 continue;
             }
         }
+        $status->increment('min_count');
         $url->doParse = 0;
         $url->save();
     }
@@ -139,5 +144,10 @@ class ParseAudioBookJob implements ShouldQueue
         $link = $this->getLink();
         $link->doParse = 2;
         $link->save();
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

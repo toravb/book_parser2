@@ -47,6 +47,12 @@ Route::get('/parser/excel/generate','App\Http\Controllers\Parser\Admin\ParserCon
 
 Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
     Route::get('/menu', [\App\Http\Controllers\Audio\AdminController::class, 'index'])->name('menu');
+    Route::prefix('{site}/parsing')->name('parsing.')->group(function (){
+        Route::post('default', [\App\Http\Controllers\Audio\AdminController::class, 'startDefaultParsing'])->name('default');
+        Route::post('authors', [\App\Http\Controllers\Audio\AdminController::class, 'startAuthorsParsing'])->name('authors');
+        Route::post('books', [\App\Http\Controllers\Audio\AdminController::class, 'startBooksParsing'])->name('books');
+    });
+
 });
 
 

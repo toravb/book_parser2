@@ -15,7 +15,7 @@
                 @endif
 
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="#">
+                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.default', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg">
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if(($site->defaultStatus && $site->defaultStatus->doParse) || ($authorJobs > 0 || $bookJobs > 0)) disabled @endif">
                                 Включить обход по сайту (навигация, ссылки на авторов)
                             </button>
                         </div>
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="#">
+                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.authors', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
@@ -46,10 +46,17 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg">
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if($site->authorStatus && !$site->authorStatus->doParse && $authorJobs > 0) disabled @endif">
+                                @if($site->authorStatus && $site->authorStatus->paused && $authorJobs > 0)
+                                    Отключить паузу
+                                @elseif($authorJobs > 0)
+                                    Поставить паузу
+                                @else
                                 Включить парсинг авторов
+                                @endif
                             </button>
                         </div>
+
                     </form>
                     @if($site->authorStatus)
 
@@ -59,7 +66,7 @@
                 </div>
 
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="#">
+                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.books', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
@@ -69,8 +76,14 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg">
-                                Включить парсинг книг
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if($site->bookStatus && !$site->bookStatus->doParse && $bookJobs > 0) disabled @endif">
+                                @if($site->bookStatus && $site->bookStatus->paused && $bookJobs > 0)
+                                    Отключить паузу
+                                @elseif($bookJobs > 0)
+                                    Поставить паузу
+                                @else
+                                    Включить парсинг книг
+                                @endif
                             </button>
                         </div>
                     </form>
@@ -91,7 +104,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg">
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg disabled">
                                 Включить парсинг изображений
                             </button>
                         </div>
@@ -113,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-block btn-outline-secondary btn-lg">
+                                <button type="submit" class="btn btn-block btn-outline-secondary btn-lg disabled">
                                     Включить парсинг аудиокниг
                                 </button>
                             </div>

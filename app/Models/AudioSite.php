@@ -9,6 +9,8 @@ class AudioSite extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     public function defaultStatus()
     {
         return $this->hasOne(

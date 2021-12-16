@@ -4,6 +4,7 @@ namespace App\Jobs\Audio;
 
 use App\Http\Controllers\Audio\AudioParserController;
 use App\Models\AudioLetter;
+use App\Models\AudioParsingStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -16,14 +17,15 @@ class ParseAudioNavigationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $status;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AudioParsingStatus $status)
     {
-        //
+        $this->status = $status;
     }
 
     /**
@@ -33,8 +35,17 @@ class ParseAudioNavigationJob implements ShouldQueue
      */
     public function handle()
     {
+        $status = $this->getStatus();
         $links = AudioParserController::parseLetters();
+        $status->update([
+            'status' => 'Парсим навигацию',
+            'created_at' => now(),
+            'min_count' => 0,
+            'max_count' => count($links),
+            'last_parsing' => null,
+        ]);
         foreach ($links as $link){
+            $status->increment('min_count');
             try {
                 AudioLetter::create([
                     'link' => $link,
@@ -47,6 +58,18 @@ class ParseAudioNavigationJob implements ShouldQueue
                 continue;
             }
         }
-        ParseAudioAuthorsLinksJob::dispatch()->onQueue('audio_default');
+        ParseAudioAuthorsLinksJob::dispatch($status)->onQueue('audio_default');
+    }
+
+    public function failed()
+    {
+        $status = $this->getStatus();
+        $status->doParse = 0;
+        $status->save();
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }

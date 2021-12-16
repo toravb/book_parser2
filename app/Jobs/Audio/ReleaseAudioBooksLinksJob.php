@@ -3,6 +3,7 @@
 namespace App\Jobs\Audio;
 
 use App\Models\AudioBooksLink;
+use App\Models\AudioParsingStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -14,14 +15,15 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    protected $status;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AudioParsingStatus $status)
     {
-        //
+        $this->status = $status;
     }
 
     /**
@@ -31,12 +33,20 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
      */
     public function handle()
     {
+        $status = $this->getStatus();
         while ($links = $this->getLinks()){
+            $status->increment('max_count', count($links));
             foreach ($links as $link){
                 $link->doParse = 2;
                 $link->save();
-                ParseAudioBookJob::dispatch($link)->onQueue('audio_parse_books');
+                ParseAudioBookJob::dispatch($link, $status)->onQueue('audio_parse_books');
             }
+        }
+        if ($status->max_count > 0){
+            $status->update([
+                'doParse' => 1,
+                'status' => 'Парсим книги',
+            ]);
         }
     }
 
@@ -47,5 +57,10 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
             return $links;
         }
         return false;
+    }
+
+    public function getStatus()
+    {
+        return $this->status;
     }
 }
