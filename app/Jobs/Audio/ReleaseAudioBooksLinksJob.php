@@ -16,6 +16,7 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $status;
+    protected $link;
     /**
      * Create a new job instance.
      *
@@ -37,6 +38,7 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
         while ($links = $this->getLinks()){
             $status->increment('max_count', count($links));
             foreach ($links as $link){
+                $this->link = $link;
                 $link->doParse = 2;
                 $link->save();
                 ParseAudioBookJob::dispatch($link, $status)->onQueue('audio_parse_books');
@@ -52,7 +54,7 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
 
     public function getLinks()
     {
-        $links = AudioBooksLink::where('doParse', '=', 1)->limit(1000)->get();
+        $links = AudioBooksLink::where('doParse', '=', 1)->limit(100)->get();
         if ($links->count() > 0){
             return $links;
         }
@@ -62,5 +64,21 @@ class ReleaseAudioBooksLinksJob implements ShouldQueue
     public function getStatus()
     {
         return $this->status;
+    }
+
+    public function getLink()
+    {
+        return $this->link;
+    }
+
+    public function failed()
+    {
+        $link = $this->getLink();
+        if ($link){
+            $link->doParse = 1;
+            $link->save();
+        }
+        $status = $this->getStatus();
+        ReleaseAudioBooksLinksJob::dispatch($status)->onQueue('audio_default');
     }
 }

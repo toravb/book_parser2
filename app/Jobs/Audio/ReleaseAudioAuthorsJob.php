@@ -16,6 +16,7 @@ class ReleaseAudioAuthorsJob implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $status;
+    protected $author;
     /**
      * Create a new job instance.
      *
@@ -39,6 +40,7 @@ class ReleaseAudioAuthorsJob implements ShouldQueue
         while ($authors = $this->getAuthors()) {
             $status->increment('max_count', count($authors));
             foreach ($authors as $author) {
+                $this->author = $author;
                 $author->doParse = 2;
                 $author->save();
                 ParseAudioAuthorsJob::dispatch($author, $status)->onQueue('audio_parse_authors');
@@ -54,15 +56,31 @@ class ReleaseAudioAuthorsJob implements ShouldQueue
 
     public function getAuthors()
     {
-        $authors = AudioAuthorsLink::where('doParse', '=', 1)->limit(1000)->get();
+        $authors = AudioAuthorsLink::where('doParse', '=', 1)->limit(100)->get();
         if ($authors->count() > 0){
             return $authors;
         }
         return false;
     }
 
+    public function failed()
+    {
+        $author = $this->getAuthor();
+        if ($author){
+            $author->doParse = 1;
+            $author->save();
+        }
+        $status = $this->getStatus();
+        ReleaseAudioAuthorsJob::dispatch($status)->onQueue('audio_default');
+    }
+
     public function getStatus()
     {
         return $this->status;
     }
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
 }
