@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
-include 'app/Modules/simple_html_dom.php';
+include app_path('Modules/simple_html_dom.php');
 
 class AudioParserController extends Controller
 {
     public static string $domain = 'https://knigavuhe.org';
-
+    
     public static function parse($url)
     {
         $title = '';

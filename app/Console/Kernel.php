@@ -89,7 +89,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->job((new ParseImageJob())::dispatchIf($loveread->doParseImages)->onQueue('doParseImages'))->everyFiveMinutes();
 
 //        $schedule->job((new ParseAudioNavigationJob)::dispatchIf(true)->onQueue('audio_default'))->everyFiveMinutes();
-        $schedule->job((new ReleaseAudioBooksLinksJob)::dispatchIf(true)->onQueue('audio_default'))->everyFiveMinutes();
+//        $schedule->job((new ReleaseAudioBooksLinksJob)::dispatchIf(true)->onQueue('audio_default'))->everyFiveMinutes();
     }
 
     /**
