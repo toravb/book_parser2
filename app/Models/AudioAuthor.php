@@ -20,4 +20,20 @@ class AudioAuthor extends Model
 
         return $author;
     }
+
+    public function books()
+    {
+        return $this->hasManyThrough(
+            AudioBook::class,
+            AudioAuthorsToBook::class,
+            'author_id',
+            'id',
+            'id',
+            'book_id'
+        )->with('image')
+            ->with('genre')
+            ->with('series')
+            ->with('authors')
+            ->with('actors');
+    }
 }

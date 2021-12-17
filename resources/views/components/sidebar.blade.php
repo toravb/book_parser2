@@ -109,14 +109,14 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('audio.books.list')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Книги (список)</p>
                                     </a>
                                 </li>
                                 <li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('audio.books.table')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Книги (таблицы)</p>
                                     </a>
@@ -124,13 +124,13 @@
                                 <li>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('audio.books.authors')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Авторы</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a href="{{route('audio.books.actors')}}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Актёры озвучки</p>
                                     </a>

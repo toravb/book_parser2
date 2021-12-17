@@ -20,4 +20,20 @@ class AudioReader extends Model
 
         return $reader;
     }
+
+    public function books()
+    {
+        return $this->hasManyThrough(
+            AudioBook::class,
+            AudioReadersToBook::class,
+            'reader_id',
+            'id',
+            'id',
+            'book_id'
+        )->with('image')
+            ->with('genre')
+            ->with('series')
+            ->with('authors')
+            ->with('actors');
+    }
 }

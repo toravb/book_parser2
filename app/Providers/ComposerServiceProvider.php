@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Http\ViewComposers\AudioSitesComposer;
+use App\Http\ViewComposers\SitesComposer;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
 

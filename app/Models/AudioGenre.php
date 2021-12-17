@@ -20,4 +20,17 @@ class AudioGenre extends Model
 
         return $genre;
     }
+
+    public function books()
+    {
+        return $this->hasMany(
+            AudioBook::class,
+            'genre_id',
+            'id'
+        )->with('image')
+            ->with('genre')
+            ->with('series')
+            ->with('authors')
+            ->with('actors');
+    }
 }

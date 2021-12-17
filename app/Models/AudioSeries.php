@@ -20,4 +20,17 @@ class AudioSeries extends Model
 
         return $series;
     }
+
+    public function books()
+    {
+        return $this->hasMany(
+            AudioBook::class,
+            'series_id',
+            'id'
+        )->with('image')
+            ->with('genre')
+            ->with('series')
+            ->with('authors')
+            ->with('actors');
+    }
 }

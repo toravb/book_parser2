@@ -3816,7 +3816,15 @@ module.exports = {
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
+__webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js"); // require('datatables');
+
+
+window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+$(document).ready(function () {
+  $('button.disabled').click(function (e) {
+    e.preventDefault();
+  });
+});
 
 /***/ }),
 

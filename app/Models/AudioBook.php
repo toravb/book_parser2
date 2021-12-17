@@ -62,4 +62,46 @@ class AudioBook extends Model
             'id',
         );
     }
+
+    public function genre()
+    {
+        return $this->belongsTo(
+            AudioGenre::class,
+            'genre_id',
+            'id'
+        );
+    }
+
+    public function series()
+    {
+        return $this->belongsTo(
+            AudioSeries::class,
+            'series_id',
+            'id'
+        );
+    }
+
+    public function authors()
+    {
+        return $this->hasManyThrough(
+            AudioAuthor::class,
+            AudioAuthorsToBook::class,
+            'book_id',
+            'id',
+            'id',
+            'author_id'
+        );
+    }
+
+    public function actors()
+    {
+        return $this->hasManyThrough(
+            AudioReader::class,
+            AudioReadersToBook::class,
+            'book_id',
+            'id',
+            'id',
+            'reader_id'
+        );
+    }
 }

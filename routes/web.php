@@ -47,12 +47,25 @@ Route::get('/parser/excel/generate','App\Http\Controllers\Parser\Admin\ParserCon
 
 Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
     Route::get('/menu', [\App\Http\Controllers\Audio\AdminController::class, 'index'])->name('menu');
-    Route::prefix('{site}/parsing')->name('parsing.')->group(function (){
-        Route::post('default', [\App\Http\Controllers\Audio\AdminController::class, 'startDefaultParsing'])->name('default');
-        Route::post('authors', [\App\Http\Controllers\Audio\AdminController::class, 'startAuthorsParsing'])->name('authors');
-        Route::post('books', [\App\Http\Controllers\Audio\AdminController::class, 'startBooksParsing'])->name('books');
+    Route::prefix('{site}')->group(function (){
+        Route::prefix('parsing')->name('parsing.')->group(function (){
+            Route::post('/default', [\App\Http\Controllers\Audio\AdminController::class, 'startDefaultParsing'])->name('default');
+            Route::post('/authors', [\App\Http\Controllers\Audio\AdminController::class, 'startAuthorsParsing'])->name('authors');
+            Route::post('/books', [\App\Http\Controllers\Audio\AdminController::class, 'startBooksParsing'])->name('books');
+            Route::post('/check', [\App\Http\Controllers\Audio\AdminController::class, 'checkErrors'])->name('check');
+        });
     });
-
+    Route::prefix('books')->name('books.')->group(function (){
+        Route::get('/list', [\App\Http\Controllers\Audio\AdminController::class, 'booksList'])->name('list');
+        Route::get('/table', [\App\Http\Controllers\Audio\AdminController::class, 'booksTable'])->name('table');
+        Route::get('/authors', [\App\Http\Controllers\Audio\AdminController::class, 'authorsList'])->name('authors');
+        Route::get('/actors', [\App\Http\Controllers\Audio\AdminController::class, 'actorsList'])->name('actors');
+        Route::get('/genres/{genre}', [\App\Http\Controllers\Audio\AdminController::class, 'booksGenre'])->name('genre');
+        Route::get('/series/{series}', [\App\Http\Controllers\Audio\AdminController::class, 'booksSeries'])->name('series');
+        Route::get('/authors/{author}', [\App\Http\Controllers\Audio\AdminController::class, 'booksFromAuthor'])->name('author');
+        Route::get('/actors/{actor}', [\App\Http\Controllers\Audio\AdminController::class, 'booksFromActor'])->name('actor');
+        Route::get('/{book}', [\App\Http\Controllers\Audio\AdminController::class, 'booksItem'])->name('show');
+    });
 });
 
 

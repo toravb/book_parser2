@@ -1,16 +1,16 @@
 @extends('layouts.main')
 @section('title', 'Parser')
 @section('content')
-        <div class="container container-table">
-            <div class="sub-container">
+        <div class="container container-table main-menu">
+            <div class="sub-container main-menu-left">
                 @if(session('success'))
                     <div class="alert alert-success">
-                        {{ session('success') }}
+                        {!! session('success') !!}
                     </div>
                 @endif
                 @if(session('error'))
                     <div class="alert alert-danger">
-                        {{ session('error') }}
+                        {!! session('error') !!}
                     </div>
                 @endif
 
@@ -137,6 +137,26 @@
 
                         @endif
                     </div>
+            </div>
+
+            <div class="sub-container main-menu-right">
+                <div class="form-container">
+                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.check', ['site' => $site])}}">
+                        {{ csrf_field() }}
+                        <div class="box-body">
+                            <div class="form-group">
+                                <div class="col-sm-10">
+                                    <input name="id" type="hidden" class="form-control" id="id" value="{{$site->id}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if(($authorJobs > 0 || $bookJobs > 0)) disabled @endif">
+                                Проверить очереди на ошибки
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
 @endsection
