@@ -14,7 +14,7 @@
                     @if($book->image_name)
                     <tr>
                         <td>
-                            <img src="{{ asset(public_path('audiobooks/'.$book->slug.'/'.$book->image_name)) }}" alt="{{$book->title}}">
+                            <img src="{{ asset('audiobooks/'.$book->slug.'/'.$book->image_name) }}" alt="{{$book->title}}">
                         </td>
                     </tr>
                     @endif
