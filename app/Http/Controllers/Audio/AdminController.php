@@ -277,7 +277,7 @@ class AdminController extends Controller
             ]);
             $msg .= 'Добавлено '.$images_count.' изображений.<br>';
         }
-        if ($authors_count > 0 || $books_count > 0){
+        if ($authors_count > 0 || $books_count > 0 || $images_count){
             $msg .= 'Запустите очереди';
         }else{
             $msg = 'Ошибок не обнаружено';
