@@ -105,12 +105,12 @@ grid-row-gap: 0px;">
 return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio->title)}}
                                     </div>
                                     <div class="" style="grid-area: 1 / 2 / 2 / 3;">
-                                        @if(file_exists(asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')))
+                                       @if(Storage::disk('audiobook')->exists($book->slug.'/'.$audio->title.'.'.$audio->extension??'mp3'))
                                             <figure>
                                                 {{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
                                                 <audio
                                                     controls
-                                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')}}">
+                                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.$audio->extension.'mp3')}}">
                                                     Your browser does not support the
                                                     <code>audio</code> element.
                                                 </audio>

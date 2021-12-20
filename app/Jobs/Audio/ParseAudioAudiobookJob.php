@@ -61,11 +61,15 @@ class ParseAudioAudiobookJob implements ShouldQueue
                 }
                 if ($parse) {
                     $file = file_get_contents($link->link);
-                    $relativePath = parse_url($link->link, PHP_URL_PATH);
-                    $extension = File::extension($relativePath);
+                    $extension = File::extension($link->link);
+		    if($extension){
+                        $extension = explode('?', $extension)[0];
+		    }
                     if ($extension == null) {
                         $extension = 'mp3';
                     }
+		    $link->extension = $extension;
+                    $link->save();
                     $file_name = $link->title . '.' . $extension;
                     $path = $book->slug . '/' . $file_name;
                     $disk->put($path, $file);
