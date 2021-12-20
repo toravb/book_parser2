@@ -14,7 +14,7 @@ class AddSlugFieldToAudioBooksTable extends Migration
     public function up()
     {
         Schema::table('audio_books', function (Blueprint $table) {
-            $table->string('slug', 1000)->nullable()->index();
+            $table->string('slug', 1000)->nullable();
         });
     }
 
