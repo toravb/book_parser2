@@ -42,6 +42,12 @@ return [
             'visibility' => 'public',
         ],
 
+        'audiobook' => [
+            'driver' => 'local',
+//            'root' => '/mnt/volume_fra1_01/audiobooks'
+            'root' => storage_path('app')
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

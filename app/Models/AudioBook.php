@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AudioBook extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable;
 
     protected $fillable = [
         'title',
@@ -18,6 +19,15 @@ class AudioBook extends Model
         'link_id',
         'litres'
     ];
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
+    }
 
     public static function create($fields){
         $book = new static();

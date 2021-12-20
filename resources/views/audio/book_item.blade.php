@@ -11,9 +11,13 @@
                             <h2>{!! $book->title !!}</h2>
                         </td>
                     </tr>
+                    @if($book->image_name)
                     <tr>
-                        <td></td>
+                        <td>
+                            <img src="{{ asset(public_path('audiobooks/'.$book->slug.'/'.$book->image_name)) }}" alt="{{$book->title}}">
+                        </td>
                     </tr>
+                    @endif
                     <tr>
                         <td><b>Жанр</b></td>
                     </tr>
@@ -60,15 +64,13 @@
                     <tr>
                         <td>{!! $book->description !!}</td>
                     </tr>
+                    @if(!empty(json_decode($book->params)))
                     <tr>
                         <td><b>Параметры</b></td>
                     </tr>
                     <tr>
                         <td>
-                            @php
-                                $params = json_decode($book->params, true);
-                            @endphp
-                            @foreach($params as $param => $values)
+                            @foreach(json_decode($book->params, true) as $param => $values)
                                 {{$param}} :<br>
                                 @foreach($values as $value)
                                     <span style="padding-left: 10px">
@@ -78,6 +80,7 @@
                             @endforeach
                         </td>
                     </tr>
+                    @endif
                     <tr>
                         <td><b>Litres</b></td>
                     </tr>
