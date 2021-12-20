@@ -25,7 +25,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if(($site->defaultStatus && $site->defaultStatus->doParse) || ($authorJobs > 0 || $bookJobs > 0 || $imageJobs > 0)) disabled @endif">
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if(($site->defaultStatus && $site->defaultStatus->doParse) || ($authorJobs > 0 || $bookJobs > 0 || $imageJobs > 0 || $audioBookJobs > 0)) disabled @endif">
                                 Включить обход по сайту (навигация, ссылки на авторов)
                             </button>
                         </div>
@@ -122,7 +122,7 @@
                     @endif
                 </div>
                     <div class="form-container">
-                        <form class="form-horizontal" method="post" action="#">
+                        <form class="form-horizontal" method="post" action="{{ route('audio.parsing.audio', ['site' => $site]) }}">
                             {{ csrf_field() }}
                             <div class="box-body">
                                 <div class="form-group">
@@ -132,8 +132,14 @@
                                 </div>
                             </div>
                             <div class="box-footer">
-                                <button type="submit" class="btn btn-block btn-outline-secondary btn-lg disabled">
-                                    Включить парсинг аудиокниг
+                                <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if($site->audioBookStatus && !$site->audioBookStatus->doParse && $audioBookJobs > 0) disabled @endif">
+                                    @if($site->audioBookStatus && $site->audioBookStatus->paused && $audioBookJobs > 0)
+                                        Отключить паузу
+                                    @elseif($audioBookJobs > 0)
+                                        Поставить паузу
+                                    @else
+                                        Включить парсинг аудио
+                                    @endif
                                 </button>
                             </div>
                         </form>
@@ -157,7 +163,7 @@
                             </div>
                         </div>
                         <div class="box-footer">
-                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if(($authorJobs > 0 || $bookJobs > 0 || $imageJobs > 0)) disabled @endif">
+                            <button type="submit" class="btn btn-block btn-outline-secondary btn-lg @if(($authorJobs > 0 || $bookJobs > 0 || $imageJobs > 0 || $audioBookJobs > 0)) disabled @endif">
                                 Проверить очереди на ошибки
                             </button>
                         </div>

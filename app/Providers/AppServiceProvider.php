@@ -50,6 +50,12 @@ class AppServiceProvider extends ServiceProvider
                     return false;
                 }
             }
+            if ($event->queue == 'audio_parse_audio'){
+                $status = AudioSite::where('id', '=', 1)->first()->audioBookStatus()->first();
+                if ($status && (!$status->doParse || $status->paused)){
+                    return false;
+                }
+            }
         });
     }
 }

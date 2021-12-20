@@ -2,8 +2,8 @@
 
 namespace App\Jobs\Audio;
 
+use App\Models\AudioAudiobook;
 use App\Models\AudioBook;
-use App\Models\AudioImage;
 use App\Models\AudioParsingStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -14,7 +14,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
-class ParseAudioBooksImagesJob implements ShouldQueue
+class ParseAudioAudiobookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -27,7 +27,7 @@ class ParseAudioBooksImagesJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(AudioImage $link, AudioBook $book, AudioParsingStatus $status)
+    public function __construct(AudioAudiobook $link, AudioBook $book, AudioParsingStatus $status)
     {
         $this->g_status = $status;
         $this->g_link = $link;
@@ -52,18 +52,17 @@ class ParseAudioBooksImagesJob implements ShouldQueue
                 $status->paused = 1;
                 $status->save();
             }else {
+
                 $file = file_get_contents($link->link);
                 $relativePath = parse_url($link->link, PHP_URL_PATH);
                 $extension = File::extension($relativePath);
                 if ($extension == null) {
-                    $extension = 'jpg';
+                    $extension = 'mp3';
                 }
-                $file_name = 'cover' . '.' . $extension;
+                $file_name = $link->title. '.' . $extension;
                 $path = $book->slug . '/' . $file_name;
                 $disk->put($path, $file);
 
-                $book->image_name = $file_name;
-                $book->save();
 
                 $status->increment('min_count');
                 $link->doParse = 0;

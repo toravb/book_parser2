@@ -53,6 +53,7 @@ Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
             Route::post('/authors', [\App\Http\Controllers\Audio\AdminController::class, 'startAuthorsParsing'])->name('authors');
             Route::post('/books', [\App\Http\Controllers\Audio\AdminController::class, 'startBooksParsing'])->name('books');
             Route::post('/images', [\App\Http\Controllers\Audio\AdminController::class, 'startImagesParsing'])->name('images');
+            Route::post('/audiobook', [\App\Http\Controllers\Audio\AdminController::class, 'startAudioBooksParsing'])->name('audio');
             Route::post('/check', [\App\Http\Controllers\Audio\AdminController::class, 'checkErrors'])->name('check');
         });
     });

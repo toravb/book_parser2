@@ -2,7 +2,7 @@
 
 namespace App\Jobs\Audio;
 
-use App\Models\AudioImage;
+use App\Models\AudioAudiobook;
 use App\Models\AudioParsingStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class ReleaseAudioBooksImagesJob implements ShouldQueue
+class ReleaseAudioAudiobookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -43,13 +43,13 @@ class ReleaseAudioBooksImagesJob implements ShouldQueue
                 $this->g_link = $link;
                 $link->doParse = 2;
                 $link->save();
-                ParseAudioBooksImagesJob::dispatch($link, $book, $status)->onQueue('audio_parse_images');
+                ParseAudioAudiobookJob::dispatch($link, $book, $status)->onQueue('audio_parse_audio');
             }
         }
         if ($status->max_count > 0){
             $status->update([
                 'doParse' => 1,
-                'status' => 'Парсим изображения',
+                'status' => 'Парсим аудио',
             ]);
         }
     }
@@ -66,7 +66,7 @@ class ReleaseAudioBooksImagesJob implements ShouldQueue
 
     public function getLinks()
     {
-        $links = AudioImage::where('doParse', '=', 1)->limit(100)->get();
+        $links = AudioAudiobook::where('doParse', '=', 1)->limit(100)->get();
         if ($links->count() > 0){
             return $links;
         }
@@ -81,6 +81,6 @@ class ReleaseAudioBooksImagesJob implements ShouldQueue
             $link->save();
         }
         $status = $this->getStatus();
-        ReleaseAudioBooksImagesJob::dispatch($status)->onQueue('audio_default');
+        ReleaseAudioAudiobookJob::dispatch($status)->onQueue('audio_default');
     }
 }

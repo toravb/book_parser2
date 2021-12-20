@@ -17,7 +17,7 @@ class ParseAudioNavigationJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $status;
+    protected $g_status;
     /**
      * Create a new job instance.
      *
@@ -25,7 +25,7 @@ class ParseAudioNavigationJob implements ShouldQueue
      */
     public function __construct(AudioParsingStatus $status)
     {
-        $this->status = $status;
+        $this->g_status = $status;
     }
 
     /**
@@ -70,6 +70,6 @@ class ParseAudioNavigationJob implements ShouldQueue
 
     public function getStatus()
     {
-        return $this->status;
+        return $this->g_status;
     }
 }

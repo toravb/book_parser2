@@ -24,4 +24,13 @@ class AudioAudiobook extends Model
 
         return $audiobook;
     }
+
+    public function book()
+    {
+        return $this->belongsTo(
+            AudioBook::class,
+            'book_id',
+            'id',
+        );
+    }
 }

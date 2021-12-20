@@ -22,7 +22,7 @@
                 @foreach($books as $book)
                     <tr>
                         <td>
-
+                            <img src="{{ asset('audiobooks/'.$book->slug.'/'.$book->image_name) }}" alt="{{$book->title}}">
                         </td>
                         <td>
                             <a href="{{route('audio.books.show', ['book' => $book])}}">{!!$book->title!!}</a>

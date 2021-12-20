@@ -18,8 +18,8 @@ class ParseAudioAuthorsJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $author;
-    protected $status;
+    protected $g_author;
+    protected $g_status;
 
     /**
      * Create a new job instance.
@@ -28,8 +28,8 @@ class ParseAudioAuthorsJob implements ShouldQueue
      */
     public function __construct(AudioAuthorsLink $author, AudioParsingStatus $status)
     {
-        $this->author = $author;
-        $this->status = $status;
+        $this->g_author = $author;
+        $this->g_status = $status;
     }
 
     /**
@@ -67,7 +67,7 @@ class ParseAudioAuthorsJob implements ShouldQueue
      */
     public function getAuthor(): AudioAuthorsLink
     {
-        return $this->author;
+        return $this->g_author;
     }
 
     public function failed()
@@ -79,6 +79,6 @@ class ParseAudioAuthorsJob implements ShouldQueue
 
     public function getStatus()
     {
-        return $this->status;
+        return $this->g_status;
     }
 }

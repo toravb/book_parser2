@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Audio;
 
 use App\Http\Controllers\Controller;
 use App\Jobs\Audio\ParseAudioNavigationJob;
+use App\Jobs\Audio\ReleaseAudioAudiobookJob;
 use App\Jobs\Audio\ReleaseAudioAuthorsJob;
 use App\Jobs\Audio\ReleaseAudioBooksImagesJob;
 use App\Jobs\Audio\ReleaseAudioBooksLinksJob;
+use App\Models\AudioAudiobook;
 use App\Models\AudioAuthor;
 use App\Models\AudioAuthorsLink;
 use App\Models\AudioBook;
@@ -28,6 +30,7 @@ class AdminController extends Controller
         $authorJobs = DB::table('jobs')->where('queue', '=', 'audio_parse_authors')->count();
         $bookJobs = DB::table('jobs')->where('queue', '=', 'audio_parse_books')->count();
         $imageJobs = DB::table('jobs')->where('queue', '=', 'audio_parse_images')->count();
+        $audioBookJobs = DB::table('jobs')->where('queue', '=', 'audio_parse_audio')->count();
         $sites = AudioSite::with(['defaultStatus', 'authorStatus', 'bookStatus', 'imageStatus', 'audioBookStatus'])->get();
         return view('audio.parsing_menu', [
             'sites' => $sites,
@@ -35,6 +38,7 @@ class AdminController extends Controller
             'authorJobs' => $authorJobs,
             'bookJobs' => $bookJobs,
             'imageJobs' => $imageJobs,
+            'audioBookJobs' => $audioBookJobs,
         ]);
     }
 
@@ -177,6 +181,45 @@ class AdminController extends Controller
         return back()->with('success', 'Парсинг изображений запущен');
     }
 
+    public function startAudioBooksParsing(AudioSite $site)
+    {
+        $status = $site->audioBookStatus()->first();
+        if ($status == null){
+            $status = $site->audioBookStatus()->create([
+                'status' => 'Собираем очередь',
+                'created_at' => now(),
+                'status_id' => 4,
+                'last_parsing' => null,
+                'doParse' => 0,
+                'min_count' => 0,
+                'max_count' => 0,
+            ]);
+        }else{
+            $jobs = DB::table('jobs')->where('queue', '=', 'audio_parse_audio')->count();
+            if ($status->doParse && $jobs > 0){
+                $status->paused = !$status->paused;
+                $status->save();
+                if ($status->paused) {
+                    return back()->with('success', 'Парсинг аудио на паузе');
+                }
+                return back()->with('success', 'Парсинг аудио продолжен');
+            }else {
+                $status->update([
+                    'status' => 'Собираем очередь',
+                    'created_at' => now(),
+                    'last_parsing' => null,
+                    'doParse' => 0,
+                    'min_count' => 0,
+                    'max_count' => 0,
+                    'paused' => 0,
+                ]);
+            }
+        }
+
+        ReleaseAudioAudiobookJob::dispatch($status)->onQueue('audio_default');
+        return back()->with('success', 'Парсинг аудио запущен');
+    }
+
     public function booksList()
     {
         $books = AudioBook::paginate(100);
@@ -257,6 +300,7 @@ class AdminController extends Controller
         $authors_count = AudioAuthorsLink::where('doParse', '=', 2)->count();
         $books_count = AudioBooksLink::where('doParse', '=', 2)->count();
         $images_count = AudioImage::where('doParse', '=', 2)->count();
+        $audio_count = AudioAudiobook::where('doParse', '=', 2)->count();
 
         $msg = '';
         if ($authors_count > 0){
@@ -276,6 +320,12 @@ class AdminController extends Controller
                 'doParse' => 1,
             ]);
             $msg .= 'Добавлено '.$images_count.' изображений.<br>';
+        }
+        if ($audio_count > 0){
+            AudioAudiobook::query()->where('doParse', '=', 2)->update([
+                'doParse' => 1,
+            ]);
+            $msg .= 'Добавлено '.$audio_count.' аудио.<br>';
         }
         if ($authors_count > 0 || $books_count > 0 || $images_count){
             $msg .= 'Запустите очереди';
