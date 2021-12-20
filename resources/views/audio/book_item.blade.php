@@ -98,11 +98,21 @@
                                 {{preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
     return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio->title)}}
                             </td>
-                    </tr>
-                    <tr>
-                    <td>
-                        {{$audio->link}}
-                    </td>
+                        <td>
+                            @if(file_exists(asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')))
+                            <figure>
+{{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
+                                <audio
+                                    controls
+                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')}}">
+                                    Your browser does not support the
+                                    <code>audio</code> element.
+                                </audio>
+                            </figure>
+                            @else
+                                {{$audio->link}}
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
