@@ -110,7 +110,7 @@ return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio-
                                                 {{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
                                                 <audio
                                                     controls
-                                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.$audio->extension.'mp3')}}">
+                                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.$audio->extension)}}">
                                                     Your browser does not support the
                                                     <code>audio</code> element.
                                                 </audio>
