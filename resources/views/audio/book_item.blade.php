@@ -93,27 +93,35 @@
                         <td><b>Аудио</b></td>
                     </tr>
                     @foreach($book->audiobooks->sortBy('index') as $audio)
-                    <tr>
+                        <tr>
                             <td>
-                                {{preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
-    return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio->title)}}
+                                <div class="" style="display: grid;
+/*grid-template-columns: repeat(2, 1fr);*/
+grid-template-rows: 0fr;
+grid-column-gap: 0px;
+grid-row-gap: 0px;">
+                                    <div class="" style="grid-area: 1 / 1 / 2 / 2;">
+                                        {{preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio->title)}}
+                                    </div>
+                                    <div class="" style="grid-area: 1 / 2 / 2 / 3;">
+                                        @if(file_exists(asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')))
+                                            <figure>
+                                                {{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
+                                                <audio
+                                                    controls
+                                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')}}">
+                                                    Your browser does not support the
+                                                    <code>audio</code> element.
+                                                </audio>
+                                            </figure>
+                                        @else
+                                            {{$audio->link}}
+                                        @endif
+                                    </div>
+                                </div>
                             </td>
-                        <td>
-                            @if(file_exists(asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')))
-                            <figure>
-{{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
-                                <audio
-                                    controls
-                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.File::extension($audio->link)??'.mp3')}}">
-                                    Your browser does not support the
-                                    <code>audio</code> element.
-                                </audio>
-                            </figure>
-                            @else
-                                {{$audio->link}}
-                            @endif
-                        </td>
-                    </tr>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
