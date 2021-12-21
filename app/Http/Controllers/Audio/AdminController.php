@@ -59,6 +59,8 @@ class AdminController extends Controller
         if ($status->doParse) {
             AudioLetter::query()->update(['doParse' => 1]);
             AudioAuthorsLink::query()->update(['doParse' => 1]);
+            AudioBooksLink::query()->update(['doParse' => 1]);
+
             ParseAudioNavigationJob::dispatch($status)->onQueue('audio_default');
             return back()->with('success', 'Обход по сайту запущен');
         }
