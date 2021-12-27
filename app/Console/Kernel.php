@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
 
 //        $schedule->command('queue:restart')
 //            ->everyThirtyMinutes();
-////
+//
 //        $schedule->command('queue:work --name=doParsePages1 --queue=doParsePages  --daemon')
 //            ->everyMinute()
 //            ->withoutOverlapping();

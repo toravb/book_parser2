@@ -26,7 +26,7 @@ class AddExtensionColumnToAudioAudiobooksTable extends Migration
     public function down()
     {
         Schema::table('audio_audiobooks', function (Blueprint $table) {
-            $table->dropColumns(['extension']);
+            $table->dropColumn(['extension']);
         });
     }
 }
