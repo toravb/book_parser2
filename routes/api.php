@@ -22,3 +22,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'registry']);
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/genres', [CategoryController::class, 'show'])->name('category');
