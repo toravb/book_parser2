@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -70,5 +71,6 @@ Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
     });
 });
 
+Route::get('/genres', [CategoryController::class, 'show'])->name('category');
 
 require __DIR__.'/auth.php';
