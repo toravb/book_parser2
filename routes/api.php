@@ -1,5 +1,7 @@
 <?php
 
+use App\AuthApi\Http\Controllers\LoginController;
+use App\AuthApi\Http\Controllers\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,3 +19,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/register', [RegisterController::class, 'registry']);
+Route::post('/login', [LoginController::class, 'login']);
