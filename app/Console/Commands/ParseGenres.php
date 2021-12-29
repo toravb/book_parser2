@@ -42,35 +42,34 @@ class ParseGenres extends Command
      */
     public function handle()
     {
-        Book::query()
-            ->where('genre_id', '=', null)
-            ->chunk(100, function ($books){
-            foreach ($books as $book){
-                $link = $book->link;
-                $response = file_get_contents($link);
-                $html = str_get_html($response);
-                foreach ($html->find('tr.td_top_color') as $element){
-                    foreach ($element->find('p') as $text){
-                        $p = mb_convert_encoding($text->innertext, "utf-8", "windows-1251");
+        $books = Book::query()->whereNull(['genre_id'])->get();
 
-                        $genre = mb_substr($p, 5);
+        foreach ($books as $book){
+            $link = $book->link;
+            $response = file_get_contents($link);
+            $html = str_get_html($response);
+            foreach ($html->find('tr.td_top_color') as $element){
+                foreach ($element->find('p') as $text){
+                    $p = mb_convert_encoding($text->innertext, "utf-8", "windows-1251");
 
-                        $book_genre = BookGenre::query()->where('name', '=', $genre)->first();
-                        if ($book_genre == null){
-                            $book_genre = new BookGenre();
-                            $book_genre->name = $genre;
-                            $book_genre->save();
-                        }
-                        $book->genre_id = $book_genre->id;
-                        $book->save();
+                    $genre = mb_substr($p, 5);
 
-                        echo $genre. ' - ['.$book_genre->id.']'."\n";
-                        echo $book->id.' - [FIXED]'."\n";
-                        continue 3;
+                    $book_genre = BookGenre::query()->where('name', '=', $genre)->first();
+                    if ($book_genre == null){
+                        $book_genre = new BookGenre();
+                        $book_genre->name = $genre;
+                        $book_genre->save();
                     }
+                    $book->genre_id = $book_genre->id;
+                    $book->save();
+
+                    echo $genre. ' - ['.$book_genre->id.']'."\n";
+                    echo $book->id.' - [FIXED]'."\n";
+                    break;
                 }
+                break;
             }
-        });
+        }
 
         return 0;
     }
