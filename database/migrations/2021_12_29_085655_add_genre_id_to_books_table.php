@@ -30,6 +30,7 @@ class AddGenreIdToBooksTable extends Migration
     public function down()
     {
         Schema::table('books', function (Blueprint $table) {
+            $table->dropForeign(['genre_id']);
             $table->dropColumn(['genre_id']);
         });
     }
