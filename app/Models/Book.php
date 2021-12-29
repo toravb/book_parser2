@@ -96,4 +96,8 @@ class Book extends Model
             'id'
         );
     }
+
+    public function bookGenres(){
+        return $this->belongsToMany(BookGenre::class);
+    }
 }

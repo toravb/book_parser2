@@ -2,6 +2,7 @@
 
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
+use App\Api\Http\Controllers\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,3 +23,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'registry']);
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/genres', [CategoryController::class, 'show'])->name('category');
