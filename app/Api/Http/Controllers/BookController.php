@@ -21,8 +21,8 @@ class BookController extends Controller
         $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
 
 
-        $book = Book::with([
-            'authors' ,
+        $books = Book::with([
+            'authors',
             'image',
             'bookGenres'])
             ->select('id', 'title')
@@ -34,35 +34,39 @@ class BookController extends Controller
                     ->with(['year', 'publishers',])
                     ->addSelect('text');
             })
-            ->when($request->findByAuthor, function ($query) use($request){
+            ->when($request->findByAuthor, function ($query) use ($request) {
 
-                return $query->whereHas('authors.', function ($query) use($request){
-                    $query->where('author', 'like', '%'.$request->findByAuthor.'%');
+                return $query->whereHas('authors.', function ($query) use ($request) {
+                    $query->where('author', 'like', '%' . $request->findByAuthor . '%');
                 });
             })
-            ->when($request->findByPublisher, function ($query) use($request){
+            ->when($request->findByPublisher, function ($query) use ($request) {
 
-                return $query->whereHas('publishers', function ($query) use($request){
-                    $query->where('publisher', 'like', '%'.$request->findByPublisher.'%');
+                return $query->whereHas('publishers', function ($query) use ($request) {
+                    $query->where('publisher', 'like', '%' . $request->findByPublisher . '%');
                 });
             })
-            ->when($request->findByTitle, function ($query) use($request){
+            ->when($request->findByTitle, function ($query) use ($request) {
 
-                return $query->where('title', 'like', '%'.$request->findByTitle.'%');
-                })
-
+                return $query->where('title', 'like', '%' . $request->findByTitle . '%');
+            })
             ->paginate($perPage);
 
-        foreach ($book as &$books){
-            $presenter = new Book($books);
-            $books->title = $presenter->title();
+        $collection = $books->getCollection();
+        foreach ($collection as &$book) {
+            if ($book->rates_avg === null) {
+                $book->rates_avg = 0;
+            }
+            foreach ($book->authors as $author) {
+                unset($author->pivot);
+            }
         }
-
+        $books->setCollection($collection);
 
 
         return response()->json([
             'status' => 'success',
-            'title' => $book
+            'title' => $books
         ]);
     }
 }
