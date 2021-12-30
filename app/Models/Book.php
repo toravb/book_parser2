@@ -51,6 +51,8 @@ class Book extends Model
 
     public function authors()
     {
+//        protected $hidden = ['pivot'];
+
         return $this->belongsToMany(
             Author::class,
             AuthorToBook::class,

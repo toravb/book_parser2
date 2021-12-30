@@ -20,13 +20,14 @@ class BookController extends Controller
         $perPage = $request->showType === self::SHOW_TYPE_BLOCK ? self::PER_PAGE_BLOCKS : self::PER_PAGE_LIST;
         $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
 
+
         $book = Book::with([
             'authors' ,
             'image',
             'bookGenres'])
             ->select('id', 'title')
             ->withCount('rates')
-            ->withAvg('rates', 'rates.rating')
+            ->withAvg('rates as rates_avg', 'rates.rating')
             ->when($viewTypeList, function ($query) {
 
                 return $query->withCount(['bookLikes', 'bookComments'])
@@ -35,26 +36,33 @@ class BookController extends Controller
             })
             ->when($request->findByAuthor, function ($query) use($request){
 
-                return $query->whereHas('authors', function ($query) use($request){
+                return $query->whereHas('authors.', function ($query) use($request){
                     $query->where('author', 'like', '%'.$request->findByAuthor.'%');
                 });
             })
-//            ->when($request->findByTitle, function ($query) use($request){
-//
-//                return $query->where('title', 'like', '%$request->findByTitle%');
-//            })
-//            ->when($request->findByPublisher, function ($query) use($request){
-//
-//                return $query->where('publishers', 'like', '%$request->findByPublisher%');
-//            })
+            ->when($request->findByPublisher, function ($query) use($request){
 
-//            ->dd()
+                return $query->whereHas('publishers', function ($query) use($request){
+                    $query->where('publisher', 'like', '%'.$request->findByPublisher.'%');
+                });
+            })
+            ->when($request->findByTitle, function ($query) use($request){
+
+                return $query->where('title', 'like', '%'.$request->findByTitle.'%');
+                })
+
             ->paginate($perPage);
+
+        foreach ($book as &$books){
+            $presenter = new Book($books);
+            $books->title = $presenter->title();
+        }
+
 
 
         return response()->json([
             'status' => 'success',
-            'data' => $book
+            'title' => $book
         ]);
     }
 }
