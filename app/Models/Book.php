@@ -97,7 +97,24 @@ class Book extends Model
         );
     }
 
-    public function bookGenres(){
+    public function bookGenres()
+    {
         return $this->belongsToMany(BookGenre::class);
     }
+
+    public function rates()
+    {
+        return $this->belongsToMany(User::class, 'rates');
+    }
+
+    public function bookComments()
+    {
+        return $this->hasMany(BookComment::class);
+    }
+    public function bookLikes()
+    {
+        return $this->hasMany(BookLike::class);
+    }
+
+
 }

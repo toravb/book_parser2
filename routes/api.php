@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\BookController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\Api\Http\Controllers\CategoryController;
@@ -25,3 +26,4 @@ Route::post('/register', [RegisterController::class, 'registry']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
+Route::get('/book', [BookController::class, 'show'])->name('show');
