@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Api\Models;
+namespace App\AuthApi\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -179,7 +179,7 @@ return [
         * View Service Provider
         * */
         App\Providers\ComposerServiceProvider::class,
-
+        \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
     /*
@@ -234,5 +234,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+
+    'front_url' => env('FRONT_URL')
 
 ];
