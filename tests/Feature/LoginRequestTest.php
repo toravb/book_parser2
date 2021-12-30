@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\AuthApi\Http\Requests\RegistryRequest;
+use App\AuthApi\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -12,7 +12,7 @@ use Tests\TestCase;
 use Faker\Factory;
 use Illuminate\Support\Str;
 
-class RegistryTest extends TestCase
+class LoginRequestTest extends TestCase
 {
     use DatabaseMigrations, RefreshDatabase;
 
@@ -26,12 +26,7 @@ class RegistryTest extends TestCase
     {
         parent::setUp();
         $this->validator = app()->get('validator');
-        $this->rules = (new RegistryRequest())->rules();
-        $this->user = User::create([
-            'name' => 'asda',
-            'email' => 'test_email@gmail.com',
-            'password' => Hash::make('sample123')
-        ]);
+        $this->rules = (new LoginRequest())->rules();
     }
 
     /**
@@ -84,7 +79,7 @@ class RegistryTest extends TestCase
                 'passed' => false,
                 'data' => [
                     'email' => $faker->email(),
-                    'password' => $faker->asciify('*****')
+                    'password' => $faker->asciify('**')
                 ]
             ],
             'request_should_fail_when_password_is_not_string' => [
@@ -92,20 +87,6 @@ class RegistryTest extends TestCase
                 'data' => [
                     'email' => $faker->email(),
                     'password' => $faker->randomElements($array = ['a', 'b', 'c'], $count = 5, $allowDuplicates = true)
-                ]
-            ],
-            'request_have_already_registered_email' => [
-                'passed' => false,
-                'data' => [
-                    'email' => $this->user->email,
-                    'password' => $faker->randomElements($array = ['a', 'b', 'c'], $count = 5, $allowDuplicates = true)
-                ]
-            ],
-            'request_should_pass_when_data_is_provided' => [
-                'passed' => true,
-                'data' => [
-                    'email' => $faker->email(),
-                    'password' => $faker->asciify('*******')
                 ]
             ]
         ];
