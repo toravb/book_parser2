@@ -4,7 +4,7 @@ namespace App\AuthApi\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,15 @@ class LoginRequest
     public function rules()
     {
         return [
-            'email' => 'required|email|max:255',
-            'password' => 'required|string|min:8'
+            'email' => ['required', 'email', 'max:255'],
+            'password' => ['required', 'string', 'min:6']
         ];
     }
 
     public function messages()
     {
         return [
-            'password.min' => 'Минимальное количество символов пароля 8.',
+            'password.min' => 'Минимальное количество символов пароля 6.',
             'password.required' => 'Пароль не может быть пустым.',
             'password.string' => 'Неверный пароль.
              Пожалуйста введите верные данные или восстановите пароль.',
