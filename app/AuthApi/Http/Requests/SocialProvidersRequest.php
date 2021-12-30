@@ -32,7 +32,7 @@ class SocialProvidersRequest extends FormRequest
     public function rules()
     {
         return [
-            'provider' => 'required|in:google,facebook,odnoklassniki'
+            'provider' => 'required|in:google,facebook,odnoklassniki,yandex'
         ];
     }
 
