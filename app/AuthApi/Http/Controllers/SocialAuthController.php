@@ -77,10 +77,9 @@ class SocialAuthController extends Controller
 
             $socialUser = Socialite::driver($request->provider)->stateless()->user();
 
+            $socialIdUser = IdSocialNetwork::where($column, $socialUser->getId())->first();
 
-            $socialIdUser = IdSocialNetwork::where($column, $socialUser->id)->first();
-
-            $findUser = User::where('email', $socialUser->email)->first();
+            $findUser = User::where('email', $socialUser->getEmail())->first();
 
             if ($findUser !== null || $socialIdUser !== null) {
 
