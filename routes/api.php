@@ -3,6 +3,7 @@
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\Api\Http\Controllers\CategoryController;
+use App\AuthApi\Http\Controllers\SocialAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/register', [RegisterController::class, 'registry']);
 Route::post('/login', [LoginController::class, 'login']);
+//Social networks
+Route::get('/auth/{provider}', [SocialAuthController::class, 'redirectToGoogle']);
+Route::get('/auth/{provider}/callback',  [SocialAuthController::class, 'handleGoogleCallback']);
+Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');

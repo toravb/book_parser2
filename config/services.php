@@ -29,5 +29,12 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
+    'odnoklassniki' => [
+        'client_id' => env('ODNOKLASSNIKI_CLIENT_ID'),
+        'client_public' => env('ODNOKLASSNIKI_CLIENT_PUBLIC'),
+        'client_secret' => env('ODNOKLASSNIKI_CLIENT_SECRET'),
+        'redirect' => env('ODNOKLASSNIKI_REDIRECT_URI')
+    ],
+
 
 ];
