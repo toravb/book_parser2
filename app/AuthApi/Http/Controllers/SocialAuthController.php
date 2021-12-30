@@ -68,24 +68,15 @@ class SocialAuthController extends Controller
      */
     public function handleGoogleCallback(SocialProvidersRequest $request)
     {
-//        try {
+        try {
             config([
                 "services.$request->provider.redirect" => url("/api/auth/$request->provider/callback")
             ]);
 
             $column = $request->provider . '_id';
-     $code = $request->code;
-     $client_id = env('ODNOKLASSNIKI_CLIENT_ID');
-        $client_public = env('ODNOKLASSNIKI_CLIENT_PUBLIC');
-        $client_secret = env('ODNOKLASSNIKI_CLIENT_SECRET');
-        $redirect = env('ODNOKLASSNIKI_REDIRECT_URI');
-        $response = Http::get('https://api.ok.ru/oauth/token.do?code=' . $code .
-        '&client_id='.$client_id.'&client_secret=' . $client_secret . '&redirect_uri=' . $redirect . '&grant_type=authorization_code');
-        dd($response->json());
-        $socialUser = Socialite::driver($request->provider)->stateless()->userFromToken($code);
 
-//            $socialUser = Socialite::driver($request->provider)->stateless()->user();
-            dd($socialUser);
+            $socialUser = Socialite::driver($request->provider)->stateless()->user();
+
 
             $socialIdUser = IdSocialNetwork::where($column, $socialUser->id)->first();
 
@@ -93,7 +84,7 @@ class SocialAuthController extends Controller
 
             if ($findUser !== null || $socialIdUser !== null) {
 
-                if($findUser !== null) {
+                if ($findUser !== null) {
                     $userId = $findUser->id;
                 } else {
                     $userId = $socialIdUser->user_id;
@@ -105,10 +96,10 @@ class SocialAuthController extends Controller
             } else {
                 return redirect(url(config('app.front_url')) . '/login?message=You are not registred!');
             }
-//        } catch (Exception $e) {
-//            Log::error($e);
-//            return redirect(url(config('app.front_url')) . '/login?error=Something went wrong');
-//        }
+        } catch (Exception $e) {
+            Log::error($e);
+            return redirect(url(config('app.front_url')) . '/login?error=Something went wrong');
+        }
     }
 
 
