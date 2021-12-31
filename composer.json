@@ -18,6 +18,7 @@
         "league/flysystem-sftp": "1.0.22",
         "phpoffice/phpspreadsheet": "^1.18",
         "socialiteproviders/odnoklassniki": "^4.1",
+        "socialiteproviders/vkontakte": "^4.2",
         "socialiteproviders/yandex": "^4.1",
         "socialiteproviders/zoho": "^4.1"
     },

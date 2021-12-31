@@ -66,7 +66,7 @@ class SocialAuthController extends Controller
      *        ),
      *    )
      */
-    public function handleGoogleCallback(SocialProvidersRequest $request)
+    public function handleGoogleCallback(SocialProvidersRequest $request, User $userModel, IdSocialNetwork $idSocialNetwork)
     {
         try {
             config([
@@ -76,8 +76,10 @@ class SocialAuthController extends Controller
             $column = $request->provider . '_id';
 
             $socialUser = Socialite::driver($request->provider)->stateless()->user();
+            $email = $socialUser->getEmail();
+            $socialId = $socialUser->getId();
 
-            $socialIdUser = IdSocialNetwork::where($column, $socialUser->getId())->first();
+            $socialIdUser = $idSocialNetwork->where($column, $socialUser->getId())->first();
 
             $findUser = User::where('email', $socialUser->getEmail())->first();
 
@@ -88,13 +90,14 @@ class SocialAuthController extends Controller
                 } else {
                     $userId = $socialIdUser->user_id;
                 }
-
-                Cache::put('socialToken' . $userId, $socialUser->token, 60);
-                return redirect(url(config('app.front_url')) . '/login?token=' .
-                    $socialUser->token . '&id=' . $userId);
             } else {
-                return redirect(url(config('app.front_url')) . '/login?message=You are not registred!');
+                $newUser = $userModel->createUser($email, null, $socialUser->getName());
+                $userId = $newUser->id;
             }
+            $idSocialNetwork->updateOrCreateNetworks($column, $userId, $socialId);
+            Cache::put('socialToken' . $userId, $socialUser->token, 60);
+            return redirect(url(config('app.front_url')) . '/login?token=' .
+                $socialUser->token . '&id=' . $userId);
         } catch (Exception $e) {
             Log::error($e);
             return redirect(url(config('app.front_url')) . '/login?error=Something went wrong');
