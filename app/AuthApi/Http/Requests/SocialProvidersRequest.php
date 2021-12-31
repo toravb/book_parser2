@@ -2,7 +2,9 @@
 
 namespace App\AuthApi\Http\Requests;
 
+use App\AuthApi\Services\SocialAuthService;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class SocialProvidersRequest extends FormRequest
 {
@@ -32,7 +34,7 @@ class SocialProvidersRequest extends FormRequest
     public function rules()
     {
         return [
-            'provider' => 'required|in:google,facebook,odnoklassniki,yandex'
+            'provider' => ['required', Rule::in(SocialAuthService::getSocialProviders())]
         ];
     }
 

@@ -41,7 +41,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $user = new static();
         $user->fill($fields);
         $user->generatePassword($fields);
@@ -50,14 +51,25 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function edit($fields){
+    public function createUser(string $email=null, string $password = null, string $name = null): User
+    {
+        $this->email = $email;
+        $this->password = $password;
+        $this->name = $name;
+        $this->save();
+        return $this;
+    }
+
+    public function edit($fields)
+    {
         $this->fill($fields);
         $this->generatePassword($fields);
         $this->save();
     }
 
-    private function generatePassword($fields){
-        if (isset($fields['password']) && $fields['password'] != null){
+    private function generatePassword($fields)
+    {
+        if (isset($fields['password']) && $fields['password'] != null) {
             $this->password = bcrypt($fields['password']);
         }
     }
