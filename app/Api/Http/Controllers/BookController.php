@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\GetBooksRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,12 +15,13 @@ class BookController extends Controller
     const PER_PAGE_LIST = 13;
     const SHOW_TYPE_BLOCK = 'block';
     const SHOW_TYPE_LIST = 'list';
+    const SORT_BY_POPULARITY = 'popularity';
+    const SORT_BY_RATING = 'rating';
 
-    public function show(Request $request)
+    public function show(GetBooksRequest $request)
     {
         $perPage = $request->showType === self::SHOW_TYPE_BLOCK ? self::PER_PAGE_BLOCKS : self::PER_PAGE_LIST;
         $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
-
 
         $books = Book::with([
             'authors',
@@ -64,6 +66,36 @@ class BookController extends Controller
         $books->setCollection($collection);
 
 
+        return response()->json([
+            'status' => 'success',
+            'title' => $books
+        ]);
+    }
+
+    public function showSingle(Request $request)
+    {
+        $id = $request->id;
+        $books = Book::with([
+            'authors',
+            'image',
+            'bookGenres',
+            'year',
+            'publishers',
+            'bookComments',
+            'reviews',
+            'quotes'])
+            ->where('id', $id)
+            ->select('id', 'title', 'text')
+            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes'])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->first();
+
+        if ($books->rates_avg === null) {
+            $books->rates_avg = 0;
+        }
+        foreach ($books->authors as $author) {
+            unset($author->pivot);
+        }
         return response()->json([
             'status' => 'success',
             'title' => $books

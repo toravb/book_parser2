@@ -117,6 +117,15 @@ class Book extends Model
     {
         return $this->hasMany(BookLike::class);
     }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
 
 
 }

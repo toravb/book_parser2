@@ -26,4 +26,6 @@ Route::post('/register', [RegisterController::class, 'registry']);
 Route::post('/login', [LoginController::class, 'login']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
-Route::get('/book', [BookController::class, 'show'])->name('show');
+Route::get('/books', [BookController::class, 'show'])->name('showList');
+Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
+
