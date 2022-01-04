@@ -175,7 +175,6 @@ class SocialAuthController extends Controller
      */
     public function authConfirm(Request $request)
     {
-
         if (Cache::has('socialToken' . $request->id) and Cache::get('socialToken' . $request->id) == $request->token) {
             Cache::forget('socialToken' . $request->id);
             $user = User::where('id', $request->id)->first();
