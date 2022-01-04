@@ -51,7 +51,6 @@
                     </ul>
                 </li>
             </ul>
-            @if(isset($sites))
             @foreach($sites as $site)
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
@@ -88,58 +87,6 @@
                 </li>
             </ul>
             @endforeach
-            @endif
-            @if(isset($audio_sites))
-                @foreach($audio_sites as $site)
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-
-                        <li class="nav-item nav-item menu-is-opening menu-open">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-copy"></i>
-                                <p>
-                                    {{$site->site}}
-                                    <i class="fas fa-angle-left right"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="{{route('audio.menu')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Меню парсинга</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('audio.books.list')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Книги (список)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                <li class="nav-item">
-                                    <a href="{{route('audio.books.table')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Книги (таблицы)</p>
-                                    </a>
-                                </li>
-                                <li>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('audio.books.authors')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Авторы</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="{{route('audio.books.actors')}}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Актёры озвучки</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                @endforeach
-            @endif
         </nav>
         <!-- /.sidebar-menu -->
     </div>

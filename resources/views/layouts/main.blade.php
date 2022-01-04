@@ -45,7 +45,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Парсер сайта @if(isset($sites) && isset($sites[0]) && $sites[0]->site ){{$sites[0]->site}}@endif</h1>
+                        <h1 class="m-0">Парсер сайта @if(isset($sites[0]->site)){{$sites[0]->site}}@endif</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">

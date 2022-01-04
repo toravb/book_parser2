@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool)env('APP_DEBUG', false),
+    'debug' => (bool) env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -165,7 +165,7 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Laravel\Passport\PassportServiceProvider::class,
         /*
          * Application Service Providers...
          */
@@ -175,11 +175,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
-        /*
-        * View Service Provider
-        * */
-        App\Providers\ComposerServiceProvider::class,
-        \SocialiteProviders\Manager\ServiceProvider::class,
     ],
 
     /*
@@ -234,7 +229,5 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-
-    'front_url' => env('FRONT_URL')
 
 ];

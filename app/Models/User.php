@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+//
+
+use Laravel\Passport\HasApiTokens;
+
+
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Passport\HasApiTokens;
+
+use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends Authenticatable
 {
@@ -40,9 +46,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    /**
+     * @var mixed
+     */
 
-    public static function create($fields)
+    /**
+     * Override the mail body for reset password notification mail.
+     */
+    public function sendPasswordResetNotification($token)
     {
+        $this->notify(new MailForgotPasswordNotification($token));
+    }
+
+    public static function create($fields){
         $user = new static();
         $user->fill($fields);
         $user->generatePassword($fields);
@@ -51,26 +67,17 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function createUser(string $email=null, string $password = null, string $name = null): User
-    {
-        $this->email = $email;
-        $this->password = $password;
-        $this->name = $name;
-        $this->save();
-        return $this;
-    }
-
-    public function edit($fields)
-    {
+    public function edit($fields){
         $this->fill($fields);
         $this->generatePassword($fields);
         $this->save();
     }
 
-    private function generatePassword($fields)
-    {
-        if (isset($fields['password']) && $fields['password'] != null) {
+    private function generatePassword($fields){
+        if (isset($fields['password']) && $fields['password'] != null){
             $this->password = bcrypt($fields['password']);
         }
     }
+
+
 }

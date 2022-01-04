@@ -38,21 +38,10 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL') . '/storage',
+            'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-        'sftp' => [
-            'driver' => 'sftp',
-            'host' => env('SFTP_STORAGE_HOST'),
-            'username' => env('SFTP_STORAGE_USERNAME'),
-            'password' => env('SFTP_STORAGE_PASSWORD'),
-            'root' => env('SFTP_STORAGE_ROOT_DIRECTORY'),
-        ],
-        'audiobook' => [
-            'driver' => 'local',
-            'root' => '/mnt/volume_fra1_01/audiobooks'
-//            'root' => storage_path('app')
-        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

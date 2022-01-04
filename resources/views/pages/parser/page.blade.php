@@ -11,7 +11,6 @@
                     <th>Изображение</th>
                     <th>Название</th>
                     <th>Серия</th>
-                    <th>Жанр</th>
                     <th>Авторы</th>
                     <th>Издатели</th>
                     <th>Год</th>
@@ -36,11 +35,6 @@
                         <td>
                             @if($book->series)
                                 {{$book->series->series}}
-                            @endif
-                        </td>
-                        <td>
-                            @if($book->genre)
-                                {{$book->genre->name}}
                             @endif
                         </td>
                         <td>
