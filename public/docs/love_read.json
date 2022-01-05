@@ -778,39 +778,37 @@
       },
       "parameters": []
     },
-    "/users/{userId}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "integer"
-          },
-          "name": "userId",
-          "in": "path",
-          "required": true,
-          "description": "Id of an existing user."
-        }
-      ],
-      "get": {
-        "summary": "Get User Info by User ID",
-        "tags": [],
+    "/login": {
+      "post": {
+        "summary": "",
+        "operationId": "post-login",
         "responses": {
           "200": {
-            "description": "User Found",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzRlMzhmYzNlZmQ0OGYxZGQxYzg5MzQ0MWI2ZjEwZmZiOGU5Mzk3MDQ1NDBkYmZjMWRiN2I0NDBiY2Q2YzA4YzliNjdhNThhZGU5ZmUyODQiLCJpYXQiOjE2NDEzMDk5NTAuMTY1Njc1LCJuYmYiOjE2NDEzMDk5NTAuMTY1NjgsImV4cCI6MTY3Mjg0NTk1MC4xMzA3ODQsInN1YiI6IjEyIiwic2NvcGVzIjpbXX0.sMIgPPLqf2MyEKsLpS2HeAA4Vl2KQ0ZH7ilJ0MKfgqbFHT5sNyqWDXTWCAiprKgxvmiOByoWSQMPc6_KbCHafk0zYu9DK-zHg8e-QW__xIjUZ43kl2vfA7zpIme6FfVaT8iUuPUTUjY0itiDr2VMiPPujCDNKKK2Ah9F2cTjJD2FnEnOBu2B7WMEnyhDzl7K-zw5aZofAYVb_3kf341nfcZkLtmsin7G0LeLVakPek3wsKJ_qp40sB8Hs90A8swDIRMSaUGrh1vYnwxvLRo2RAYmCpYLrqZx_pQOpeTJ2L2tchFW6dHP61wLIhw-uFHJTOFNoQkuu_kYlrJbNk3RN7dbf7BsVYZDalidXjfJrF9TKsbqxFf1-Mcb35OxAoWdiq9lEe7u9DA5cDQOy37sNOXFg3pQ81hv0p_EZ6Jn21h9PP6zFbBCXf7IPRKHI3Dt8hNpMcXiddofj37Ho-KK514prhZpJrnn9jTlhWSFSCUtln9RrJgHdPowYN4A_OtqdgcMAuiy6iLPpFMpcIlh24f1vo1i0QS9t6JlqZbCUcCVHtPG6MhU2TYqwy31M8yCj4DWeB-0W2JVfxClsrf9wsHhCcmbf52Av5WwAAKri-r7CTY5ciuYjy5fvb7sJC3OBe1Z8F0zEpRghLVta7nM3Y7-RMVK9mcxU6bkry9bHAk"
+                    }
+                  }
                 },
                 "examples": {
-                  "Get User Alice Smith": {
+                  "example-1": {
                     "value": {
-                      "id": 142,
-                      "firstName": "Alice",
-                      "lastName": "Smith",
-                      "email": "alice.smith@gmail.com",
-                      "dateOfBirth": "1997-10-31",
-                      "emailVerified": true,
-                      "signUpDate": "2019-08-24"
+                      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiNzRlMzhmYzNlZmQ0OGYxZGQxYzg5MzQ0MWI2ZjEwZmZiOGU5Mzk3MDQ1NDBkYmZjMWRiN2I0NDBiY2Q2YzA4YzliNjdhNThhZGU5ZmUyODQiLCJpYXQiOjE2NDEzMDk5NTAuMTY1Njc1LCJuYmYiOjE2NDEzMDk5NTAuMTY1NjgsImV4cCI6MTY3Mjg0NTk1MC4xMzA3ODQsInN1YiI6IjEyIiwic2NvcGVzIjpbXX0.sMIgPPLqf2MyEKsLpS2HeAA4Vl2KQ0ZH7ilJ0MKfgqbFHT5sNyqWDXTWCAiprKgxvmiOByoWSQMPc6_KbCHafk0zYu9DK-zHg8e-QW__xIjUZ43kl2vfA7zpIme6FfVaT8iUuPUTUjY0itiDr2VMiPPujCDNKKK2Ah9F2cTjJD2FnEnOBu2B7WMEnyhDzl7K-zw5aZofAYVb_3kf341nfcZkLtmsin7G0LeLVakPek3wsKJ_qp40sB8Hs90A8swDIRMSaUGrh1vYnwxvLRo2RAYmCpYLrqZx_pQOpeTJ2L2tchFW6dHP61wLIhw-uFHJTOFNoQkuu_kYlrJbNk3RN7dbf7BsVYZDalidXjfJrF9TKsbqxFf1-Mcb35OxAoWdiq9lEe7u9DA5cDQOy37sNOXFg3pQ81hv0p_EZ6Jn21h9PP6zFbBCXf7IPRKHI3Dt8hNpMcXiddofj37Ho-KK514prhZpJrnn9jTlhWSFSCUtln9RrJgHdPowYN4A_OtqdgcMAuiy6iLPpFMpcIlh24f1vo1i0QS9t6JlqZbCUcCVHtPG6MhU2TYqwy31M8yCj4DWeB-0W2JVfxClsrf9wsHhCcmbf52Av5WwAAKri-r7CTY5ciuYjy5fvb7sJC3OBe1Z8F0zEpRghLVta7nM3Y7-RMVK9mcxU6bkry9bHAk"
                     }
                   }
                 }
@@ -824,45 +822,64 @@
         "operationId": "get-users-userId",
         "description": "Retrieve the information of the user with the matching user ID."
       },
-      "patch": {
-        "summary": "Update User Information",
-        "operationId": "patch-users-userId",
-        "responses": {
-          "200": {
-            "description": "User Updated",
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
-                },
-                "examples": {
-                  "Updated User Rebecca Baker": {
-                    "value": {
-                      "id": 13,
-                      "firstName": "Rebecca",
-                      "lastName": "Baker",
-                      "email": "rebecca@gmail.com",
-                      "dateOfBirth": "1985-10-02",
-                      "emailVerified": false,
-                      "createDate": "2019-08-24"
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "password": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "password"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "password": [
+                          "Пароль не может быть пустым."
+                        ]
+                      }
                     }
                   }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User Not Found"
-          },
-          "409": {
-            "description": "Email Already Taken"
-          }
-        },
-        "description": "Update the information of an existing user.",
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "password": [
+                          "Пароль не может быть пустым."
+                        ]
+                      }
+
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
+
                 "type": "object",
                 "properties": {
                   "firstName": {
@@ -877,30 +894,40 @@
                   },
                   "dateOfBirth": {
                     "type": "string"
+
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "email": "email@email.com",
+                    "password": "12345678"
+
                   }
                 }
               },
               "examples": {
-                "Update First Name": {
-                  "value": {
-                    "firstName": "Rebecca"
-                  }
-                },
-                "Update Email": {
-                  "value": {
-                    "email": "rebecca@gmail.com"
-                  }
-                },
-                "Update Last Name & Date of Birth": {
-                  "value": {
-                    "lastName": "Baker",
-                    "dateOfBirth": "1985-10-02"
+
                   }
                 }
               }
             }
           },
           "description": "Patch user properties to update."
+          }
         }
       }
     }

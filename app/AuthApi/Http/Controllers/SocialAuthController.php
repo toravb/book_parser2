@@ -77,7 +77,7 @@ class SocialAuthController extends Controller
 
             $socialUser = Socialite::driver($request->provider)->stateless()->user();
             $email = $socialUser->getEmail();
-            $socialId = $socialUser->getId();
+            $socialId = (int)$socialUser->getId();
 
             $socialIdUser = $idSocialNetwork->where($column, $socialUser->getId())->first();
 
@@ -94,6 +94,7 @@ class SocialAuthController extends Controller
                 $newUser = $userModel->createUser($email, null, $socialUser->getName());
                 $userId = $newUser->id;
             }
+
             $idSocialNetwork->updateOrCreateNetworks($column, $userId, $socialId);
             Cache::put('socialToken' . $userId, $socialUser->token, 60);
             return redirect(url(config('app.front_url')) . '/login?token=' .
