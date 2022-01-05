@@ -2,10 +2,11 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetBooksRequest extends FormRequest
+class SaveBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +26,9 @@ class GetBooksRequest extends FormRequest
     public function rules()
     {
         return [
-            'showType'=>['required', Rule::in(['list', 'block'])],
-            'findByAuthor'=>['sometimes', 'string', 'max:200'],
-            'findByPublisher'=>['sometimes', 'string', 'max:200'],
-            'findByTitle'=>['sometimes', 'string', 'max:200']
+            'user_id' => ['required', 'integer'],
+            'book_id' => ['required', 'integer'],
+            'status' => ['required', 'integer', Rule::in('1', '2', '3')],
 
         ];
     }

@@ -28,4 +28,5 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
 Route::get('/books', [BookController::class, 'show'])->name('showList');
 Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
+Route::put('/savebook', [BookController::class, 'saveBook'])->name('saveBook');
 

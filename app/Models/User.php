@@ -76,4 +76,9 @@ class User extends Authenticatable
         return $this->belongsToMany(BookLike::class);
     }
 
+    public function bookStatuses()
+    {
+        return $this->belongsToMany(BookUser::class);
+    }
+
 }

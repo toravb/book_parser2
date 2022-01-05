@@ -9,7 +9,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+//    public $timestamps = false;
 
     protected $fillable = [
         'title',
@@ -126,6 +126,17 @@ class Book extends Model
     {
         return $this->hasMany(Quote::class);
     }
+    public function bookStatuses()
+    {
+        return $this->hasMany(BookUser::class);
+    }
+
+    public function scopeNewest ($query)
+    {
+        return $query->latest();
+    }
+
+
 
 
 }

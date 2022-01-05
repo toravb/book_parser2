@@ -312,6 +312,348 @@
         "operationId": "get-ca"
       },
       "parameters": []
+    },
+    "/books": {
+      "get": {
+        "summary": "Show books list",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "title": {
+                        "current_page": 1,
+                        "data": [
+                          {
+                            "id": 19,
+                            "title": "Miss",
+                            "rates_count": 0,
+                            "rates_avg": 0,
+                            "authors": [
+                              {
+                                "id": 371,
+                                "author": "Aurelie Ritchie"
+                              }
+                            ],
+                            "image": null,
+                            "book_genres": [],
+                            "book_statuses": []
+                          }
+                        ],
+                        "first_page_url": "http://loveread/api/books?page=1",
+                        "from": 1,
+                        "last_page": 1,
+                        "last_page_url": "http://loveread/api/books?page=1",
+                        "links": [
+                          {
+                            "url": null,
+                            "label": "&laquo; Previous",
+                            "active": false
+                          },
+                          {
+                            "url": "http://loveread/api/books?page=1",
+                            "label": "1",
+                            "active": true
+                          },
+                          {
+                            "url": null,
+                            "label": "Next &raquo;",
+                            "active": false
+                          }
+                        ],
+                        "next_page_url": null,
+                        "path": "http://loveread/api/books",
+                        "per_page": 40,
+                        "prev_page_url": null,
+                        "to": 20,
+                        "total": 20
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "title": {
+                      "type": "object",
+                      "required": [
+                        "current_page",
+                        "data",
+                        "first_page_url",
+                        "from",
+                        "last_page",
+                        "last_page_url",
+                        "links",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ],
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "data": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "rates_count": {
+                                "type": "number"
+                              },
+                              "rates_avg": {
+                                "type": "number"
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "author"
+                                  ]
+                                }
+                              },
+                              "image": {
+                                "type": "string"
+                              },
+                              "book_genres": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object"
+                                }
+                              },
+                              "book_statuses": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object"
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "title",
+                              "rates_count",
+                              "rates_avg"
+                            ]
+                          }
+                        },
+                        "first_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "from": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "last_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "links": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "next_page_url": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "prev_page_url": {
+                          "type": "string"
+                        },
+                        "to": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title"
+                  ]
+                },
+                "examples": {
+                  "block output": {
+                    "value": {
+                      "status": "string",
+                      "title": {
+                        "current_page": 0,
+                        "data": [
+                          {
+                            "id": 0,
+                            "title": "string",
+                            "rates_count": 0,
+                            "rates_avg": 0,
+                            "authors": [
+                              {
+                                "id": 0,
+                                "author": "string"
+                              }
+                            ],
+                            "image": "string",
+                            "book_genres": [
+                              {}
+                            ],
+                            "book_statuses": [
+                              {}
+                            ]
+                          }
+                        ],
+                        "first_page_url": "string",
+                        "from": 0,
+                        "last_page": 0,
+                        "last_page_url": "string",
+                        "links": [
+                          {
+                            "url": "string",
+                            "label": "string",
+                            "active": true
+                          }
+                        ],
+                        "next_page_url": "string",
+                        "path": "string",
+                        "per_page": 0,
+                        "prev_page_url": "string",
+                        "to": 0,
+                        "total": 0
+                      }
+                    }
+                  }
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-books",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "showType",
+            "description": "values: block - display 40 books per page. list - display 13 books per page",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByPublisher"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByTitle"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByAuthor"
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "sortByDate",
+            "description": "1 - asc sort. 2 - desc sort",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "sortByRating",
+            "description": "if set 1 sort is active"
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "sortByReadersCount",
+            "description": " bestsellers sort. if set 1 sort is active"
+          }
+        ],
+        "description": ""
+      }
     }
   },
   "components": {
