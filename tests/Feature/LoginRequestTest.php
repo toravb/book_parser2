@@ -14,7 +14,7 @@ use Illuminate\Support\Str;
 
 class LoginRequestTest extends TestCase
 {
-    use DatabaseMigrations, RefreshDatabase;
+    use DatabaseMigrations;
 
     /** @var \App\Http\Requests\Auth\LoginRequest */
     private $rules;
