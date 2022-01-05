@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\StaticPagesController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -69,6 +70,8 @@ Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
         Route::get('/{book}', [\App\Http\Controllers\Audio\AdminController::class, 'booksItem'])->name('show');
     });
 });
+
+Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
 
 
 

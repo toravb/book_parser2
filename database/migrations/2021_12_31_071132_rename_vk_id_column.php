@@ -25,7 +25,7 @@ class RenameVkIdColumn extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('id_social_networks', function (Blueprint $table) {
             $table->renameColumn('vkontakte_id', 'vk_id');
         });
     }

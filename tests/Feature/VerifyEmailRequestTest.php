@@ -2,17 +2,14 @@
 
 namespace Tests\Feature;
 
-use App\AuthApi\Http\Requests\LoginRequest;
-use App\Models\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
-use Tests\TestCase;
+use App\AuthApi\Http\Requests\VerifyEmailRequest;
 use Faker\Factory;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;
+use Tests\TestCase;
 
-class LoginRequestTest extends TestCase
+class VerifyEmailRequestTest extends TestCase
 {
     use DatabaseMigrations;
 
@@ -26,7 +23,7 @@ class LoginRequestTest extends TestCase
     {
         parent::setUp();
         $this->validator = app()->get('validator');
-        $this->rules = (new LoginRequest())->rules();
+        $this->rules = (new VerifyEmailRequest())->rules();
     }
 
     /**
@@ -69,24 +66,24 @@ class LoginRequestTest extends TestCase
                     'password' => $faker->asciify('*******')
                 ]
             ],
-            'request_should_fail_when_no_password' => [
+            'request_should_fail_when_no_token' => [
                 'passed' => false,
                 'data' => [
-                    'email' => $faker->email(),
+                    'token' => $faker->email(),
                 ]
             ],
-            'request_should_fail_when_password_is_less_when_6' => [
+            'request_should_fail_when_password_is_less_when_10' => [
                 'passed' => false,
                 'data' => [
                     'email' => $faker->email(),
-                    'password' => $faker->asciify('**')
+                    'token' => $faker->asciify('**')
                 ]
             ],
             'request_should_fail_when_password_is_not_string' => [
                 'passed' => false,
                 'data' => [
                     'email' => $faker->email(),
-                    'password' => $faker->randomElements($array = ['a', 'b', 'c'], $count = 5, $allowDuplicates = true)
+                    'token' => $faker->randomElements($array = ['a', 'b', 'c'], $count = 5, $allowDuplicates = true)
                 ]
             ]
         ];

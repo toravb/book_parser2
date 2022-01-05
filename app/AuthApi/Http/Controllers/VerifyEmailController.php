@@ -6,10 +6,13 @@ use App\Api\Services\ApiAnswerService;
 use App\AuthApi\Http\Requests\VerifyEmailRequest;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\GenerateUniqueTokenService;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Hash;
 
 class VerifyEmailController extends Controller
 {
+
     public function verify(VerifyEmailRequest $request)
     {
         $user = User::where('verify_token', $request->token)

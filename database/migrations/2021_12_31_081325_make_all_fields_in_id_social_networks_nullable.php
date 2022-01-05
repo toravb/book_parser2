@@ -28,7 +28,7 @@ class MakeAllFieldsInIdSocialNetworksNullable extends Migration
      */
     public function down()
     {
-        Schema::table('id_social_networks_nullable', function (Blueprint $table) {
+        Schema::table('id_social_networks', function (Blueprint $table) {
             $table->unsignedBigInteger('yandex_id')->change();
             $table->unsignedBigInteger('google_id')->change();
             $table->unsignedBigInteger('vkontakte_id')->change();
