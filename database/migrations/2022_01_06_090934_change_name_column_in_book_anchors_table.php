@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class RenameVkIdColumn extends Migration
+class ChangeNameColumnInBookAnchorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class RenameVkIdColumn extends Migration
      */
     public function up()
     {
-        Schema::table('id_social_networks', function (Blueprint $table) {
-            $table->renameColumn('vk_id', 'vkontakte_id');
+        Schema::table('book_anchors', function (Blueprint $table) {
+            $table->string('name', 5000)->change();
         });
     }
 
@@ -25,8 +25,8 @@ class RenameVkIdColumn extends Migration
      */
     public function down()
     {
-        Schema::table('id_social_networks', function (Blueprint $table) {
-            $table->renameColumn('vkontakte_id', 'vk_id');
+        Schema::table('book_anchors', function (Blueprint $table) {
+            $table->string('name', 1500)->change();
         });
     }
 }

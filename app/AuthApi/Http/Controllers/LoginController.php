@@ -17,23 +17,25 @@ class LoginController extends Controller
             'password' => $request->password
         ];
 
-        if (!auth()->attempt($loginData)) {
-            return response()->json(
-                [
-                    'message' => 'Введены неверные данные.',
-                    'errors' => ['email' =>
-                        ['Неверный email или пароль. Пожалуйста введите верные данные.']
-                    ],
-                ],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        } else {
+        if (auth()->attempt($loginData)) {
             $user = auth()->user();
-            $accessToken = $user->createToken('authToken')->accessToken;
+            if ($user->hasVerifiedEmail()) {
+                $accessToken = $user->createToken('authToken')->accessToken;
 
-            return response()->json([
-                'token' => $accessToken
-            ]);
+                return response()->json([
+                    'token' => $accessToken
+                ]);
+            }
         }
+
+        return response()->json(
+            [
+                'message' => 'Введены неверные данные.',
+                'errors' => ['email' =>
+                    ['Неверный email или пароль. Пожалуйста введите верные данные.']
+                ],
+            ],
+            Response::HTTP_UNPROCESSABLE_ENTITY
+        );
     }
 }

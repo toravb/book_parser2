@@ -97,12 +97,24 @@ class Book extends Model
         );
     }
 
-    public function genre()
-    {
-        return $this->hasOne(BookGenre::class, 'id', 'genre_id');
-    }
-
     public function bookGenres(){
         return $this->belongsToMany(BookGenre::class);
+    }
+
+    public function genres()
+    {
+        return $this->hasManyThrough(
+            BookGenre::class,
+            BookBookGenre::class,
+            'book_id',
+            'id',
+            'id',
+            'book_genres_id'
+        );
+    }
+
+    public function anchors()
+    {
+        return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 }

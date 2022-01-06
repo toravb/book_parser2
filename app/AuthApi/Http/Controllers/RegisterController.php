@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Exception;
 use Symfony\Component\HttpFoundation\Response;
 
-class RegisterController
+class RegisterController extends Controller
 {
     public function registry(RegistryRequest $request, User $userModel)
     {

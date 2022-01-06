@@ -2,217 +2,655 @@
   "openapi": "3.0.0",
   "info": {
     "title": "love_read",
-    "version": "1.0"
+    "version": "1.0",
+    "description": "API for loveread"
   },
   "servers": [
     {
-      "url": "http://localhost:3000"
+      "url": "http://api.loveread.staj.fun/api/"
     }
   ],
   "paths": {
-    "/users/{userId}": {
-      "parameters": [
-        {
-          "schema": {
-            "type": "integer"
-          },
-          "name": "userId",
-          "in": "path",
-          "required": true,
-          "description": "Id of an existing user."
-        }
-      ],
-      "get": {
-        "summary": "Get User Info by User ID",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "User Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                },
-                "examples": {
-                  "Get User Alice Smith": {
-                    "value": {
-                      "id": 142,
-                      "firstName": "Alice",
-                      "lastName": "Smith",
-                      "email": "alice.smith@gmail.com",
-                      "dateOfBirth": "1997-10-31",
-                      "emailVerified": true,
-                      "signUpDate": "2019-08-24"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User Not Found"
-          }
-        },
-        "operationId": "get-users-userId",
-        "description": "Retrieve the information of the user with the matching user ID."
-      },
-      "patch": {
-        "summary": "Update User Information",
-        "operationId": "patch-users-userId",
-        "responses": {
-          "200": {
-            "description": "User Updated",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                },
-                "examples": {
-                  "Updated User Rebecca Baker": {
-                    "value": {
-                      "id": 13,
-                      "firstName": "Rebecca",
-                      "lastName": "Baker",
-                      "email": "rebecca@gmail.com",
-                      "dateOfBirth": "1985-10-02",
-                      "emailVerified": false,
-                      "createDate": "2019-08-24"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "User Not Found"
-          },
-          "409": {
-            "description": "Email Already Taken"
-          }
-        },
-        "description": "Update the information of an existing user.",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
-                  "email": {
-                    "type": "string",
-                    "description": "If a new email is given, the user's email verified property will be set to false."
-                  },
-                  "dateOfBirth": {
-                    "type": "string"
-                  }
-                }
-              },
-              "examples": {
-                "Update First Name": {
-                  "value": {
-                    "firstName": "Rebecca"
-                  }
-                },
-                "Update Email": {
-                  "value": {
-                    "email": "rebecca@gmail.com"
-                  }
-                },
-                "Update Last Name & Date of Birth": {
-                  "value": {
-                    "lastName": "Baker",
-                    "dateOfBirth": "1985-10-02"
-                  }
-                }
-              }
-            }
-          },
-          "description": "Patch user properties to update."
-        }
-      }
-    },
-    "/user": {
+    "/register": {
       "post": {
-        "summary": "Create New User",
-        "operationId": "post-user",
+        "summary": "Registry user",
+        "operationId": "post-register",
         "responses": {
           "200": {
-            "description": "User Created",
+            "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/User"
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWYzYmQ5NTUwNGZjZjVhMjIzNmRmYzg1MDg5MTI3MzJhY2JjYzg4MjYxOTU3MWFkNzU5NzE2MTkxMjhkNGQ2NzkyMGY1ZDFjYzFmYzVhYTYiLCJpYXQiOjE2NDA5NjI1NzguODg3OTg5LCJuYmYiOjE2NDA5NjI1NzguODg3OTk0LCJleHAiOjE2NzI0OTg1NzguODYwMDA1LCJzdWIiOiI0Iiwic2NvcGVzIjpbXX0.ITwRQKTdCDd0jMcqEAE3hUtEWmZX11r-nUGODHy5IUxTz5gwaiGyXiMctewVQ7UmmW88Ok9vQYeN_CC_zCsYKjt56WeM35V7lRnbuJwH60w-mZQZdH9jD0tzWqgQdHHKdiuSSqxFUvWnN4j40-JbkROhfAhS2ZCHFDmwksDa7IPvKgXgjBCgUPg6eyVCZ808qk2Uv2aiPbO-g5kZX-wZH8x4SeudwCbhvx7i0ugrtX0i5vd8VZxnJPXp_TNHc7a8ZwCx37A__NN6eUiQwt6p5L5aaVb5bu1hozCESda1VP-uBKH4nSGskHLC9dk06G6KRaqcs_yBk3uIhQ1utcLoxiEOQITuhUZJCypm-iWLvelSGB-0gRyMSZaLw7N19X91f2loGF5C1VaLzhEMV8O3JqQNxWMWYHikSaHhO7FDcn6XUW1NmJKh3tXA1xoPyXrLlxf0gDpc-PR6-lbzA04UAmWyS7q6JZBGFimIQmISpgTANj8FIHpXXX0dgYR1ogGodj01ZKtC_3Z_dkLEV1p4MI3jQ0ueJKjlPIOsDIG7N0Fzhqn0mffiiP9S-OV9AZuvWSojJsj0twtFXc8OKChjzNJEo7ly1u_4NYuUni1SHc3HsiDRZAdX6qHiElgAZ_o0ibRFeZtZe0pEmLFeWh4TvAUjc49V5x_1lAEukdCHrVg"
+                    }
+                  }
                 },
                 "examples": {
-                  "New User Bob Fellow": {
+                  "example-1": {
                     "value": {
-                      "id": 12,
-                      "firstName": "Bob",
-                      "lastName": "Fellow",
-                      "email": "bob.fellow@gmail.com",
-                      "dateOfBirth": "1996-08-24",
-                      "emailVerified": false,
-                      "createDate": "2020-11-18"
+                      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiOWYzYmQ5NTUwNGZjZjVhMjIzNmRmYzg1MDg5MTI3MzJhY2JjYzg4MjYxOTU3MWFkNzU5NzE2MTkxMjhkNGQ2NzkyMGY1ZDFjYzFmYzVhYTYiLCJpYXQiOjE2NDA5NjI1NzguODg3OTg5LCJuYmYiOjE2NDA5NjI1NzguODg3OTk0LCJleHAiOjE2NzI0OTg1NzguODYwMDA1LCJzdWIiOiI0Iiwic2NvcGVzIjpbXX0.ITwRQKTdCDd0jMcqEAE3hUtEWmZX11r-nUGODHy5IUxTz5gwaiGyXiMctewVQ7UmmW88Ok9vQYeN_CC_zCsYKjt56WeM35V7lRnbuJwH60w-mZQZdH9jD0tzWqgQdHHKdiuSSqxFUvWnN4j40-JbkROhfAhS2ZCHFDmwksDa7IPvKgXgjBCgUPg6eyVCZ808qk2Uv2aiPbO-g5kZX-wZH8x4SeudwCbhvx7i0ugrtX0i5vd8VZxnJPXp_TNHc7a8ZwCx37A__NN6eUiQwt6p5L5aaVb5bu1hozCESda1VP-uBKH4nSGskHLC9dk06G6KRaqcs_yBk3uIhQ1utcLoxiEOQITuhUZJCypm-iWLvelSGB-0gRyMSZaLw7N19X91f2loGF5C1VaLzhEMV8O3JqQNxWMWYHikSaHhO7FDcn6XUW1NmJKh3tXA1xoPyXrLlxf0gDpc-PR6-lbzA04UAmWyS7q6JZBGFimIQmISpgTANj8FIHpXXX0dgYR1ogGodj01ZKtC_3Z_dkLEV1p4MI3jQ0ueJKjlPIOsDIG7N0Fzhqn0mffiiP9S-OV9AZuvWSojJsj0twtFXc8OKChjzNJEo7ly1u_4NYuUni1SHc3HsiDRZAdX6qHiElgAZ_o0ibRFeZtZe0pEmLFeWh4TvAUjc49V5x_1lAEukdCHrVg"
                     }
                   }
                 }
               }
             }
           },
-          "400": {
-            "description": "Missing Required Information"
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "email"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "email": [
+                          "Email обязателен"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
-          "409": {
-            "description": "Email Already Taken"
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Something went wrong"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "error",
+                      "message": "Something went wrong"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
+                "description": "",
                 "type": "object",
                 "properties": {
-                  "firstName": {
-                    "type": "string"
-                  },
-                  "lastName": {
-                    "type": "string"
-                  },
                   "email": {
-                    "type": "string"
-                  },
-                  "dateOfBirth": {
                     "type": "string",
-                    "format": "date"
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
                   }
                 },
                 "required": [
-                  "firstName",
-                  "lastName",
                   "email",
-                  "dateOfBirth"
-                ]
+                  "password"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "email": "email@gemail.com",
+                    "password": "12qwaszx"
+                  }
+                }
               },
               "examples": {
-                "Create User Bob Fellow": {
+                "example-1": {
                   "value": {
-                    "firstName": "Bob",
-                    "lastName": "Fellow",
-                    "email": "bob.fellow@gmail.com",
-                    "dateOfBirth": "1996-08-24"
+                    "email": "email@gemail.com",
+                    "password": "12qwaszx"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "",
+        "operationId": "post-login",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "token"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA4YjNjZGE4OTg5OTZmOWMxZDRkNjFmOTc5YzQ0YjIzZDZkNGY3NWNiZTdkNzEzNTM2ZGM3NjQ4M2FmNWU5ODUyZGE2ZDUxOGQwMzkxOGUiLCJpYXQiOjE2NDA5NjMwMDQuNjA3MTYzLCJuYmYiOjE2NDA5NjMwMDQuNjA3MTcsImV4cCI6MTY3MjQ5OTAwNC41OTI4OTYsInN1YiI6IjQiLCJzY29wZXMiOltdfQ.tXq5x8uAIdlNFWgKZaL8Q5BlhrGfe5HE5jJzstDbp9pxtCEwf1GD2aLCF_Hz2dfo5-XGvEF9qVkn0jXESXn0iMOAulDQct9ksK9q2HH9yqz2O2sbqKDJK_9zI3gb7jOlHrUMhRFm2QTyU4CsQy7rVZrRySJZRlODKmCYg8keLO3tvcmFC8WPfZkR-T5EtzA2nRDFt40fpZ1cUXrqA4yN73fz-sLR8aNudDPhqBt5FDAFG4HdwuZP6tjv7x4qWy9fiEzy16y3pxRX14Xl6s8mAFC66293FbnKuvx2CKfUBTMHIvfsbY9c5iJvx9UNGZvrGy6avAvMbxcTveOaU4sUFdlnfVs2hOECU88SmSI1-G242aO_YUva6BKbPsPOkDK-2WdCHx6f_-0yelp1Co6CpO7u5jJLHziFzBl0n30E1LxR0NRRyRMhzYdGhW2m04pV13qwEtA9EM_Z3T1DyhF-DSz_RqNawgKYY_zkQkrjgY9Zc-YpdlvW6iZl786LjP3FLkOYXICY7415-_6CR5uaZdOv64PuU2yX4nHXNlv64m9JB0PaQaJXjby5RQmrF8hpFRlQnDe5rvdkTDSpkQg07a7SKH6js9VrgkKU-Gp7stfColw-vZ4cNa-OWCUpwDOlh-Rq0QPzpCDpa2rBhxYJzGSUFWgUeUEe99DOShhWtgQ"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTA4YjNjZGE4OTg5OTZmOWMxZDRkNjFmOTc5YzQ0YjIzZDZkNGY3NWNiZTdkNzEzNTM2ZGM3NjQ4M2FmNWU5ODUyZGE2ZDUxOGQwMzkxOGUiLCJpYXQiOjE2NDA5NjMwMDQuNjA3MTYzLCJuYmYiOjE2NDA5NjMwMDQuNjA3MTcsImV4cCI6MTY3MjQ5OTAwNC41OTI4OTYsInN1YiI6IjQiLCJzY29wZXMiOltdfQ.tXq5x8uAIdlNFWgKZaL8Q5BlhrGfe5HE5jJzstDbp9pxtCEwf1GD2aLCF_Hz2dfo5-XGvEF9qVkn0jXESXn0iMOAulDQct9ksK9q2HH9yqz2O2sbqKDJK_9zI3gb7jOlHrUMhRFm2QTyU4CsQy7rVZrRySJZRlODKmCYg8keLO3tvcmFC8WPfZkR-T5EtzA2nRDFt40fpZ1cUXrqA4yN73fz-sLR8aNudDPhqBt5FDAFG4HdwuZP6tjv7x4qWy9fiEzy16y3pxRX14Xl6s8mAFC66293FbnKuvx2CKfUBTMHIvfsbY9c5iJvx9UNGZvrGy6avAvMbxcTveOaU4sUFdlnfVs2hOECU88SmSI1-G242aO_YUva6BKbPsPOkDK-2WdCHx6f_-0yelp1Co6CpO7u5jJLHziFzBl0n30E1LxR0NRRyRMhzYdGhW2m04pV13qwEtA9EM_Z3T1DyhF-DSz_RqNawgKYY_zkQkrjgY9Zc-YpdlvW6iZl786LjP3FLkOYXICY7415-_6CR5uaZdOv64PuU2yX4nHXNlv64m9JB0PaQaJXjby5RQmrF8hpFRlQnDe5rvdkTDSpkQg07a7SKH6js9VrgkKU-Gp7stfColw-vZ4cNa-OWCUpwDOlh-Rq0QPzpCDpa2rBhxYJzGSUFWgUeUEe99DOShhWtgQ"
+                    }
                   }
                 }
               }
             }
           },
-          "description": "Post the necessary fields for the API to create a new user."
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "email": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "email"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "email": [
+                          "Email не может быть пустым."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         },
-        "description": "Create a new user."
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "email",
+                  "password"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "email": "email@gmail.com",
+                    "password": "12345678"
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "email": "email@gemail.com",
+                    "password": "12qwaszx"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/auth/{provider}": {
+      "get": {
+        "summary": "Redirect for social networks auth",
+        "tags": [
+          "Auth"
+        ],
+        "responses": {},
+        "operationId": "get-auth",
+        "description": "User will be redirected to auth server of social network"
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "provider",
+          "in": "path",
+          "required": true,
+          "description": "Can be odnoklassniki, yandex, vkontakte, google"
+        }
+      ]
+    },
+    "auth": {
+      "parameters": [],
+      "post": {
+        "summary": "",
+        "operationId": "postauth",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "name": {},
+                        "email": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "is_admin": {
+                          "type": "number"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "is_admin",
+                        "created_at",
+                        "updated_at"
+                      ]
+                    },
+                    "accessToken": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data",
+                    "accessToken"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 4,
+                        "name": null,
+                        "email": "anton1@gmail.com",
+                        "is_admin": 0,
+                        "created_at": "2022-01-05T10:59:42.000000Z",
+                        "updated_at": "2022-01-05T12:59:06.000000Z"
+                      },
+                      "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTc3YmIwNWM3YTQ0Y2ZiOGY2MWMzMTM1YmE1YzZjOGVjMmE2ZmVmYzEzMWMwM2ExMzI2MWE2OTZlYTBhM2IwNjMyZTY5M2UzYzc4YWM4ZjUiLCJpYXQiOjE2NDEzODk3NzkuNjUwNTc4LCJuYmYiOjE2NDEzODk3NzkuNjUwNTg5LCJleHAiOjE2NzI5MjU3NzkuNjQxNTc0LCJzdWIiOiI0Iiwic2NvcGVzIjpbXX0.27XwrZQHHKWUAdN8ibLnAlxSQ8zgRYadnVyH0rIIIH1PkLBWQqYXi61Md4teFxc2zooEKRdebJuu46AoMA1UZ9i4uLHpOThlBMuAxS-tjtpwSsRheVGRRfrDOD6GOVLX6J_XhR026aQCBnC0vX73F5oMjlJVOGhKmGKd9t6AySavDMdnA2xugiICJwco6Gmr19jUrjv63jl-O_NJjIDQyCI9As3YZjR2K0okP9Ctv1XOY7xCrANs35-HY1jdKjwq3wodQ2NUpILCNzKP6JacbZhRAgDvanj8QiMAjbnMinXtRnk_KhH5psoo_VEe7jKDGlXzl07Vbg7quxygNszgd1ILAvNunFXLBRKLj2zBEsp--FVxBLDSlhD1a41ERxwiBiApPdxhmfOxQTOZX5nSg21HXVE_IUmY2LHyCYwLMW_TQhK5PvYVKtyRBV5XY57f0qLX-ur1pvCQctmjqMl8uiq63LjEhrbDamSmuHjNmURYvnk5vbimvoXZGuPoQ-OrJQQ4SGIBxP3HG69p-Wxz78PIWCXbvc21uxCF1SPN4KqTCyT0oSLE9ss_OXO65Lyl20hBOfS4ZFexasjOvWIUSNDsGw_zT8Oeap9eVx_BLmQAsk63SNO33skt8ZIQvCHV8oisszPUNd8xSxvLySDUm_sPsEnouZmKz66cZ8VqvKY"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "id": 4,
+                        "name": null,
+                        "email": "anton1@gmail.com",
+                        "is_admin": 0,
+                        "created_at": "2022-01-05T10:59:42.000000Z",
+                        "updated_at": "2022-01-05T12:59:06.000000Z"
+                      },
+                      "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiYTc3YmIwNWM3YTQ0Y2ZiOGY2MWMzMTM1YmE1YzZjOGVjMmE2ZmVmYzEzMWMwM2ExMzI2MWE2OTZlYTBhM2IwNjMyZTY5M2UzYzc4YWM4ZjUiLCJpYXQiOjE2NDEzODk3NzkuNjUwNTc4LCJuYmYiOjE2NDEzODk3NzkuNjUwNTg5LCJleHAiOjE2NzI5MjU3NzkuNjQxNTc0LCJzdWIiOiI0Iiwic2NvcGVzIjpbXX0.27XwrZQHHKWUAdN8ibLnAlxSQ8zgRYadnVyH0rIIIH1PkLBWQqYXi61Md4teFxc2zooEKRdebJuu46AoMA1UZ9i4uLHpOThlBMuAxS-tjtpwSsRheVGRRfrDOD6GOVLX6J_XhR026aQCBnC0vX73F5oMjlJVOGhKmGKd9t6AySavDMdnA2xugiICJwco6Gmr19jUrjv63jl-O_NJjIDQyCI9As3YZjR2K0okP9Ctv1XOY7xCrANs35-HY1jdKjwq3wodQ2NUpILCNzKP6JacbZhRAgDvanj8QiMAjbnMinXtRnk_KhH5psoo_VEe7jKDGlXzl07Vbg7quxygNszgd1ILAvNunFXLBRKLj2zBEsp--FVxBLDSlhD1a41ERxwiBiApPdxhmfOxQTOZX5nSg21HXVE_IUmY2LHyCYwLMW_TQhK5PvYVKtyRBV5XY57f0qLX-ur1pvCQctmjqMl8uiq63LjEhrbDamSmuHjNmURYvnk5vbimvoXZGuPoQ-OrJQQ4SGIBxP3HG69p-Wxz78PIWCXbvc21uxCF1SPN4KqTCyT0oSLE9ss_OXO65Lyl20hBOfS4ZFexasjOvWIUSNDsGw_zT8Oeap9eVx_BLmQAsk63SNO33skt8ZIQvCHV8oisszPUNd8xSxvLySDUm_sPsEnouZmKz66cZ8VqvKY"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "You do not have permission to access this action"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "id": 1,
+                    "token": "token"
+                  }
+                },
+                "properties": {
+                  "id": {
+                    "type": "number",
+                    "description": "Id from redirecting"
+                  },
+                  "token": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Token from redirecting"
+                  }
+                },
+                "required": [
+                  "id",
+                  "token"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "id": 1,
+                    "token": "token"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/verify_email": {
+      "post": {
+        "summary": "",
+        "operationId": "post-verify_email",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success"
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Not Found!"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "error",
+                      "message": "Not Found!"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "token": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "token"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "token": [
+                          "Токен не может быть пустым."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "token": "16413803829cab9cb22003f65beb57a10231f11d4f",
+                    "email": "anton1@gmail.com"
+                  }
+                },
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "email": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "token",
+                  "email"
+                ]
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "token": "16413803829cab9cb22003f65beb57a10231f11d4f",
+                    "email": "user@gmail.com"
+                  }
+                }
+              }
+            }
+          },
+          "description": ""
+        },
+        "tags": [
+          "Auth"
+        ]
       }
     },
     "/genres": {
@@ -264,9 +702,6 @@
                           },
                           "updated_at": {
                             "type": "string"
-                          },
-                          "": {
-                            "type": "string"
                           }
                         },
                         "required": [
@@ -284,26 +719,17 @@
                 "examples": {
                   "example-1": {
                     "value": {
-                      "status": "string",
+                      "status": "success",
                       "data": [
                         {
-                          "id": 2,
-                          "name": "Фенези",
-                          "created_at": null,
-                          "updated_at": null
+                          "id": 1,
+                          "name": "Фентези",
+                          "created_at": "2022-01-05T12:59:06.000000Z",
+                          "updated_at": "2022-01-05T12:59:06.000000Z"
                         }
                       ]
                     }
                   }
-                }
-              }
-            }
-          },
-          "": {
-            "headers": {
-              "header-0": {
-                "schema": {
-                  "type": "string"
                 }
               }
             }
@@ -410,6 +836,13 @@
           "email",
           "emailVerified"
         ]
+      }
+    },
+    "securitySchemes": {
+      "API Key - 1": {
+        "name": "API Key",
+        "type": "apiKey",
+        "in": "query"
       }
     }
   }
