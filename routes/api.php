@@ -1,8 +1,10 @@
 <?php
 
+use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\Api\Http\Controllers\CategoryController;
+use App\AuthApi\Http\Controllers\ResetPasswordController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use Illuminate\Http\Request;
@@ -30,5 +32,7 @@ Route::post('/verify_email', [VerifyEmailController::class, 'verify'])->name('au
 Route::get('/auth/{provider}', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/{provider}/callback',  [SocialAuthController::class, 'handleGoogleCallback']);
 Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
+Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
+Route::post('/password_reset', [ResetPasswordController::class, 'reset']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
