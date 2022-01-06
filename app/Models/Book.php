@@ -9,7 +9,7 @@ class Book extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
+//    public $timestamps = false;
 
     protected $fillable = [
         'title',
@@ -51,6 +51,8 @@ class Book extends Model
 
     public function authors()
     {
+//        protected $hidden = ['pivot'];
+
         return $this->belongsToMany(
             Author::class,
             AuthorToBook::class,
@@ -97,8 +99,41 @@ class Book extends Model
         );
     }
 
-    public function bookGenres(){
+    public function bookGenres()
+    {
         return $this->belongsToMany(BookGenre::class);
+    }
+
+    public function rates()
+    {
+        return $this->belongsToMany(User::class, 'rates');
+    }
+
+    public function bookComments()
+    {
+        return $this->hasMany(BookComment::class);
+    }
+    public function bookLikes()
+    {
+        return $this->hasMany(BookLike::class);
+    }
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function quotes()
+    {
+        return $this->hasMany(Quote::class);
+    }
+    public function bookStatuses()
+    {
+        return $this->hasMany(BookUser::class);
+    }
+
+    public function scopeNewest ($query)
+    {
+        return $query->latest();
     }
 
     public function genres()
@@ -111,5 +146,10 @@ class Book extends Model
             'id',
             'book_genres_id'
         );
+    }
+
+    public function anchors()
+    {
+        return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 }

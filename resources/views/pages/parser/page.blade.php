@@ -16,6 +16,7 @@
                     <th>Год</th>
                     <th>Превью</th>
                     <th>Параметры</th>
+                    <th>Оглавление</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -81,6 +82,16 @@
                             @if($params)
                                 @foreach($params as $key => $value)
                                     {{$key}} {{$value}}<br>
+                                @endforeach
+                            @endif
+                        </td>
+                        <td>
+                            @if($book->anchors)
+                                @php
+                                $anchor_link = route('books.item', ['id' => $book->id])
+                                @endphp
+                                @foreach($book->anchors as $anchor)
+                                    <a href="{{$anchor_link.'?page='.$anchor->page_num.'#'.$anchor->anchor}}">{!! $anchor->name !!}</a><br>
                                 @endforeach
                             @endif
                         </td>

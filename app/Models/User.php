@@ -80,4 +80,25 @@ class User extends Authenticatable
             $this->password = bcrypt($fields['password']);
         }
     }
+
+    public function rates()
+    {
+        return $this->hasMany(Rate::class);
+    }
+
+    public function bookComments()
+    {
+        return $this->belongsToMany(BookComment::class);
+    }
+
+    public function bookLikes()
+    {
+        return $this->belongsToMany(BookLike::class);
+    }
+
+    public function bookStatuses()
+    {
+        return $this->belongsToMany(BookUser::class);
+    }
+
 }
