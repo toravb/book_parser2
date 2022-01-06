@@ -11,6 +11,7 @@ use App\Api\Http\Controllers\CategoryController;
 use App\AuthApi\Http\Controllers\ResetPasswordController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
+use App\Api\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,11 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function (){
     Route::post('/profile', [ProfileUpdateController::class, 'update']);
+    /**
+     * Likes
+     */
+    Route::post('/likes', [LikeController::class, 'create']);
+    Route::delete('/likes', [LikeController::class, 'delete']);
 });
 
 Route::post('/register', [RegisterController::class, 'registry']);
@@ -44,6 +50,8 @@ Route::get('/genres', [CategoryController::class, 'show'])->name('category');
 Route::get('/books', [BookController::class, 'show'])->name('showList');
 Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
 Route::put('/books/save', [BookController::class, 'saveBook'])->name('saveBook');
+
+
 
 
 
