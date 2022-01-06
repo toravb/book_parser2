@@ -23,7 +23,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'max:255', 'unique:App\Models\User'],
-            'password' => ['required', 'string', 'min:6']
+
         ];
     }
 

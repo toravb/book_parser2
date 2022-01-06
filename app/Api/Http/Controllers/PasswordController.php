@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
-
+ //
 
    /* public function showResetForm(Request $request, $token = null) {
         return view('auth.passwords.reset')->with(
@@ -93,7 +93,8 @@ class PasswordController extends Controller
         return Password::broker();
     }
 
-    protected function guard() {
+
+   protected function guard() {
         return Auth::guard();
     }*/
 
