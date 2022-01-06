@@ -3,7 +3,6 @@
 namespace Tests\Feature;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,15 +26,14 @@ class LoginSuccessfulTest extends TestCase
 
         $this->artisan('passport:install');
 
-       User::factory()->state([
+        User::factory()->unverified()->state([
             'email' => $this->userEmail,
             'password' => Hash::make($this->userPassword)
         ])->create();
 
         User::factory()->state([
             'email' => $this->userVerifedEmail,
-            'password' => Hash::make($this->userVerifedPassword),
-            'email_verified_at' => Carbon::now()
+            'password' => Hash::make($this->userVerifedPassword)
         ])->create();
     }
 
@@ -56,6 +54,7 @@ class LoginSuccessfulTest extends TestCase
             'email' => $this->userEmail,
             'password' => $this->userPassword
         ]);
+
 
         $response->assertStatus(422);
         $response->assertJson([

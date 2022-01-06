@@ -21,7 +21,7 @@ class VerifyMail extends Mailable
     public function __construct(string $token, string $email)
     {
         $frontUrl = config('app.front_url');
-        $this->url = $frontUrl . '/?token=' . $token . '&email=' . $email;
+        $this->url = $frontUrl . '?modalType=registry&token=' . $token . '&email=' . $email;
     }
 
     /**
