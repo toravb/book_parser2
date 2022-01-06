@@ -37,6 +37,6 @@ Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
 
 
-Route::post('/change-password',[PasswordController::class, 'resetPassword']);
-Route::post('/delete-account', [UserController::class, 'destroy']);
+Route::post('/change_password',[PasswordController::class, 'resetPassword']);
+Route::post('/delete_account', [UserController::class, 'destroy']);
 //Route::post('/notification-settings', [])

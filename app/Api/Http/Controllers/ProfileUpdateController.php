@@ -17,7 +17,6 @@ class ProfileUpdateController extends Controller
     {
         {
             $path = $request->file('avatar')->store('avatars');
-
             return $path;
         }
     }
@@ -58,3 +57,4 @@ class ProfileUpdateController extends Controller
         }
     }
 }
+//123

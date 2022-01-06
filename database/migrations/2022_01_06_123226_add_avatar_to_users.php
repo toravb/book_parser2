@@ -30,3 +30,4 @@ class AddAvatarToUsers extends Migration
         });
     }
 }
+//123
