@@ -1,9 +1,14 @@
 <?php
 
+use App\Api\Http\Controllers\PasswordController;
+use App\Api\Http\Controllers\ProfileUpdateController;
+use App\Api\Http\Controllers\UserController;
 use App\AuthApi\Http\Controllers\LoginController;
+
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\Api\Http\Controllers\CategoryController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +23,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:api')->group(function (){
+    Route::post('/profile', [ProfileUpdateController::class, 'update']);
 });
 
 Route::post('/register', [RegisterController::class, 'registry']);
@@ -30,3 +35,8 @@ Route::get('/auth/{provider}/callback',  [SocialAuthController::class, 'handleGo
 Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
+
+
+Route::post('/change-password',[PasswordController::class, 'resetPassword']);
+Route::post('/delete-account', [UserController::class, 'destroy']);
+//Route::post('/notification-settings', [])

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace app\AuthApi\Http\Controller;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SocialProvidersRequest;
