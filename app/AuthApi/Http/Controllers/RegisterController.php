@@ -24,11 +24,8 @@ class RegisterController extends Controller
 
             Mail::to($user->email)->send(new VerifyMail($user->verify_token, $user->email));
 
-            $accessToken = $user->createToken('authToken')->accessToken;
             DB::commit();
-            return response()->json([
-                'token' => $accessToken,
-            ]);
+            return ApiAnswerService::successfulAnswer();
         } catch (Exception $exception) {
             DB::rollBack();
             Log::error($exception);
