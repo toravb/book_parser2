@@ -7,7 +7,7 @@ use App\Models\BookGenre;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
-include app_path('Modules/simple_html_dom.php');
+include_once app_path('Modules/simple_html_dom.php');
 
 class ParseGenres extends Command
 {
