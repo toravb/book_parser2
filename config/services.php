@@ -29,5 +29,25 @@ return [
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
-
+    'odnoklassniki' => [
+        'client_id' => env('ODNOKLASSNIKI_CLIENT_ID'),
+        'client_public' => env('ODNOKLASSNIKI_CLIENT_PUBLIC'),
+        'client_secret' => env('ODNOKLASSNIKI_CLIENT_SECRET'),
+        'redirect' => env('ODNOKLASSNIKI_REDIRECT_URI')
+    ],
+    'yandex' => [
+        'client_id' => env('YANDEX_CLIENT_ID'),
+        'client_secret' => env('YANDEX_CLIENT_SECRET'),
+        'redirect' => env('YANDEX_REDIRECT_URI')
+    ],
+    'vkontakte' => [
+        'client_id' => env('VKONTAKTE_CLIENT_ID'),
+        'client_secret' => env('VKONTAKTE_CLIENT_SECRET'),
+        'redirect' => env('VKONTAKTE_REDIRECT_URI')
+    ],
+    'google' => [
+        'client_id' => env('GOOGLE_APP_ID'),
+        'client_secret' =>  env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI')
+    ],
 ];

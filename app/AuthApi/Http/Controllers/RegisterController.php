@@ -2,26 +2,34 @@
 
 namespace App\AuthApi\Http\Controllers;
 
+use App\Api\Services\ApiAnswerService;
+use App\AuthApi\Http\Requests\RegistryRequest;
+use App\AuthApi\Mails\VerifyMail;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\RegistryRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Exception;
+use Symfony\Component\HttpFoundation\Response;
 
-
-class RegisterController
+class RegisterController extends Controller
 {
-    public function registry(RegistryRequest $request)
+    public function registry(RegistryRequest $request, User $userModel)
     {
-        $user = User::create([
-            'email' => mb_strtolower($request->email),
-            'password' => Hash::hashPassword($request->password),
-        ]);
+        try {
+            DB::beginTransaction();
+            $user = $userModel->createUser($request->email, $request->password, null, true);
 
-        $accessToken = $user->createToken('authToken')->accessToken;
+            Mail::to($user->email)->send(new VerifyMail($user->verify_token, $user->email));
 
-        return response()->json([
-            'token' => $accessToken,
-        ]);
+            DB::commit();
+            return ApiAnswerService::successfulAnswer();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            Log::error($exception);
+            return ApiAnswerService::errorAnswer('Something went wrong', Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }

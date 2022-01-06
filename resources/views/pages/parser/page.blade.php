@@ -1,7 +1,6 @@
 @extends('layouts.main')
 @section('title', 'Pages')
 @section('content')
-
     <div class="card">
         <!-- /.card-header -->
         <div class="card-body">
@@ -11,11 +10,13 @@
                     <th>Изображение</th>
                     <th>Название</th>
                     <th>Серия</th>
+                    <th>Жанры</th>
                     <th>Авторы</th>
                     <th>Издатели</th>
                     <th>Год</th>
                     <th>Превью</th>
                     <th>Параметры</th>
+                    <th>Оглавление</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,6 +36,13 @@
                         <td>
                             @if($book->series)
                                 {{$book->series->series}}
+                            @endif
+                        </td>
+                        <td>
+                            @if($book->genres)
+                                @foreach($book->genres as $genre)
+                                {{$genre->name}}<br>
+                                @endforeach
                             @endif
                         </td>
                         <td>
@@ -74,6 +82,16 @@
                             @if($params)
                                 @foreach($params as $key => $value)
                                     {{$key}} {{$value}}<br>
+                                @endforeach
+                            @endif
+                        </td>
+                        <td>
+                            @if($book->anchors)
+                                @php
+                                $anchor_link = route('books.item', ['id' => $book->id])
+                                @endphp
+                                @foreach($book->anchors as $anchor)
+                                    <a href="{{$anchor_link.'?page='.$anchor->page_num.'#'.$anchor->anchor}}">{!! $anchor->name !!}</a><br>
                                 @endforeach
                             @endif
                         </td>

@@ -4,7 +4,7 @@ namespace App\AuthApi\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class VerifyEmailRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,21 +25,19 @@ class LoginRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', 'string', 'min:6']
+            'token' => ['required', 'string', 'min:20']
         ];
     }
 
     public function messages()
     {
         return [
-            'password.min' => 'Минимальное количество символов пароля 6.',
-            'password.required' => 'Пароль не может быть пустым.',
-            'password.string' => 'Неверный пароль.
-             Пожалуйста введите верные данные или восстановите пароль.',
+            'token.min' => 'Минимальное количество символов токена 20.',
+            'token.required' => 'Токен не может быть пустым.',
+            'token.string' => 'Неверный токен.',
             'email.required' => 'Email не может быть пустым.',
             'email.email' => 'Неверный email.',
             'email.max' => 'Максимальное количеситво символов 255',
         ];
     }
-
 }

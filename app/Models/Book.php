@@ -136,7 +136,20 @@ class Book extends Model
         return $query->latest();
     }
 
+    public function genres()
+    {
+        return $this->hasManyThrough(
+            BookGenre::class,
+            BookBookGenre::class,
+            'book_id',
+            'id',
+            'id',
+            'book_genres_id'
+        );
+    }
 
-
-
+    public function anchors()
+    {
+        return $this->hasMany(BookAnchor::class, 'book_id', 'id');
+    }
 }
