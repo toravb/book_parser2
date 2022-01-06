@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileUpdateController;
 use App\Api\Http\Controllers\UserController;
@@ -36,7 +37,14 @@ Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
 
+Route::get('/books', [BookController::class, 'show'])->name('showList');
+Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
+Route::put('/books/save', [BookController::class, 'saveBook'])->name('saveBook');
+
+
+
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 Route::post('/delete-account', [UserController::class, 'destroy']);
 //Route::post('/notification-settings', [])
+
