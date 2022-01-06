@@ -11,7 +11,7 @@
                     <th>Изображение</th>
                     <th>Название</th>
                     <th>Серия</th>
-                    <th>Жанр</th>
+                    <th>Жанры</th>
                     <th>Авторы</th>
                     <th>Издатели</th>
                     <th>Год</th>
@@ -39,8 +39,10 @@
                             @endif
                         </td>
                         <td>
-                            @if($book->genre)
-                                {{$book->genre->name}}
+                            @if($book->bookGenres)
+                                @foreach($book->bookGenres as $genre)
+                                {{$genre->name}}<br>
+                                @endforeach
                             @endif
                         </td>
                         <td>

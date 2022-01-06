@@ -97,11 +97,6 @@ class Book extends Model
         );
     }
 
-    public function genre()
-    {
-        return $this->hasOne(BookGenre::class, 'id', 'genre_id');
-    }
-
     public function bookGenres(){
         return $this->belongsToMany(BookGenre::class);
     }
