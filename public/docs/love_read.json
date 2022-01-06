@@ -767,10 +767,8 @@
           "422": {
             "description": "Unprocessable Entity (WebDAV)"
           }
-        },
-        "operationId": "get-ca"
-      },
-      "parameters": []
+        }
+      }
     },
     "/books": {
       "get": {
@@ -1662,6 +1660,11 @@
             "name": "status",
             "required": true
           }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       }
     }
@@ -1723,10 +1726,10 @@
       }
     },
     "securitySchemes": {
-      "API Key - 1": {
-        "name": "API Key",
-        "type": "apiKey",
-        "in": "query"
+      "Authorization": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": ""
       }
     }
   }
