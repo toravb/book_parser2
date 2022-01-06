@@ -2,7 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\AuthApi\Http\Requests\LoginRequest;
+use App\AuthApi\Http\Requests\ResetPasswordRequest;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,7 +24,7 @@ class PasswordResetRequestTest extends TestCase
     {
         parent::setUp();
         $this->validator = app()->get('validator');
-        $this->rules = (new LoginRequest())->rules();
+        $this->rules = (new ResetPasswordRequest())->rules();
     }
 
     /**
@@ -125,7 +125,7 @@ class PasswordResetRequestTest extends TestCase
                     'token' => Str::random(30)
                 ]
             ],
-            'request_should_fail_when_password_is_less_when_6' => [
+            'request_should_fail_when_password_confirmation_is_less_when_6' => [
                 'passed' => false,
                 'data' => [
                     'email' => $faker->email(),
@@ -134,11 +134,12 @@ class PasswordResetRequestTest extends TestCase
                     'token' => Str::random(30)
                 ]
             ],
-            'request_should_fail_when_password_is_not_string' => [
+            'request_should_fail_when_password_confirmation_is_not_string' => [
                 'passed' => false,
                 'data' => [
                     'email' => $faker->email(),
-                    'password' => $faker->randomElements($array = ['a', 'b', 'c'], $count = 5, $allowDuplicates = true),
+                    'password' => $faker->asciify('*******'),
+                    'password_confirmation' => $faker->randomElements($array = ['a', 'b', 'c'], $count = 5, $allowDuplicates = true),
                     'token' => Str::random(30)
                 ]
             ],
