@@ -106,6 +106,10 @@ class Book extends Model
         return $this->hasManyThrough(
             BookGenre::class,
             BookBookGenre::class,
+            'book_id',
+            'id',
+            'id',
+            'book_genres_id'
         );
     }
 }
