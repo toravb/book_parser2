@@ -42,13 +42,14 @@ class ParseChaptersOfBook extends Command
     public function handle()
     {
 
-        $books = Book::query()->select(['id', 'donor_id'])->get();
+        $books = Book::query()->select(['id', 'donor_id'])->orderBy('id')->get();
         foreach ($books as $book) {
             $link = 'http://loveread.ec/contents.php?id='.$book->donor_id;
             $response = file_get_contents($link);
             $html = str_get_html($response);
             $book_anchors = [];
             foreach ($html->find('ul#oglav_link') as $ul){
+                $anchor_index = 0;
                 foreach ($ul->find('li') as $chapter){
                     foreach ($chapter->find('a') as $el){
                         $ar = explode('#', explode('&p=', $el->href)[1]);
@@ -58,8 +59,10 @@ class ParseChaptersOfBook extends Command
                             'page_num' => $ar[0],
                             'anchor' => $ar[1],
                             'name' => $el->plaintext,
+                            'anchor_index' => $anchor_index,
                         ];
                         $book_anchors[] = $anchor;
+                        $anchor_index++;
                     }
                 }
             }
@@ -70,6 +73,7 @@ class ParseChaptersOfBook extends Command
                     $ch->page_num = $anchor['page_num'];
                     $ch->anchor = $anchor['anchor'];
                     $ch->name = $anchor['name'];
+                    $ch->anchor_index = $anchor['anchor_index'];
                     $ch->save();
                 }catch (\Exception $e){
                     if ($e->getCode() != 23000){

@@ -18,6 +18,7 @@ class CreateBookAnchorsTable extends Migration
             $table->foreignId('book_id');
             $table->unsignedSmallInteger('page_num');
             $table->string('anchor');
+            $table->unsignedSmallInteger('anchor_index');
             $table->string('name', 1500);
             $table->foreign('book_id')
                 ->references('id')
