@@ -112,4 +112,9 @@ class Book extends Model
             'book_genres_id'
         );
     }
+
+    public function anchors()
+    {
+        return $this->hasMany(BookAnchor::class, 'book_id', 'id');
+    }
 }
