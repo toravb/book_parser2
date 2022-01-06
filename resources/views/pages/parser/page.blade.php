@@ -39,8 +39,8 @@
                             @endif
                         </td>
                         <td>
-                            @if($book->bookGenres)
-                                @foreach($book->bookGenres as $genre)
+                            @if($book->genres)
+                                @foreach($book->genres as $genre)
                                 {{$genre->name}}<br>
                                 @endforeach
                             @endif

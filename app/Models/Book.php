@@ -100,4 +100,12 @@ class Book extends Model
     public function bookGenres(){
         return $this->belongsToMany(BookGenre::class);
     }
+
+    public function genres()
+    {
+        return $this->hasManyThrough(
+            BookGenre::class,
+            BookBookGenre::class,
+        );
+    }
 }
