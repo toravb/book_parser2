@@ -9,10 +9,6 @@ class Rate extends Model
 {
     use HasFactory;
 
-//    public function scopePopular($query)
-//    {
-//        return $query->orderBy('rates_avg', 'desc');
-//    }
 
     public function book()
     {

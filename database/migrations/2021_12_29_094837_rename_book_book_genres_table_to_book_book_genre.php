@@ -23,8 +23,6 @@ class RenameBookBookGenresTableToBookBookGenre extends Migration
      */
     public function down()
     {
-        Schema::table('book_book_genre', function (Blueprint $table) {
-            //
-        });
+        Schema::rename('book_book_genre', 'book_book_genres');
     }
 }

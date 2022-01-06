@@ -4,6 +4,7 @@ namespace App\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Api\Http\Controllers\BookController;
 
 class GetBooksRequest extends FormRequest
 {
@@ -25,10 +26,15 @@ class GetBooksRequest extends FormRequest
     public function rules()
     {
         return [
-            'showType'=>['required', Rule::in(['list', 'block'])],
-            'findByAuthor'=>['sometimes', 'string', 'max:200'],
-            'findByPublisher'=>['sometimes', 'string', 'max:200'],
-            'findByTitle'=>['sometimes', 'string', 'max:200']
+            'showType' => ['required', Rule::in([BookController::SHOW_TYPE_BLOCK, BookController::SHOW_TYPE_LIST])],
+            'findByAuthor' => ['sometimes', 'string', 'max:200'],
+            'findByPublisher' => ['sometimes', 'string', 'max:200'],
+            'findByTitle' => ['sometimes', 'string', 'max:200'],
+            'sortBy' => ['required', 'integer',
+                Rule::in(
+                    BookController::SORT_BY_DATE,
+                    BookController::SORT_BY_RATING,
+                    BookController::SORT_BY_READERS_COUNT)],
 
         ];
     }

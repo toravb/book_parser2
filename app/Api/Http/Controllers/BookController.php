@@ -3,11 +3,10 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\GetBooksRequest;
+use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveBookRequest;
 use App\Http\Controllers\Controller;
 use App\Models\BookUser;
-use App\Models\Rate;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 
@@ -17,11 +16,17 @@ class BookController extends Controller
     const PER_PAGE_LIST = 13;
     const SHOW_TYPE_BLOCK = 'block';
     const SHOW_TYPE_LIST = 'list';
+    const SORT_BY_DATE = '1';
+    const SORT_BY_READERS_COUNT = '2';
+    const SORT_BY_RATING = '3';
+
 
     public function show(GetBooksRequest $request)
     {
         $perPage = $request->showType === self::SHOW_TYPE_BLOCK ? self::PER_PAGE_BLOCKS : self::PER_PAGE_LIST;
         $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
+
+
 
         $books = Book::with([
             'authors',
@@ -54,16 +59,16 @@ class BookController extends Controller
 
                 return $query->where('title', 'like', '%' . $request->findByTitle . '%');
             })
-            ->when($request->sortByDate, function ($query) {
-                return Book::newest();
+            ->when($request->sortBy === self::SORT_BY_DATE, function ($query) {
+                return $query->newest();
             })
-            ->when($request->sortByRating, function ($query) {
+            ->when($request->sortBy === self::SORT_BY_RATING, function ($query) {
                 return $query->orderBy('rates_avg', 'desc');
 //                    Rate::popular();
             })
-            ->when($request->sortByReaders, function ($query) {
+            ->when($request->sortBy  === self::SORT_BY_READERS_COUNT, function ($query) {
                 return $query->whereHas('bookStatuses', function ($query) {
-                    BookUser::reading();
+                    return $query->reading();
                 })->withCount('bookStatuses as readersCount')->orderBy('readersCount', 'desc');
             })
             ->paginate($perPage);
@@ -81,6 +86,10 @@ class BookController extends Controller
             foreach ($book->publishers as $publisher) {
                 unset($publisher->pivot);
             }
+
+            foreach ($book->bookGenres as $genres) {
+                unset($genres->pivot);
+            }
         }
         $books->setCollection($collection);
 
@@ -92,7 +101,7 @@ class BookController extends Controller
     }
 
     public
-    function showSingle(Request $request)
+    function showSingle(GetIdRequest $request)
     {
         $id = $request->id;
         $books = Book::with([
@@ -116,23 +125,27 @@ class BookController extends Controller
         foreach ($books->authors as $author) {
             unset($author->pivot);
         }
+        foreach ($books->publishers as $publisher) {
+            unset($publisher->pivot);
+        }
+        foreach ($books->bookGenres as $genres) {
+            unset($genres->pivot);
+        }
         return response()->json([
             'status' => 'success',
             'title' => $books
         ]);
     }
 
-    public
-    function saveBook(SaveBookRequest $request, BookUser $bookUser)
+    public function saveBook(SaveBookRequest $request, BookUser $bookUser)
     {
 
         $user = Auth::user();
+        $bookUser->saveBook($user->user_id, $request->book_id, $request->status);
 
-        $bookUser->user_id = $user->id;
-        $bookUser->book_id = $request->book_id;
-        $bookUser->status = $request->status;
-        $bookUser->save();
-
-        return redirect(route('showSingle'));
+        return response()->json([
+            'status' => 'success',
+            'title' => $bookUser
+        ]);
     }
 }

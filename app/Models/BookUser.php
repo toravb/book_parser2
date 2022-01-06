@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Http\Controllers\BookController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,15 +12,25 @@ class BookUser extends Model
 
     protected $table = 'book_user';
 
-    public function scopeReading($query)
+    public function saveBook($userId, $bookId, $status)
     {
-        return $query->where('status', 2);
+
+        $this->user_id = $userId;
+        $this->book_id = $bookId;
+        $this->status = $status;
+        $this->save();
     }
+
+    public function scopeReading($query)
+{
+    return $query->where('status', BookController::SORT_BY_READERS_COUNT);
+}
 
     public function users()
     {
         return $this->belongsTo(User::class);
     }
+
     public function book()
     {
         return $this->belongsTo(Book::class);
