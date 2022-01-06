@@ -659,7 +659,7 @@
         ]
       }
     },
-    "/books/show": {
+    "/books/{id}": {
       "get": {
         "summary": "Show info about single book",
         "tags": [],
@@ -1085,18 +1085,18 @@
           }
         },
         "operationId": "get-books-show",
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "id",
-            "required": true,
-            "description": "books id"
-          }
-        ]
-      }
+        "parameters": []
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     },
     "/books/save": {
       "put": {
@@ -1173,8 +1173,8 @@
                       "status": "string",
                       "title": {
                         "user_id": 0,
-                        "book_id": "string",
-                        "status": "string",
+                        "book_id": 0,
+                        "status": 0,
                         "updated_at": "string",
                         "created_at": "string",
                         "id": 0

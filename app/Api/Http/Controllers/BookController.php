@@ -19,13 +19,15 @@ class BookController extends Controller
     const SORT_BY_DATE = '1';
     const SORT_BY_READERS_COUNT = '2';
     const SORT_BY_RATING = '3';
+    const WANT_READ = '1';
+    const READING = '2';
+    const HAD_READ = '3';
 
 
     public function show(GetBooksRequest $request)
     {
         $perPage = $request->showType === self::SHOW_TYPE_BLOCK ? self::PER_PAGE_BLOCKS : self::PER_PAGE_LIST;
         $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
-
 
 
         $books = Book::with([
@@ -66,7 +68,7 @@ class BookController extends Controller
                 return $query->orderBy('rates_avg', 'desc');
 //                    Rate::popular();
             })
-            ->when($request->sortBy  === self::SORT_BY_READERS_COUNT, function ($query) {
+            ->when($request->sortBy === self::SORT_BY_READERS_COUNT, function ($query) {
                 return $query->whereHas('bookStatuses', function ($query) {
                     return $query->reading();
                 })->withCount('bookStatuses as readersCount')->orderBy('readersCount', 'desc');
@@ -96,12 +98,11 @@ class BookController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'title' => $books
+            'data' => $books
         ]);
     }
 
-    public
-    function showSingle(GetIdRequest $request)
+    public function showSingle(GetIdRequest $request)
     {
         $id = $request->id;
         $books = Book::with([
@@ -117,7 +118,7 @@ class BookController extends Controller
             ->select('id', 'title', 'text')
             ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes'])
             ->withAvg('rates as rates_avg', 'rates.rating')
-            ->first();
+            ->firstOrFail();
 
         if ($books->rates_avg === null) {
             $books->rates_avg = 0;
@@ -133,7 +134,7 @@ class BookController extends Controller
         }
         return response()->json([
             'status' => 'success',
-            'title' => $books
+            'data' => $books
         ]);
     }
 
@@ -145,7 +146,7 @@ class BookController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'title' => $bookUser
+            'data' => $bookUser
         ]);
     }
 }

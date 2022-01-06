@@ -30,9 +30,9 @@ class SaveBookRequest extends FormRequest
             'book_id' => ['required', 'integer', 'exists:books,id'],
             'status' => ['required', 'integer',
                 Rule::in(
-                    BookController::SORT_BY_DATE,
-                    BookController::SORT_BY_RATING,
-                    BookController::SORT_BY_READERS_COUNT)],
+                    BookController::WANT_READ,
+                    BookController::READING,
+                    BookController::HAD_READ)],
 
         ];
     }

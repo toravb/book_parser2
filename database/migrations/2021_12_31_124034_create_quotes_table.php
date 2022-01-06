@@ -24,7 +24,6 @@ class CreateQuotesTable extends Migration
                 ->references('id')
                 ->on('books');
             $table->string('content');
-            $table->unsignedBigInteger('parent_quote_id')->nullable();
             $table->timestamps();
         });
     }

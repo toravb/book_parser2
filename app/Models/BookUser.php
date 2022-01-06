@@ -12,7 +12,7 @@ class BookUser extends Model
 
     protected $table = 'book_user';
 
-    public function saveBook($userId, $bookId, $status)
+    public function saveBook(int $userId, int $bookId, int $status)
     {
 
         $this->user_id = $userId;

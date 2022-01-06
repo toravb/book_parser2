@@ -24,7 +24,12 @@ class GetIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'=>['required', 'integer', 'exists:books'],
+            'id'=>['required', 'integer'],
         ];
+    }
+
+    public function validationData()
+    {
+        return $this->route()->parameters();
     }
 }
