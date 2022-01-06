@@ -26,7 +26,7 @@ class RenameBookGenresIdInBookBookGenre extends Migration
     public function down()
     {
         Schema::table('book_book_genre', function (Blueprint $table) {
-            //
+            $table->renameColumn('book_genre_id', 'book_genres_id');
         });
     }
 }
