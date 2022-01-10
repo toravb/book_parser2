@@ -2,13 +2,11 @@
 
 namespace App\Api\Http\Requests;
 
-use App\Api\Http\Controllers\BookController;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class SaveBookRequest extends FormRequest
+class StoreRatingValidation extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,14 +27,11 @@ class SaveBookRequest extends FormRequest
     {
         return [
             'book_id' => ['required', 'integer', 'exists:books,id',
-                Rule::unique('book_user')->where(function ($query) {
+                Rule::unique('rates')->where(function ($query) {
                 return $query->where('user_id', Auth::id());
             })],
-            'status' => ['required', 'integer',
-                Rule::in(
-                    BookController::WANT_READ,
-                    BookController::READING,
-                    BookController::HAD_READ)],
+            'rating' => ['required', 'integer', 'between:1,5'],
+
 
         ];
     }
