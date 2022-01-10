@@ -2,9 +2,10 @@
 
 namespace App\Api\Http\Controllers;
 
-use App\AuthApi\Http\Requests\ProfileUpdateRequest;
+use App\Api\Http\Requests\ProfileUpdateRequest;
+
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserUpdateRequest;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

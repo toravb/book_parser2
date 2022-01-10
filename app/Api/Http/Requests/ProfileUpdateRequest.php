@@ -1,6 +1,8 @@
 <?php
 
-namespace App\AuthApi\Http\Requests;
+namespace App\Api\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdateRequest extends FormRequest
 {

@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function (){
     Route::post('/profile', [ProfileUpdateController::class, 'update']);
+    Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     /**
      * Likes
      */
@@ -43,7 +44,7 @@ Route::get('/auth/{provider}', [SocialAuthController::class, 'redirectToGoogle']
 Route::get('/auth/{provider}/callback',  [SocialAuthController::class, 'handleGoogleCallback']);
 Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
 Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
-Route::post('/password_reset', [ResetPasswordController::class, 'reset']);
+
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
 
