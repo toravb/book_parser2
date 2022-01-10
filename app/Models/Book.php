@@ -152,4 +152,9 @@ class Book extends Model
     {
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
+
+    public function bookCompilation()
+    {
+        return $this->hasMany(BookCompilation::class);
+    }
 }

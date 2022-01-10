@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\RateController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
@@ -39,7 +40,9 @@ Route::middleware('auth:api')->group(function (){
     */
     Route::put('/books/save', [BookController::class, 'saveBook'])->name('saveBook');
 
-    Route::post('/ratings', [RateController::class, 'store'])->name('store');
+    Route::post('/ratings', [RateController::class, 'store'])->name('storeRating');
+
+    Route::post('/compilations', [CompilationController::class, 'store'])->name('storeCompilation');
 
 });
 
