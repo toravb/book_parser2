@@ -5,6 +5,7 @@ namespace App\Api\Http\Controllers;
 use App\Api\Http\Requests\GetBooksRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveBookRequest;
+use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\BookUser;
 use Illuminate\Support\Facades\Auth;
@@ -95,11 +96,7 @@ class BookController extends Controller
         }
         $books->setCollection($collection);
 
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $books
-        ]);
+        return ApiAnswerService::successfulAnswerWithData($books);
     }
 
     public function showSingle(GetIdRequest $request)
@@ -132,21 +129,17 @@ class BookController extends Controller
         foreach ($books->bookGenres as $genres) {
             unset($genres->pivot);
         }
-        return response()->json([
-            'status' => 'success',
-            'data' => $books
-        ]);
+
+        return ApiAnswerService::successfulAnswerWithData($books);
     }
 
     public function saveBook(SaveBookRequest $request, BookUser $bookUser)
     {
 
         $user = Auth::user();
-        $bookUser->saveBook($user->user_id, $request->book_id, $request->status);
+        $bookUser->saveBook($user->id, $request->book_id, $request->status);
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $bookUser
-        ]);
+        return ApiAnswerService::successfulAnswerWithData($bookUser);
+
     }
 }
