@@ -105,7 +105,7 @@ grid-row-gap: 0px;">
 return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio->title)}}
                                     </div>
                                     <div class="" style="grid-area: 1 / 2 / 2 / 3;">
-                                       @if(Storage::disk('audiobook')->exists($book->slug.'/'.$audio->title.'.'.$audio->extension??'mp3'))
+                                       @if(Storage::disk('sftp')->exists($book->slug.'/'.$audio->title.'.'.$audio->extension??'mp3'))
                                             <figure>
                                                 {{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
                                                 <audio
