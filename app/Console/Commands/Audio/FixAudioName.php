@@ -20,7 +20,7 @@ class FixAudioName extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Fix json encoded name of audio files';
 
     /**
      * Create a new command instance.
@@ -41,13 +41,15 @@ class FixAudioName extends Command
     {
 
         $audios = AudioAudiobook::all();
+//        $audios = AudioAudiobook::query()->where('book_id', '=', 1)->get();
         foreach ($audios as $audio){
-            dd($audio);
+            $title = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+                return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+            }, $audio->title);
+            $audio->title = $title;
+            $audio->save();
+            echo $audio->book_id . ' - ' . $audio->index . ' - [OK] - ' .$title."\n";
         }
-
-//        $disk = Storage::disk('sftp');
-//        $free_space = disk_free_space($disk->path('/'));
-//        dd($free_space);
 
         return 0;
     }

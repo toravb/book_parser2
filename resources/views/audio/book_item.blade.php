@@ -101,8 +101,7 @@ grid-template-rows: 0fr;
 grid-column-gap: 0px;
 grid-row-gap: 0px;">
                                     <div class="" style="grid-area: 1 / 1 / 2 / 2;">
-                                        {{preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
-return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');}, $audio->title)}}
+                                        {{$audio->title}}
                                     </div>
                                     <div class="" style="grid-area: 1 / 2 / 2 / 3;">
                                        @if(Storage::disk('sftp')->exists($book->slug.'/'.$audio->title.'.'.$audio->extension??'mp3'))

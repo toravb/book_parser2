@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ParseAudioAudiobookJob implements ShouldQueue
 {
@@ -70,7 +71,8 @@ class ParseAudioAudiobookJob implements ShouldQueue
                     }
 		            $link->extension = $extension;
                     $link->save();
-                    $file_name = $link->title . '.' . $extension;
+                    $audio_title = Str::slug($link->title);
+                    $file_name = $audio_title . '.' . $extension;
                     $path = $book->slug . '/' . $file_name;
                     $disk->put($path, $file);
 
