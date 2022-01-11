@@ -3,9 +3,7 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\ProfileUpdateRequest;
-
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,14 +12,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProfileUpdateController extends Controller
 {
-    public function store(ProfileUpdateRequest $request)
-    {
-        {
-            $path = $request->file('avatar')->store('avatars');
-
-            return $path;
-        }
-    }
 
     public function update(ProfileUpdateRequest $request)
     {

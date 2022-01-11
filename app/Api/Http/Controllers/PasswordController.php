@@ -6,7 +6,6 @@ namespace App\Api\Http\Controllers;
 use App\Api\Http\Requests\PasswordRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
