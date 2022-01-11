@@ -46,9 +46,11 @@ class ParseAudioAudiobookJob implements ShouldQueue
         $book = $this->getBook();
 
         $disk = Storage::disk('sftp');
-        $free_space = disk_free_space($disk->path(''));
+//        $free_space = disk_free_space($disk->path(''));
+        $free_space = true;
         if ($free_space) {
-            if ($free_space / 1024 / 1024 / 1024 <= 2) {
+//            if ($free_space / 1024 / 1024 / 1024 <= 2) {
+            if (false) {
                 $status->paused = 1;
                 $status->save();
             }else {
