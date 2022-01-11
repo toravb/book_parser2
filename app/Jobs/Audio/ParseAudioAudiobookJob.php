@@ -45,7 +45,7 @@ class ParseAudioAudiobookJob implements ShouldQueue
         $status = $this->getStatus();
         $book = $this->getBook();
 
-        $disk = Storage::disk('audiobook');
+        $disk = Storage::disk('sftp');
         $free_space = disk_free_space($disk->path(''));
         if ($free_space) {
             if ($free_space / 1024 / 1024 / 1024 <= 2) {
@@ -62,13 +62,13 @@ class ParseAudioAudiobookJob implements ShouldQueue
                 if ($parse) {
                     $file = file_get_contents($link->link);
                     $extension = File::extension($link->link);
-		    if($extension){
+		            if($extension){
                         $extension = explode('?', $extension)[0];
-		    }
+		            }
                     if ($extension == null) {
                         $extension = 'mp3';
                     }
-		    $link->extension = $extension;
+		            $link->extension = $extension;
                     $link->save();
                     $file_name = $link->title . '.' . $extension;
                     $path = $book->slug . '/' . $file_name;
