@@ -13,6 +13,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ParseAudioAudiobookJob implements ShouldQueue
 {
@@ -45,8 +46,8 @@ class ParseAudioAudiobookJob implements ShouldQueue
         $status = $this->getStatus();
         $book = $this->getBook();
 
-        $disk = Storage::disk('audiobook');
-        $free_space = disk_free_space($disk->path(''));
+        $disk = Storage::disk('sftp');
+        $free_space = disk_free_space($disk->path('/'));
         if ($free_space) {
             if ($free_space / 1024 / 1024 / 1024 <= 2) {
                 $status->paused = 1;
@@ -62,15 +63,16 @@ class ParseAudioAudiobookJob implements ShouldQueue
                 if ($parse) {
                     $file = file_get_contents($link->link);
                     $extension = File::extension($link->link);
-		    if($extension){
+		            if($extension){
                         $extension = explode('?', $extension)[0];
-		    }
+		            }
                     if ($extension == null) {
                         $extension = 'mp3';
                     }
-		    $link->extension = $extension;
+		            $link->extension = $extension;
                     $link->save();
-                    $file_name = $link->title . '.' . $extension;
+                    $audio_title = Str::slug($link->title);
+                    $file_name = $audio_title . '.' . $extension;
                     $path = $book->slug . '/' . $file_name;
                     $disk->put($path, $file);
 

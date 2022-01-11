@@ -9,6 +9,14 @@ class Rate extends Model
 {
     use HasFactory;
 
+    public function store(int $userId, int $bookId, int $rating)
+    {
+        $this->user_id = $userId;
+        $this->book_id = $bookId;
+        $this->rating = $rating;
+        $this->save();
+    }
+
 
     public function book()
     {
