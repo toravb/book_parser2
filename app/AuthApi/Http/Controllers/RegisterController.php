@@ -21,7 +21,12 @@ class RegisterController extends Controller
         try {
             DB::beginTransaction();
             $user = $userModel->createUser($request->email, $request->password, null, true);
-
+            DB::table('user_settings')->insert([
+                'user_id' => $userModel->id,
+                'likes' => true,
+                'comented' => true,
+                'comentedOthers' => false
+            ]);
             Mail::to($user->email)->send(new VerifyMail($user->verify_token, $user->email));
 
             DB::commit();

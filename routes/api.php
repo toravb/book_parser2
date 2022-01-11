@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\NotificationSettingsController;
 use App\Api\Http\Controllers\RateController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
@@ -30,6 +31,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->group(function (){
     Route::post('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
+    Route::post('/notification_settings', [NotificationSettingsController::class, 'create']);
     /**
      * Likes
      */
