@@ -2,20 +2,25 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
+
 {
-    public function destroy(User $user)
+    public function destroy()
     {
 
-            $posts = Post::where('user_id', $user->id)->pluck('id');
-            \DB::transaction(function () use ($posts, $user) {
-                \DB::table('comments')->whereIn('post_id', $posts)->delete();
-                \DB::table('posts')->where('user_id', $user->id)->delete();
-                \DB::table('users')->where('id', $user->id)->delete();
-            });
-
+        $user = Auth::user();
+        User::where('id', $user->id)
+            ->update([
+                'name' => null,
+                'email' =>null,
+                'password' => null
+             ]);
+        return ApiAnswerService::successfulAnswer();
     }
+
 }

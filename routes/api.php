@@ -32,6 +32,7 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::post('/notification_settings', [NotificationSettingsController::class, 'create']);
+    Route::delete('/users', [UserController::class, 'destroy']);
     /**
      * Likes
      */
@@ -63,6 +64,6 @@ Route::get('/books', [BookController::class, 'show'])->name('showList');
 Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
-Route::post('/delete-account', [UserController::class, 'destroy']);
+
 
 
