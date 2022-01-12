@@ -17,8 +17,7 @@ class NotificationSettingsController extends Controller
     {
 
         $user = Auth::user();
-        $userSettings->create($user, $request);
-
+        $userSettings->create($user->id, $request->likes, $request->commented, $request->commentedOthers);
 
         return ApiAnswerService::successfulAnswer();
     }

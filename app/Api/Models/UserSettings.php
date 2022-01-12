@@ -12,14 +12,23 @@ class UserSettings extends Model
 {
     use HasFactory;
 
-    public function create(User $user,NotificationSettingsRequest $request)
-    {
-       UserSettings::where('user_id', $user->id)
-            ->update([
-                'likes' => $request->likes,
-                'commented' => $request->commented,
-                'commentedOthers' => $request->commentedOthers]);
+    protected $fillable = [
+        'likes',
+        'commented',
+        'commentedOthers'
+    ];
+
+    public function create(int $userId, bool $likes, bool $commented, bool $commentedOthers) {
+        $this
+            ->updateOrCreate(
+                ['user_id' => $userId],
+                [
+                'likes' => $likes,
+                'commented' =>$commented,
+                'commentedOthers' => $commentedOthers]);
+
     }
+
     public function user()
     {
         return $this->hasOne(User::class);
