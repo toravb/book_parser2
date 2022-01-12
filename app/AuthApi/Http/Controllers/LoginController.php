@@ -38,4 +38,18 @@ class LoginController extends Controller
             Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
+    public function logout()
+    {
+        $accessToken = auth()->user()->token();
+
+        $refreshToken = DB::table('oauth_refresh_tokens')
+            ->where('access_token_id', $accessToken->id)
+            ->update([
+                'revoked' => true
+            ]);
+
+        $accessToken->revoke();
+
+        return response()->json(['status' => 200]);
+    }
 }
