@@ -114,4 +114,14 @@ class AudioBook extends Model
             'reader_id'
         );
     }
+    public function compilations()
+    {
+        return $this->MorphToMany(Compilation::class,
+            'compilationable',
+            'book_compilation',
+            'compilationable_id',
+            'compilation_id',
+            'id',
+            'id');
+    }
 }

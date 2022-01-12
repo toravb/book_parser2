@@ -58,9 +58,12 @@ Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
 Route::post('/password_reset', [ResetPasswordController::class, 'reset']);
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
+Route::get('/selections', [CategoryController::class, 'showSelectionType'])->name('selectionType');
 
 Route::get('/books', [BookController::class, 'show'])->name('showList');
 Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
+
+Route::get('/compilations', [CompilationController::class, 'show'])->name('compilationList');
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 Route::post('/delete-account', [UserController::class, 'destroy']);

@@ -14,10 +14,10 @@ class CreateBookCompilationTable extends Migration
     public function up()
     {
         Schema::create('book_compilation', function (Blueprint $table) {
-            $table->foreignId('book_id');
             $table->foreignId('compilation_id');
+            $table->foreignId('compilationable_id');
+            $table->string('compilationable_type');
 
-            $table->foreign('book_id')->references('id')->on('books');
             $table->foreign('compilation_id')->references('id')->on('compilations');
         });
     }

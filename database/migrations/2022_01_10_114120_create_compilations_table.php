@@ -15,7 +15,7 @@ class CreateCompilationsTable extends Migration
     {
         Schema::create('compilations', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('title', 100);
             $table->string('background');
             $table->string('description');
             $table->foreignId('created_by');

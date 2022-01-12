@@ -9,16 +9,15 @@ class BookCompilation extends Model
 {
     use HasFactory;
 
-    protected $table = 'book_compilation';
 
-    public function books()
-    {
-        return $this->hasMany(Book::class);
-    }
-
-    public function compilations()
-    {
-        return $this->belongsToMany(Compilation::class);
-    }
+//    public function books()
+//    {
+//        return $this->belongsToMany(Book::class);
+//    }
+//
+//    public function compilations()
+//    {
+//        return $this->belongsToMany(Compilation::class);
+//    }
 
 }
