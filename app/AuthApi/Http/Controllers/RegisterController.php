@@ -24,8 +24,8 @@ class RegisterController extends Controller
             DB::table('user_settings')->insert([
                 'user_id' => $userModel->id,
                 'likes' => true,
-                'comented' => true,
-                'comentedOthers' => false
+                'commented' => true,
+                'commentedOthers' => false
             ]);
             Mail::to($user->email)->send(new VerifyMail($user->verify_token, $user->email));
 

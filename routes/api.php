@@ -64,5 +64,5 @@ Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSing
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 Route::post('/delete-account', [UserController::class, 'destroy']);
-//Route::post('/notification-settings', [])
+
 
