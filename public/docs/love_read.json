@@ -2524,6 +2524,385 @@
           }
         ]
       }
+    },
+    "/password_reset": {
+      "get": {
+        "summary": "User password reset",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-password_reset"
+      },
+      "post": {
+        "summary": "User password reset",
+        "operationId": "post-password_reset",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "password": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "password"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "password": [
+                          "Пароли не совпадают"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "password": [
+                          "Пароли не совпадают"
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "old_password": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "password_confirm": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "old_password",
+                  "password",
+                  "password_confirm"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "old_password": "qwerqwer",
+                    "password": "asdfasdf",
+                    "password_confirm": "asdfasdf"
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "old_password": "qwerqwer",
+                    "password": "asdfasdf",
+                    "password_confirm": "asdfasdf"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notification_settings": {
+      "get": {
+        "summary": "",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-notification_settings"
+      },
+      "put": {
+        "summary": "Notification settings",
+        "operationId": "put-notification_settings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "likes": {
+                    "type": "boolean"
+                  },
+                  "commented": {
+                    "type": "boolean"
+                  },
+                  "commentedOthers": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "likes",
+                  "commented",
+                  "commentedOthers"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "likes": true,
+                    "commented": true,
+                    "commentedOthers": true
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "likes": true,
+                    "commented": true,
+                    "commentedOthers": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "summary": "User delete",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-users"
+      },
+      "delete": {
+        "summary": "",
+        "operationId": "delete-users",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

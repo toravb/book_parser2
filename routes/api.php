@@ -16,7 +16,7 @@ use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Api\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Api\Http\Controllers\NotificationSettingsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -31,6 +31,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->group(function (){
     Route::post('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
+    Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
+    Route::delete('/users', [UserController::class, 'destroy']);
     /**
      * Likes
      */
@@ -67,6 +69,6 @@ Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSing
 Route::get('/compilations', [CompilationController::class, 'show'])->name('compilationList');
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
-Route::post('/delete-account', [UserController::class, 'destroy']);
-//Route::post('/notification-settings', [])
+
+
 
