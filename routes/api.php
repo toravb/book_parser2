@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\RateController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
