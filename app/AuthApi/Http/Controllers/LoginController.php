@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\AuthApi\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller

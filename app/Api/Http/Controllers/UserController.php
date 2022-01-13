@@ -4,6 +4,7 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Services\ApiAnswerService;
 use App\AuthApi\Http\Controllers\LoginController;
+use App\AuthApi\Models\IdSocialNetwork;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +17,7 @@ class UserController extends Controller
 {
     public function destroy()
     {
+
         try {
             DB::beginTransaction();
             $user = Auth::user();
@@ -23,10 +25,21 @@ class UserController extends Controller
                 ->update([
                     'name' => null,
                     'email' =>null,
-                    'password' => null
+                    'password' => null,
+                    'surname' => null,
+                    'avatar'=>null
                  ]);
-            LoginController::logout();
-            DB::commit();}
+             $loginController = new LoginController();
+
+
+
+
+           $idSocialNetwors = new IdSocialNetwork();
+            $idSocialNetwors->where('user_id', $user->id)->delete();
+            $loginController->logout();
+            DB::commit();
+            return response()->json([
+                'status' => 'success',]);}
 
         catch (\Exception $exception) {
             Log::error($exception);
@@ -36,7 +49,7 @@ class UserController extends Controller
                 'message' => 'Something went wrong'
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
-        
+
     }
 
 }
