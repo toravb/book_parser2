@@ -101,4 +101,14 @@ class User extends Authenticatable
         return $this->belongsToMany(BookUser::class);
     }
 
+    public function compilations()
+    {
+        return $this->hasMany(Compilation::class);
+    }
+
+    public function compilationUsers()
+    {
+        return $this->hasMany(CompilationUser::class);
+    }
+
 }

@@ -21,6 +21,8 @@ class Book extends Model
         'donor_id'
     ];
 
+    protected $morphClass = 'Book';
+
     public static function create($fields){
         $book = new static();
         $book->fill($fields);
@@ -152,4 +154,17 @@ class Book extends Model
     {
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
+
+    public function compilations()
+    {
+        return $this->MorphToMany(Compilation::class,
+            'compilationable',
+        'book_compilation',
+        'compilationable_id',
+        'compilation_id',
+        'id',
+        'id');
+    }
+
+
 }

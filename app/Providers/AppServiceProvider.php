@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\AudioAuthorsLink;
 use App\Models\AudioSite;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Queue\Events\Looping;
 use Illuminate\Support\Facades\Queue;
@@ -19,7 +20,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**
@@ -30,6 +34,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+
+        Relation::enforceMorphMap([
+            'books' => 'App\Models\Book',
+            'audioBooks' => 'App\Models\AudioBook',
+        ]);
 
         Queue::looping(function (Looping $event){
             if ($event->queue == 'audio_parse_authors'){

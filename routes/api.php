@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\RateController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
@@ -40,7 +41,9 @@ Route::middleware('auth:api')->group(function (){
     */
     Route::put('/books/save', [BookController::class, 'saveBook'])->name('saveBook');
 
-    Route::post('/ratings', [RateController::class, 'store'])->name('store');
+    Route::post('/ratings', [RateController::class, 'store'])->name('storeRating');
+
+    Route::post('/compilations', [CompilationController::class, 'store'])->name('storeCompilation');
 
 });
 
@@ -56,9 +59,12 @@ Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
 
 
 Route::get('/genres', [CategoryController::class, 'show'])->name('category');
+Route::get('/selections', [CategoryController::class, 'showSelectionType'])->name('selectionType');
 
 Route::get('/books', [BookController::class, 'show'])->name('showList');
 Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
+
+Route::get('/compilations', [CompilationController::class, 'show'])->name('compilationList');
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 Route::post('/delete-account', [UserController::class, 'destroy']);
