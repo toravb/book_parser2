@@ -15,7 +15,7 @@ class RateController extends Controller
         $user = Auth::user();
 
         $rating->store($user->id, $request->book_id, $request->rating);
-        
+
        return ApiAnswerService::successfulAnswerWithData($rating);
     }
 }
