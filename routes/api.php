@@ -1,6 +1,6 @@
 <?php
 
-use App\Api\Http\Controllers\NotificationSettingsController;
+
 use App\Api\Http\Controllers\RateController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
@@ -16,7 +16,7 @@ use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Api\Http\Controllers\LikeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Api\Http\Controllers\NotificationSettingsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
