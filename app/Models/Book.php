@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\This;
 
 class Book extends Model
 {
@@ -155,6 +156,10 @@ class Book extends Model
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 
+    public function users() {
+        return $this->belongsToMany(User::class, 'book_user');
+    }
+
     public function compilations()
     {
         return $this->MorphToMany(Compilation::class,
@@ -166,5 +171,17 @@ class Book extends Model
         'id');
     }
 
+    public function getBook(){
+        return
+        $this->with([
+            'authors',
+            'image',
+            'bookGenres',
+//            'bookStatuses'
+        ])
+            ->select('id', 'title')
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
 
 }

@@ -2903,6 +2903,492 @@
           }
         }
       }
+    },
+    "/users/books": {
+      "get": {
+        "summary": "users/books",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "string",
+                      "title": {
+                        "current_page": 0,
+                        "data": [
+                          {
+                            "id": 0,
+                            "title": "string",
+                            "rates_count": 0,
+                            "rates_avg": 0,
+                            "book_likes_count": 0,
+                            "book_comments_count": 0,
+                            "text": "string",
+                            "authors": [
+                              {
+                                "id": 0,
+                                "author": "string"
+                              }
+                            ],
+                            "image": "string",
+                            "book_genres": [
+                              {
+                                "id": 0,
+                                "name": "string",
+                                "created_at": "string",
+                                "updated_at": "string"
+                              }
+                            ],
+                            "year": 0,
+                            "publishers": [
+                              {
+                                "id": 0,
+                                "publisher": "string"
+                              }
+                            ]
+                          }
+                        ],
+                        "first_page_url": "string",
+                        "from": 0,
+                        "last_page": 0,
+                        "last_page_url": "string",
+                        "links": [
+                          {
+                            "url": "string",
+                            "label": "string",
+                            "active": true
+                          }
+                        ],
+                        "next_page_url": "string",
+                        "path": "string",
+                        "per_page": 0,
+                        "prev_page_url": "string",
+                        "to": 0,
+                        "total": 0
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "current_page",
+                        "data",
+                        "first_page_url",
+                        "from",
+                        "last_page",
+                        "last_page_url",
+                        "links",
+                        "next_page_url",
+                        "path",
+                        "per_page",
+                        "prev_page_url",
+                        "to",
+                        "total"
+                      ],
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "data": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "rates_count": {
+                                "type": "number"
+                              },
+                              "rates_avg": {
+                                "type": "number"
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "pivot": {
+                                      "type": "object",
+                                      "properties": {
+                                        "book_id": {
+                                          "type": "integer"
+                                        },
+                                        "author_id": {
+                                          "type": "integer"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "author"
+                                  ]
+                                }
+                              },
+                              "image": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "book_genres": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "name": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "created_at": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "updated_at": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "name",
+                                    "created_at",
+                                    "updated_at"
+                                  ]
+                                }
+                              },
+                              "year": {
+                                "type": "number"
+                              },
+                              "publishers": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "publisher": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "publisher"
+                                  ]
+                                }
+                              },
+                              "pivot": {
+                                "type": "object"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "title",
+                              "rates_count",
+                              "rates_avg",
+                              "image",
+                              "year"
+                            ]
+                          }
+                        },
+                        "first_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "from": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "last_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "links": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "url",
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "next_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "prev_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "to": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "current_page": 1,
+                        "data": [
+                          {
+                            "id": 2,
+                            "title": "Mr.",
+                            "rates_count": 1,
+                            "rates_avg": "5.0000",
+                            "authors": [
+                              {
+                                "id": 21,
+                                "author": "Dr. Sheridan Senger",
+                                "pivot": {
+                                  "book_id": 2,
+                                  "author_id": 21
+                                }
+                              },
+                              {
+                                "id": 22,
+                                "author": "Isac Emmerich",
+                                "pivot": {
+                                  "book_id": 2,
+                                  "author_id": 22
+                                }
+                              },
+                              {
+                                "id": 23,
+                                "author": "Herminio Spencer",
+                                "pivot": {
+                                  "book_id": 2,
+                                  "author_id": 23
+                                }
+                              },
+                              {
+                                "id": 24,
+                                "author": "Dr. Wilton Beier",
+                                "pivot": {
+                                  "book_id": 2,
+                                  "author_id": 24
+                                }
+                              }
+                            ],
+                            "image": null,
+                            "book_genres": []
+                          }
+                        ],
+                        "first_page_url": "http://bookparser2/public/api/users/books?page=1",
+                        "from": 1,
+                        "last_page": 1,
+                        "last_page_url": "http://bookparser2/public/api/users/books?page=1",
+                        "links": [
+                          {
+                            "url": null,
+                            "label": "&laquo; Previous",
+                            "active": false
+                          },
+                          {
+                            "url": "http://bookparser2/public/api/users/books?page=1",
+                            "label": "1",
+                            "active": true
+                          },
+                          {
+                            "url": null,
+                            "label": "Next &raquo;",
+                            "active": false
+                          }
+                        ],
+                        "next_page_url": null,
+                        "path": "http://bookparser2/public/api/users/books",
+                        "per_page": 13,
+                        "prev_page_url": null,
+                        "to": 1,
+                        "total": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-users-books",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "status": "string",
+                    "title": {
+                      "current_page": 0,
+                      "data": [
+                        {
+                          "id": 0,
+                          "title": "string",
+                          "rates_count": 0,
+                          "rates_avg": 0,
+                          "book_likes_count": 0,
+                          "book_comments_count": 0,
+                          "text": "string",
+                          "authors": [
+                            {
+                              "id": 0,
+                              "author": "string"
+                            }
+                          ],
+                          "image": "string",
+                          "book_genres": [
+                            {
+                              "id": 0,
+                              "name": "string",
+                              "created_at": "string",
+                              "updated_at": "string"
+                            }
+                          ],
+                          "year": 0,
+                          "publishers": [
+                            {
+                              "id": 0,
+                              "publisher": "string"
+                            }
+                          ]
+                        }
+                      ],
+                      "first_page_url": "string",
+                      "from": 0,
+                      "last_page": 0,
+                      "last_page_url": "string",
+                      "links": [
+                        {
+                          "url": "string",
+                          "label": "string",
+                          "active": true
+                        }
+                      ],
+                      "next_page_url": "string",
+                      "path": "string",
+                      "per_page": 0,
+                      "prev_page_url": "string",
+                      "to": 0,
+                      "total": 0
+                    }
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "sortBy": 0,
+                    "status": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {

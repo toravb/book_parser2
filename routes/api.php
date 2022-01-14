@@ -2,6 +2,7 @@
 
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\RateController;
+use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\PasswordController;
@@ -33,6 +34,8 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
+
+
     /**
      * Likes
      */
@@ -46,7 +49,7 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/ratings', [RateController::class, 'store'])->name('storeRating');
 
     Route::post('/compilations', [CompilationController::class, 'store'])->name('storeCompilation');
-
+    Route::get('/users/books', [UsersBooksController::class, 'showBooks']);
 });
 
 
