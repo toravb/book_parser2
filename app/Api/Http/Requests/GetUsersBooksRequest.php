@@ -28,7 +28,7 @@ class GetUsersBooksRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'search' => ['sometimes', 'string', 'max:200'],
             'sortBy' => ['required', 'integer',
                 Rule::in(
                     Book::SORT_BY_DATE,

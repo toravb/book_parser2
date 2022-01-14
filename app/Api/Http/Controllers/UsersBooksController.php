@@ -20,17 +20,13 @@ class UsersBooksController extends Controller
 
         $this->user = Auth::user();
         $bookModel = $book->getBook()
-            ->when($request->findByAuthor, function ($query) use ($request) {
+            ->when($request->search, function ($query) use ($request) {
 
                 return $query->whereHas('authors', function ($query) use ($request) {
-                    $query->where('author', 'like', '%' . $request->findByAuthor . '%');
-                });
+                    $query->where('author', 'like', '%' . $request->search . '%');
+                }) -> orWhere ('title', 'like', '%' . $request->search . '%');
             })
 
-            ->when($request->findByTitle, function ($query) use ($request) {
-
-                return $query->where('title', 'like', '%' . $request->findByTitle . '%');
-            })
             ->whereHas('users', function (Builder $query) use ($request) {
                 return  $query->where('user_id', $this->user->id)
                     ->when($request->status, function (Builder $query) use ($request)  {

@@ -3318,28 +3318,6 @@
               "schema": {
                 "description": "",
                 "type": "object",
-                "properties": {
-                  "sortBy": {
-                    "type": "number"
-                  },
-                  "status": {
-                    "type": "number"
-                  },
-                  "findByTitle": {
-                    "type": "string",
-                    "minLength": 1
-                  },
-                  "findByAuthor": {
-                    "type": "string",
-                    "minLength": 1
-                  }
-                },
-                "required": [
-                  "sortBy",
-                  "status",
-                  "findByTitle",
-                  "findByAuthor"
-                ],
                 "x-examples": {
                   "example-1": {
                     "sortBy": 1,
@@ -3347,15 +3325,31 @@
                     "findByTitle": "mr",
                     "findByAuthor": "ada"
                   }
-                }
+                },
+                "properties": {
+                  "sortBy": {
+                    "type": "number"
+                  },
+                  "status": {
+                    "type": "number"
+                  },
+                  "search": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "sortBy",
+                  "status",
+                  "search"
+                ]
               },
               "examples": {
                 "example-1": {
                   "value": {
                     "sortBy": 1,
                     "status": 1,
-                    "findByTitle": "mr",
-                    "findByAuthor": "ada"
+                    "search": "mr"
                   }
                 }
               }
