@@ -3,6 +3,7 @@
 namespace App\Api\Http\Requests;
 
 use App\Api\Http\Controllers\BookController;
+use App\Models\Book;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -34,9 +35,9 @@ class SaveBookRequest extends FormRequest
             })],
             'status' => ['required', 'integer',
                 Rule::in(
-                    BookController::WANT_READ,
-                    BookController::READING,
-                    BookController::HAD_READ)],
+                    Book::WANT_READ,
+                    Book::READING,
+                    Book::HAD_READ)],
 
         ];
     }

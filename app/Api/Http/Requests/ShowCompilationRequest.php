@@ -3,6 +3,7 @@
 namespace App\Api\Http\Requests;
 
 use App\Api\Http\Controllers\BookController;
+use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -26,7 +27,7 @@ class ShowCompilationRequest extends FormRequest
     public function rules()
     {
         return [
-            'showType'=>['required', Rule::in([BookController::SHOW_TYPE_BLOCK, BookController::SHOW_TYPE_LIST])],
+            'showType'=>['required', Rule::in([Book::SHOW_TYPE_BLOCK, Book::SHOW_TYPE_LIST])],
             'selectionCategory'=>['sometimes', 'integer', 'exists:compilations,type'],
             'bookType'=>['sometimes', 'string', 'exists:book_compilation,compilationable_type'],
         ];

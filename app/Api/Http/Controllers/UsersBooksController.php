@@ -15,13 +15,6 @@ use Illuminate\Database\Eloquent\Builder;
 class UsersBooksController extends Controller
 {
 
-    const PER_PAGE_LIST = 13;
-
-    const SORT_BY_DATE = '1';
-    const SORT_BY_RATING = '2';
-    const SORT_BY_ALPHABET = '3';
-
-
     public function showBooks(GetUsersBooksRequest $request, Book $book)
     {
 
@@ -34,18 +27,18 @@ class UsersBooksController extends Controller
                     });
 
             })
-            ->when($request->sortBy === self::SORT_BY_DATE, function ($query) {
+            ->when($request->sortBy === Book::SORT_BY_DATE, function ($query) {
                 return $query->newest();
             })
-            ->when($request->sortBy === self::SORT_BY_RATING, function ($query) {
+            ->when($request->sortBy === Book::SORT_BY_RATING, function ($query) {
                 return $query->popular();
 
             })
-            ->when($request->sortBy === self::SORT_BY_ALPHABET, function ($query) {
+            ->when($request->sortBy === Book::SORT_BY_ALPHABET, function ($query) {
 
                 return $query->orderBy('title');
             })
-            ->paginate(self::PER_PAGE_LIST);
+            ->paginate(Book::PER_PAGE_LIST);
 
         return ApiAnswerService::successfulAnswerWithData($bookModel);
     }

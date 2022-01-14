@@ -3,6 +3,7 @@
 namespace App\Api\Http\Requests;
 
 use App\api\Http\Controllers\UsersBooksController;
+use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Api\Http\Controllers\BookController;
@@ -30,15 +31,15 @@ class GetUsersBooksRequest extends FormRequest
 
             'sortBy' => ['required', 'integer',
                 Rule::in(
-                    UsersBooksController::SORT_BY_DATE,
-                    UsersBooksController::SORT_BY_RATING,
-                    UsersBooksController::SORT_BY_ALPHABET)],
+                    Book::SORT_BY_DATE,
+                    Book::SORT_BY_RATING,
+                    Book::SORT_BY_ALPHABET)],
             'status' => ['required', 'integer',
 
                     Rule::in(
-                        BookController::WANT_READ,
-                        BookController::READING,
-                        BookController::HAD_READ)],
+                        Book::WANT_READ,
+                        Book::READING,
+                        Book::HAD_READ)],
 
         ];
     }
