@@ -13,6 +13,7 @@ class UserSettings extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'likes',
         'commented',
         'commentedOthers'

@@ -23,7 +23,7 @@ class BookUser extends Model
 
     public function scopeReading($query)
 {
-    return $query->where('status', BookController::SORT_BY_READERS_COUNT);
+    return $query->where('status', Book::SORT_BY_READERS_COUNT);
 }
 
     public function users()

@@ -8,6 +8,7 @@ use App\Api\Http\Requests\StoreCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Compilation;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,14 +31,14 @@ class CompilationController extends Controller
     public function show(ShowCompilationRequest $request, CompilationFilter $compilationFilter)
     {
 
-        $perList = $request->showType === BookController::SHOW_TYPE_BLOCK ? self::COMPILAION_BLOCK_QUANTITY : self::COMPILAION_LIST_QUANTITY;
+        $perList = $request->showType === Book::SHOW_TYPE_BLOCK ? self::COMPILAION_BLOCK_QUANTITY : self::COMPILAION_LIST_QUANTITY;
 
         $books = Compilation::filter($compilationFilter)
 //            ->dum();
             ->paginate($perList);
 //        dd($books);
 
-        if ($request->showType === BookController::SHOW_TYPE_LIST){
+        if ($request->showType === Book::SHOW_TYPE_LIST){
             $collection = $books->getCollection();
 
             foreach ($collection as &$compilation) {
