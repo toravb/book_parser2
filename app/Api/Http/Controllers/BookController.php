@@ -20,16 +20,8 @@ class BookController extends Controller
         $viewTypeList = $request->showType === Book::SHOW_TYPE_LIST;
 
         $bookModel = new Book();
-        $bookModel->getBook();
-        $books = Book::with([
-            'authors',
-            'image',
-            'bookGenres',
 
-        ])
-            ->select('id', 'title')
-            ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating')
+        $books =  $bookModel->getBook()
             ->when($viewTypeList, function ($query) {
 
                 return $query->withCount(['bookLikes', 'bookComments'])

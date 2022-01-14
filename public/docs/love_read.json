@@ -3318,70 +3318,44 @@
               "schema": {
                 "description": "",
                 "type": "object",
+                "properties": {
+                  "sortBy": {
+                    "type": "number"
+                  },
+                  "status": {
+                    "type": "number"
+                  },
+                  "findByTitle": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "findByAuthor": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "sortBy",
+                  "status",
+                  "findByTitle",
+                  "findByAuthor"
+                ],
                 "x-examples": {
                   "example-1": {
-                    "status": "string",
-                    "title": {
-                      "current_page": 0,
-                      "data": [
-                        {
-                          "id": 0,
-                          "title": "string",
-                          "rates_count": 0,
-                          "rates_avg": 0,
-                          "book_likes_count": 0,
-                          "book_comments_count": 0,
-                          "text": "string",
-                          "authors": [
-                            {
-                              "id": 0,
-                              "author": "string"
-                            }
-                          ],
-                          "image": "string",
-                          "book_genres": [
-                            {
-                              "id": 0,
-                              "name": "string",
-                              "created_at": "string",
-                              "updated_at": "string"
-                            }
-                          ],
-                          "year": 0,
-                          "publishers": [
-                            {
-                              "id": 0,
-                              "publisher": "string"
-                            }
-                          ]
-                        }
-                      ],
-                      "first_page_url": "string",
-                      "from": 0,
-                      "last_page": 0,
-                      "last_page_url": "string",
-                      "links": [
-                        {
-                          "url": "string",
-                          "label": "string",
-                          "active": true
-                        }
-                      ],
-                      "next_page_url": "string",
-                      "path": "string",
-                      "per_page": 0,
-                      "prev_page_url": "string",
-                      "to": 0,
-                      "total": 0
-                    }
+                    "sortBy": 1,
+                    "status": 1,
+                    "findByTitle": "mr",
+                    "findByAuthor": "ada"
                   }
                 }
               },
               "examples": {
                 "example-1": {
                   "value": {
-                    "sortBy": 0,
-                    "status": 0
+                    "sortBy": 1,
+                    "status": 1,
+                    "findByTitle": "mr",
+                    "findByAuthor": "ada"
                   }
                 }
               }
