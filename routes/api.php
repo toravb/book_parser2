@@ -2,6 +2,7 @@
 
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\RateController;
+use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\PasswordController;
@@ -10,11 +11,13 @@ use App\Api\Http\Controllers\UserController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\Api\Http\Controllers\CategoryController;
+use App\AuthApi\Http\Controllers\ResetPasswordController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Api\Http\Controllers\LikeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Api\Http\Controllers\NotificationSettingsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,6 +32,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->group(function (){
     Route::post('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
+    Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
+    Route::delete('/users', [UserController::class, 'destroy']);
+
+
     /**
      * Likes
      */
@@ -46,7 +53,7 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/compilations', [CompilationController::class, 'store']);
     Route::post('/compilations/books', [BookController::class, 'saveBookToCompilation']);
     Route::delete('/compilations/books/delete', [BookController::class, 'deleteBookFromCompilation']);
-
+    Route::get('/users/books', [UsersBooksController::class, 'showBooks']);
 });
 
 
@@ -69,6 +76,6 @@ Route::get('/books/{id}', [BookController::class, 'showSingle']);
 Route::get('/compilations', [CompilationController::class, 'show']);
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
-Route::post('/delete-account', [UserController::class, 'destroy']);
-//Route::post('/notification-settings', [])
+
+
 

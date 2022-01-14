@@ -14,42 +14,21 @@ use App\Http\Controllers\Controller;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
-use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
 {
-    const PER_PAGE_BLOCKS = 40;
-    const PER_PAGE_LIST = 13;
-    const SHOW_TYPE_BLOCK = 'block';
-    const SHOW_TYPE_LIST = 'list';
-    const SORT_BY_DATE = '1';
-    const SORT_BY_READERS_COUNT = '2';
-    const SORT_BY_RATING = '3';
-    const WANT_READ = '1';
-    const READING = '2';
-    const HAD_READ = '3';
-    const TYPE_BOOK = 'books';
-    const TYPE_AUDIO_BOOK = 'audioBooks';
-
 
     public function show(GetBooksRequest $request)
     {
-        $perPage = $request->showType === self::SHOW_TYPE_BLOCK ? self::PER_PAGE_BLOCKS : self::PER_PAGE_LIST;
-        $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
+        $perPage = $request->showType === Book::SHOW_TYPE_BLOCK ? Book::PER_PAGE_BLOCKS : Book::PER_PAGE_LIST;
+        $viewTypeList = $request->showType === Book::SHOW_TYPE_LIST;
 
+        $bookModel = new Book();
 
-        $books = Book::with([
-            'authors',
-            'image',
-            'bookGenres',
-//            'bookStatuses'
-        ])
-            ->select('id', 'title')
-            ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating')
+        $books =  $bookModel->getBook()
             ->when($viewTypeList, function ($query) {
 
                 return $query->withCount(['bookLikes', 'bookComments'])
@@ -72,13 +51,13 @@ class BookController extends Controller
 
                 return $query->where('title', 'like', '%' . $request->findByTitle . '%');
             })
-            ->when($request->sortBy === self::SORT_BY_DATE, function ($query) {
+            ->when($request->sortBy === Book::SORT_BY_DATE, function ($query) {
                 return $query->newest();
             })
-            ->when($request->sortBy === self::SORT_BY_RATING, function ($query) {
+            ->when($request->sortBy === Book::SORT_BY_RATING, function ($query) {
                 return $query->orderBy('rates_avg', 'desc');
             })
-            ->when($request->sortBy === self::SORT_BY_READERS_COUNT, function ($query) {
+            ->when($request->sortBy === Book::SORT_BY_READERS_COUNT, function ($query) {
                 return $query->whereHas('bookStatuses', function ($query) {
                     return $query->reading();
                 })->withCount('bookStatuses as readersCount')->orderBy('readersCount', 'desc');

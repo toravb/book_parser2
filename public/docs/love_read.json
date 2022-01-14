@@ -1214,12 +1214,54 @@
                           }
                         ],
                         "image": null,
-                        "book_genres": [],
+                        "book_genres": [
+                          {
+                            "id": 1,
+                            "name": "фантастика",
+                            "created_at": "2022-01-06T13:51:41.000000Z",
+                            "updated_at": "2022-01-06T13:51:41.000000Z"
+                          }
+                        ],
                         "year": null,
-                        "publishers": [],
-                        "book_comments": [],
-                        "reviews": [],
-                        "quotes": []
+                        "publishers": [
+                          {
+                            "id": 1,
+                            "publisher": "Exma"
+                          }
+                        ],
+                        "book_comments": [
+                          {
+                            "id": 1,
+                            "user_id": 2,
+                            "book_id": 1,
+                            "content": "sdfeg gfdsfgre vfdsaft fdarftrwqg",
+                            "parent_comment_id": null,
+                            "created_at": "2022-01-06T13:39:49.000000Z",
+                            "updated_at": "2022-01-06T13:39:49.000000Z"
+                          }
+                        ],
+                        "reviews": [
+                          {
+                            "id": 1,
+                            "user_id": 3,
+                            "book_id": 1,
+                            "content": "wefrw fewfwef fewfwf",
+                            "parent_review_id": null,
+                            "created_at": "2022-01-06T13:46:56.000000Z",
+                            "updated_at": "2022-01-06T13:46:56.000000Z"
+                          }
+                        ],
+                        "quotes": [
+                          {
+                            "id": 1,
+                            "user_id": 3,
+                            "book_id": 1,
+                            "content": "qwdwq dwqdwq dwqwdqw",
+                            "parent_quote_id": null,
+                            "created_at": "2022-01-06T13:49:49.000000Z",
+                            "updated_at": "2022-01-06T13:49:49.000000Z"
+                          }
+                        ]
                       }
                     }
                   },
@@ -1276,7 +1318,7 @@
                           "type": "number"
                         },
                         "rates_avg": {
-                          "type": "string",
+                          "type": "number",
                           "minLength": 1
                         },
                         "type": {
@@ -1309,35 +1351,177 @@
                         },
                         "book_genres": {
                           "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
                           "items": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "created_at",
+                              "updated_at"
+                            ]
                           }
                         },
-                        "year": {
-                          "type": "integer"
-                        },
+                        "year": {},
                         "publishers": {
                           "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
                           "items": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "publisher": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "publisher"
+                            ]
                           }
                         },
                         "book_comments": {
                           "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
                           "items": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "user_id": {
+                                "type": "number"
+                              },
+                              "book_id": {
+                                "type": "number"
+                              },
+                              "content": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "parent_comment_id": {
+                                "type": "number"
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "user_id",
+                              "book_id",
+                              "content",
+                              "created_at",
+                              "updated_at"
+                            ]
                           }
                         },
                         "reviews": {
                           "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
                           "items": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "user_id": {
+                                "type": "number"
+                              },
+                              "book_id": {
+                                "type": "number"
+                              },
+                              "content": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "parent_review_id": {},
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "user_id",
+                              "book_id",
+                              "content",
+                              "created_at",
+                              "updated_at"
+                            ]
                           }
                         },
                         "quotes": {
                           "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
                           "items": {
-                            "type": "object"
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "user_id": {
+                                "type": "number"
+                              },
+                              "book_id": {
+                                "type": "number"
+                              },
+                              "content": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "parent_quote_id": {},
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "user_id",
+                              "book_id",
+                              "content",
+                              "created_at",
+                              "updated_at"
+                            ]
                           }
                         }
                       }
@@ -1361,7 +1545,7 @@
                         "book_comments_count": 0,
                         "reviews_count": 0,
                         "quotes_count": 0,
-                        "rates_avg": "string",
+                        "rates_avg": 0,
                         "type": "string",
                         "authors": [
                           {
@@ -1371,20 +1555,52 @@
                         ],
                         "image": "string",
                         "book_genres": [
-                          {}
+                          {
+                            "id": 0,
+                            "name": "string",
+                            "created_at": "string",
+                            "updated_at": "string"
+                          }
                         ],
-                        "year": 0,
+                        "year": null,
                         "publishers": [
-                          {}
+                          {
+                            "id": 0,
+                            "publisher": "string"
+                          }
                         ],
                         "book_comments": [
-                          {}
+                          {
+                            "id": 0,
+                            "user_id": 0,
+                            "book_id": 0,
+                            "content": "string",
+                            "parent_comment_id": 0,
+                            "created_at": "string",
+                            "updated_at": "string"
+                          }
                         ],
                         "reviews": [
-                          {}
+                          {
+                            "id": 0,
+                            "user_id": 0,
+                            "book_id": 0,
+                            "content": "string",
+                            "parent_review_id": null,
+                            "created_at": "string",
+                            "updated_at": "string"
+                          }
                         ],
                         "quotes": [
-                          {}
+                          {
+                            "id": 0,
+                            "user_id": 0,
+                            "book_id": 0,
+                            "content": "string",
+                            "parent_quote_id": null,
+                            "created_at": "string",
+                            "updated_at": "string"
+                          }
                         ]
                       }
                     }
@@ -2313,626 +2529,6 @@
             "in": "query",
             "name": "bookType",
             "description": "values: books, audioBooks"
-          }
-        ]
-      }
-    },
-    "/compilations/books": {
-      "post": {
-        "summary": "Store book in users compilation",
-        "operationId": "post-compilations-books-add",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "compilation_id": {
-                          "type": "number"
-                        },
-                        "compilationable_id": {
-                          "type": "number"
-                        },
-                        "compilationable_type": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "compilation_id",
-                        "compilationable_id",
-                        "compilationable_type",
-                        "id"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "compilation_id": 2,
-                        "compilationable_id": 3,
-                        "compilationable_type": "books",
-                        "id": 0
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "status": "string",
-                      "data": {
-                        "compilation_id": 0,
-                        "compilationable_id": 0,
-                        "compilationable_type": "string",
-                        "id": 0
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "Unauthenticated."
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "message": "string"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity (WebDAV)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "errors": {
-                      "type": "object",
-                      "properties": {
-                        "book_id": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "book_id"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "message",
-                    "errors"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "The given data was invalid.",
-                      "errors": {
-                        "book_id": [
-                          "Некорректные данные"
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "message": "string",
-                      "errors": {
-                        "book_id": [
-                          {}
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "compilation_id"
-          },
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "book_id"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "book_type",
-            "description": "values: books or audioBooks"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
-        "tags": [
-          "Book"
-        ]
-      },
-      "parameters": []
-    },
-    "/users/books/": {
-      "delete": {
-        "summary": "Delete book from users list",
-        "operationId": "delete-books-delete",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "required": [],
-                        "properties": {}
-                      }
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": []
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "Unauthenticated."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "errors": {
-                      "type": "object",
-                      "properties": {
-                        "book_id": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "book_id"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "message",
-                    "errors"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "The given data was invalid.",
-                      "errors": {
-                        "book_id": [
-                          "The selected book id is invalid."
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "message": "string",
-                      "errors": {
-                        "book_id": [
-                          {}
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "book_id"
-          }
-        ],
-        "tags": [
-          "Book"
-        ]
-      },
-      "parameters": []
-    },
-    "/compilations/books/delete": {
-      "parameters": [],
-      "delete": {
-        "summary": "Delete book from users compilation",
-        "operationId": "delete-compilations-books-delete",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "required": [],
-                        "properties": {}
-                      }
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": []
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "status": "string",
-                      "data": [
-                        {}
-                      ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "Unauthenticated."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "errors": {
-                      "type": "object",
-                      "properties": {
-                        "book_id": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "book_id"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "message",
-                    "errors"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "The given data was invalid.",
-                      "errors": {
-                        "book_id": [
-                          "The selected book id is invalid."
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Book"
-        ],
-        "security": [
-          {
-            "Authorization": []
-          }
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "compilation_id"
-          },
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "book_id"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "book_type"
-          }
-        ]
-      }
-    },
-    "/users/books": {
-      "put": {
-        "summary": "Change book status",
-        "operationId": "put-users-books",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "required": [],
-                        "properties": {}
-                      }
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": []
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "Unauthenticated."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "403": {
-            "description": "Forbidden",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "error",
-                      "message": "Недостаточно прав"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "tags": [
-          "Book"
-        ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "book_id"
-          },
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "status"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
           }
         ]
       }

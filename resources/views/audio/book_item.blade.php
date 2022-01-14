@@ -104,12 +104,12 @@ grid-row-gap: 0px;">
                                         {{$audio->title}}
                                     </div>
                                     <div class="" style="grid-area: 1 / 2 / 2 / 3;">
-                                       @if(Storage::disk('sftp')->exists($book->slug.'/'.$audio->title.'.'.$audio->extension??'mp3'))
+                                       @if(Storage::disk('sftp')->exists($book->slug.'/'.Str::slug($audio->title).'.'.$audio->extension??'mp3'))
                                             <figure>
                                                 {{--                                <figcaption>Listen to the T-Rex:</figcaption>--}}
                                                 <audio
                                                     controls
-                                                    src="{{asset('audiobooks/'.$book->slug.'/'.$audio->title.'.'.$audio->extension)}}">
+                                                    src="{{asset('audiobooks/'.$book->slug.'/'.Str::slug($audio->title).'.'.$audio->extension)}}">
                                                     Your browser does not support the
                                                     <code>audio</code> element.
                                                 </audio>
