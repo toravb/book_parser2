@@ -139,6 +139,11 @@ class Book extends Model
         return $query->latest();
     }
 
+    public function scopePopular ($query)
+    {
+        return $query->orderBy('rates_avg', 'desc');
+    }
+
     public function genres()
     {
         return $this->hasManyThrough(

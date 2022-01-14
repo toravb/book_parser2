@@ -30,16 +30,8 @@ class BookController extends Controller
         $perPage = $request->showType === self::SHOW_TYPE_BLOCK ? self::PER_PAGE_BLOCKS : self::PER_PAGE_LIST;
         $viewTypeList = $request->showType === self::SHOW_TYPE_LIST;
 
-
-        $books = Book::with([
-            'authors',
-            'image',
-            'bookGenres',
-//            'bookStatuses'
-        ])
-            ->select('id', 'title')
-            ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating')
+        $bookModel = new Book();
+        $bookModel->getBook()
             ->when($viewTypeList, function ($query) {
 
                 return $query->withCount(['bookLikes', 'bookComments'])
@@ -76,7 +68,7 @@ class BookController extends Controller
             })
             ->paginate($perPage);
 
-        $collection = $books->getCollection();
+        $collection = $bookModel->getCollection();
         foreach ($collection as &$book) {
             if ($book->rates_avg === null) {
                 $book->rates_avg = 0;
@@ -94,9 +86,9 @@ class BookController extends Controller
                 unset($genres->pivot);
             }
         }
-        $books->setCollection($collection);
+        $bookModel->setCollection($collection);
 
-        return ApiAnswerService::successfulAnswerWithData($books);
+        return ApiAnswerService::successfulAnswerWithData($bookModel);
     }
 
     public function showSingle(GetIdRequest $request)

@@ -3,6 +3,8 @@
 namespace App\api\Http\Controllers;
 
 
+use App\Api\Http\Requests\GetBooksRequest;
+use App\Api\Http\Requests\GetUsersBooksRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
@@ -20,7 +22,7 @@ class UsersBooksController extends Controller
     const SORT_BY_ALPHABET = '3';
 
 
-    public function showBooks(Request $request, Book $book)
+    public function showBooks(GetUsersBooksRequest $request, Book $book)
     {
 
         $this->user = Auth::user();
@@ -36,7 +38,7 @@ class UsersBooksController extends Controller
                 return $query->newest();
             })
             ->when($request->sortBy === self::SORT_BY_RATING, function ($query) {
-                return $query->orderBy('rates_avg', 'desc');
+                return $query->popular();
 
             })
             ->when($request->sortBy === self::SORT_BY_ALPHABET, function ($query) {
