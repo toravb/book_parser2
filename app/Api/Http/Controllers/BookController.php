@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\ChangeBookStatusRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
@@ -12,9 +13,11 @@ use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
-use Illuminate\Http\Request;
+use App\Models\Compilation;
+use http\Env\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
+use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
 {
@@ -74,7 +77,6 @@ class BookController extends Controller
             })
             ->when($request->sortBy === self::SORT_BY_RATING, function ($query) {
                 return $query->orderBy('rates_avg', 'desc');
-//                    Rate::popular();
             })
             ->when($request->sortBy === self::SORT_BY_READERS_COUNT, function ($query) {
                 return $query->whereHas('bookStatuses', function ($query) {
@@ -153,22 +155,54 @@ class BookController extends Controller
     public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
     {
         $user = Auth::user();
-        $bookUser->deleteBook($user->id, $request->book_id);
 
-        return ApiAnswerService::successfulAnswerWithData($bookUser);
+       $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
+
+        if($isUsersBook)
+        {
+            $bookUser->deleteBook($user->id, $request->book_id);
+            return ApiAnswerService::successfulAnswerWithData($bookUser);
+
+        } return ApiAnswerService::errorAnswer("Недостаточно прав для редактирования", Response::HTTP_FORBIDDEN);
+
     }
 
     public function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation){
 
-        $bookUsersCompilation->saveBookToCompilation($request->compilation_id, $request->book_id, $request->book_type);
+        $usersCompilation = Compilation::find($request->compilation_id);
 
-        return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
+        if($usersCompilation?->created_by === Auth::id()){
+
+            $bookUsersCompilation->saveBookToCompilation($request->compilation_id, $request->book_id, $request->book_type);
+            return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
+
+
+        } return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
+
     }
 
     public function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation){
 
-        $bookUsersCompilation->deleteBookfromCompilation($request->compilation_id, $request->book_id, $request->book_type);
+        $usersCompilation = Compilation::find($request->compilation_id);
 
-        return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
+        if($usersCompilation?->created_by === Auth::id()){
+
+            $bookUsersCompilation->deleteBookfromCompilation($request->compilation_id, $request->book_id, $request->book_type);
+            return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
+
+        } return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
+
+
+    }
+
+    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser){
+        $user = Auth::user();
+        $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
+
+        if($isUsersBook){
+            $bookUser->changeStatus($user->id, $request->book_id, $request->status);
+            return ApiAnswerService::successfulAnswerWithData($bookUser);
+        } return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
+
     }
 }

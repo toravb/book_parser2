@@ -28,6 +28,14 @@ class BookUser extends Model
         ->delete();
     }
 
+    public function changeStatus(int $userId, int $bookId, int $status)
+    {
+        $this->where('user_id', $userId)
+            ->where('book_id', $bookId)
+            ->update(['status' => $status]);
+
+    }
+
 
 
 

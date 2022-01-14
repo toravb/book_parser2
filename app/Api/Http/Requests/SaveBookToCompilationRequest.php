@@ -29,11 +29,11 @@ class SaveBookToCompilationRequest extends FormRequest
 
         return [
 
-            'compilation_id' =>['bail', 'required', 'integer', 'exists:compilations,id'],
+            'compilation_id' => ['bail', 'required', 'integer'],
             'book_id' => ['bail', 'required', 'integer',
-               new CheckBookToCompilationRule($this->book_type, $this->compilation_id)
+                new CheckBookToCompilationRule($this->book_type, $this->compilation_id)
             ],
-            'book_type' => [ 'bail', 'required', 'string',
+            'book_type' => ['bail', 'required', 'string',
                 Rule::in(
                     BookController::TYPE_BOOK,
                     BookController::TYPE_AUDIO_BOOK)],
