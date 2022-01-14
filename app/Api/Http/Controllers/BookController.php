@@ -2,12 +2,17 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
+use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveBookRequest;
+use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\BookCompilation;
 use App\Models\BookUser;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 
@@ -23,6 +28,8 @@ class BookController extends Controller
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
+    const TYPE_BOOK = 'books';
+    const TYPE_AUDIO_BOOK = 'audioBooks';
 
 
     public function show(GetBooksRequest $request)
@@ -133,7 +140,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function saveBook(SaveBookRequest $request, BookUser $bookUser)
+    public function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
     {
 
         $user = Auth::user();
@@ -141,5 +148,27 @@ class BookController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($bookUser);
 
+    }
+
+    public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
+    {
+        $user = Auth::user();
+        $bookUser->deleteBook($user->id, $request->book_id);
+
+        return ApiAnswerService::successfulAnswerWithData($bookUser);
+    }
+
+    public function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation){
+
+        $bookUsersCompilation->saveBookToCompilation($request->compilation_id, $request->book_id, $request->book_type);
+
+        return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
+    }
+
+    public function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation){
+
+        $bookUsersCompilation->deleteBookfromCompilation($request->compilation_id, $request->book_id, $request->book_type);
+
+        return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
     }
 }

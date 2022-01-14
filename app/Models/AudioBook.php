@@ -20,6 +20,17 @@ class AudioBook extends Model
         'litres'
     ];
 
+    protected $appends = [
+        'type'
+    ];
+
+    public function getTypeAttribute()
+    {
+
+        return 'audioBooks';
+
+    }
+
     public function sluggable(): array
     {
         return [

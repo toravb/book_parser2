@@ -20,6 +20,16 @@ class BookUser extends Model
         $this->status = $status;
         $this->save();
     }
+    public function deleteBook(int $userId, int $bookId)
+    {
+
+        $this->where('user_id', $userId)
+        ->where('book_id', $bookId)
+        ->delete();
+    }
+
+
+
 
     public function scopeReading($query)
 {

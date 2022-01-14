@@ -39,11 +39,14 @@ Route::middleware('auth:api')->group(function (){
     /**
      * add book to list
     */
-    Route::put('/books/save', [BookController::class, 'saveBook'])->name('saveBook');
+    Route::put('/books/save', [BookController::class, 'saveBookToUsersList'])->name('saveBookToUsersList');
+    Route::delete('/books/delete', [BookController::class, 'deleteBookFromUsersList'])->name('deleteBookFromUsersList');
 
     Route::post('/ratings', [RateController::class, 'store'])->name('storeRating');
 
     Route::post('/compilations', [CompilationController::class, 'store'])->name('storeCompilation');
+    Route::post('/compilations/books/add', [BookController::class, 'saveBookToCompilation'])->name('saveBookToCompilation');
+    Route::delete('/compilations/books/delete', [BookController::class, 'deleteBookFromCompilation'])->name('deleteBookFromCompilation');
 
 });
 

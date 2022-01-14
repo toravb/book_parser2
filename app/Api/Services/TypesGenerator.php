@@ -2,6 +2,7 @@
 
 namespace App\Api\Services;
 
+use App\Api\Http\Controllers\BookController;
 use App\Api\Interfaces\Types;
 
 class TypesGenerator implements Types
@@ -23,6 +24,12 @@ class TypesGenerator implements Types
         'audio_book' => 'App\\Api\\Models\\AudioBook'
     ];
 
+    protected $compilationsBookTypes = [
+        BookController::TYPE_BOOK => 'App\Models\Book',
+        BookController::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
+    ];
+
+
     public function getCommentTypes():array
     {
         return $this->commentTypes;
@@ -36,5 +43,9 @@ class TypesGenerator implements Types
     public function getLikeModelTypes(): array
     {
         return $this->likeModelTypes;
+    }
+    public function getCompilationsBookTypes(): array
+    {
+        return $this->compilationsBookTypes;
     }
 }
