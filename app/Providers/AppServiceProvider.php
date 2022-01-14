@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Api\Services\TypesGenerator;
 use App\Models\AudioAuthorsLink;
 use App\Models\AudioSite;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -37,10 +38,8 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
-        Relation::enforceMorphMap([
-            'books' => 'App\Models\Book',
-            'audioBooks' => 'App\Models\AudioBook',
-        ]);
+        $typesGenerator = new TypesGenerator();
+        Relation::enforceMorphMap($typesGenerator->getCompilationsBookTypes());
 
         Queue::looping(function (Looping $event){
             if ($event->queue == 'audio_parse_authors'){

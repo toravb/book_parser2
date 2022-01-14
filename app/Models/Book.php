@@ -32,6 +32,17 @@ class Book extends Model
         'donor_id'
     ];
 
+    protected $appends = [
+        'type'
+    ];
+
+    public function getTypeAttribute()
+    {
+
+        return 'books';
+
+    }
+
     protected $morphClass = 'Book';
 
     public static function create($fields){

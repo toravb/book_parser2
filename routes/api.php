@@ -44,11 +44,15 @@ Route::middleware('auth:api')->group(function (){
     /**
      * add book to list
     */
-    Route::put('/books/save', [BookController::class, 'saveBook'])->name('saveBook');
+    Route::put('/books/save', [BookController::class, 'saveBookToUsersList']);
+    Route::delete('/users/books', [BookController::class, 'deleteBookFromUsersList']);
+    Route::put('/users/books', [BookController::class, 'changeBookStatus']);
 
-    Route::post('/ratings', [RateController::class, 'store'])->name('storeRating');
+    Route::post('/ratings', [RateController::class, 'store']);
 
-    Route::post('/compilations', [CompilationController::class, 'store'])->name('storeCompilation');
+    Route::post('/compilations', [CompilationController::class, 'store']);
+    Route::post('/compilations/books', [BookController::class, 'saveBookToCompilation']);
+    Route::delete('/compilations/books/delete', [BookController::class, 'deleteBookFromCompilation']);
     Route::get('/users/books', [UsersBooksController::class, 'showBooks']);
 });
 
@@ -63,13 +67,13 @@ Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
 Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
 
 
-Route::get('/genres', [CategoryController::class, 'show'])->name('category');
-Route::get('/selections', [CategoryController::class, 'showSelectionType'])->name('selectionType');
+Route::get('/genres', [CategoryController::class, 'show']);
+Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
-Route::get('/books', [BookController::class, 'show'])->name('showList');
-Route::get('/books/{id}', [BookController::class, 'showSingle'])->name('showSingle');
+Route::get('/books', [BookController::class, 'show']);
+Route::get('/books/{id}', [BookController::class, 'showSingle']);
 
-Route::get('/compilations', [CompilationController::class, 'show'])->name('compilationList');
+Route::get('/compilations', [CompilationController::class, 'show']);
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
