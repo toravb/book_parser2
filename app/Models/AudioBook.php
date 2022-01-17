@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class AudioBook extends Model
 {
     use HasFactory, Sluggable;
+    const TYPE_AUDIO_BOOK = 'audioBooks';
 
     protected $fillable = [
         'title',

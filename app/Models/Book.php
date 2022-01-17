@@ -21,6 +21,7 @@ class Book extends Model
     const READING = '2';
     const HAD_READ = '3';
     const SORT_BY_ALPHABET = '3';
+    const TYPE_BOOK = 'books';
 
     protected $fillable = [
         'title',
@@ -173,7 +174,7 @@ class Book extends Model
             'book_id',
             'id',
             'id',
-            'book_genres_id'
+            'book_genre_id'
         );
     }
 
@@ -188,7 +189,7 @@ class Book extends Model
 
     public function compilations()
     {
-        return $this->MorphToMany(Compilation::class,
+        return $this->morphToMany(Compilation::class,
             'compilationable',
         'book_compilation',
         'compilationable_id',

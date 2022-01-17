@@ -17,6 +17,11 @@ class Compilation extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function compilationable()
+    {
+        return $this->morphTo();
+    }
+
     public function books()
     {
         return $this->morphedByMany(
@@ -48,6 +53,7 @@ class Compilation extends Model
     public function compilationType(){
         return $this->belongsTo(CompilationType::class);
     }
+
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)
     {
