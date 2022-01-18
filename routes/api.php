@@ -74,6 +74,7 @@ Route::get('/books', [BookController::class, 'show']);
 Route::get('/books/{id}', [BookController::class, 'showSingle']);
 
 Route::get('/compilations', [CompilationController::class, 'show']);
+Route::get('public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 

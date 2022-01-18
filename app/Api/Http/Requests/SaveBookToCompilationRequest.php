@@ -4,6 +4,8 @@ namespace App\Api\Http\Requests;
 
 use App\Api\Http\Controllers\BookController;
 use App\Api\Rules\CheckBookToCompilationRule;
+use App\Models\AudioBook;
+use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -35,8 +37,8 @@ class SaveBookToCompilationRequest extends FormRequest
             ],
             'book_type' => ['bail', 'required', 'string',
                 Rule::in(
-                    BookController::TYPE_BOOK,
-                    BookController::TYPE_AUDIO_BOOK)],
+                    Book::TYPE_BOOK,
+                    AudioBook::TYPE_AUDIO_BOOK)],
 
         ];
     }

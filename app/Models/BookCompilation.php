@@ -11,6 +11,8 @@ class BookCompilation extends Model
     protected $table = 'book_compilation';
     public $timestamps = false;
 
+
+
     public function saveBookToCompilation (int $compilationId, int $bookId, string $bookType)
     {
 
@@ -27,4 +29,6 @@ class BookCompilation extends Model
             ->where('compilationable_type', $bookType)
             ->delete();
     }
+
+
 }
