@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\This;
 
 class Book extends Model
 {
@@ -20,7 +19,7 @@ class Book extends Model
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
-    const SORT_BY_ALPHABET = '3';
+    const SORT_BY_ALPHABET = '4';
     const TYPE_BOOK = 'books';
 
     protected $fillable = [
