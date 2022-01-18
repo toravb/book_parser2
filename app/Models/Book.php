@@ -43,7 +43,7 @@ class Book extends Model
 
     }
 
-    protected $morphClass = 'Book';
+//    protected $morphClass = 'Book';
 
     public static function create($fields){
         $book = new static();
@@ -210,4 +210,9 @@ class Book extends Model
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
+    public function bookCompilation(){
+        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
+
 }
+

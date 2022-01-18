@@ -35,7 +35,8 @@ class GetBooksRequest extends FormRequest
                 Rule::in(
                     Book::SORT_BY_DATE,
                     Book::SORT_BY_RATING,
-                    Book::SORT_BY_READERS_COUNT)],
+                    Book::SORT_BY_READERS_COUNT,
+                    Book::SORT_BY_ALPHABET)],
 
         ];
     }
