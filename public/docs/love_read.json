@@ -983,6 +983,9 @@
                                     "publisher": {
                                       "type": "string",
                                       "minLength": 1
+                                    },
+                                    "": {
+                                      "type": "string"
                                     }
                                   },
                                   "required": [
@@ -1170,7 +1173,7 @@
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - sort by date; 2 - sort bu readers count; 3 - sort by rating",
+            "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating",
             "required": true
           }
         ]
@@ -1193,24 +1196,21 @@
                   "x-examples": {
                     "example-1": {
                       "status": "success",
-                      "title": {
+                      "data": {
                         "id": 1,
-                        "title": "Dr.",
-                        "text": "Repellat molestias itaque quae amet reprehenderit similique. Provident ut et odio est. Neque aliquid animi eligendi est.",
-                        "rates_count": 0,
+                        "title": "Miss",
+                        "text": "Quo a nulla error deserunt exercitationem tenetur. Laudantium consequatur mollitia veritatis maiores magni velit.",
+                        "rates_count": 1,
                         "book_likes_count": 0,
-                        "book_comments_count": 1,
-                        "reviews_count": 1,
-                        "quotes_count": 1,
-                        "rates_avg": 0,
+                        "book_comments_count": 0,
+                        "reviews_count": 0,
+                        "quotes_count": 0,
+                        "rates_avg": "1.0000",
+                        "type": "books",
                         "authors": [
                           {
                             "id": 1,
-                            "author": "Joanny Kreiger"
-                          },
-                          {
-                            "id": 2,
-                            "author": "Dr. Violette Lang"
+                            "author": "Loyal Botsford"
                           }
                         ],
                         "image": null,
@@ -1270,7 +1270,7 @@
                       "type": "string",
                       "minLength": 1
                     },
-                    "title": {
+                    "data": {
                       "type": "object",
                       "required": [
                         "id",
@@ -1282,6 +1282,7 @@
                         "reviews_count",
                         "quotes_count",
                         "rates_avg",
+                        "type",
                         "authors",
                         "book_genres",
                         "publishers",
@@ -1317,7 +1318,12 @@
                           "type": "number"
                         },
                         "rates_avg": {
-                          "type": "number"
+                          "type": "number",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
                         },
                         "authors": {
                           "type": "array",
@@ -1523,14 +1529,14 @@
                   },
                   "required": [
                     "status",
-                    "title"
+                    "data"
                   ]
                 },
                 "examples": {
-                  "example": {
+                  "example-1": {
                     "value": {
                       "status": "string",
-                      "title": {
+                      "data": {
                         "id": 0,
                         "title": "string",
                         "text": "string",
@@ -1540,6 +1546,7 @@
                         "reviews_count": 0,
                         "quotes_count": 0,
                         "rates_avg": 0,
+                        "type": "string",
                         "authors": [
                           {
                             "id": 0,
@@ -1810,7 +1817,8 @@
             },
             "in": "query",
             "name": "status",
-            "required": true
+            "required": true,
+            "description": "values:1, 2, 3 (1 - want read, 2 - now reading, 3 - had read)"
           }
         ],
         "security": [

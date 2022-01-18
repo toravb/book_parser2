@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class AudioBook extends Model
 {
     use HasFactory, Sluggable;
+    const TYPE_AUDIO_BOOK = 'audioBooks';
 
     protected $fillable = [
         'title',
@@ -19,6 +20,17 @@ class AudioBook extends Model
         'link_id',
         'litres'
     ];
+
+    protected $appends = [
+        'type'
+    ];
+
+    public function getTypeAttribute()
+    {
+
+        return 'audioBooks';
+
+    }
 
     public function sluggable(): array
     {
