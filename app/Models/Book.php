@@ -20,7 +20,7 @@ class Book extends Model
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
-    const SORT_BY_ALPHABET = '3';
+    const SORT_BY_ALPHABET = '4';
 
     protected $fillable = [
         'title',

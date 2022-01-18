@@ -2526,12 +2526,6 @@
       }
     },
     "/password_reset": {
-      "get": {
-        "summary": "User password reset",
-        "tags": [],
-        "responses": {},
-        "operationId": "get-password_reset"
-      },
       "post": {
         "summary": "User password reset",
         "operationId": "post-password_reset",
@@ -2665,6 +2659,13 @@
               "schema": {
                 "description": "",
                 "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "old_password": "qwerqwer",
+                    "password": "asdfasdf",
+                    "password_confirm": "asdfasdf"
+                  }
+                },
                 "properties": {
                   "old_password": {
                     "type": "string",
@@ -2674,7 +2675,7 @@
                     "type": "string",
                     "minLength": 1
                   },
-                  "password_confirm": {
+                  "password_confirmation": {
                     "type": "string",
                     "minLength": 1
                   }
@@ -2682,15 +2683,8 @@
                 "required": [
                   "old_password",
                   "password",
-                  "password_confirm"
-                ],
-                "x-examples": {
-                  "example-1": {
-                    "old_password": "qwerqwer",
-                    "password": "asdfasdf",
-                    "password_confirm": "asdfasdf"
-                  }
-                }
+                  "password_confirmation"
+                ]
               },
               "examples": {
                 "example-1": {
@@ -2707,12 +2701,6 @@
       }
     },
     "/notification_settings": {
-      "get": {
-        "summary": "",
-        "tags": [],
-        "responses": {},
-        "operationId": "get-notification_settings"
-      },
       "put": {
         "summary": "Notification settings",
         "operationId": "put-notification_settings",
@@ -2827,12 +2815,6 @@
       }
     },
     "/users": {
-      "get": {
-        "summary": "User delete",
-        "tags": [],
-        "responses": {},
-        "operationId": "get-users"
-      },
       "delete": {
         "summary": "",
         "operationId": "delete-users",
@@ -3354,8 +3336,35 @@
                 }
               }
             }
+          },
+          "description": ""
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "sortBy",
+            "description": "1 - sort by date; 2 - sort bu readers count; 3 - sort by rating, 4 - sort by alphabet"
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "status",
+            "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "search",
+            "description": "find by author or title"
           }
-        }
+        ]
       }
     }
   },
