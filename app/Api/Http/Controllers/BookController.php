@@ -62,6 +62,10 @@ class BookController extends Controller
                     return $query->reading();
                 })->withCount('bookStatuses as readersCount')->orderBy('readersCount', 'desc');
             })
+            ->when($request->sortBy === Book::SORT_BY_ALPHABET, function ($query) {
+
+                return $query->orderBy('title');
+            })
             ->paginate($perPage);
 
         $collection = $books->getCollection();

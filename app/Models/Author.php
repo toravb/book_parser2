@@ -15,6 +15,8 @@ class Author extends Model
         'author'
     ];
 
+    protected $hidden = ['pivot'];
+
     public static function create($fields){
         $author = new static();
         $author->fill($fields);

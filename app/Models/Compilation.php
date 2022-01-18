@@ -12,14 +12,15 @@ class Compilation extends Model
 {
     use HasFactory;
 
+    const COMPILATION_PER_PAGE = 20;
+
     public function users()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function compilationable()
-    {
-        return $this->morphTo();
+    public function compilationable() {
+        return $this->morphTo('compilationable', 'compilationable_type', 'compilationable_id');
     }
 
     public function books()
@@ -59,6 +60,8 @@ class Compilation extends Model
     {
         $filter->apply($builder);
     }
+
+
 
 
 

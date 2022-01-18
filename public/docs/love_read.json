@@ -1173,7 +1173,7 @@
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating",
+            "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating, 4 - sort by alphabet",
             "required": true
           }
         ]
@@ -2532,6 +2532,388 @@
           }
         ]
       }
+    },
+    "/public/compilations/{id}": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "compilation": {
+                          "id": 2,
+                          "title": "5555555555",
+                          "background": "image",
+                          "description": "qwaszxerdfcvtyghbn",
+                          "type": 2,
+                          "books_count": 4,
+                          "audio_books_count": 0,
+                          "generalBooksCount": 4
+                        },
+                        "books": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "compilation_id": 2,
+                              "compilationable_id": 5,
+                              "compilationable_type": "books",
+                              "book_compilationable": {
+                                "id": 5,
+                                "title": "Ms.",
+                                "rates_count": 3,
+                                "rates_avg": "3.3333",
+                                "type": "books",
+                                "authors": [
+                                  {
+                                    "id": 61,
+                                    "author": "Jordane Bergnaum"
+                                  }
+                                ],
+                                "image": null,
+                                "book_genres": [
+                                  {
+                                    "id": 2,
+                                    "name": "Фенези"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "first_page_url": "http://book-parser2/api/public/compilations/2?page=1",
+                          "from": 1,
+                          "next_page_url": null,
+                          "path": "http://book-parser2/api/public/compilations/2",
+                          "per_page": 20,
+                          "prev_page_url": null,
+                          "to": 4
+                        }
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "compilation",
+                        "books"
+                      ],
+                      "properties": {
+                        "compilation": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "title",
+                            "background",
+                            "description",
+                            "type",
+                            "books_count",
+                            "audio_books_count",
+                            "generalBooksCount"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "background": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "description": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "type": {
+                              "type": "number"
+                            },
+                            "books_count": {
+                              "type": "number"
+                            },
+                            "audio_books_count": {
+                              "type": "number"
+                            },
+                            "generalBooksCount": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "books": {
+                          "type": "object",
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "path",
+                            "per_page",
+                            "to"
+                          ],
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "compilation_id": {
+                                    "type": "number"
+                                  },
+                                  "compilationable_id": {
+                                    "type": "number"
+                                  },
+                                  "compilationable_type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "book_compilationable": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "title": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "rates_count": {
+                                        "type": "number"
+                                      },
+                                      "rates_avg": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "type": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "authors": {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "minItems": 1,
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "number"
+                                            },
+                                            "author": {
+                                              "type": "string",
+                                              "minLength": 1
+                                            }
+                                          },
+                                          "required": [
+                                            "id",
+                                            "author"
+                                          ]
+                                        }
+                                      },
+                                      "image": {
+                                        "type": "string"
+                                      },
+                                      "book_genres": {
+                                        "type": "array",
+                                        "uniqueItems": true,
+                                        "minItems": 1,
+                                        "items": {
+                                          "type": "object",
+                                          "properties": {
+                                            "id": {
+                                              "type": "number"
+                                            },
+                                            "name": {
+                                              "type": "string",
+                                              "minLength": 1
+                                            }
+                                          },
+                                          "required": [
+                                            "id",
+                                            "name"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "title",
+                                      "rates_count",
+                                      "rates_avg",
+                                      "type",
+                                      "authors",
+                                      "book_genres"
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "compilation_id",
+                                  "compilationable_id",
+                                  "compilationable_type"
+                                ]
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "next_page_url": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "string",
+                      "data": {
+                        "compilation": {
+                          "id": 0,
+                          "title": "string",
+                          "background": "string",
+                          "description": "string",
+                          "type": 0,
+                          "books_count": 0,
+                          "audio_books_count": 0,
+                          "generalBooksCount": 0
+                        },
+                        "books": {
+                          "current_page": 0,
+                          "data": [
+                            {
+                              "compilation_id": 0,
+                              "compilationable_id": 0,
+                              "compilationable_type": "string",
+                              "book_compilationable": {
+                                "id": 0,
+                                "title": "string",
+                                "rates_count": 0,
+                                "rates_avg": "string",
+                                "type": "string",
+                                "authors": [
+                                  {
+                                    "id": 0,
+                                    "author": "string"
+                                  }
+                                ],
+                                "image": "string",
+                                "book_genres": [
+                                  {
+                                    "id": 0,
+                                    "name": "string"
+                                  }
+                                ]
+                              }
+                            }
+                          ],
+                          "first_page_url": "string",
+                          "from": 0,
+                          "next_page_url": "string",
+                          "path": "string",
+                          "per_page": 0,
+                          "prev_page_url": "string",
+                          "to": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Not Found!"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "string",
+                      "message": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-public-compilations"
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "number"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ]
     }
   },
   "components": {
