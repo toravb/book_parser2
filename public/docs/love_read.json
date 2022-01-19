@@ -1175,6 +1175,27 @@
             "name": "sortBy",
             "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating, 4 - sort by alphabet",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "alphabetAuthorIndex"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "alphabetPublisherIndex"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "alphabetTitleIndex"
           }
         ]
       }

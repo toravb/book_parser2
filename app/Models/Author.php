@@ -34,4 +34,5 @@ class Author extends Model
     {
         return $this->hasMany(Book::class, 'author_id', 'id');
     }
+
 }

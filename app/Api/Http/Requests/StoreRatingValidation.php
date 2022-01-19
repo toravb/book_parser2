@@ -30,7 +30,7 @@ class StoreRatingValidation extends FormRequest
                 Rule::unique('rates')->where(function ($query) {
                 return $query->where('user_id', Auth::id());
             })],
-            'rating' => ['required', 'integer', 'between:1,5'],
+            'rating' => ['required', 'numeric', 'between:1,5'],
 
 
         ];
