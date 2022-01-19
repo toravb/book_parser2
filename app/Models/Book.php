@@ -9,7 +9,18 @@ class Book extends Model
 {
     use HasFactory;
 
-//    public $timestamps = false;
+    const PER_PAGE_BLOCKS = 40;
+    const PER_PAGE_LIST = 13;
+    const SHOW_TYPE_BLOCK = 'block';
+    const SHOW_TYPE_LIST = 'list';
+    const SORT_BY_DATE = '1';
+    const SORT_BY_READERS_COUNT = '2';
+    const SORT_BY_RATING = '3';
+    const WANT_READ = '1';
+    const READING = '2';
+    const HAD_READ = '3';
+    const SORT_BY_ALPHABET = '4';
+    const TYPE_BOOK = 'books';
 
     protected $fillable = [
         'title',
@@ -21,7 +32,18 @@ class Book extends Model
         'donor_id'
     ];
 
-    protected $morphClass = 'Book';
+    protected $appends = [
+        'type'
+    ];
+
+    public function getTypeAttribute()
+    {
+
+        return 'books';
+
+    }
+
+//    protected $morphClass = 'Book';
 
     public static function create($fields){
         $book = new static();
@@ -138,6 +160,11 @@ class Book extends Model
         return $query->latest();
     }
 
+    public function scopePopular ($query)
+    {
+        return $query->orderBy('rates_avg', 'desc');
+    }
+
     public function genres()
     {
         return $this->hasManyThrough(
@@ -146,7 +173,7 @@ class Book extends Model
             'book_id',
             'id',
             'id',
-            'book_genres_id'
+            'book_genre_id'
         );
     }
 
@@ -155,9 +182,13 @@ class Book extends Model
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 
+    public function users() {
+        return $this->belongsToMany(User::class, 'book_user');
+    }
+
     public function compilations()
     {
-        return $this->MorphToMany(Compilation::class,
+        return $this->morphToMany(Compilation::class,
             'compilationable',
         'book_compilation',
         'compilationable_id',
@@ -166,5 +197,22 @@ class Book extends Model
         'id');
     }
 
+    public function getBook(){
+        return
+        $this->with([
+            'authors',
+            'image',
+            'bookGenres',
+//            'bookStatuses'
+        ])
+            ->select('id', 'title')
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
+    public function bookCompilation(){
+        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
 
 }
+

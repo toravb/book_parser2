@@ -8,6 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class BookGenre extends Model
 {
     use HasFactory;
+    protected $hidden = ['pivot'];
+
+
 
     public function books()
     {

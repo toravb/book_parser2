@@ -2,11 +2,12 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Api\Http\Controllers\BookController;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class StoreCompilationRequest extends FormRequest
+class ChangeBookStatusRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,13 +27,12 @@ class StoreCompilationRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=>['required', 'string', 'min:8', 'max:255',
-                Rule::unique('compilations')->where(function ($query) {
-                    return $query->where('created_by', Auth::id());
-                })],
-            'image'=>['required', 'image', 'max:10240',],
-            'description'=>['required', 'string', 'max:10000'],
-            'compType'=>['sometimes', 'exists:users,is_admin'],
+            'book_id' => ['required', 'integer'],
+            'status' => ['required', 'integer',
+                Rule::in(
+                    BookController::WANT_READ,
+                    BookController::READING,
+                    BookController::HAD_READ)],
 
         ];
     }

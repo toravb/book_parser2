@@ -3,9 +3,8 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\ProfileUpdateRequest;
-
+use App\Api\Services\UserService;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -14,14 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProfileUpdateController extends Controller
 {
-    public function store(ProfileUpdateRequest $request)
-    {
-        {
-            $path = $request->file('avatar')->store('avatars');
-
-            return $path;
-        }
-    }
 
     public function update(ProfileUpdateRequest $request)
     {
@@ -47,7 +38,7 @@ class ProfileUpdateController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'data' => $user
+                'data' => UserService::userAvatar($user)
             ]);
         } catch (\Exception $exception) {
             Log::error($exception);
@@ -58,4 +49,5 @@ class ProfileUpdateController extends Controller
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
+
 }

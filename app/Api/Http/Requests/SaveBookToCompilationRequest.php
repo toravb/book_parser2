@@ -3,11 +3,13 @@
 namespace App\Api\Http\Requests;
 
 use App\Api\Http\Controllers\BookController;
+use App\Api\Rules\CheckBookToCompilationRule;
+use App\Models\AudioBook;
 use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ShowCompilationRequest extends FormRequest
+class SaveBookToCompilationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,10 +28,18 @@ class ShowCompilationRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'showType'=>['required', Rule::in([Book::SHOW_TYPE_BLOCK, Book::SHOW_TYPE_LIST])],
-            'selectionCategory'=>['sometimes', 'integer', 'exists:compilations,type'],
-            'bookType'=>['sometimes', 'string', 'exists:book_compilation,compilationable_type'],
+
+            'compilation_id' => ['bail', 'required', 'integer'],
+            'book_id' => ['bail', 'required', 'integer',
+                new CheckBookToCompilationRule($this->book_type, $this->compilation_id)
+            ],
+            'book_type' => ['bail', 'required', 'string',
+                Rule::in(
+                    Book::TYPE_BOOK,
+                    AudioBook::TYPE_AUDIO_BOOK)],
+
         ];
     }
 }

@@ -3,11 +3,13 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Filters\CompilationFilter;
+use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\ShowCompilationRequest;
 use App\Api\Http\Requests\StoreCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
+use App\Models\Book;
 use App\Models\Compilation;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,14 +32,13 @@ class CompilationController extends Controller
     public function show(ShowCompilationRequest $request, CompilationFilter $compilationFilter)
     {
 
-        $perList = $request->showType === BookController::SHOW_TYPE_BLOCK ? self::COMPILAION_BLOCK_QUANTITY : self::COMPILAION_LIST_QUANTITY;
+        $perList = $request->showType === Book::SHOW_TYPE_BLOCK ? self::COMPILAION_BLOCK_QUANTITY : self::COMPILAION_LIST_QUANTITY;
 
         $books = Compilation::filter($compilationFilter)
-//            ->dum();
             ->paginate($perList);
-//        dd($books);
 
-        if ($request->showType === BookController::SHOW_TYPE_LIST){
+        if ($request->showType === Book::SHOW_TYPE_LIST) {
+
             $collection = $books->getCollection();
 
             foreach ($collection as &$compilation) {
@@ -61,5 +62,18 @@ class CompilationController extends Controller
 
 
         return ApiAnswerService::successfulAnswerWithData($books);
+    }
+
+    public function showCompilationDetails(GetIdRequest $request, CompilationService $compilationService)
+    {
+
+        $compilation = Compilation::select('id', 'title', 'background', 'description', 'type')
+            ->withCount(['books', 'audioBooks'])
+            ->findOrfail($request->id);
+        $books = $compilationService->showCompilationDetails($request->id);
+        $compilation->generalBooksCount = $compilation->books_count + $compilation->audio_books_count;
+
+        return ApiAnswerService::successfulAnswerWithData(['compilation' => $compilation, 'books' => $books]);
+
     }
 }
