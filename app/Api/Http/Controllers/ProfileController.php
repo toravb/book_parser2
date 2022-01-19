@@ -5,7 +5,7 @@ namespace App\Api\Http\Controllers;
 use App\Api\Services\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
+
 
 class ProfileController extends Controller
 {
@@ -14,6 +14,6 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        return UserService::userAvatar($user);;
+        return UserService::userAvatar($user);
     }
 }
