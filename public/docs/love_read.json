@@ -3323,37 +3323,6 @@
               }
             }
           },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "error",
-                      "message": "Not Found!"
-                    }
-                  }
-                }
-              }
-            }
-          },
           "422": {
             "description": "Unprocessable Entity (WebDAV)",
             "content": {

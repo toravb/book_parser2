@@ -25,12 +25,18 @@ class CurrentReadingRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' => ['required', 'integer', 'exists:pages,book_id'],
             'pageNumber' => [
                 'sometimes',
                 'numeric',
                 Rule::exists('pages', 'page_number')->where('book_id', $this->route()->parameter('id')),
             ]
         ];
+    }
+
+    public function validationData()
+    {
+        return array_merge($this->route()->parameters(),$this->all());
     }
 
 }
