@@ -785,7 +785,10 @@
                           "type": "string",
                           "minLength": 1
                         },
-                        "avatar": {}
+                        "avatar": {
+                          "type": "string",
+                          "minLength": 1
+                        }
                       },
                       "required": [
                         "id",
@@ -794,7 +797,8 @@
                         "is_admin",
                         "created_at",
                         "updated_at",
-                        "surname"
+                        "surname",
+                        "avatar"
                       ]
                     }
                   },
@@ -807,13 +811,13 @@
                       "status": "success",
                       "data": {
                         "id": 15,
-                        "name": "Vasya2",
-                        "email": "asdf21@asdf",
+                        "name": "Vasya5",
+                        "email": "asdf22@asdf",
                         "is_admin": 0,
                         "created_at": "2022-01-18T11:41:48.000000Z",
-                        "updated_at": "2022-01-19T08:39:08.000000Z",
-                        "surname": "Vasya2",
-                        "avatar": null
+                        "updated_at": "2022-01-19T09:53:56.000000Z",
+                        "surname": "Pupkin5",
+                        "avatar": "http://bookparser2/public/storage/avatar/eK2rO3EVZTwnIhVmJZWfIxVYkU2cgGF3KG7w4lQh.jpg"
                       }
                     }
                   }
@@ -824,13 +828,13 @@
                       "status": "success",
                       "data": {
                         "id": 15,
-                        "name": "Vasya2",
-                        "email": "asdf21@asdf",
+                        "name": "Vasya5",
+                        "email": "asdf22@asdf",
                         "is_admin": 0,
                         "created_at": "2022-01-18T11:41:48.000000Z",
-                        "updated_at": "2022-01-19T08:39:08.000000Z",
-                        "surname": "Vasya2",
-                        "avatar": null
+                        "updated_at": "2022-01-19T09:53:56.000000Z",
+                        "surname": "Pupkin5",
+                        "avatar": "http://bookparser2/public/storage/avatar/eK2rO3EVZTwnIhVmJZWfIxVYkU2cgGF3KG7w4lQh.jpg"
                       }
                     }
                   }

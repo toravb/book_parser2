@@ -24,6 +24,10 @@ class ProfileUpdateController extends Controller
                 $previousAvatar = $user->avatar;
                 $user->avatar = $path;
             }
+            if ($user->avatar !== null) {
+                $url = url('/');
+                $user->avatar = $url . Storage::url($user->avatar) ;
+            }
 
             $user->name = $request->name;
             $user->surname = $request->surname;
