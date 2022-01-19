@@ -3,6 +3,7 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\ProfileUpdateRequest;
+use App\Api\Services\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -24,10 +25,7 @@ class ProfileUpdateController extends Controller
                 $previousAvatar = $user->avatar;
                 $user->avatar = $path;
             }
-            if ($user->avatar !== null) {
-                $url = url('/');
-                $user->avatar = $url . Storage::url($user->avatar) ;
-            }
+           UserService::userAvatar($user);
 
             $user->name = $request->name;
             $user->surname = $request->surname;

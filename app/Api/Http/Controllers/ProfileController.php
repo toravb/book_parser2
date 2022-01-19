@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Services\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -13,11 +14,7 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        if ($user->avatar !== null) {
-            $url = url('/');
-            $user->avatar = $url . Storage::url($user->avatar) ;
-        }
-
+        UserService::userAvatar($user);
 
         return $user;
     }
