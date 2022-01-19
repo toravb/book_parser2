@@ -35,7 +35,7 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
-    Route::get('/profile', [ProfileController::class, 'profile']);
+    Route::get('/users', [ProfileController::class, 'profile']);
 
     /**
      * Likes
