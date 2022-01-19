@@ -25,7 +25,6 @@ class ProfileUpdateController extends Controller
                 $previousAvatar = $user->avatar;
                 $user->avatar = $path;
             }
-           UserService::userAvatar($user);
 
             $user->name = $request->name;
             $user->surname = $request->surname;
@@ -39,7 +38,7 @@ class ProfileUpdateController extends Controller
 
             return response()->json([
                 'status' => 'success',
-                'data' => $user
+                'data' => UserService::userAvatar($user)
             ]);
         } catch (\Exception $exception) {
             Log::error($exception);

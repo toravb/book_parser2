@@ -12,5 +12,6 @@ class UserService
             $url = url('/');
             $user->avatar = $url . Storage::url($user->avatar) ;
         }
+        return $user;
     }
 }

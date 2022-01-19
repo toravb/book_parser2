@@ -31,7 +31,7 @@ use App\Api\Http\Controllers\NotificationSettingsController;
 */
 
 Route::middleware('auth:api')->group(function (){
-    Route::put('/profile', [ProfileUpdateController::class, 'update']);
+    Route::post('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);

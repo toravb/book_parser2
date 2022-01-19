@@ -14,8 +14,6 @@ class ProfileController extends Controller
 
         $user = Auth::user();
 
-        UserService::userAvatar($user);
-
-        return $user;
+        return UserService::userAvatar($user);;
     }
 }
