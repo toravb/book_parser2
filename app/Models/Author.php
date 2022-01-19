@@ -15,6 +15,8 @@ class Author extends Model
         'author'
     ];
 
+    protected $hidden = ['pivot'];
+
     public static function create($fields){
         $author = new static();
         $author->fill($fields);
@@ -32,4 +34,5 @@ class Author extends Model
     {
         return $this->hasMany(Book::class, 'author_id', 'id');
     }
+
 }

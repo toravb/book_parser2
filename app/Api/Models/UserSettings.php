@@ -2,7 +2,7 @@
 
 namespace App\Api\Models;
 
-use App\api\Http\Requests\NotificationSettingsRequest;
+
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

@@ -11,6 +11,7 @@ use App\Api\Http\Requests\SaveBookRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\Author;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
@@ -28,7 +29,7 @@ class BookController extends Controller
 
         $bookModel = new Book();
 
-        $books =  $bookModel->getBook()
+        $books = $bookModel->getBook()
             ->when($viewTypeList, function ($query) {
 
                 return $query->withCount(['bookLikes', 'bookComments'])
@@ -41,15 +42,30 @@ class BookController extends Controller
                     $query->where('author', 'like', '%' . $request->findByAuthor . '%');
                 });
             })
+            ->when(($request->alphabetAuthorIndex && !$request->findByAuthor), function ($query) use ($request) {
+
+                return $query->whereHas('authors', function ($query) use ($request) {
+                    $query->where('author', 'like', $request->alphabetAuthorIndex . '%');
+                });
+            })
             ->when($request->findByPublisher, function ($query) use ($request) {
 
                 return $query->whereHas('publishers', function ($query) use ($request) {
                     $query->where('publisher', 'like', '%' . $request->findByPublisher . '%');
                 });
             })
+            ->when(($request->alphabetPublisherIndex && !$request->findByPublisher), function ($query) use ($request) {
+
+                return $query->whereHas('publishers', function ($query) use ($request) {
+                    $query->where('publisher', 'like', $request->alphabetPublisherIndex . '%');
+                });
+            })
             ->when($request->findByTitle, function ($query) use ($request) {
 
                 return $query->where('title', 'like', '%' . $request->findByTitle . '%');
+            })
+            ->when(($request->alphabetTitleIndex && !$request->findByTitle), function ($query) use ($request) {
+                $query->where('title', 'like', $request->alphabetTitleIndex . '%');
             })
             ->when($request->sortBy === Book::SORT_BY_DATE, function ($query) {
                 return $query->newest();
@@ -61,6 +77,10 @@ class BookController extends Controller
                 return $query->whereHas('bookStatuses', function ($query) {
                     return $query->reading();
                 })->withCount('bookStatuses as readersCount')->orderBy('readersCount', 'desc');
+            })
+            ->when($request->sortBy === Book::SORT_BY_ALPHABET, function ($query) {
+
+                return $query->orderBy('title');
             })
             ->paginate($perPage);
 
@@ -87,7 +107,8 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function showSingle(GetIdRequest $request)
+    public
+    function showSingle(GetIdRequest $request)
     {
         $id = $request->id;
         $books = Book::with([
@@ -121,7 +142,8 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
+    public
+    function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
     {
 
         $user = Auth::user();
@@ -131,57 +153,67 @@ class BookController extends Controller
 
     }
 
-    public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
+    public
+    function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
     {
         $user = Auth::user();
 
-       $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
+        $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
 
-        if($isUsersBook)
-        {
+        if ($isUsersBook) {
             $bookUser->deleteBook($user->id, $request->book_id);
             return ApiAnswerService::successfulAnswerWithData($bookUser);
 
-        } return ApiAnswerService::errorAnswer("Недостаточно прав для редактирования", Response::HTTP_FORBIDDEN);
+        }
+        return ApiAnswerService::errorAnswer("Недостаточно прав для редактирования", Response::HTTP_FORBIDDEN);
 
     }
 
-    public function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation){
+    public
+    function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation)
+    {
 
         $usersCompilation = Compilation::find($request->compilation_id);
 
-        if($usersCompilation?->created_by === Auth::id()){
+        if ($usersCompilation?->created_by === Auth::id()) {
 
             $bookUsersCompilation->saveBookToCompilation($request->compilation_id, $request->book_id, $request->book_type);
             return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
 
 
-        } return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
+        }
+        return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
 
     }
 
-    public function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation){
+    public
+    function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation)
+    {
 
         $usersCompilation = Compilation::find($request->compilation_id);
 
-        if($usersCompilation?->created_by === Auth::id()){
+        if ($usersCompilation?->created_by === Auth::id()) {
 
             $bookUsersCompilation->deleteBookfromCompilation($request->compilation_id, $request->book_id, $request->book_type);
             return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
 
-        } return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
+        }
+        return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
 
 
     }
 
-    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser){
+    public
+    function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
+    {
         $user = Auth::user();
         $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
 
-        if($isUsersBook){
+        if ($isUsersBook) {
             $bookUser->changeStatus($user->id, $request->book_id, $request->status);
             return ApiAnswerService::successfulAnswerWithData($bookUser);
-        } return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
+        }
+        return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
 
     }
 }

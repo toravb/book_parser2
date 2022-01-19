@@ -2,6 +2,7 @@
 
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\ProfileController;
+use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\RateController;
 use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
@@ -76,9 +77,9 @@ Route::get('/books/{id}', [BookController::class, 'showSingle']);
 
 Route::get('/compilations', [CompilationController::class, 'show']);
 Route::get('public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);
+Route::get('public/load/compilations/{id}', [CompilationLoadingController::class, 'compilationLoading']);
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
-
 
 
 
