@@ -73,6 +73,7 @@ Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
 Route::get('/books', [BookController::class, 'show']);
 Route::get('/books/{id}', [BookController::class, 'showSingle']);
+Route::get('/books/read/{id}', [BookController::class, 'readBook']);
 
 Route::get('/compilations', [CompilationController::class, 'show']);
 Route::get('public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);

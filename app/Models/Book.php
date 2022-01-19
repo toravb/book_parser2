@@ -45,7 +45,8 @@ class Book extends Model
 
 //    protected $morphClass = 'Book';
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $book = new static();
         $book->fill($fields);
         $book->save();
@@ -53,7 +54,8 @@ class Book extends Model
         return $book;
     }
 
-    public function edit($fields){
+    public function edit($fields)
+    {
         $this->fill($fields);
         $this->save();
     }
@@ -137,10 +139,12 @@ class Book extends Model
     {
         return $this->hasMany(BookComment::class);
     }
+
     public function bookLikes()
     {
         return $this->hasMany(BookLike::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -150,17 +154,18 @@ class Book extends Model
     {
         return $this->hasMany(Quote::class);
     }
+
     public function bookStatuses()
     {
         return $this->hasMany(BookUser::class);
     }
 
-    public function scopeNewest ($query)
+    public function scopeNewest($query)
     {
         return $query->latest();
     }
 
-    public function scopePopular ($query)
+    public function scopePopular($query)
     {
         return $query->orderBy('rates_avg', 'desc');
     }
@@ -182,7 +187,8 @@ class Book extends Model
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class, 'book_user');
     }
 
@@ -190,28 +196,47 @@ class Book extends Model
     {
         return $this->morphToMany(Compilation::class,
             'compilationable',
-        'book_compilation',
-        'compilationable_id',
-        'compilation_id',
-        'id',
-        'id');
+            'book_compilation',
+            'compilationable_id',
+            'compilation_id',
+            'id',
+            'id');
     }
 
-    public function getBook(){
+    public function getBook()
+    {
         return
-        $this->with([
-            'authors',
-            'image',
-            'bookGenres',
+            $this->with([
+                'authors',
+                'image',
+                'bookGenres',
 //            'bookStatuses'
-        ])
-            ->select('id', 'title')
-            ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ])
+                ->select('id', 'title')
+                ->withCount('rates')
+                ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
-    public function bookCompilation(){
+    public function bookCompilation()
+    {
         return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
+
+    public function currentReading($request)
+    {
+        $number = $request->pageNumber ? $request->pageNumber : 1;
+        return $this->with([
+            'authors',
+            'pages' => function ($query) use ($number) {
+                return $query->where('page_number', $number);
+            }
+        ])
+            ->select([
+                'id',
+                'title'
+            ])
+            ->withCount('pages')
+            ->findOrFail($request->id);
     }
 
 }
