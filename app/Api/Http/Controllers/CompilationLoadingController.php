@@ -10,8 +10,7 @@ use App\Http\Controllers\Controller;
 class CompilationLoadingController extends Controller
 {
     public function compilationLoading(GetIdRequest $request, CompilationService $compilationService){
-        $id = $request->id;
-        $books = $compilationService->showCompilationDetails($id);
+        $books = $compilationService->showCompilationDetails($request->id);
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 }

@@ -9,7 +9,7 @@ class Rate extends Model
 {
     use HasFactory;
 
-    public function store(int $userId, int $bookId, int $rating)
+    public function store(int $userId, int $bookId, float $rating)
     {
         $this->user_id = $userId;
         $this->book_id = $bookId;

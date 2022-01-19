@@ -67,11 +67,10 @@ class CompilationController extends Controller
     public function showCompilationDetails(GetIdRequest $request, CompilationService $compilationService)
     {
 
-        $id = $request->id;
         $compilation = Compilation::select('id', 'title', 'background', 'description', 'type')
             ->withCount(['books', 'audioBooks'])
-            ->findOrfail($id);
-        $books = $compilationService->showCompilationDetails($id);
+            ->findOrfail($request->id);
+        $books = $compilationService->showCompilationDetails($request->id);
         $compilation->generalBooksCount = $compilation->books_count + $compilation->audio_books_count;
 
         return ApiAnswerService::successfulAnswerWithData(['compilation' => $compilation, 'books' => $books]);

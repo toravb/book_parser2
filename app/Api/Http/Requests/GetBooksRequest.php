@@ -29,8 +29,11 @@ class GetBooksRequest extends FormRequest
         return [
             'showType' => ['required', Rule::in([Book::SHOW_TYPE_BLOCK, Book::SHOW_TYPE_LIST])],
             'findByAuthor' => ['sometimes', 'string', 'max:200'],
+            'alphabetAuthorIndex' => ['sometimes', 'string','regex:/[a-zА-Я]/i'],
             'findByPublisher' => ['sometimes', 'string', 'max:200'],
-            'findByTitle' => ['sometimes', 'string', 'max:200'],
+            'alphabetPublisherIndex' => ['sometimes', 'string','regex:/[a-zА-Я]/i'],
+            'findByTitle' => ['sometimes', 'string', 'max:200',],
+            'alphabetTitleIndex' => ['sometimes', 'string'],
             'sortBy' => ['required', 'integer',
                 Rule::in(
                     Book::SORT_BY_DATE,
