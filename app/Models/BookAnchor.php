@@ -10,4 +10,9 @@ class BookAnchor extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    public function bookContents(int $bookId){
+        $bookContents = BookAnchor::where('book_id', $bookId)->get();
+        return $bookContents;
+    }
 }

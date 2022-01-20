@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\BooksChapterValidation;
 use App\Api\Http\Requests\ChangeBookStatusRequest;
 use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
@@ -12,6 +13,7 @@ use App\Api\Http\Requests\SaveBookRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\BookAnchor;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
@@ -217,5 +219,10 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
 
+    public function showBookContents(BooksChapterValidation $requset, BookAnchor $book){
+        $bookContents = $book -> bookContents($requset->id);
+
+        return ApiAnswerService::successfulAnswerWithData($bookContents);
+    }
 
 }
