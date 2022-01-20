@@ -96,10 +96,4 @@ class BookFilter extends QueryFilter
         });
     }
 
-    public function bookType(string $bookType)
-    {
-        return $this->builder->whereHas('compilations', function ($query) use ($bookType) {
-            $query->where('compilationable_type', $bookType);
-        });
-    }
 }

@@ -1413,14 +1413,6 @@
             "in": "query",
             "name": "findByCategory",
             "description": "genre ID"
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "bookType",
-            "description": "books"
           }
         ]
       }
