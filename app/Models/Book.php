@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
+use App\Api\Interfaces\BookInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Book extends Model implements BookInterface
 {
     use HasFactory;
 

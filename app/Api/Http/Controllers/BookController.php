@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Factories\BookFactory;
 use App\Api\Filters\BookFilter;
 use App\Api\Http\Requests\ChangeBookStatusRequest;
 use App\Api\Http\Requests\CurrentReadingRequest;
@@ -23,13 +24,14 @@ use Symfony\Component\HttpFoundation\Response;
 class BookController extends Controller
 {
 
-    public function show(GetBooksRequest $request, BookFilter $bookFilter)
+    public function show(GetBooksRequest $request, BookFilter $bookFilter, BookFactory $bookFactory)
     {
         $perPage = $request->showType === Book::SHOW_TYPE_BLOCK ? Book::PER_PAGE_BLOCKS : Book::PER_PAGE_LIST;
 
-        $bookModel = new Book();
 
-        $books = $bookModel->getBook()->filter($bookFilter)
+        $model = $bookFactory->createInstance($request->type);
+
+        $books = $model->getBook()->filter($bookFilter)
             ->paginate($perPage);
 
         $collection = $books->getCollection();
