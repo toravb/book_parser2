@@ -2,7 +2,9 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\BooksChapterValidation;
 use App\Api\Http\Requests\ChangeBookStatusRequest;
+use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
@@ -11,12 +13,13 @@ use App\Api\Http\Requests\SaveBookRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Models\Author;
+use App\Models\BookAnchor;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
@@ -107,8 +110,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public
-    function showSingle(GetIdRequest $request)
+    public function showSingle(GetIdRequest $request)
     {
         $id = $request->id;
         $books = Book::with([
@@ -142,8 +144,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public
-    function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
+    public function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
     {
 
         $user = Auth::user();
@@ -153,8 +154,7 @@ class BookController extends Controller
 
     }
 
-    public
-    function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
+    public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
     {
         $user = Auth::user();
 
@@ -169,8 +169,7 @@ class BookController extends Controller
 
     }
 
-    public
-    function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation)
+    public function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation)
     {
 
         $usersCompilation = Compilation::find($request->compilation_id);
@@ -186,8 +185,7 @@ class BookController extends Controller
 
     }
 
-    public
-    function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation)
+    public function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation)
     {
 
         $usersCompilation = Compilation::find($request->compilation_id);
@@ -203,8 +201,7 @@ class BookController extends Controller
 
     }
 
-    public
-    function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
+    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
     {
         $user = Auth::user();
         $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
@@ -216,4 +213,16 @@ class BookController extends Controller
         return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
 
     }
+
+    public function readBook(CurrentReadingRequest $request, Book $book)
+    {
+        $currentReading = $book->currentReading($request);
+        return ApiAnswerService::successfulAnswerWithData($currentReading);
+    }
+
+    public function showBookContents(BooksChapterValidation $requset, BookAnchor $book)
+    {
+        return ApiAnswerService::successfulAnswerWithData($book->bookContents($requset->id));
+    }
+
 }
