@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Http\Controllers\CompilationController;
+use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\RateController;
 use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
@@ -34,7 +35,7 @@ Route::middleware('auth:api')->group(function (){
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
-
+    Route::get('/users', [ProfileController::class, 'profile']);
 
     /**
      * Likes
