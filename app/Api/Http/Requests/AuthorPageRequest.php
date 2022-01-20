@@ -26,8 +26,12 @@ class AuthorPageRequest extends FormRequest
     public function rules()
     {
         return [
-
-
+            'id'=>['required', 'integer'],
         ];
     }
+
+   /* public function validationData()
+    {
+        return $this->route()->parameters();
+    }*/
 }

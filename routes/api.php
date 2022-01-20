@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\RateController;
@@ -79,6 +80,6 @@ Route::get('public/compilations/{id}', [CompilationController::class, 'showCompi
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
-
+Route::get('/authorpage', [AuthorPageController::class, 'show']);
 
 

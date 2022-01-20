@@ -2,9 +2,12 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Models\UserSettings;
+use App\Api\Services\ApiAnswerService;
 use App\Api\Services\UserService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProfileController extends Controller
@@ -13,7 +16,12 @@ class ProfileController extends Controller
     {
 
         $user = Auth::user();
+        $userSettings = UserSettings:: where('user_id', $user->id)
+            ->select('likes','commented', 'commentedOthers')->first();
 
-        return UserService::userAvatar($user);
+        $user->user_settings = $userSettings;
+
+        return ApiAnswerService::successfulAnswerWithData($user);
+
     }
 }

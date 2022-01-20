@@ -12,7 +12,9 @@ class Author extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'author'
+        'author',
+        'about',
+        'avatar'
     ];
 
     public static function create($fields){
@@ -30,6 +32,23 @@ class Author extends Model
 
     public function books()
     {
-        return $this->hasMany(Book::class, 'author_id', 'id');
+        return $this->belongsToMany(Book::class,
+
+            AuthorToBook::class,
+            'author_id',
+            'book_id',
+            'id',
+            'id',
+            'books');
     }
+
+/*    public function getAuthor(){
+        return
+            $this->with([
+                'author',
+                'avatar',
+                'about',
+
+            ]);
+    }*/
 }
