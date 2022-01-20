@@ -45,20 +45,16 @@ class CompilationFilter extends QueryFilter
     }
 
 
-    public function selectionCategory(string $selectionCategory){
+    public function selectionCategory(string $selectionCategory)
+    {
 
         return $this->builder->where('type', $selectionCategory);
     }
 
-    public function bookType(string $bookType){
+    public function bookType(string $bookType)
+    {
 
         return $this->builder->whereHas($bookType);
 
-//        if($bookType === 'book'){
-//            return $this->builder->whereHas('books');
-//        }
-//        if($bookType === 'audioBook'){
-//            return $this->builder->whereHas('audioBooks');
-//        }
     }
 }
