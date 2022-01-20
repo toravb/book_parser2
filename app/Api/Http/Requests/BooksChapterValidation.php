@@ -24,18 +24,13 @@ class BooksChapterValidation extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'integer', 'exists:book_anchors,book_id']
+            'id' => ['required', 'integer']
         ];
     }
+
     public function validationData()
     {
         return $this->route()->parameters();
     }
 
-//    public function messages() :array
-//{
-//    return [
-//        'id.exists' => 'Оглавление недоступно'
-//    ];
-//}
 }

@@ -3580,7 +3580,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK.\nIf chapters wosn't find, will be returned empty array",
             "content": {
               "application/json": {
                 "schema": {
@@ -3663,64 +3663,6 @@
                           "name": "string"
                         }
                       ]
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity (WebDAV)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "errors": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "id"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "message",
-                    "errors"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "The given data was invalid.",
-                      "errors": {
-                        "id": [
-                          "The selected id is invalid."
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "message": "string",
-                      "errors": {
-                        "id": [
-                          {}
-                        ]
-                      }
                     }
                   }
                 }

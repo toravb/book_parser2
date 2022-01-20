@@ -11,7 +11,8 @@ class BookAnchor extends Model
 
     public $timestamps = false;
 
-    public function bookContents(int $bookId){
+    public function bookContents(int $bookId)
+    {
         $bookContents = BookAnchor::where('book_id', $bookId)->get();
         return $bookContents;
     }

@@ -214,15 +214,15 @@ class BookController extends Controller
 
     }
 
-    public function readBook(CurrentReadingRequest $request, Book $book){
+    public function readBook(CurrentReadingRequest $request, Book $book)
+    {
         $currentReading = $book->currentReading($request);
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
 
-    public function showBookContents(BooksChapterValidation $requset, BookAnchor $book){
-        $bookContents = $book -> bookContents($requset->id);
-
-        return ApiAnswerService::successfulAnswerWithData($bookContents);
+    public function showBookContents(BooksChapterValidation $requset, BookAnchor $book)
+    {
+        return ApiAnswerService::successfulAnswerWithData($book->bookContents($requset->id));
     }
 
 }
