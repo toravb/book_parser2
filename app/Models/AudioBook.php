@@ -136,4 +136,8 @@ class AudioBook extends Model
             'id',
             'id');
     }
+
+    public function bookCompilation(){
+        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
 }

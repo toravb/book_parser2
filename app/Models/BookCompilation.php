@@ -10,7 +10,7 @@ class BookCompilation extends Model
     use HasFactory;
     protected $table = 'book_compilation';
     public $timestamps = false;
-
+    protected $hidden = ['pivot'];
 
 
     public function saveBookToCompilation (int $compilationId, int $bookId, string $bookType)
@@ -29,6 +29,11 @@ class BookCompilation extends Model
             ->where('compilationable_type', $bookType)
             ->delete();
     }
+
+    public function bookCompilationable(){
+        return $this->morphTo('bookCompilationable', 'compilationable_type', 'compilationable_id');
+    }
+
 
 
 }

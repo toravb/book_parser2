@@ -30,7 +30,7 @@ class StoreCompilationRequest extends FormRequest
                 Rule::unique('compilations')->where(function ($query) {
                     return $query->where('created_by', Auth::id());
                 })],
-            'image'=>['sometimes', 'image', 'max:5120',],
+            'image'=>['required', 'image', 'max:10240',],
             'description'=>['required', 'string', 'max:10000'],
             'compType'=>['sometimes', 'exists:users,is_admin'],
 
