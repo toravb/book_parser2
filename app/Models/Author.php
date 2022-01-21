@@ -30,6 +30,8 @@ class Author extends Model
         $this->save();
     }
 
+
+
     public function books()
     {
         return $this->belongsToMany(Book::class,
@@ -42,6 +44,35 @@ class Author extends Model
             'books');
     }
 
+    public function authorReviews()
+    {
+        return $this->hasManyThrough(
+            Review::class,
+            AuthorToBook::class,
+            'author_id',
+            'book_id',
+            'authors.id',
+            'book_id'
+        );
+    }
+    public function authorQuotes()
+    {
+        return $this->hasManyThrough(
+            Quote::class,
+            AuthorToBook::class,
+            'author_id',
+            'book_id',
+            'authors.id',
+            'book_id'
+        );
+    }
+    public function similarAuthors()
+    {
+        return $this->hasMany(
+            SimilarAuthors::class,
+        'author_id_from',
+        'id');
+    }
 /*    public function getAuthor(){
         return
             $this->with([

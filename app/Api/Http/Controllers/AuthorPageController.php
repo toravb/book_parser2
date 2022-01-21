@@ -10,7 +10,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\AuthorToBook;
 use App\Models\Book;
+use App\Models\Compilation;
+use App\Models\Review;
 use App\Models\Series;
+use App\Models\SimilarAuthors;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -22,32 +25,19 @@ class AuthorPageController extends Controller
         $authorWithSeries = Author::with([
             'books' => function ($qwery){
                 $qwery->whereNull('series_id');
-        }])
-            //->select( 'title', 'link', 'param')
+        }])->withCount('authorReviews')
+            ->withCount('authorQuotes')
+           ->findOrFail( $request->id);
+//
+//        $qutes = Author::withCount('authorReviews')
+//                ->findOrFail($request->id);
+      //}]);
 
-            ->findOrFail( $request->id);
-//
-//        $books = Book::with([
-//            'authors',
-//            'image',
-//            'bookGenres',
-//           'genres',
-//            'reviews',
-//            'quotes'])
-//            ->where('series_id', null)
-//
-//            ->select('id', 'title')
-//
-//            ->withAvg('rates as rates_avg', 'rates.rating')
-//            ->get();
-   /*     $authorWhithoutSeries = Author::with([
-            'books' => function ($qwery){
-                $qwery->where('series_id', null);
-            }])
-            ->findOrFail( $request->id);*/
-            //;
 
-      //  $se = Book::where('series_id', null)->findOrFail( $request->id);
+//        $authorWithSeries->qutes = $qutes;
+        /*with(['review'=>function($qwery){
+            $qwery -> withCount();//where (author_id, $qwery->
+        }])*/
         $series = Series::with('booksFullData')
             -> whereHas('books', function ($query) use ($authorWithSeries)
             {
@@ -58,8 +48,16 @@ class AuthorPageController extends Controller
         })->get();
         $authorWithSeries->series = $series;
 
-//dd($series);
-        return ApiAnswerService::successfulAnswerWithData($authorWithSeries);
-      //  return response()->json(['author' => $authorWithSeries]);
+
+        $compilation=Compilation::withCount('books')->get();
+        $authorWithSeries->compilation=$compilation;
+
+        $authorsSimilar=Author::with(['similarAuthors' => function ($query) use ($request){
+            return $query->with('authors');
+        }])
+        ->findOrFail($request->id);
+//
+        return ApiAnswerService::successfulAnswerWithData(  $authorsSimilar);
+
     }
 }
