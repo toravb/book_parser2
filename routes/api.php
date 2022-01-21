@@ -3,6 +3,7 @@
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\CompilationLoadingController;
+use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
@@ -49,6 +50,12 @@ Route::middleware('auth:api')->group(function (){
     Route::put('/books/save', [BookController::class, 'saveBookToUsersList']);
     Route::delete('/users/books', [BookController::class, 'deleteBookFromUsersList']);
     Route::put('/users/books', [BookController::class, 'changeBookStatus']);
+
+    Route::post('/quotes', [QuoteController::class, 'store']);
+    Route::get('/quotes', [QuoteController::class, 'index']);
+    Route::get('/quotes/{id}', [QuoteController::class, 'show']);
+    Route::delete('/quotes', [QuoteController::class, 'destroy']);
+
 
     Route::post('/ratings', [RateController::class, 'store']);
 

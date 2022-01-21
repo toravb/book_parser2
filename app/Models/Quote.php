@@ -18,4 +18,17 @@ class Quote extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
+    public function store(int $userId, $request)
+    {
+        $this->user_id = $userId;
+        $this->book_id = $request->bookId;
+        $this->page_id = $request->pageId;
+        $this->content = $request->text;
+        $this->color = $request->color;
+        $this->save();
+
+    }
+
+
 }

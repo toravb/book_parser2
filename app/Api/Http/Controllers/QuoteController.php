@@ -2,8 +2,12 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\SaveQuotesRequest;
+use App\Api\Services\ApiAnswerService;
+use App\Http\Controllers\Controller;
 use App\Models\Quote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class QuoteController extends Controller
 {
@@ -33,9 +37,10 @@ class QuoteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveQuotesRequest $request, Quote $quote)
     {
-        //
+        $quote->store(Auth::id(), $request);
+        return ApiAnswerService::successfulAnswerWithData($quote);
     }
 
     /**
