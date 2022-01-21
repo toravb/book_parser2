@@ -946,45 +946,46 @@
                   "x-examples": {
                     "example-1": {
                       "status": "success",
-                      "title": {
+                      "data": {
                         "current_page": 1,
                         "data": [
                           {
                             "id": 1,
-                            "title": "Dr.",
-                            "rates_count": 0,
-                            "rates_avg": 0,
+                            "title": "А 259. Всплеск ярости",
+                            "rates_count": 1,
+                            "rates_avg": 1,
                             "book_likes_count": 0,
-                            "book_comments_count": 1,
-                            "text": "Repellat molestias itaque quae amet reprehenderit similique. Provident ut et odio est. Neque aliquid animi eligendi est.",
+                            "book_comments_count": 0,
+                            "text": " Иррациональная всеобъемлющая жестокость современного мира - тема этой книги. Главный герой грезит преследующими его протухшими подростковыми кумирами, развенчанными философами и развалившимися рок-группами, путешествуя по кричащим помойкам Брайтона, Хоува и даже еще дальше. В поисках гедонического пресыщения он пробует себя во множестве ролей: некропорнограф, наркобарон и так далее. Наконец, с помощью черной перверсивной магии жестокости он преодолевает психологическую сумятицу и находит ключ к новой странной сексуальности... В нашей библиотеке вы можете бесплатно почитать книгу « А 259. Всплеск ярости ». Чтобы читать онлайн книгу « А 259. Всплеск ярости » перейдите по указанной ссылке. Приятного Вам чтения. ",
+                            "type": "books",
                             "authors": [
                               {
                                 "id": 1,
-                                "author": "Joanny Kreiger"
+                                "author": "Саймон Стронг"
                               }
                             ],
                             "image": null,
                             "book_genres": [
                               {
-                                "id": 1,
-                                "name": "фантастика",
-                                "created_at": "2022-01-06T13:51:41.000000Z",
-                                "updated_at": "2022-01-06T13:51:41.000000Z"
+                                "id": 3,
+                                "name": "Проза",
+                                "created_at": null,
+                                "updated_at": null
                               }
                             ],
                             "year": null,
                             "publishers": [
                               {
-                                "id": 1,
-                                "publisher": "Exma"
+                                "id": 2,
+                                "publisher": "Эксма"
                               }
                             ]
                           }
                         ],
-                        "first_page_url": "http://loveread/api/books?page=1",
+                        "first_page_url": "http://book-parser2/api/books?page=1",
                         "from": 1,
-                        "last_page": 2,
-                        "last_page_url": "http://loveread/api/books?page=2",
+                        "last_page": 15,
+                        "last_page_url": "http://book-parser2/api/books?page=15",
                         "links": [
                           {
                             "url": null,
@@ -992,27 +993,82 @@
                             "active": false
                           },
                           {
-                            "url": "http://loveread/api/books?page=1",
+                            "url": "http://book-parser2/api/books?page=1",
                             "label": "1",
                             "active": true
                           },
                           {
-                            "url": "http://loveread/api/books?page=2",
+                            "url": "http://book-parser2/api/books?page=2",
                             "label": "2",
                             "active": false
                           },
                           {
-                            "url": "http://loveread/api/books?page=2",
+                            "url": "http://book-parser2/api/books?page=3",
+                            "label": "3",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=4",
+                            "label": "4",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=5",
+                            "label": "5",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=6",
+                            "label": "6",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=7",
+                            "label": "7",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=8",
+                            "label": "8",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=9",
+                            "label": "9",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=10",
+                            "label": "10",
+                            "active": false
+                          },
+                          {
+                            "url": null,
+                            "label": "...",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=14",
+                            "label": "14",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=15",
+                            "label": "15",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/books?page=2",
                             "label": "Next &raquo;",
                             "active": false
                           }
                         ],
-                        "next_page_url": "http://loveread/api/books?page=2",
-                        "path": "http://loveread/api/books",
+                        "next_page_url": "http://book-parser2/api/books?page=2",
+                        "path": "http://book-parser2/api/books",
                         "per_page": 13,
                         "prev_page_url": null,
                         "to": 13,
-                        "total": 20
+                        "total": 186
                       }
                     }
                   },
@@ -1021,7 +1077,7 @@
                       "type": "string",
                       "minLength": 1
                     },
-                    "title": {
+                    "data": {
                       "type": "object",
                       "required": [
                         "current_page",
@@ -1071,6 +1127,10 @@
                                 "type": "string",
                                 "minLength": 1
                               },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
                               "authors": {
                                 "type": "array",
                                 "uniqueItems": true,
@@ -1109,25 +1169,17 @@
                                       "type": "string",
                                       "minLength": 1
                                     },
-                                    "created_at": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "updated_at": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    }
+                                    "created_at": {},
+                                    "updated_at": {}
                                   },
                                   "required": [
                                     "id",
-                                    "name",
-                                    "created_at",
-                                    "updated_at"
+                                    "name"
                                   ]
                                 }
                               },
                               "year": {
-                                "type": "integer"
+                                "type": "string"
                               },
                               "publishers": {
                                 "type": "array",
@@ -1158,7 +1210,8 @@
                               "rates_avg",
                               "book_likes_count",
                               "book_comments_count",
-                              "text"
+                              "text",
+                              "type"
                             ]
                           }
                         },
@@ -1225,7 +1278,7 @@
                   },
                   "required": [
                     "status",
-                    "title"
+                    "data"
                   ]
                 },
                 "examples": {}
@@ -1352,6 +1405,14 @@
             },
             "in": "query",
             "name": "alphabetTitleIndex"
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "findByCategory",
+            "description": "genre ID"
           }
         ]
       }

@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Models\AudioBook;
 use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -34,12 +35,17 @@ class GetBooksRequest extends FormRequest
             'alphabetPublisherIndex' => ['sometimes', 'string','alpha'],
             'findByTitle' => ['sometimes', 'string', 'max:200',],
             'alphabetTitleIndex' => ['sometimes', 'string', 'alpha'],
+            'findByCategory' => ['sometimes', 'integer'],
             'sortBy' => ['required', 'integer',
                 Rule::in(
                     Book::SORT_BY_DATE,
                     Book::SORT_BY_RATING,
                     Book::SORT_BY_READERS_COUNT,
                     Book::SORT_BY_ALPHABET)],
+            'bookType' => ['sometimes', 'string',
+                Rule::in(
+                    Book::TYPE_BOOK,
+                    AudioBook::TYPE_AUDIO_BOOK)],
 
         ];
     }

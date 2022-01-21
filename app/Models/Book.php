@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
+use App\Api\Interfaces\BookInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
+class Book extends Model implements BookInterface
 {
     use HasFactory;
 
@@ -237,6 +240,29 @@ class Book extends Model
             ])
             ->withCount('pages')
             ->findOrFail($request->id);
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
+
+    public function singleBook(int $bookId)
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'bookGenres',
+            'year',
+            'publishers',
+            'bookComments',
+            'reviews',
+            'quotes'])
+            ->where('id', $bookId)
+            ->select('id', 'title', 'text')
+            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes'])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->firstOrFail();
     }
 
 }

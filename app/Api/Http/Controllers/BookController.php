@@ -3,6 +3,8 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\BooksChapterValidation;
+use App\Api\Factories\BookFactory;
+use App\Api\Filters\BookFilter;
 use App\Api\Http\Requests\ChangeBookStatusRequest;
 use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
@@ -214,15 +216,10 @@ class BookController extends Controller
 
     }
 
-    public function readBook(CurrentReadingRequest $request, Book $book)
-    {
+    public function readBook(CurrentReadingRequest $request, Book $book){
         $currentReading = $book->currentReading($request);
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
 
-    public function showBookContents(BooksChapterValidation $requset, BookAnchor $book)
-    {
-        return ApiAnswerService::successfulAnswerWithData($book->bookContents($requset->id));
-    }
 
 }
