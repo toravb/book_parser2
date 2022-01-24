@@ -14,7 +14,7 @@ class AddPositionCollumnChangeLenghtContentColumnQuotesTable extends Migration
     public function up()
     {
         Schema::table('quotes', function (Blueprint $table) {
-            $table->integer('position')->after('page_id');
+            $table->unsignedInteger('position')->after('page_id');
             $table->string('content', 300)->change();
         });
     }

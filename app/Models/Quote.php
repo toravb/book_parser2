@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -30,7 +31,6 @@ class Quote extends Model
         $this->color = $request->color;
         $this->position = $request->position;
         $this->save();
-
     }
 
     public function showAll(int $userId, ShowQuotesRequest $request)
@@ -43,21 +43,22 @@ class Quote extends Model
                 return $query->where('user_id', $userId);
             })
             ->get();
-
     }
 
-    public function showInBook(int $qouteId)
+    public function showInBook(GetIdRequest $request)
     {
-        return $this->findOrFail($qouteId);
-
+        return $this->find($request->id);
     }
 
-    public function deleteQuote(int $userId, int $quoteId)
+    /**
+     * @param int $userId
+     * @param int $quoteId
+     * @return int
+     */
+    public function deleteQuote(int $userId, int $quoteId): int
     {
         return $this->where('user_id', $userId)
             ->where('id', $quoteId)
             ->delete();
     }
-
-
 }

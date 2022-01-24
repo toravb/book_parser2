@@ -84,7 +84,6 @@ class BookController extends Controller
         $bookUser->saveBook($user->id, $request->book_id, $request->status);
 
         return ApiAnswerService::successfulAnswerWithData($bookUser);
-
     }
 
     public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
@@ -98,8 +97,8 @@ class BookController extends Controller
             return ApiAnswerService::successfulAnswerWithData($bookUser);
 
         }
-        return ApiAnswerService::errorAnswer("Недостаточно прав для редактирования", Response::HTTP_FORBIDDEN);
 
+        return ApiAnswerService::errorAnswer("Недостаточно прав для редактирования", Response::HTTP_FORBIDDEN);
     }
 
     public function saveBookToCompilation(SaveBookToCompilationRequest $request, BookCompilation $bookUsersCompilation)
@@ -114,8 +113,8 @@ class BookController extends Controller
 
 
         }
-        return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
 
+        return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
     }
 
     public function deleteBookfromCompilation(DeleteBookFromCompilationRequest $request, BookCompilation $bookUsersCompilation)
@@ -129,9 +128,8 @@ class BookController extends Controller
             return ApiAnswerService::successfulAnswerWithData($bookUsersCompilation);
 
         }
+
         return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
-
-
     }
 
     public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
@@ -143,15 +141,14 @@ class BookController extends Controller
             $bookUser->changeStatus($user->id, $request->book_id, $request->status);
             return ApiAnswerService::successfulAnswerWithData($bookUser);
         }
-        return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
 
+        return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
     }
 
     public function readBook(CurrentReadingRequest $request, Book $book)
     {
         $currentReading = $book->currentReading($request);
+
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
-
-
 }

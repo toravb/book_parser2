@@ -17,7 +17,7 @@ class QuoteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(ShowQuotesRequest $request, Quote $quotes)
     {
@@ -39,7 +39,7 @@ class QuoteController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(SaveQuotesRequest $request, Quote $quote)
     {
@@ -51,11 +51,11 @@ class QuoteController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Quote  $quote
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show(GetIdRequest $request, Quote $quote)
     {
-        $quoteInBook = $quote->showInBook($request->id);
+        $quoteInBook = $quote->showInBook($request);
         return ApiAnswerService::successfulAnswerWithData($quoteInBook);
     }
 
@@ -86,13 +86,12 @@ class QuoteController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Quote  $quote
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Quote $quote, DeleteQuoteRequest $request)
     {
-        $status = $quote->deleteQuote(Auth::id(), $request->quoteId);
+        $rowsAffected = $quote->deleteQuote(Auth::id(), $request->quoteId);
 
-       return ApiAnswerService::successfulAnswerWithData($status);
-
+       return ApiAnswerService::successfulAnswerWithData($rowsAffected);
     }
 }

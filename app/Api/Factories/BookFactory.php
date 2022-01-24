@@ -14,9 +14,6 @@ class BookFactory
     public function createInstance(string $type): BookInterface
     {
         $bookTypes = $this->types->getBookTypes();
-        if (!array_key_exists($type, $bookTypes)) {
-            throw new \Exception('Book type do not exists');
-        }
         return new $bookTypes[$type];
     }
 }

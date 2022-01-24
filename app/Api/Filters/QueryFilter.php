@@ -34,7 +34,7 @@ abstract class QueryFilter
 
         foreach ($this->fields() as $field => $value) {
             $method = $field;
-            if (method_exists($this, $method)) {
+            if (is_callable([$this, $method]) and method_exists($this, $method)) {
                 call_user_func_array([$this, $method], (array)$value);
             }
         }
