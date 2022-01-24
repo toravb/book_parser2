@@ -3,9 +3,8 @@
 namespace App\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class SaveQuotesRequest extends FormRequest
+class ShowQuotesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,11 +24,9 @@ class SaveQuotesRequest extends FormRequest
     public function rules()
     {
         return [
-            'bookId' => ['required', 'integer', 'exists:books,id'],
-            'pageId' => ['required', 'integer',
-                Rule::exists('pages', 'page_number')->where('book_id', $this->bookId)],
-            'text' => ['required', 'string', 'max:300'],
-            'color' => ['sometimes', 'string', 'max:10'],
+            'bookId' => ['required', 'numeric', 'exists:quotes,book_id'],
+            'myQuotes' => ['sometimes', 'boolean'],
+            'search' => ['sometimes', 'string']
         ];
     }
 }
