@@ -3,7 +3,9 @@
 namespace App\Api\Http\Requests;
 
 
+use App\Models\Author;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 
 class AuthorPageRequest extends FormRequest
@@ -26,12 +28,7 @@ class AuthorPageRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'=>['required', 'integer'],
+            'id' => ['required', 'integer', Rule::exists(Author::class, 'id')],
         ];
     }
-
-   /* public function validationData()
-    {
-        return $this->route()->parameters();
-    }*/
 }

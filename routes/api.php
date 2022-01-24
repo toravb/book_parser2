@@ -80,6 +80,6 @@ Route::get('public/compilations/{id}', [CompilationController::class, 'showCompi
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
-Route::get('/authorpage', [AuthorPageController::class, 'show']);
+Route::get('/author_page', [AuthorPageController::class, 'show']);
 
 

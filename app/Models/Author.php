@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
 class Author extends Model
 {
-    use HasFactory;
+    use HasFactory, HasRelationships;
 
     public $timestamps = false;
 
@@ -17,7 +18,8 @@ class Author extends Model
         'avatar'
     ];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $author = new static();
         $author->fill($fields);
         $author->save();
@@ -25,17 +27,16 @@ class Author extends Model
         return $author;
     }
 
-    public function edit($fields){
+    public function edit($fields)
+    {
         $this->fill($fields);
         $this->save();
     }
 
 
-
     public function books()
     {
         return $this->belongsToMany(Book::class,
-
             AuthorToBook::class,
             'author_id',
             'book_id',
@@ -44,7 +45,35 @@ class Author extends Model
             'books');
     }
 
-    public function authorReviews()
+    public function audioBooks(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
+    {
+        return $this->hasManyDeep(AudioBook::class, [AudioAuthor::class, AudioAuthorsToBook::class],
+            [
+                'id',
+                'author_id',
+                'id',
+            ],
+            [
+                'audio_author_id',
+                'id',
+                'book_id',
+            ],
+        );
+    }
+
+    public function series(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
+    {
+        return $this->hasManyDeep(Series::class, [AuthorToBook::class],
+            [
+                'author_id',
+                'book_id',
+                'id',
+                'id',
+            ]);
+    }
+
+
+    public function authorReviews(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
         return $this->hasManyThrough(
             Review::class,
@@ -55,6 +84,7 @@ class Author extends Model
             'book_id'
         );
     }
+
     public function authorQuotes()
     {
         return $this->hasManyThrough(
@@ -66,20 +96,26 @@ class Author extends Model
             'book_id'
         );
     }
+
     public function similarAuthors()
     {
         return $this->hasMany(
             SimilarAuthors::class,
-        'author_id_from',
-        'id');
+            'author_id_from',
+            'id');
     }
-/*    public function getAuthor(){
-        return
-            $this->with([
-                'author',
-                'avatar',
-                'about',
 
-            ]);
-    }*/
+    public function audioAuthor()
+    {
+        return $this->belongsTo(AudioAuthor::class);
+    }
+    /*    public function getAuthor(){
+            return
+                $this->with([
+                    'author',
+                    'avatar',
+                    'about',
+
+                ]);
+        }*/
 }
