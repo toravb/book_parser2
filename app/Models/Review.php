@@ -9,6 +9,21 @@ class Review extends Model
 {
     use HasFactory;
 
+
+  /*  public static function create($fields)
+    {
+        $reviews = new static();
+        $reviews->fill($fields);
+        $reviews->save();
+
+        return $reviews;
+    }
+    public function edit($fields)
+    {
+        $this->fill($fields);
+        $this->save();
+    }*/
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -18,4 +33,5 @@ class Review extends Model
     {
         return $this->belongsTo(Book::class);
     }
+
 }

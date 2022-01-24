@@ -28,7 +28,8 @@ class ProfileUpdateController extends Controller
 
             $user->name = $request->name;
             $user->surname = $request->surname;
-            $user->email = $request->email;
+            if($request->email!=null){
+            $user->email = $request->email;}
             $user->save();
             DB::commit();
 
