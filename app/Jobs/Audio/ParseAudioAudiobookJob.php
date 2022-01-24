@@ -72,6 +72,7 @@ class ParseAudioAudiobookJob implements ShouldQueue
 		            $link->extension = $extension;
                     $link->save();
                     $audio_title = Str::slug($link->title);
+//                    $audio_title = $link->title;
                     $file_name = $audio_title . '.' . $extension;
                     $path = $book->slug . '/' . $file_name;
                     $disk->put($path, $file);

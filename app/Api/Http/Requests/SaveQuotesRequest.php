@@ -3,10 +3,9 @@
 namespace App\Api\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class StoreRatingValidation extends FormRequest
+class SaveQuotesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,13 +25,12 @@ class StoreRatingValidation extends FormRequest
     public function rules()
     {
         return [
-            'book_id' => ['required', 'integer', 'exists:books,id',
-                Rule::unique('rates')->where(function ($query) {
-                return $query->where('user_id', Auth::id());
-            })],
-            'rating' => ['required', 'numeric', 'between:1,5'],
-
-
+            'bookId' => ['required', 'integer', 'exists:books,id'],
+            'pageId' => ['required', 'integer',
+                Rule::exists('pages', 'page_number')->where('book_id', $this->bookId)],
+            'text' => ['required', 'string', 'max:300'],
+            'color' => ['sometimes', 'string', 'max:10'],
+            'position' => ['required', 'integer', 'min:0'],
         ];
     }
 }

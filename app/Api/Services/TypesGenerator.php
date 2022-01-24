@@ -32,7 +32,7 @@ class TypesGenerator implements Types
     ];
 
 
-    public function getCommentTypes():array
+    public function getCommentTypes(): array
     {
         return $this->commentTypes;
     }
@@ -46,7 +46,13 @@ class TypesGenerator implements Types
     {
         return $this->likeModelTypes;
     }
+
     public function getCompilationsBookTypes(): array
+    {
+        return $this->compilationsBookTypes;
+    }
+
+    public function getBookTypes(): array
     {
         return $this->compilationsBookTypes;
     }

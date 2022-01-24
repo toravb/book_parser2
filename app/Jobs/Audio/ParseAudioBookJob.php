@@ -3,6 +3,7 @@
 namespace App\Jobs\Audio;
 
 use App\Http\Controllers\Audio\AudioParserController;
+use App\Models\AudioAudiobook;
 use App\Models\AudioAuthor;
 use App\Models\AudioAuthorsToBook;
 use App\Models\AudioBook;
@@ -12,6 +13,7 @@ use App\Models\AudioParsingStatus;
 use App\Models\AudioReader;
 use App\Models\AudioReadersToBook;
 use App\Models\AudioSeries;
+use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -76,6 +78,15 @@ class ParseAudioBookJob implements ShouldQueue
                 'series_id' => $series,
                 'litres' => $data['litres'],
             ]);
+        }else{
+            $book->update([
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'params' => json_encode($data['params']),
+                'genre_id' => $genre,
+                'series_id' => $series,
+                'litres' => $data['litres'],
+            ]);
         }
         foreach ($authors as $author){
             $author['book_id'] = $book->id;
@@ -116,11 +127,26 @@ class ParseAudioBookJob implements ShouldQueue
         }
         foreach ($data['audio_links'] as $index => $link){
             try {
-                $book->audiobook()->create([
-                    'link' => str_replace('\\', '', $link['url']),
-                    'title' => $link['title'],
-                    'index' => $index,
-                ]);
+                if (!$link['title']){
+                    $link['title'] = 'untitled-'.$index;
+                }else{
+                    $link['title'] = preg_replace_callback('/\\\\u([0-9a-fA-F]{4})/', function ($match) {
+                        return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+                    }, $link['title']);
+                }
+                $audio = $book->audiobook()->where(['index' => $index])->first();
+                if ($audio == null){
+                    $book->audiobook()->create([
+                        'link' => str_replace('\\', '', $link['url']),
+                        'title' => $link['title'],
+                        'index' => $index,
+                    ]);
+                }else{
+                    $audio->update([
+                        'link' => str_replace('\\', '', $link['url']),
+                        'title' => $link['title'],
+                    ]);
+                }
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
