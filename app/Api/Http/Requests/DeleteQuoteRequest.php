@@ -2,11 +2,9 @@
 
 namespace App\Api\Http\Requests;
 
-use App\Models\Quote;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class GetIdRequest extends FormRequest
+class DeleteQuoteRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +24,7 @@ class GetIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'integer', Rule::exists(Quote::class, 'id')],
+            'quoteId' => ['required', 'integer']
         ];
-    }
-
-    public function validationData()
-    {
-        return $this->route()->parameters();
     }
 }

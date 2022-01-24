@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ApiAnswerService
 {
-    public static function successfulAnswer($status = null)
+    public static function successfulAnswer($status = null): \Illuminate\Http\JsonResponse
     {
         if ($status === null) {
             $status = Response::HTTP_OK;
@@ -16,7 +16,7 @@ class ApiAnswerService
         return response()->json(['status' => 'success'], $status);
     }
 
-    public static function successfulAnswerWithData($data, $status = null)
+    public static function successfulAnswerWithData($data, $status = null): \Illuminate\Http\JsonResponse
     {
         if ($status === null) {
             $status = Response::HTTP_OK;
@@ -28,7 +28,7 @@ class ApiAnswerService
         ], $status);
     }
 
-    public static function errorAnswer($message, $status = null)
+    public static function errorAnswer($message, $status = null): \Illuminate\Http\JsonResponse
     {
         if ($status === null) {
             $status = Response::HTTP_OK;

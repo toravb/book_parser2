@@ -2,11 +2,10 @@
 
 namespace App\Api\Http\Requests;
 
-use App\Models\Quote;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetIdRequest extends FormRequest
+class SaveQuotesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,12 +25,12 @@ class GetIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'integer', Rule::exists(Quote::class, 'id')],
+            'bookId' => ['required', 'integer', 'exists:books,id'],
+            'pageId' => ['required', 'integer',
+                Rule::exists('pages', 'page_number')->where('book_id', $this->bookId)],
+            'text' => ['required', 'string', 'max:300'],
+            'color' => ['sometimes', 'string', 'max:10'],
+            'position' => ['required', 'integer', 'min:0'],
         ];
-    }
-
-    public function validationData()
-    {
-        return $this->route()->parameters();
     }
 }
