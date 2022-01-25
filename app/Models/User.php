@@ -111,4 +111,9 @@ class User extends Authenticatable
         return $this->hasMany(CompilationUser::class);
     }
 
+    public function readingSettings()
+    {
+        return $this->hasMany(ReadingSettings::class);
+    }
+
 }

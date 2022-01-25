@@ -4165,6 +4165,270 @@
         ]
       }
     },
+    "/reading_settings": {
+      "get": {
+        "summary": "Show reading settings",
+        "tags": [
+          "Reading settings"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "is_two_columns": {
+                          "type": "number"
+                        },
+                        "font_size": {
+                          "type": "number"
+                        },
+                        "screen_brightness": {
+                          "type": "number"
+                        },
+                        "font_name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "field_size": {
+                          "type": "number"
+                        },
+                        "row_height": {
+                          "type": "number"
+                        },
+                        "is_center_alignment": {
+                          "type": "number"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "user_id",
+                        "is_two_columns",
+                        "font_size",
+                        "screen_brightness",
+                        "font_name",
+                        "field_size",
+                        "row_height",
+                        "is_center_alignment",
+                        "created_at",
+                        "updated_at"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "user_id": 56,
+                        "is_two_columns": 1,
+                        "font_size": 2,
+                        "screen_brightness": 5,
+                        "font_name": "Arial",
+                        "field_size": 2,
+                        "row_height": 7,
+                        "is_center_alignment": 0,
+                        "created_at": "2022-01-25T09:21:32.000000Z",
+                        "updated_at": "2022-01-25T10:13:12.000000Z"
+                      }
+                    }
+                  }
+                },
+                "examples": {}
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "operationId": "get-reading_settings",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "description": ""
+      },
+      "put": {
+        "summary": "Save/update reading settings",
+        "operationId": "put-reading_settings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "required": [],
+                        "properties": {}
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "fontName": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "fontName"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "fontName": [
+                          "The selected font name is invalid."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reading settings"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "isTwoColumns"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "fontSize",
+            "description": "0-10"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "screenBrightness",
+            "description": "0-10"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "fontName",
+            "description": "Times New Roman, Georgia, Arial, Ubuntu, Verdana"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "fieldSize",
+            "description": "0-10"
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "rowHeight",
+            "description": "0-10"
+          },
+          {
+            "schema": {
+              "type": "boolean"
+            },
+            "in": "query",
+            "name": "isCenterAlignment"
+          }
+        ]
+      }
+    },
     "/author/page": {
       "get": {
         "summary": "Your GET endpoint",
