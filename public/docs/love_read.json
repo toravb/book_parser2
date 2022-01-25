@@ -3657,7 +3657,8 @@
               "type": "number"
             },
             "in": "query",
-            "name": "pageNumber"
+            "name": "pageNumber",
+            "description": "Page number should be in selected book (id in path params)"
           }
         ]
       },
@@ -3669,7 +3670,7 @@
           "name": "id",
           "in": "path",
           "required": true,
-          "description": "books id"
+          "description": "book id"
         }
       ]
     },
