@@ -4264,6 +4264,9 @@
                 "examples": {}
               }
             }
+          },
+          "404": {
+            "description": "Not Found"
           }
         },
         "operationId": "get-reading_settings",

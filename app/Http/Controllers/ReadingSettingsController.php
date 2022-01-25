@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 
 class ReadingSettingsController extends Controller
 {
-    public function index(ReadingSettings $readingSettings)
+    public function index(ReadingSettings $readingSettings): \Illuminate\Http\JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($readingSettings->firstWhere('user_id', Auth::user()->id));
+        return ApiAnswerService::successfulAnswerWithData($readingSettings->where('user_id', Auth::user()->id)->firstOrFail());
     }
 
     public function create()
@@ -20,7 +20,7 @@ class ReadingSettingsController extends Controller
         //
     }
 
-    public function store(ReadingSettingsRequest $request, ReadingSettings $readingSettings)
+    public function store(ReadingSettingsRequest $request, ReadingSettings $readingSettings): \Illuminate\Http\JsonResponse
     {
         $readingSettings->saveReadingSettings(Auth::user()->id, $request);
         return ApiAnswerService::successfulAnswerWithData($readingSettings);
