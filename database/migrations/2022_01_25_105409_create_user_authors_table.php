@@ -15,7 +15,7 @@ class CreateUserAuthorTable extends Migration
     public function up()
     {
         Schema::create('user_author', function (Blueprint $table) {
-            $table->foreignId('author_id');
+            $table->foreignId('author_id')->constrained()->cascadeOnDelete();
             $table->foreign('author_id')
                 ->references('id')
                 ->on('authors');
