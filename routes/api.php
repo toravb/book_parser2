@@ -18,6 +18,7 @@ use App\AuthApi\Http\Controllers\ResetPasswordController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Api\Http\Controllers\LikeController;
+use App\Http\Controllers\ReadingSettingsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Api\Http\Controllers\NotificationSettingsController;
@@ -58,6 +59,12 @@ Route::middleware('auth:api')->group(function () {
 
         Route::post('/', [QuoteController::class, 'store']);
         Route::delete('/', [QuoteController::class, 'destroy']);
+    });
+
+    Route::group(['prefix' => 'reading_settings'], function () {
+        Route::get('/', [ReadingSettingsController::class, 'index']);
+
+        Route::put('/', [ReadingSettingsController::class, 'store']);
     });
 
 
