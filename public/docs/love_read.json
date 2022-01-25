@@ -4165,7 +4165,7 @@
         ]
       }
     },
-    "/author_page": {
+    "/author/page": {
       "get": {
         "summary": "Your GET endpoint",
         "tags": [],
@@ -4968,6 +4968,277 @@
             "in": "query",
             "name": "id",
             "description": "id author"
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/users/authors": {
+      "post": {
+        "summary": "Add Authors to favorite",
+        "operationId": "post-users-authors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "author_id": {
+                          "type": "number"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "user_id",
+                        "author_id",
+                        "updated_at",
+                        "created_at",
+                        "id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 12,
+                        "author_id": 4,
+                        "updated_at": "2022-01-25T09:07:20.000000Z",
+                        "created_at": "2022-01-25T09:07:20.000000Z",
+                        "id": 0
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 12,
+                        "author_id": 4,
+                        "updated_at": "2022-01-25T09:07:20.000000Z",
+                        "created_at": "2022-01-25T09:07:20.000000Z",
+                        "id": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "author_id": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "author_id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "author_id": [
+                          "The author id has already been taken."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "author_id": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "author_id"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "author_id": 1
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {
+                    "author_id": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete author from favorite",
+        "operationId": "delete-users-authors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "required": [],
+                        "properties": {}
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": []
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {}
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "author_id": {
+                    "type": "number"
+                  }
+                }
+              },
+              "examples": {
+                "example-1": {
+                  "value": {}
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query"
           }
         ]
       }
