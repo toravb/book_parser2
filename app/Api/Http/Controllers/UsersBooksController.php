@@ -35,7 +35,7 @@ class UsersBooksController extends Controller
 
             })
             ->when($request->sortBy === Book::SORT_BY_DATE, function ($query) {
-                return $query->newest();
+                return $query->latest();
             })
             ->when($request->sortBy === Book::SORT_BY_RATING, function ($query) {
                 return $query->popular();
