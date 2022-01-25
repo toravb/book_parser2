@@ -3,6 +3,7 @@
 namespace App\Api\Http\Requests;
 
 use App\Api\Http\Controllers\BookController;
+use App\Models\Book;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -30,9 +31,9 @@ class ChangeBookStatusRequest extends FormRequest
             'book_id' => ['required', 'integer'],
             'status' => ['required', 'integer',
                 Rule::in(
-                    BookController::WANT_READ,
-                    BookController::READING,
-                    BookController::HAD_READ)],
+                    Book::WANT_READ,
+                    Book::READING,
+                    Book::HAD_READ)],
 
         ];
     }

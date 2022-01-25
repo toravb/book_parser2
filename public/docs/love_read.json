@@ -656,7 +656,9 @@
     "/genres": {
       "get": {
         "summary": "Вывод списка категорий",
-        "tags": [],
+        "tags": [
+          "Genres"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1369,7 +1371,11 @@
           },
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "block",
+                "list"
+              ]
             },
             "in": "query",
             "name": "showType",
@@ -1378,7 +1384,13 @@
           },
           {
             "schema": {
-              "type": "number"
+              "type": "number",
+              "enum": [
+                1,
+                2,
+                3,
+                4
+              ]
             },
             "in": "query",
             "name": "sortBy",
@@ -1413,6 +1425,18 @@
             "in": "query",
             "name": "findByCategory",
             "description": "genre ID"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "books",
+                "audioBooks"
+              ]
+            },
+            "in": "query",
+            "name": "type",
+            "required": true
           }
         ]
       }
@@ -2051,7 +2075,12 @@
           },
           {
             "schema": {
-              "type": "number"
+              "type": "number",
+              "enum": [
+                1,
+                2,
+                3
+              ]
             },
             "in": "query",
             "name": "status",
@@ -2259,7 +2288,14 @@
           },
           {
             "schema": {
-              "type": "number"
+              "type": "number",
+              "enum": [
+                1,
+                2,
+                3,
+                4,
+                5
+              ]
             },
             "in": "query",
             "name": "rating",
@@ -2369,9 +2405,6 @@
     "/compilations": {
       "get": {
         "summary": "Show compilations",
-        "tags": [
-          "Book"
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -2745,7 +2778,11 @@
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "list",
+                "block"
+              ]
             },
             "in": "query",
             "name": "showType",
@@ -2754,7 +2791,11 @@
           },
           {
             "schema": {
-              "type": "number"
+              "type": "number",
+              "enum": [
+                1,
+                2
+              ]
             },
             "in": "query",
             "name": "selectionCategory",
@@ -2762,12 +2803,19 @@
           },
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "books",
+                "audioBooks"
+              ]
             },
             "in": "query",
             "name": "bookType",
             "description": "values: books, audioBooks"
           }
+        ],
+        "tags": [
+          "Compilations"
         ]
       }
     },
@@ -3141,7 +3189,7 @@
         },
         "operationId": "get-public-compilations",
         "tags": [
-          "Book"
+          "Compilations"
         ]
       },
       "parameters": [
@@ -3168,7 +3216,9 @@
       ],
       "get": {
         "summary": "public compilation details load books",
-        "tags": [],
+        "tags": [
+          "Compilations"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -3981,7 +4031,11 @@
           },
           {
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "enum": [
+                "0",
+                "1"
+              ]
             },
             "in": "query",
             "name": "myQuotes"
@@ -4050,7 +4104,6 @@
         ],
         "description": "",
         "tags": [
-          "Get users profile",
           "Quotes"
         ]
       }
@@ -4063,7 +4116,8 @@
           },
           "name": "id",
           "in": "path",
-          "required": true
+          "required": true,
+          "description": "quote id"
         }
       ],
       "get": {
@@ -4374,873 +4428,95 @@
         "parameters": [
           {
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "enum": [
+                "0",
+                "1"
+              ]
             },
             "in": "query",
-            "name": "isTwoColumns"
+            "name": "isTwoColumns",
+            "required": true
           },
           {
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
             },
             "in": "query",
             "name": "fontSize",
-            "description": "0-10"
+            "description": "0-10",
+            "required": true
           },
           {
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
             },
             "in": "query",
             "name": "screenBrightness",
-            "description": "0-10"
+            "description": "0-10",
+            "required": true
           },
           {
             "schema": {
-              "type": "string"
+              "type": "string",
+              "enum": [
+                "Times New Roman",
+                "Georgia",
+                "Arial",
+                "Ubuntu",
+                "Verdana"
+              ]
             },
             "in": "query",
             "name": "fontName",
-            "description": "Times New Roman, Georgia, Arial, Ubuntu, Verdana"
+            "description": "Times New Roman, Georgia, Arial, Ubuntu, Verdana",
+            "required": true
           },
           {
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
             },
             "in": "query",
             "name": "fieldSize",
-            "description": "0-10"
+            "description": "0-10",
+            "required": true
           },
           {
             "schema": {
-              "type": "integer"
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 10
             },
             "in": "query",
             "name": "rowHeight",
-            "description": "0-10"
+            "description": "0-10",
+            "required": true
           },
           {
             "schema": {
-              "type": "boolean"
+              "type": "boolean",
+              "enum": [
+                "0",
+                "1"
+              ]
             },
             "in": "query",
-            "name": "isCenterAlignment"
+            "name": "isCenterAlignment",
+            "required": true
           }
         ]
       }
     },
-    "/author/page": {
-      "get": {
-        "summary": "Your GET endpoint",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number"
-                        },
-                        "author": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "avatar": {},
-                        "about": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "audio_author_id": {
-                          "type": "number"
-                        },
-                        "author_reviews_count": {
-                          "type": "number"
-                        },
-                        "author_quotes_count": {
-                          "type": "number"
-                        },
-                        "books_count": {
-                          "type": "number"
-                        },
-                        "compilation": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "title",
-                              "background",
-                              "description",
-                              "created_by",
-                              "books_count"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "title": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "background": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "description": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "created_by": {
-                                "type": "number"
-                              },
-                              "type": {},
-                              "created_at": {},
-                              "updated_at": {},
-                              "books_count": {
-                                "type": "number"
-                              }
-                            }
-                          }
-                        },
-                        "books": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "title",
-                              "text",
-                              "link",
-                              "params",
-                              "active",
-                              "fixed",
-                              "count_pages",
-                              "created_at",
-                              "updated_at",
-                              "type"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "title": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "text": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "series_id": {},
-                              "year_id": {},
-                              "link": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "params": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "active": {
-                                "type": "number"
-                              },
-                              "fixed": {
-                                "type": "number"
-                              },
-                              "donor_id": {},
-                              "count_pages": {
-                                "type": "number"
-                              },
-                              "created_at": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "updated_at": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "type": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "pivot": {
-                                "type": "object",
-                                "properties": {
-                                  "author_id": {
-                                    "type": "number"
-                                  },
-                                  "book_id": {
-                                    "type": "number"
-                                  }
-                                },
-                                "required": [
-                                  "author_id",
-                                  "book_id"
-                                ]
-                              }
-                            }
-                          }
-                        },
-                        "audio_books": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "title",
-                              "link_id",
-                              "litres",
-                              "laravel_through_key",
-                              "type"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "title": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "description": {},
-                              "params": {},
-                              "genre_id": {},
-                              "series_id": {},
-                              "link_id": {
-                                "type": "number"
-                              },
-                              "litres": {
-                                "type": "number"
-                              },
-                              "created_at": {},
-                              "updated_at": {},
-                              "slug": {},
-                              "image_name": {},
-                              "laravel_through_key": {
-                                "type": "number"
-                              },
-                              "type": {
-                                "type": "string",
-                                "minLength": 1
-                              }
-                            }
-                          }
-                        },
-                        "series": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "series",
-                              "laravel_through_key"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "series": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "laravel_through_key": {
-                                "type": "number"
-                              },
-                              "books": {
-                                "type": "array",
-                                "uniqueItems": true,
-                                "minItems": 1,
-                                "items": {
-                                  "required": [
-                                    "id",
-                                    "title",
-                                    "text",
-                                    "series_id",
-                                    "link",
-                                    "params",
-                                    "active",
-                                    "fixed",
-                                    "count_pages",
-                                    "created_at",
-                                    "updated_at",
-                                    "type"
-                                  ],
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "title": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "text": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "series_id": {
-                                      "type": "number"
-                                    },
-                                    "year_id": {},
-                                    "link": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "params": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "active": {
-                                      "type": "number"
-                                    },
-                                    "fixed": {
-                                      "type": "number"
-                                    },
-                                    "donor_id": {},
-                                    "count_pages": {
-                                      "type": "number"
-                                    },
-                                    "created_at": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "updated_at": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "type": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "rates": {
-                                      "type": "array",
-                                      "uniqueItems": true,
-                                      "minItems": 1,
-                                      "items": {
-                                        "required": [
-                                          "id",
-                                          "email",
-                                          "is_admin",
-                                          "created_at",
-                                          "updated_at",
-                                          "avatar"
-                                        ],
-                                        "properties": {
-                                          "id": {
-                                            "type": "number"
-                                          },
-                                          "name": {},
-                                          "email": {
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "is_admin": {
-                                            "type": "number"
-                                          },
-                                          "created_at": {
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "updated_at": {
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "surname": {},
-                                          "avatar": {
-                                            "type": "string",
-                                            "minLength": 1
-                                          },
-                                          "pivot": {
-                                            "type": "object",
-                                            "properties": {
-                                              "book_id": {
-                                                "type": "number"
-                                              },
-                                              "user_id": {
-                                                "type": "number"
-                                              }
-                                            },
-                                            "required": [
-                                              "book_id",
-                                              "user_id"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "similar_authors": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "author_id_from",
-                              "author_id_to"
-                            ],
-                            "properties": {
-                              "author_id_from": {
-                                "type": "number"
-                              },
-                              "author_id_to": {
-                                "type": "number"
-                              },
-                              "authors": {
-                                "type": "object",
-                                "properties": {
-                                  "id": {
-                                    "type": "number"
-                                  },
-                                  "author": {
-                                    "type": "string",
-                                    "minLength": 1
-                                  },
-                                  "avatar": {},
-                                  "about": {},
-                                  "audio_author_id": {}
-                                },
-                                "required": [
-                                  "id",
-                                  "author"
-                                ]
-                              }
-                            }
-                          }
-                        }
-                      },
-                      "required": [
-                        "id",
-                        "author",
-                        "about",
-                        "audio_author_id",
-                        "author_reviews_count",
-                        "author_quotes_count",
-                        "books_count",
-                        "compilation",
-                        "books",
-                        "audio_books",
-                        "series",
-                        "similar_authors"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "id": 1,
-                        "author": "Grady Ziemann",
-                        "avatar": null,
-                        "about": "qwerqwerqwer",
-                        "audio_author_id": 1,
-                        "author_reviews_count": 2,
-                        "author_quotes_count": 2,
-                        "books_count": 4,
-                        "compilation": [
-                          {
-                            "id": 1,
-                            "title": "comp1",
-                            "background": "1234",
-                            "description": "qwerqwer",
-                            "created_by": 15,
-                            "type": null,
-                            "created_at": null,
-                            "updated_at": null,
-                            "books_count": 1
-                          }
-                        ],
-                        "books": [
-                          {
-                            "id": 3,
-                            "title": "Ms.",
-                            "text": "Quia natus ipsum amet qui. Sapiente magnam praesentium iusto accusamus quo et molestias vel. Neque assumenda deleniti quis voluptas assumenda modi.",
-                            "series_id": null,
-                            "year_id": null,
-                            "link": "Optio.",
-                            "params": "{}",
-                            "active": 1,
-                            "fixed": 1,
-                            "donor_id": null,
-                            "count_pages": 1,
-                            "created_at": "2022-01-13T11:33:55.000000Z",
-                            "updated_at": "2022-01-13T11:33:55.000000Z",
-                            "type": "books",
-                            "pivot": {
-                              "author_id": 1,
-                              "book_id": 3
-                            }
-                          },
-                          {
-                            "id": 4,
-                            "title": "Mrs.",
-                            "text": "Voluptas magni in illo quisquam dolor enim. Sunt commodi ipsum et dolor est assumenda qui. Sint est rerum id dolores vero deserunt quia. Consequatur aliquam eum esse aliquam.",
-                            "series_id": null,
-                            "year_id": null,
-                            "link": "Sunt.",
-                            "params": "{}",
-                            "active": 1,
-                            "fixed": 1,
-                            "donor_id": null,
-                            "count_pages": 6,
-                            "created_at": "2022-01-13T11:33:55.000000Z",
-                            "updated_at": "2022-01-13T11:33:55.000000Z",
-                            "type": "books",
-                            "pivot": {
-                              "author_id": 1,
-                              "book_id": 4
-                            }
-                          }
-                        ],
-                        "audio_books": [
-                          {
-                            "id": 1,
-                            "title": "1",
-                            "description": null,
-                            "params": null,
-                            "genre_id": null,
-                            "series_id": null,
-                            "link_id": 1,
-                            "litres": 123,
-                            "created_at": null,
-                            "updated_at": null,
-                            "slug": null,
-                            "image_name": null,
-                            "laravel_through_key": 1,
-                            "type": "audioBooks"
-                          }
-                        ],
-                        "series": [
-                          {
-                            "id": 1,
-                            "series": "1",
-                            "laravel_through_key": 1,
-                            "books": [
-                              {
-                                "id": 1,
-                                "title": "Dr.",
-                                "text": "Reprehenderit minima a facere quo ut quia et. Tempore autem pariatur sit voluptatem neque fuga sed. Similique tempora ut aliquid. Assumenda omnis placeat ex aut.",
-                                "series_id": 1,
-                                "year_id": null,
-                                "link": "A ea.",
-                                "params": "{}",
-                                "active": 1,
-                                "fixed": 1,
-                                "donor_id": null,
-                                "count_pages": 9,
-                                "created_at": "2022-01-13T11:33:55.000000Z",
-                                "updated_at": "2022-01-13T11:33:55.000000Z",
-                                "type": "books",
-                                "rates": [
-                                  {
-                                    "id": 12,
-                                    "name": null,
-                                    "email": "user17@example.com",
-                                    "is_admin": 0,
-                                    "created_at": "2022-01-13T16:17:15.000000Z",
-                                    "updated_at": "2022-01-13T16:17:15.000000Z",
-                                    "surname": null,
-                                    "avatar": "/asdasd.jpg",
-                                    "pivot": {
-                                      "book_id": 1,
-                                      "user_id": 12
-                                    }
-                                  }
-                                ]
-                              },
-                              {
-                                "id": 2,
-                                "title": "Mr.",
-                                "text": "Fugit consequatur est quia dolor quia aut sit. Illo rerum doloremque at est non corrupti. Sed ut nemo laboriosam tempora quo. Ipsam autem qui quia iste veniam libero ea deleniti.",
-                                "series_id": 1,
-                                "year_id": null,
-                                "link": "Velit et.",
-                                "params": "{}",
-                                "active": 1,
-                                "fixed": 1,
-                                "donor_id": null,
-                                "count_pages": 3,
-                                "created_at": "2022-01-13T11:33:55.000000Z",
-                                "updated_at": "2022-01-13T11:33:55.000000Z",
-                                "type": "books",
-                                "rates": [
-                                  {
-                                    "id": 12,
-                                    "name": null,
-                                    "email": "user17@example.com",
-                                    "is_admin": 0,
-                                    "created_at": "2022-01-13T16:17:15.000000Z",
-                                    "updated_at": "2022-01-13T16:17:15.000000Z",
-                                    "surname": null,
-                                    "avatar": "/asdasd.jpg",
-                                    "pivot": {
-                                      "book_id": 2,
-                                      "user_id": 12
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ],
-                        "similar_authors": [
-                          {
-                            "author_id_from": 1,
-                            "author_id_to": 2,
-                            "authors": {
-                              "id": 2,
-                              "author": "Madalyn Marvin",
-                              "avatar": null,
-                              "about": null,
-                              "audio_author_id": null
-                            }
-                          },
-                          {
-                            "author_id_from": 1,
-                            "author_id_to": 3,
-                            "authors": {
-                              "id": 3,
-                              "author": "Christina Daniel",
-                              "avatar": null,
-                              "about": null,
-                              "audio_author_id": null
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "status": "success",
-                      "data": {
-                        "id": 1,
-                        "author": "Grady Ziemann",
-                        "avatar": null,
-                        "about": "qwerqwerqwer",
-                        "audio_author_id": 1,
-                        "author_reviews_count": 2,
-                        "author_quotes_count": 2,
-                        "books_count": 4,
-                        "compilation": [
-                          {
-                            "id": 1,
-                            "title": "comp1",
-                            "background": "1234",
-                            "description": "qwerqwer",
-                            "created_by": 15,
-                            "type": null,
-                            "created_at": null,
-                            "updated_at": null,
-                            "books_count": 1
-                          }
-                        ],
-                        "books": [
-                          {
-                            "id": 3,
-                            "title": "Ms.",
-                            "text": "Quia natus ipsum amet qui. Sapiente magnam praesentium iusto accusamus quo et molestias vel. Neque assumenda deleniti quis voluptas assumenda modi.",
-                            "series_id": null,
-                            "year_id": null,
-                            "link": "Optio.",
-                            "params": "{}",
-                            "active": 1,
-                            "fixed": 1,
-                            "donor_id": null,
-                            "count_pages": 1,
-                            "created_at": "2022-01-13T11:33:55.000000Z",
-                            "updated_at": "2022-01-13T11:33:55.000000Z",
-                            "type": "books",
-                            "pivot": {
-                              "author_id": 1,
-                              "book_id": 3
-                            }
-                          },
-                          {
-                            "id": 4,
-                            "title": "Mrs.",
-                            "text": "Voluptas magni in illo quisquam dolor enim. Sunt commodi ipsum et dolor est assumenda qui. Sint est rerum id dolores vero deserunt quia. Consequatur aliquam eum esse aliquam.",
-                            "series_id": null,
-                            "year_id": null,
-                            "link": "Sunt.",
-                            "params": "{}",
-                            "active": 1,
-                            "fixed": 1,
-                            "donor_id": null,
-                            "count_pages": 6,
-                            "created_at": "2022-01-13T11:33:55.000000Z",
-                            "updated_at": "2022-01-13T11:33:55.000000Z",
-                            "type": "books",
-                            "pivot": {
-                              "author_id": 1,
-                              "book_id": 4
-                            }
-                          }
-                        ],
-                        "audio_books": [
-                          {
-                            "id": 1,
-                            "title": "1",
-                            "description": null,
-                            "params": null,
-                            "genre_id": null,
-                            "series_id": null,
-                            "link_id": 1,
-                            "litres": 123,
-                            "created_at": null,
-                            "updated_at": null,
-                            "slug": null,
-                            "image_name": null,
-                            "laravel_through_key": 1,
-                            "type": "audioBooks"
-                          }
-                        ],
-                        "series": [
-                          {
-                            "id": 1,
-                            "series": "1",
-                            "laravel_through_key": 1,
-                            "books": [
-                              {
-                                "id": 1,
-                                "title": "Dr.",
-                                "text": "Reprehenderit minima a facere quo ut quia et. Tempore autem pariatur sit voluptatem neque fuga sed. Similique tempora ut aliquid. Assumenda omnis placeat ex aut.",
-                                "series_id": 1,
-                                "year_id": null,
-                                "link": "A ea.",
-                                "params": "{}",
-                                "active": 1,
-                                "fixed": 1,
-                                "donor_id": null,
-                                "count_pages": 9,
-                                "created_at": "2022-01-13T11:33:55.000000Z",
-                                "updated_at": "2022-01-13T11:33:55.000000Z",
-                                "type": "books",
-                                "rates": [
-                                  {
-                                    "id": 12,
-                                    "name": null,
-                                    "email": "user17@example.com",
-                                    "is_admin": 0,
-                                    "created_at": "2022-01-13T16:17:15.000000Z",
-                                    "updated_at": "2022-01-13T16:17:15.000000Z",
-                                    "surname": null,
-                                    "avatar": "/asdasd.jpg",
-                                    "pivot": {
-                                      "book_id": 1,
-                                      "user_id": 12
-                                    }
-                                  }
-                                ]
-                              },
-                              {
-                                "id": 2,
-                                "title": "Mr.",
-                                "text": "Fugit consequatur est quia dolor quia aut sit. Illo rerum doloremque at est non corrupti. Sed ut nemo laboriosam tempora quo. Ipsam autem qui quia iste veniam libero ea deleniti.",
-                                "series_id": 1,
-                                "year_id": null,
-                                "link": "Velit et.",
-                                "params": "{}",
-                                "active": 1,
-                                "fixed": 1,
-                                "donor_id": null,
-                                "count_pages": 3,
-                                "created_at": "2022-01-13T11:33:55.000000Z",
-                                "updated_at": "2022-01-13T11:33:55.000000Z",
-                                "type": "books",
-                                "rates": [
-                                  {
-                                    "id": 12,
-                                    "name": null,
-                                    "email": "user17@example.com",
-                                    "is_admin": 0,
-                                    "created_at": "2022-01-13T16:17:15.000000Z",
-                                    "updated_at": "2022-01-13T16:17:15.000000Z",
-                                    "surname": null,
-                                    "avatar": "/asdasd.jpg",
-                                    "pivot": {
-                                      "book_id": 2,
-                                      "user_id": 12
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
-                          }
-                        ],
-                        "similar_authors": [
-                          {
-                            "author_id_from": 1,
-                            "author_id_to": 2,
-                            "authors": {
-                              "id": 2,
-                              "author": "Madalyn Marvin",
-                              "avatar": null,
-                              "about": null,
-                              "audio_author_id": null
-                            }
-                          },
-                          {
-                            "author_id_from": 1,
-                            "author_id_to": 3,
-                            "authors": {
-                              "id": 3,
-                              "author": "Christina Daniel",
-                              "avatar": null,
-                              "about": null,
-                              "audio_author_id": null
-                            }
-                          }
-                        ]
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "get-author_page",
-        "parameters": [
-          {
-            "schema": {
-              "type": "number"
-            },
-            "in": "query",
-            "name": "id",
-            "description": "id author"
-          }
-        ]
-      },
-      "parameters": []
-    },
-    "/users/authors": {
+    "/compilations/books": {
       "post": {
-        "summary": "Add Authors to favorite",
-        "operationId": "post-users-authors",
+        "summary": "Save books to users compilation",
+        "operationId": "post-compilations-books",
         "responses": {
           "200": {
             "description": "OK",
@@ -5257,17 +4533,13 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "user_id": {
+                        "compilation_id": {
                           "type": "number"
                         },
-                        "author_id": {
+                        "compilationable_id": {
                           "type": "number"
                         },
-                        "updated_at": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "created_at": {
+                        "compilationable_type": {
                           "type": "string",
                           "minLength": 1
                         },
@@ -5276,10 +4548,9 @@
                         }
                       },
                       "required": [
-                        "user_id",
-                        "author_id",
-                        "updated_at",
-                        "created_at",
+                        "compilation_id",
+                        "compilationable_id",
+                        "compilationable_type",
                         "id"
                       ]
                     }
@@ -5292,10 +4563,9 @@
                     "example-1": {
                       "status": "success",
                       "data": {
-                        "user_id": 12,
-                        "author_id": 4,
-                        "updated_at": "2022-01-25T09:07:20.000000Z",
-                        "created_at": "2022-01-25T09:07:20.000000Z",
+                        "compilation_id": 3,
+                        "compilationable_id": 19,
+                        "compilationable_type": "books",
                         "id": 0
                       }
                     }
@@ -5304,91 +4574,12 @@
                 "examples": {
                   "example-1": {
                     "value": {
-                      "status": "success",
+                      "status": "string",
                       "data": {
-                        "user_id": 12,
-                        "author_id": 4,
-                        "updated_at": "2022-01-25T09:07:20.000000Z",
-                        "created_at": "2022-01-25T09:07:20.000000Z",
+                        "compilation_id": 0,
+                        "compilationable_id": 0,
+                        "compilationable_type": "string",
                         "id": 0
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "Unauthenticated."
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "message": "Unauthenticated."
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity (WebDAV)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "errors": {
-                      "type": "object",
-                      "properties": {
-                        "author_id": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "author_id"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "message",
-                    "errors"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "The given data was invalid.",
-                      "errors": {
-                        "author_id": [
-                          "The author id has already been taken."
-                        ]
                       }
                     }
                   }
@@ -5397,40 +4588,45 @@
             }
           }
         },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "description": "",
-                "type": "object",
-                "properties": {
-                  "author_id": {
-                    "type": "number"
-                  }
-                },
-                "required": [
-                  "author_id"
-                ],
-                "x-examples": {
-                  "example-1": {
-                    "author_id": 1
-                  }
-                }
-              },
-              "examples": {
-                "example-1": {
-                  "value": {
-                    "author_id": 1
-                  }
-                }
-              }
-            }
+        "tags": [
+          "Compilations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "compilation_id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "book_id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "books",
+                "audioBooks"
+              ]
+            },
+            "in": "query",
+            "name": "book_type",
+            "required": true
           }
-        }
-      },
+        ]
+      }
+    },
+    "/users/books": {
       "delete": {
-        "summary": "Delete author from favorite",
-        "operationId": "delete-users-authors",
+        "summary": "Delete books from users list",
+        "operationId": "delete-users-books",
         "responses": {
           "200": {
             "description": "OK",
@@ -5462,49 +4658,208 @@
                       "data": []
                     }
                   }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Недостаточно прав для редактирования"
+                    }
+                  }
                 },
-                "examples": {
-                  "example-1": {
-                    "value": {}
-                  }
-                }
+                "examples": {}
               }
             }
           }
         },
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {}
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "author_id": {
-                    "type": "number"
-                  }
-                }
-              },
-              "examples": {
-                "example-1": {
-                  "value": {}
-                }
-              }
-            }
+        "security": [
+          {
+            "Authorization": []
           }
-        },
+        ],
+        "tags": [
+          "Book"
+        ],
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
-            "in": "query"
+            "in": "query",
+            "name": "book_id"
           }
         ]
+      },
+      "put": {
+        "summary": "Change book status in users list",
+        "operationId": "put-users-books",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Books"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "book_id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer",
+              "enum": [
+                1,
+                2,
+                3
+              ]
+            },
+            "in": "query",
+            "name": "status",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/compilations/books/delete": {
+      "delete": {
+        "summary": "Delete book from compilation",
+        "operationId": "delete-compilations-books-delete",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "required": [],
+                        "properties": {}
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": []
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "У Вас нет прав на изменение этой подборки"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Compilations"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "compilation_id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "book_id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "books",
+                "audioBooks"
+              ]
+            },
+            "in": "query",
+            "name": "book_type",
+            "required": true
+          }
+        ],
+        "description": ""
       }
     }
   },
