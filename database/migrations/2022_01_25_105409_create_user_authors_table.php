@@ -16,13 +16,7 @@ class CreateUserAuthorTable extends Migration
     {
         Schema::create('user_author', function (Blueprint $table) {
             $table->foreignId('author_id')->constrained()->cascadeOnDelete();
-            $table->foreign('author_id')
-                ->references('id')
-                ->on('authors');
-            $table->foreignId('user_id');
-            $table->foreign('user_id')
-                ->references('id')
-                ->on('users');
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
