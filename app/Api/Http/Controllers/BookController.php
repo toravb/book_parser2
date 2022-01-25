@@ -57,7 +57,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function showSingle(int $id, Book $book)
+    public function showSingle($id, Book $book)
     {
         $books = $book->singleBook($id);
 
