@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class ReadingSettings extends Model
 {
+    public static $fonts = array('Times New Roman', 'Georgia', 'Arial', 'Ubuntu', 'Verdana',);
+
     protected $fillable = [
         'user_id',
         'is_two_columns',
@@ -33,7 +35,8 @@ class ReadingSettings extends Model
 
         $this->updateOrCreate(
             ['user_id' => $userId],
-            ['is_two_columns' => $request->isTwoColumns,
+            [
+                'is_two_columns' => $request->isTwoColumns,
                 'font_size' => $request->fontSize,
                 'screen_brightness' => $request->screenBrightness,
                 'font_name' => $request->fontName,

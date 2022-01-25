@@ -12,8 +12,7 @@ class ReadingSettingsController extends Controller
 {
     public function index(ReadingSettings $readingSettings)
     {
-        $currentReadingSettings = $readingSettings->showCurrentReadingSettings(Auth::user()->id);
-        return ApiAnswerService::successfulAnswerWithData($currentReadingSettings);
+        return ApiAnswerService::successfulAnswerWithData($readingSettings->firstWhere('user_id', Auth::user()->id));
     }
 
     public function create()
@@ -24,6 +23,7 @@ class ReadingSettingsController extends Controller
     public function store(ReadingSettingsRequest $request, ReadingSettings $readingSettings)
     {
         $readingSettings->saveReadingSettings(Auth::user()->id, $request);
+        return ApiAnswerService::successfulAnswerWithData($readingSettings);
     }
 
     public function show(ReadingSettings $readingSettings)
