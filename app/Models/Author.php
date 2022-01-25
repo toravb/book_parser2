@@ -17,7 +17,7 @@ class Author extends Model
         'about',
         'avatar'
     ];
-
+    protected $hidden = ['pivot'];
     public static function create($fields)
     {
         $author = new static();

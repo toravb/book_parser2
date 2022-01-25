@@ -4,6 +4,7 @@ use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\RateController;
+use App\Api\Http\Controllers\UserAuthorsController;
 use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
@@ -37,7 +38,7 @@ Route::middleware('auth:api')->group(function (){
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
     Route::get('/users', [ProfileController::class, 'profile']);
-
+    Route::post('/users/authors', [UserAuthorsController::class, 'addAuthorToFavorites']);
     /**
      * Likes
      */
@@ -80,6 +81,6 @@ Route::get('public/compilations/{id}', [CompilationController::class, 'showCompi
 
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
-Route::get('/author_page', [AuthorPageController::class, 'show']);
+Route::get('/author/page', [AuthorPageController::class, 'show']);
 
 
