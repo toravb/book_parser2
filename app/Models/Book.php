@@ -163,11 +163,6 @@ class Book extends Model implements BookInterface
         return $this->hasMany(BookUser::class);
     }
 
-    public function scopeNewest($query)
-    {
-        return $query->latest();
-    }
-
     public function scopePopular($query)
     {
         return $query->orderBy('rates_avg', 'desc');

@@ -12,64 +12,71 @@ class BookFilter extends QueryFilter
         $this->request = $request;
     }
 
-    public function showType(string $viewTypeList)
+    public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
-
         if ($viewTypeList === Book::SHOW_TYPE_LIST) {
             return $this->builder->withCount(['bookLikes', 'bookComments'])
                 ->with(['year', 'publishers',])
                 ->addSelect('text');
         }
+
+        return $this->builder;
     }
 
-    public function findByAuthor(string $findByAuthor)
+    public function findByAuthor(string $findByAuthor): \Illuminate\Database\Eloquent\Builder
     {
         return $this->builder->whereHas('authors', function ($query) use ($findByAuthor) {
             $query->where('author', 'like', '%' . $findByAuthor . '%');
         });
     }
 
-    public function alphabetAuthorIndex(string $alphabetAuthorIndex)
+    public function alphabetAuthorIndex(string $alphabetAuthorIndex): \Illuminate\Database\Eloquent\Builder
     {
         if ($alphabetAuthorIndex && !$this->request->findByAuthor) {
             return $this->builder->whereHas('authors', function ($query) use ($alphabetAuthorIndex) {
                 $query->where('author', 'like', $alphabetAuthorIndex . '%');
             });
         }
+
+        return $this->builder;
     }
 
-    public function findByPublisher(string $findByPublisher)
+    public function findByPublisher(string $findByPublisher): \Illuminate\Database\Eloquent\Builder
     {
         return $this->builder->whereHas('publishers', function ($query) use ($findByPublisher) {
             $query->where('publisher', 'like', '%' . $findByPublisher . '%');
         });
     }
 
-    public function alphabetPublisherIndex(string $alphabetPublisherIndex)
+    public function alphabetPublisherIndex(string $alphabetPublisherIndex): \Illuminate\Database\Eloquent\Builder
     {
         if ($alphabetPublisherIndex && !$this->request->findByPublisher) {
             return $this->builder->whereHas('publishers', function ($query) use ($alphabetPublisherIndex) {
                 $query->where('publisher', 'like', $alphabetPublisherIndex . '%');
             });
         }
+
+        return $this->builder;
     }
 
-    public function findByTitle(string $findByTitle)
+    public function findByTitle(string $findByTitle): \Illuminate\Database\Eloquent\Builder
     {
         return $this->builder->where('title', 'like', '%' . $findByTitle . '%');
     }
 
-    public function alphabetTitleIndex(string $alphabetTitleIndex)
+    public function alphabetTitleIndex(string $alphabetTitleIndex): \Illuminate\Database\Eloquent\Builder
     {
         if ($alphabetTitleIndex && !$this->request->findByTitle) {
             return $this->builder->where('title', 'like', $alphabetTitleIndex . '%');
         }
+
+        return $this->builder;
     }
 
-    public function sortBy(string $sortBy)
+    public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
         if ($sortBy === Book::SORT_BY_DATE) {
-            return $this->builder->newest();
+            return $this->builder->latest();
         }
 
         if ($sortBy === Book::SORT_BY_RATING) {
@@ -87,13 +94,14 @@ class BookFilter extends QueryFilter
         if ($sortBy === Book::SORT_BY_ALPHABET) {
             return $this->builder->orderBy('title');
         }
+
+        return $this->builder;
     }
 
-    public function findByCategory(string $findByCategory)
+    public function findByCategory(string $findByCategory): \Illuminate\Database\Eloquent\Builder
     {
         return $this->builder->whereHas('bookGenres', function ($query) use ($findByCategory) {
             $query->where('id', $findByCategory);
         });
     }
-
 }
