@@ -12,16 +12,14 @@ class UserAuthor extends Model
 
     public function saveAuthor(int $userId, int $authorId)
     {
-
         $this->user_id = $userId;
         $this->author_id = $authorId;
         $this->save();
     }
     public function deleteAuthor(int $userId, int $authorId)
     {
-
         $this->where('user_id', $userId)
-            ->where('author_id ', $authorId)
+            ->where('author_id', $authorId)
             ->delete();
     }
     public function users()

@@ -38,7 +38,8 @@ Route::middleware('auth:api')->group(function (){
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
     Route::get('/users', [ProfileController::class, 'profile']);
-    Route::post('/users/authors', [UserAuthorsController::class, 'addAuthorToFavorites']);
+    Route::post('/users/authors', [UserAuthorsController::class, 'store']);
+    Route::delete('/users/authors', [UserAuthorsController::class, 'destroy']);
     /**
      * Likes
      */

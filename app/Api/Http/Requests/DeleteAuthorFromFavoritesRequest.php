@@ -24,7 +24,7 @@ class DeleteAuthorFromFavoritesRequest extends FormRequest
     public function rules()
     {
         return [
-            'author_id' => ['required', 'integer']
+            'author_id' => ['required', 'integer', 'exists:authors,id']
         ];
     }
 }
