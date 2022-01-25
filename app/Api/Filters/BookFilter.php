@@ -9,7 +9,6 @@ class BookFilter extends QueryFilter
 {
     public function __construct(Request $request)
     {
-        //asd
         $this->request = $request;
     }
 
