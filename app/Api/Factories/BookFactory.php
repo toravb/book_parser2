@@ -11,6 +11,7 @@ class BookFactory
     {
         $this->types = $types;
     }
+
     public function createInstance(string $type): BookInterface
     {
         $bookTypes = $this->types->getBookTypes();
