@@ -140,4 +140,9 @@ class AudioBook extends Model
     public function bookCompilation(){
         return $this->morphOne(BookCompilation::class, 'bookCompilationable');
     }
+
+    public function link()
+    {
+        return $this->belongsTo(AudioBooksLink::class, 'link_id', 'id');
+    }
 }

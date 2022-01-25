@@ -1,10 +1,12 @@
 <?php
 
+use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
+use App\Api\Http\Controllers\UserAuthorsController;
 use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\Api\Http\Controllers\BookController;
@@ -40,7 +42,8 @@ Route::middleware('auth:api')->group(function () {
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
     Route::get('/users', [ProfileController::class, 'profile']);
-
+    Route::post('/users/authors', [UserAuthorsController::class, 'store']);
+    Route::delete('/users/authors', [UserAuthorsController::class, 'destroy']);
     /**
      * Likes
      */
@@ -99,7 +102,6 @@ Route::get('/compilations', [CompilationController::class, 'show']);
 Route::get('public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);
 Route::get('public/load/compilations/{id}', [CompilationLoadingController::class, 'compilationLoading']);
 
-Route::post('/change-password', [PasswordController::class, 'resetPassword']);
+Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
-
-
+Route::get('/author/page', [AuthorPageController::class, 'show']);
