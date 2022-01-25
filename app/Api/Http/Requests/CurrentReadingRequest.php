@@ -36,7 +36,7 @@ class CurrentReadingRequest extends FormRequest
 
     public function validationData()
     {
-        return array_merge($this->route()->parameters(),$this->all());
+        return array_merge($this->route()->parameters(), $this->all());
     }
 
 }
