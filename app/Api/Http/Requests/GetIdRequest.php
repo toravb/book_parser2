@@ -2,7 +2,9 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Models\Quote;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class GetIdRequest extends FormRequest
 {
@@ -24,7 +26,7 @@ class GetIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'=>['required', 'integer'],
+            'id' => ['required', 'integer', Rule::exists(Quote::class, 'id')],
         ];
     }
 

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
+use App\Api\Interfaces\BookInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\This;
 
-class Book extends Model
+class Book extends Model implements BookInterface
 {
     use HasFactory;
 
@@ -20,7 +22,7 @@ class Book extends Model
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
-    const SORT_BY_ALPHABET = '3';
+    const SORT_BY_ALPHABET = '4';
     const TYPE_BOOK = 'books';
 
     protected $fillable = [
@@ -44,9 +46,10 @@ class Book extends Model
 
     }
 
-    protected $morphClass = 'Book';
+//    protected $morphClass = 'Book';
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $book = new static();
         $book->fill($fields);
         $book->save();
@@ -54,7 +57,8 @@ class Book extends Model
         return $book;
     }
 
-    public function edit($fields){
+    public function edit($fields)
+    {
         $this->fill($fields);
         $this->save();
     }
@@ -138,10 +142,12 @@ class Book extends Model
     {
         return $this->hasMany(BookComment::class);
     }
+
     public function bookLikes()
     {
         return $this->hasMany(BookLike::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(Review::class);
@@ -151,17 +157,18 @@ class Book extends Model
     {
         return $this->hasMany(Quote::class);
     }
+
     public function bookStatuses()
     {
         return $this->hasMany(BookUser::class);
     }
 
-    public function scopeNewest ($query)
+    public function scopeNewest($query)
     {
         return $query->latest();
     }
 
-    public function scopePopular ($query)
+    public function scopePopular($query)
     {
         return $query->orderBy('rates_avg', 'desc');
     }
@@ -183,7 +190,8 @@ class Book extends Model
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 
-    public function users() {
+    public function users()
+    {
         return $this->belongsToMany(User::class, 'book_user');
     }
 
@@ -191,24 +199,71 @@ class Book extends Model
     {
         return $this->morphToMany(Compilation::class,
             'compilationable',
-        'book_compilation',
-        'compilationable_id',
-        'compilation_id',
-        'id',
-        'id');
+            'book_compilation',
+            'compilationable_id',
+            'compilation_id',
+            'id',
+            'id');
     }
 
-    public function getBook(){
+    public function getBook()
+    {
         return
-        $this->with([
+            $this->with([
+                'authors',
+                'image',
+                'bookGenres',
+//            'bookStatuses'
+            ])
+                ->select('id', 'title')
+                ->withCount('rates')
+                ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
+    public function bookCompilation()
+    {
+        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
+
+    public function currentReading($request)
+    {
+        $number = $request->pageNumber ? $request->pageNumber : 1;
+        return $this->with([
+            'authors',
+            'pages' => function ($query) use ($number) {
+                return $query->where('page_number', $number);
+            }
+        ])
+            ->select([
+                'id',
+                'title'
+            ])
+            ->withCount('pages')
+            ->findOrFail($request->id);
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
+
+    public function singleBook(int $bookId)
+    {
+        return $this->with([
             'authors',
             'image',
             'bookGenres',
-//            'bookStatuses'
-        ])
-            ->select('id', 'title')
-            ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            'year',
+            'publishers',
+            'bookComments',
+            'reviews',
+            'quotes'])
+            ->where('id', $bookId)
+            ->select('id', 'title', 'text')
+            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes'])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->firstOrFail();
     }
 
 }
+

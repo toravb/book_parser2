@@ -17,9 +17,10 @@ class Author extends Model
         'about',
         'avatar'
     ];
+
     protected $hidden = ['pivot'];
-    public static function create($fields)
-    {
+
+    public static function create($fields){
         $author = new static();
         $author->fill($fields);
         $author->save();
@@ -109,13 +110,4 @@ class Author extends Model
     {
         return $this->belongsTo(AudioAuthor::class);
     }
-    /*    public function getAuthor(){
-            return
-                $this->with([
-                    'author',
-                    'avatar',
-                    'about',
-
-                ]);
-        }*/
 }
