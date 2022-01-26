@@ -26,7 +26,7 @@ class GetIdRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => ['required', 'integer', Rule::exists(Quote::class, 'id')],
+            'id' => ['required', 'integer'],
         ];
     }
 

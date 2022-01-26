@@ -28,6 +28,8 @@ class GetBooksRequest extends FormRequest
      */
     public function rules()
     {
+        if(!isset($this->type)) $this->type = Book::TYPE_BOOK;
+
         return [
             'showType' => ['required', Rule::in([Book::SHOW_TYPE_BLOCK, Book::SHOW_TYPE_LIST])],
             'findByAuthor' => ['sometimes', 'string', 'max:200'],
@@ -37,7 +39,7 @@ class GetBooksRequest extends FormRequest
             'findByTitle' => ['sometimes', 'string', 'max:200',],
             'alphabetTitleIndex' => ['sometimes', 'string', 'alpha'],
             'findByCategory' => ['sometimes', 'integer'],
-            'type' => ['required', 'string', Rule::in(array_keys((new TypesGenerator())->getCompilationsBookTypes()))],
+            'type' => ['sometimes', 'string', Rule::in(array_keys((new TypesGenerator())->getCompilationsBookTypes()))],
             'sortBy' => ['required', 'integer',
                 Rule::in(
                     Book::SORT_BY_DATE,

@@ -57,9 +57,9 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function showSingle(GetIdRequest $request, Book $book)
+    public function showSingle($id, Book $book)
     {
-        $books = $book->singleBook($request->id);
+        $books = $book->singleBook($id);
 
         if ($books->rates_avg === null) {
             $books->rates_avg = 0;

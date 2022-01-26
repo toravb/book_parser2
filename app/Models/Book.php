@@ -242,7 +242,7 @@ class Book extends Model implements BookInterface
         $filter->apply($builder);
     }
 
-    public function singleBook(int $bookId)
+    public function singleBook($bookId)
     {
         return $this->with([
             'authors',
