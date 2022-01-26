@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Storage;
 
 class UserService
 {
-    public static function userAvatar (User $user):User{
+    public static function userAvatar(User $user): User
+    {
         if ($user->avatar !== null) {
             $url = url('/');
-            $user->avatar = $url . Storage::url($user->avatar) ;
+            $user->avatar = $url . Storage::url($user->avatar);
         }
         return $user;
     }

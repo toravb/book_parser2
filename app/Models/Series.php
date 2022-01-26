@@ -15,7 +15,7 @@ class Series extends Model
         'series'
     ];
 
-    public static function create($fields)
+    public function create($fields)
     {
         $series = new static();
         $series->fill($fields);
@@ -35,19 +35,13 @@ class Series extends Model
         return $this->hasMany(Book::class, 'series_id', 'id');
     }
 
-    public function booksFullData()
+    public function getSeries($id): \Illuminate\Database\Eloquent\Builder
     {
-//        $book = new Book();
-//        $a = $book->getBook()->;
-//        dd($a);
-        return $this->books()->with([
-            'authors',
-            'image',
-            'bookGenres',
-//            'bookStatuses'
-        ])
-            ->select('id', 'title', 'series_id')
-            ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+        return $this->with(['books' => function ($query) {
+            return $query->select('id', 'year_id', 'series_id', 'title', 'link', 'text')
+                ->with(['year', 'genres', 'authors'])
+                ->withCount(['rates', 'bookLikes', 'bookComments'])
+                ->withAvg('rates as rates_avg', 'rates.rating');
+        }])->withCount('books');
     }
 }
