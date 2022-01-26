@@ -145,4 +145,8 @@ class AudioBook extends Model
     {
         return $this->belongsTo(AudioBooksLink::class, 'link_id', 'id');
     }
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
 }
