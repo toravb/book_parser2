@@ -15,8 +15,11 @@ class BookFilter extends QueryFilter
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
         if ($viewTypeList === Book::SHOW_TYPE_LIST) {
-            return $this->builder->withCount(['bookLikes', 'bookComments'])
-                ->with(['year', 'publishers',])
+            return $this->builder->withCount(['bookLikes', 'bookComments', 'views'])
+                ->with([
+                    'year',
+                    'publishers'
+                ])
                 ->addSelect('text');
         }
 
@@ -96,6 +99,13 @@ class BookFilter extends QueryFilter
         }
 
         return $this->builder;
+    }
+
+    public function newest(string $newest)
+    {
+
+        return $this->builder->with('year'); // будем завтра смотреть
+
     }
 
     public function findByCategory(string $findByCategory): \Illuminate\Database\Eloquent\Builder
