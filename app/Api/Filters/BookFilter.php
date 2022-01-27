@@ -3,8 +3,7 @@
 namespace App\Api\Filters;
 
 use App\Models\Book;
-use App\Models\Year;
-use Illuminate\Database\Eloquent\Builder;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class BookFilter extends QueryFilter
@@ -93,7 +92,7 @@ class BookFilter extends QueryFilter
         }
 
         if ($sortBy === Book::SORT_BY_RATING_LAST_YEAR) {
-            return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', date('Y', strtotime('-1 year')));
+            return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
         }
 
         if ($sortBy === Book::SORT_BY_REVIEWS) {

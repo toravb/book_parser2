@@ -2414,7 +2414,8 @@
       "get": {
         "summary": "Show compilations",
         "tags": [
-          "Book"
+          "Book",
+          "Compilations"
         ],
         "responses": {
           "200": {
@@ -2824,9 +2825,6 @@
             "name": "bookType",
             "description": "values: books, audioBooks"
           }
-        ],
-        "tags": [
-          "Compilations"
         ]
       }
     },
@@ -4733,9 +4731,6 @@
             "description": "OK"
           }
         },
-        "tags": [
-          "Books"
-        ],
         "description": "",
         "parameters": [
           {
@@ -4764,6 +4759,9 @@
           {
             "Authorization": []
           }
+        ],
+        "tags": [
+          "Book"
         ]
       }
     },
@@ -4873,26 +4871,25 @@
         ],
         "description": ""
       }
+    },
+    "/author/series": {
+      "get": {
+        "summary": "Author series",
+        "tags": [],
+        "responses": {},
+        "operationId": "get-author-series",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "id"
+          }
+        ]
+      }
     }
   },
-    "/author/series": {
-        "get": {
-            "summary": "Author series",
-            "tags": [],
-            "responses": {},
-            "operationId": "get-author-series",
-            "parameters": [
-                {
-                    "schema": {
-                        "type": "string"
-                    },
-                    "in": "query",
-                    "name": "id"
-                }
-            ]
-        }
-    }
-},
   "components": {
     "schemas": {
       "User": {
@@ -4956,5 +4953,28 @@
         "description": ""
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "Auth"
+    },
+    {
+      "name": "Book"
+    },
+    {
+      "name": "Compilations"
+    },
+    {
+      "name": "Genres"
+    },
+    {
+      "name": "Quotes"
+    },
+    {
+      "name": "Reading settings"
+    },
+    {
+      "name": "User profile update"
+    }
+  ]
 }
