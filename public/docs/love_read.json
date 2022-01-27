@@ -4680,7 +4680,9 @@
       "parameters": [
         {
           "schema": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
           },
           "name": "letter",
           "in": "path",
@@ -4743,7 +4745,9 @@
       "parameters": [
         {
           "schema": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1
           },
           "name": "letter",
           "in": "path",
