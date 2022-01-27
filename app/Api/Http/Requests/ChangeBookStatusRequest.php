@@ -28,13 +28,8 @@ class ChangeBookStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'book_id' => ['required', 'integer'],
-            'status' => ['required', 'integer',
-                Rule::in(
-                    Book::WANT_READ,
-                    Book::READING,
-                    Book::HAD_READ)],
-
+            'book_id' => ['required', 'integer', Rule::exists(Book::class, 'id')],
+            'status' => ['required', 'integer', Rule::in(Book::$availableReadingStatuses)],
         ];
     }
 }

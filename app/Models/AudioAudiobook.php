@@ -17,7 +17,8 @@ class AudioAudiobook extends Model
         'index'
     ];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $audiobook = new static();
         $audiobook->fill($fields);
         $audiobook->save();
@@ -32,5 +33,10 @@ class AudioAudiobook extends Model
             'book_id',
             'id',
         );
+    }
+
+    public function views(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(View::class, 'viewable');
     }
 }

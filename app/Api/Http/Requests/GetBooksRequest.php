@@ -28,7 +28,7 @@ class GetBooksRequest extends FormRequest
      */
     public function rules()
     {
-        if(!isset($this->type)) $this->type = Book::TYPE_BOOK;
+        if (!isset($this->type)) $this->type = Book::TYPE_BOOK;
 
         return [
             'showType' => ['required', Rule::in([Book::SHOW_TYPE_BLOCK, Book::SHOW_TYPE_LIST])],
@@ -43,9 +43,10 @@ class GetBooksRequest extends FormRequest
             'sortBy' => ['required', 'integer',
                 Rule::in(
                     Book::SORT_BY_DATE,
-                    Book::SORT_BY_RATING,
                     Book::SORT_BY_READERS_COUNT,
-                    Book::SORT_BY_ALPHABET)],
+                    Book::SORT_BY_RATING_LAST_YEAR,
+                    Book::SORT_BY_REVIEWS,
+                    Book::BESTSELLERS)],
             'bookType' => ['sometimes', 'string',
                 Rule::in(
                     Book::TYPE_BOOK,

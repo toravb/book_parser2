@@ -18,11 +18,12 @@ class Book extends Model implements BookInterface
     const SHOW_TYPE_LIST = 'list';
     const SORT_BY_DATE = '1';
     const SORT_BY_READERS_COUNT = '2';
-    const SORT_BY_RATING = '3';
+    const SORT_BY_RATING_LAST_YEAR = '3';
+    const SORT_BY_REVIEWS = '4';
+    const BESTSELLERS = '5';
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
-    const SORT_BY_ALPHABET = '4';
     const TYPE_BOOK = 'books';
 
     protected $fillable = [
@@ -37,6 +38,12 @@ class Book extends Model implements BookInterface
 
     protected $appends = [
         'type'
+    ];
+
+    public static array $availableReadingStatuses = [
+        self::WANT_READ,
+        self::READING,
+        self::HAD_READ
     ];
 
     public function getTypeAttribute()
@@ -63,7 +70,7 @@ class Book extends Model implements BookInterface
         $this->save();
     }
 
-    public function year()
+    public function year(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Year::class, 'year_id', 'id');
     }
@@ -93,7 +100,7 @@ class Book extends Model implements BookInterface
         );
     }
 
-    public function publishers()
+    public function publishers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(
             Publisher::class,
@@ -106,12 +113,12 @@ class Book extends Model implements BookInterface
         );
     }
 
-    public function pages()
+    public function pages(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Page::class, 'book_id', 'id');
     }
 
-    public function image()
+    public function image(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Image::class, 'book_id', 'id');
     }
@@ -201,18 +208,22 @@ class Book extends Model implements BookInterface
             'id');
     }
 
-    public function getBook()
+    public function views(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return
-            $this->with([
-                'authors',
-                'image',
-                'bookGenres',
-//            'bookStatuses'
-            ])
-                ->select('id', 'title')
-                ->withCount('rates')
-                ->withAvg('rates as rates_avg', 'rates.rating');
+        return $this->morphMany(View::class, 'viewable');
+    }
+
+    public function getBook(): Builder
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'bookGenres',
+            'bookStatuses'
+        ])
+            ->select('id', 'title', 'year_id')
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
     public function bookCompilation()
@@ -255,7 +266,7 @@ class Book extends Model implements BookInterface
             'quotes'])
             ->where('id', $bookId)
             ->select('id', 'title', 'text')
-            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes'])
+            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes', 'views'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }
