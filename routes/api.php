@@ -49,10 +49,10 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::post('/likes', [LikeController::class, 'create']);
     Route::delete('/likes', [LikeController::class, 'delete']);
+
     /**
      * add book to list
      */
-    Route::put('/books/save', [BookController::class, 'saveBookToUsersList']);
     Route::delete('/users/books', [BookController::class, 'deleteBookFromUsersList']);
     Route::put('/users/books', [BookController::class, 'changeBookStatus']);
 

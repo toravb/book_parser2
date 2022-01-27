@@ -3,6 +3,8 @@
 namespace App\Api\Filters;
 
 use App\Models\Book;
+use App\Models\Year;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class BookFilter extends QueryFilter
@@ -82,10 +84,6 @@ class BookFilter extends QueryFilter
             return $this->builder->latest();
         }
 
-        if ($sortBy === Book::SORT_BY_RATING) {
-            return $this->builder->orderBy('rates_avg', 'desc');
-        }
-
         if ($sortBy === Book::SORT_BY_READERS_COUNT) {
             return $this->builder->whereHas('bookStatuses', function ($query) {
                 $query->reading();
@@ -94,18 +92,19 @@ class BookFilter extends QueryFilter
                 ->orderBy('readersCount', 'desc');
         }
 
-        if ($sortBy === Book::SORT_BY_ALPHABET) {
-            return $this->builder->orderBy('title');
+        if ($sortBy === Book::SORT_BY_RATING_LAST_YEAR) {
+            return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', date('Y', strtotime('-1 year')));
+        }
+
+        if ($sortBy === Book::SORT_BY_REVIEWS) {
+            return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
+        }
+
+        if ($sortBy === Book::BESTSELLERS) {
+            return $this->builder->orderBy('rates_avg', 'desc');
         }
 
         return $this->builder;
-    }
-
-    public function newest(string $newest)
-    {
-
-        return $this->builder->with('year'); // будем завтра смотреть
-
     }
 
     public function findByCategory(string $findByCategory): \Illuminate\Database\Eloquent\Builder

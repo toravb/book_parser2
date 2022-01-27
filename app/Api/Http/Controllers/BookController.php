@@ -83,15 +83,6 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
-    {
-
-        $user = Auth::user();
-        $bookUser->saveBook($user->id, $request->book_id, $request->status);
-
-        return ApiAnswerService::successfulAnswerWithData($bookUser);
-    }
-
     public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
     {
         $user = Auth::user();
@@ -140,15 +131,12 @@ class BookController extends Controller
 
     public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
     {
-        $user = Auth::user();
-        $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
+        $user = Auth::user()->id;
 
-        if ($isUsersBook) {
-            $bookUser->changeStatus($user->id, $request->book_id, $request->status);
-            return ApiAnswerService::successfulAnswerWithData($bookUser);
-        }
+        $bookUser->changeCreateStatus($user, $request->book_id, $request->status);
 
-        return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
+        return ApiAnswerService::successfulAnswerWithData($bookUser);
+
     }
 
     public function readBook(CurrentReadingRequest $request, Book $book)
