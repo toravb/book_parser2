@@ -34,4 +34,8 @@ class Review extends Model
         return $this->belongsTo(Book::class);
     }
 
+    public function likes()
+    {
+        return $this->morphMany(Like::class, 'likeable');
+    }
 }

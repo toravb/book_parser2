@@ -4888,6 +4888,193 @@
           }
         ]
       }
+    },
+    "/byletter/books": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "title": "Mr.",
+                          "id": 2,
+                          "type": "books"
+                        },
+                        {
+                          "title": "Ms.",
+                          "id": 3,
+                          "type": "books"
+                        },
+                        {
+                          "title": "Mrs.",
+                          "id": 4,
+                          "type": "books"
+                        }
+                      ]
+                    }
+                  },
+                  "example-2": {
+                    "value": {
+                      "status": "string",
+                      "data": [
+                        {
+                          "title": "string",
+                          "id": 0,
+                          "type": "string"
+                        }
+                      ],
+                      "": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-byletter-books",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "letterBook"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "letterBook": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/byletter/authors": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "author": {
+                            "type": "string"
+                          },
+                          "id": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "title": "Mr.",
+                          "id": 2,
+                          "type": "books"
+                        },
+                        {
+                          "title": "Ms.",
+                          "id": 3,
+                          "type": "books"
+                        },
+                        {
+                          "title": "Mrs.",
+                          "id": 4,
+                          "type": "books"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-byletter-books",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "letterAuthor"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "letterAuthor": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
     }
   },
   "components": {
