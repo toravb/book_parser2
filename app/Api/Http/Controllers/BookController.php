@@ -9,7 +9,6 @@ use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
-use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveBookRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
@@ -17,6 +16,8 @@ use App\Http\Controllers\Controller;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
+use App\Models\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,8 +45,10 @@ class BookController extends Controller
                 unset($author->pivot);
             }
 
-            foreach ($book->publishers as $publisher) {
-                unset($publisher->pivot);
+            if ($book->relationLoaded('publishers')) {
+                foreach ($book->publishers as $publisher) {
+                    unset($publisher->pivot);
+                }
             }
 
             foreach ($book->bookGenres as $genres) {
@@ -57,7 +60,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function showSingle($id, Book $book)
+    public function showSingle($id, Book $book, View $view, Request $request)
     {
         $books = $book->singleBook($id);
 
@@ -74,16 +77,10 @@ class BookController extends Controller
             unset($genres->pivot);
         }
 
+
+        $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());
+
         return ApiAnswerService::successfulAnswerWithData($books);
-    }
-
-    public function saveBookToUsersList(SaveBookRequest $request, BookUser $bookUser)
-    {
-
-        $user = Auth::user();
-        $bookUser->saveBook($user->id, $request->book_id, $request->status);
-
-        return ApiAnswerService::successfulAnswerWithData($bookUser);
     }
 
     public function deleteBookFromUsersList(DeleteBookFromUsersListRequst $request, BookUser $bookUser)
@@ -134,15 +131,12 @@ class BookController extends Controller
 
     public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
     {
-        $user = Auth::user();
-        $isUsersBook = $user->bookStatuses()->wherePivot('book_id', $request->book_id)->exists();
+        $user = Auth::user()->id;
 
-        if ($isUsersBook) {
-            $bookUser->changeStatus($user->id, $request->book_id, $request->status);
-            return ApiAnswerService::successfulAnswerWithData($bookUser);
-        }
+        $bookUser->changeCreateStatus($user, $request->book_id, $request->status);
 
-        return ApiAnswerService::errorAnswer("Недостаточно прав", Response::HTTP_FORBIDDEN);
+        return ApiAnswerService::successfulAnswerWithData($bookUser);
+
     }
 
     public function readBook(CurrentReadingRequest $request, Book $book)
