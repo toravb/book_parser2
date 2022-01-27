@@ -3,29 +3,27 @@
 use App\Api\Http\Controllers\AuthorController;
 use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\AuthorSeriesController;
+use App\Api\Http\Controllers\BookController;
+use App\Api\Http\Controllers\CategoryController;
 use App\Api\Http\Controllers\CompilationController;
-use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\CompilationLoadingController;
+use App\Api\Http\Controllers\LikeController;
+use App\Api\Http\Controllers\NotificationSettingsController;
+use App\Api\Http\Controllers\PasswordController;
+use App\Api\Http\Controllers\ProfileController;
+use App\Api\Http\Controllers\ProfileUpdateController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\UserAuthorsController;
+use App\Api\Http\Controllers\UserController;
 use App\api\Http\Controllers\UsersBooksController;
 use App\AuthApi\Http\Controllers\ForgotPasswordController;
-use App\Api\Http\Controllers\BookController;
-use App\Api\Http\Controllers\PasswordController;
-use App\Api\Http\Controllers\ProfileUpdateController;
-use App\Api\Http\Controllers\UserController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
-use App\Api\Http\Controllers\CategoryController;
-use App\AuthApi\Http\Controllers\ResetPasswordController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
-use App\Api\Http\Controllers\LikeController;
 use App\Http\Controllers\ReadingSettingsController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Api\Http\Controllers\NotificationSettingsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -95,18 +93,30 @@ Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
 Route::get('/genres', [CategoryController::class, 'show']);
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
+/*
+ * Books
+ */
 Route::get('/books', [BookController::class, 'show']);
+Route::get('/books/letter/{letter}', [BookController::class, 'showByLetter']);
 Route::get('/books/{id}', [BookController::class, 'showSingle']);
 Route::get('/books/read/{id}', [BookController::class, 'readBook']);
 Route::get('/books/{id}/chapters', [BookController::class, 'showBookContents']);
+/*
+ * --------
+ */
 
 Route::get('/compilations', [CompilationController::class, 'show']);
 Route::get('public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);
 Route::get('public/load/compilations/{id}', [CompilationLoadingController::class, 'compilationLoading']);
 
-Route::post('/change-password',[PasswordController::class, 'resetPassword']);
+Route::post('/change-password', [PasswordController::class, 'resetPassword']);
 
+/*
+ * Authors
+ */
 Route::get('/author/page', [AuthorPageController::class, 'show']);
 Route::get('/author/series/{id}', [AuthorSeriesController::class, 'showSeries']);
-Route::get('/byletter/books',[BookController::class, 'showByLetterBook']);
-Route::get('/byletter/authors',[AuthorController::class, 'showByLetterAuthor']);
+Route::get('/authors/letter/{letter}', [AuthorController::class, 'showByLetter']);
+/*
+ * --------
+ */

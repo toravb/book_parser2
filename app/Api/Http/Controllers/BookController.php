@@ -9,19 +9,17 @@ use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
-use App\Api\Http\Requests\GetIdRequest;
-use App\Api\Http\Requests\SaveBookRequest;
+use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Models\Author;
+use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
 use App\Models\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Book;
 use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
@@ -131,7 +129,7 @@ class BookController extends Controller
         return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
     }
 
-    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser)
+    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser): \Illuminate\Http\JsonResponse
     {
         $user = Auth::user()->id;
 
@@ -140,7 +138,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($bookUser);
     }
 
-    public function readBook(CurrentReadingRequest $request, Book $book)
+    public function readBook(CurrentReadingRequest $request, Book $book): \Illuminate\Http\JsonResponse
     {
         $currentReading = $book->currentReading($request);
 
@@ -148,11 +146,11 @@ class BookController extends Controller
     }
 
 
-    public function showByLetterBook(GetByLetterBookRequest $request)
+    public function showByLetter(GetByLetterRequest $request, Book $books): \Illuminate\Http\JsonResponse
     {
-        $books = new Book();
-        $books=$books->select(['title','id'])
-            ->where('title', 'like', $request->letterBook . '%')->get();
+        $books = $books->select(['id', 'title'])
+            ->where('title', 'like', $request->letter . '%')->get();
+
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 

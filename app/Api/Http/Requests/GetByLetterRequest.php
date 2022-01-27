@@ -6,13 +6,18 @@ use App\Models\Author;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class GetByLetterAuthorRequest extends FormRequest
+class GetByLetterRequest extends FormRequest
 {
     public function rules(): array
     {
         return [
-            'letterAuthor' => ['required', 'string'],
+            'letter' => ['required', 'string', 'size:1'],
         ];
+    }
+
+    public function validationData()
+    {
+        return request()->route()->parameters();
     }
 
     public function authorize(): bool
