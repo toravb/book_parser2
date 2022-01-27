@@ -1171,17 +1171,25 @@
                                       "type": "string",
                                       "minLength": 1
                                     },
-                                    "created_at": {},
-                                    "updated_at": {}
+                                    "created_at": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "updated_at": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
                                   },
                                   "required": [
                                     "id",
-                                    "name"
+                                    "name",
+                                    "created_at",
+                                    "updated_at"
                                   ]
                                 }
                               },
                               "year": {
-                                "type": "string"
+                                "type": "integer"
                               },
                               "publishers": {
                                 "type": "array",
@@ -1394,7 +1402,7 @@
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating, 4 - sort by reviews, 5 - bestsellers",
+            "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating, 4 - sort by alphabet",
             "required": true
           },
           {
@@ -1886,6 +1894,219 @@
         }
       ]
     },
+    "/books/save": {
+      "put": {
+        "summary": "Save book to users lists (want to read, read, read )",
+        "operationId": "put-books-save",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "title": {
+                        "user_id": 2,
+                        "book_id": "5",
+                        "status": "2",
+                        "updated_at": "2022-01-06T13:09:54.000000Z",
+                        "created_at": "2022-01-06T13:09:54.000000Z",
+                        "id": 0
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "title": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "book_id",
+                        "status",
+                        "updated_at",
+                        "created_at",
+                        "id"
+                      ],
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "book_id": {
+                          "type": "number"
+                        },
+                        "status": {
+                          "type": "number"
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "title"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "string",
+                      "title": {
+                        "user_id": 0,
+                        "book_id": 0,
+                        "status": 0,
+                        "updated_at": "string",
+                        "created_at": "string",
+                        "id": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "book_id": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "book_id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "book_id": [
+                          "The book id has already been taken."
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "string",
+                      "errors": {
+                        "book_id": [
+                          {}
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "book_id",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "number",
+              "enum": [
+                1,
+                2,
+                3
+              ]
+            },
+            "in": "query",
+            "name": "status",
+            "required": true,
+            "description": "values:1, 2, 3 (1 - want read, 2 - now reading, 3 - had read)"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "description": "",
+        "tags": [
+          "Book"
+        ]
+      }
+    },
     "/ratings": {
       "post": {
         "summary": "Save rating to book",
@@ -2192,6 +2413,9 @@
     "/compilations": {
       "get": {
         "summary": "Show compilations",
+        "tags": [
+          "Book"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -4502,72 +4726,16 @@
         ]
       },
       "put": {
-        "summary": "Set/Change book status in users list",
+        "summary": "Change book status in users list",
         "operationId": "put-users-books",
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "user_id": {
-                          "type": "number"
-                        },
-                        "book_id": {
-                          "type": "number"
-                        },
-                        "status": {
-                          "type": "number"
-                        },
-                        "updated_at": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "created_at": {
-                          "type": "string",
-                          "minLength": 1
-                        }
-                      },
-                      "required": [
-                        "user_id",
-                        "book_id",
-                        "status",
-                        "updated_at",
-                        "created_at"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "user_id": 56,
-                        "book_id": 1,
-                        "status": 1,
-                        "updated_at": "2022-01-27T12:55:14.000000Z",
-                        "created_at": "2022-01-27T12:55:14.000000Z"
-                      }
-                    }
-                  }
-                }
-              }
-            }
+            "description": "OK"
           }
         },
+        "tags": [
+          "Books"
+        ],
         "description": "",
         "parameters": [
           {
@@ -4589,17 +4757,13 @@
             },
             "in": "query",
             "name": "status",
-            "required": true,
-            "description": "1 - want read, 2 - now reading, 3 - had read"
+            "required": true
           }
         ],
         "security": [
           {
             "Authorization": []
           }
-        ],
-        "tags": [
-          "Book"
         ]
       }
     },
@@ -4711,6 +4875,24 @@
       }
     }
   },
+    "/author/series": {
+        "get": {
+            "summary": "Author series",
+            "tags": [],
+            "responses": {},
+            "operationId": "get-author-series",
+            "parameters": [
+                {
+                    "schema": {
+                        "type": "string"
+                    },
+                    "in": "query",
+                    "name": "id"
+                }
+            ]
+        }
+    }
+},
   "components": {
     "schemas": {
       "User": {

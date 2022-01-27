@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Http\Controllers\AuthorPageController;
+use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\CompilationLoadingController;
@@ -105,3 +106,4 @@ Route::get('public/load/compilations/{id}', [CompilationLoadingController::class
 Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
 Route::get('/author/page', [AuthorPageController::class, 'show']);
+Route::get('/author/series/{id}', [AuthorSeriesController::class, 'showSeries']);
