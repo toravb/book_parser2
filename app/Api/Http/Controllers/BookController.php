@@ -9,14 +9,18 @@ use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
+use App\Api\Http\Requests\GetByLetterAuthorRequest;
+use App\Api\Http\Requests\GetByLetterBookRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveBookRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\Author;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
+
 use Illuminate\Support\Facades\Auth;
 use App\Models\Book;
 use Symfony\Component\HttpFoundation\Response;
@@ -151,4 +155,14 @@ class BookController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
+
+
+    public function showByLetterBook(GetByLetterBookRequest $request)
+    {
+        $books = new Book();
+        $books=$books->select(['title','id'])
+            ->where('title', 'like', $request->letterBook . '%')->get();
+        return ApiAnswerService::successfulAnswerWithData($books);
+    }
+
 }

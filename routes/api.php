@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\AuthorController;
 use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\CompilationController;
@@ -107,3 +108,5 @@ Route::post('/change-password',[PasswordController::class, 'resetPassword']);
 
 Route::get('/author/page', [AuthorPageController::class, 'show']);
 Route::get('/author/series/{id}', [AuthorSeriesController::class, 'showSeries']);
+Route::get('/byletter/books',[BookController::class, 'showByLetterBook']);
+Route::get('/byletter/authors',[AuthorController::class, 'showByLetterAuthor']);
