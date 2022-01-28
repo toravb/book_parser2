@@ -4956,11 +4956,11 @@
       },
       "parameters": []
     },
-    "/bookmarks /{id}": {
+    "/bookmarks/{id}": {
       "parameters": [
         {
           "schema": {
-            "type": "string"
+            "type": "number"
           },
           "name": "id",
           "in": "path",
