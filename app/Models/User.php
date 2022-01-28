@@ -45,7 +45,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute($value): ?string
+    public function toArray(): array
+    {
+        $array = parent::toArray();
+
+        $array['avatar'] = self::avatarAttribute($array['avatar']);
+        return $array;
+    }
+
+    public static function avatarAttribute($value): ?string
     {
         if (isset($value) and Storage::exists($value)) {
             $value = Storage::url($value);

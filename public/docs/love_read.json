@@ -742,9 +742,9 @@
       "parameters": []
     },
     "/profile": {
-      "put": {
+      "post": {
         "summary": "profile update",
-        "operationId": "put-profile",
+        "operationId": "post-profile",
         "responses": {
           "200": {
             "description": "OK",

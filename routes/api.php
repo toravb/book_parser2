@@ -41,7 +41,7 @@ Route::middleware('auth:api')->group(function () {
     /*
      * Users and profile
      */
-    Route::put('/profile', [ProfileUpdateController::class, 'update']);
+    Route::post('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);

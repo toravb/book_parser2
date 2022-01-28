@@ -24,7 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
 {
-
     public function show(GetBooksRequest $request, BookFilter $bookFilter, BookFactory $bookFactory)
     {
         $perPage = $request->showType === Book::SHOW_TYPE_BLOCK ? Book::PER_PAGE_BLOCKS : Book::PER_PAGE_LIST;
@@ -144,7 +143,6 @@ class BookController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
-
 
     public function showByLetter(GetByLetterRequest $request, Book $books): \Illuminate\Http\JsonResponse
     {
