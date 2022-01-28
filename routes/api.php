@@ -4,6 +4,7 @@ use App\Api\Http\Controllers\AuthorController;
 use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\BookController;
+use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
@@ -77,6 +78,14 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/compilations/books', [BookController::class, 'saveBookToCompilation']);
     Route::delete('/compilations/books/delete', [BookController::class, 'deleteBookFromCompilation']);
     Route::get('/users/books', [UsersBooksController::class, 'showBooks']);
+
+    /*
+     * Bookmark
+     */
+    Route::group(['prefix' => 'bookmarks'], function () {
+        Route::post('/store', [BookmarksController::class, 'create']);
+        Route::delete('/{bookmark}', [BookmarksController::class, 'destroy']);
+    });
 });
 
 

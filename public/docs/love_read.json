@@ -4837,6 +4837,169 @@
           "Authors"
         ]
       }
+    },
+    "/bookmarks": {
+      "post": {
+        "summary": "Create bookmark",
+        "operationId": "post-bookmark",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "book_id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "page_id": {
+                          "type": "number"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "book_id",
+                        "user_id",
+                        "page_id",
+                        "created_at",
+                        "updated_at"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 6,
+                        "book_id": 1,
+                        "user_id": 12,
+                        "page_id": 7,
+                        "created_at": "2022-01-28T12:09:41.000000Z",
+                        "updated_at": "2022-01-28T12:09:41.000000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "book_id": {
+                    "type": "integer"
+                  },
+                  "page_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "book_id",
+                  "page_id"
+                ]
+              }
+            }
+          }
+        },
+        "tags": [
+          "Bookmarks"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "parameters": []
+    },
+    "/bookmarks /{id}": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "delete": {
+        "summary": "Delete bookmarks",
+        "operationId": "delete-bookmark-id",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "tags": [
+          "Bookmarks"
+        ]
+      }
     }
   },
   "components": {
@@ -4912,6 +5075,9 @@
     },
     {
       "name": "Book"
+    },
+    {
+      "name": "Bookmarks"
     },
     {
       "name": "Compilations"
