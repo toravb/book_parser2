@@ -37,13 +37,21 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware('auth:api')->group(function () {
-    Route::post('/profile', [ProfileUpdateController::class, 'update']);
+    /*
+     * Users and profile
+     */
+    Route::put('/profile', [ProfileUpdateController::class, 'update']);
     Route::post('/password_reset', [PasswordController::class, 'resetPassword']);
     Route::put('/notification_settings', [NotificationSettingsController::class, 'create']);
     Route::delete('/users', [UserController::class, 'destroy']);
     Route::get('/users', [ProfileController::class, 'profile']);
     Route::post('/users/authors', [UserAuthorsController::class, 'store']);
     Route::delete('/users/authors', [UserAuthorsController::class, 'destroy']);
+    /*
+     * -----------
+     */
+
+
     /**
      * Likes
      */
@@ -53,8 +61,8 @@ Route::middleware('auth:api')->group(function () {
     /**
      * add book to list
      */
-    Route::delete('/users/books', [BookController::class, 'deleteBookFromUsersList']);
     Route::put('/users/books', [BookController::class, 'changeBookStatus']);
+    Route::delete('/users/books', [BookController::class, 'deleteBookFromUsersList']);
 
     Route::group(['prefix' => 'quotes'], function () {
         Route::get('/', [QuoteController::class, 'index']);
@@ -76,7 +84,6 @@ Route::middleware('auth:api')->group(function () {
     Route::post('/compilations', [CompilationController::class, 'store']);
     Route::post('/compilations/books', [BookController::class, 'saveBookToCompilation']);
     Route::delete('/compilations/books/delete', [BookController::class, 'deleteBookFromCompilation']);
-    Route::get('/users/books', [UsersBooksController::class, 'showBooks']);
 });
 
 
@@ -106,8 +113,8 @@ Route::get('/books/{id}/chapters', [BookController::class, 'showBookContents']);
  */
 
 Route::get('/compilations', [CompilationController::class, 'show']);
-Route::get('public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);
-Route::get('public/load/compilations/{id}', [CompilationLoadingController::class, 'compilationLoading']);
+Route::get('/public/compilations/{id}', [CompilationController::class, 'showCompilationDetails']);
+Route::get('/public/load/compilations/{id}', [CompilationLoadingController::class, 'compilationLoading']);
 
 Route::post('/change-password', [PasswordController::class, 'resetPassword']);
 

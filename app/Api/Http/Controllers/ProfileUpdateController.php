@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
 
 class ProfileUpdateController extends Controller
 {
-
     public function update(ProfileUpdateRequest $request)
     {
         $user = Auth::user();
@@ -36,7 +34,7 @@ class ProfileUpdateController extends Controller
 
             DB::commit();
 
-            return ApiAnswerService::successfulAnswerWithData(UserService::userAvatar($user));
+            return ApiAnswerService::successfulAnswerWithData($user);
         } catch (\Exception $exception) {
             Log::error($exception);
             DB::rollBack();
