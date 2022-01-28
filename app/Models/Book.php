@@ -213,6 +213,11 @@ class Book extends Model implements BookInterface
         return $this->morphMany(View::class, 'viewable');
     }
 
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
     public function getBook(): Builder
     {
         return $this->with([
