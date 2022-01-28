@@ -90,7 +90,7 @@ Route::middleware('auth:api')->group(function () {
      * Bookmark
      */
     Route::group(['prefix' => 'bookmarks'], function () {
-        Route::post('/store', [BookmarksController::class, 'create']);
+        Route::post('/', [BookmarksController::class, 'create']);
         Route::delete('/{bookmark}', [BookmarksController::class, 'destroy']);
     });
 });
