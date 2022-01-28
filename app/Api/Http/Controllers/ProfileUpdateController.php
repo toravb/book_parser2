@@ -10,11 +10,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Symfony\Component\HttpFoundation\Response;
 
 class ProfileUpdateController extends Controller
 {
-
     public function update(ProfileUpdateRequest $request)
     {
         $user = Auth::user();
@@ -22,7 +20,7 @@ class ProfileUpdateController extends Controller
         try {
             DB::beginTransaction();
             if ($request->avatar) {
-                $path = Storage::put('avatar', $request->avatar);
+                $path = Storage::put('avatar/', $request->avatar);
 
                 if (isset($user->avatar)) Storage::delete($user->avatar);
 
@@ -32,11 +30,12 @@ class ProfileUpdateController extends Controller
             $user->email = $request->email;
             $user->name = $request->name;
             $user->surname = $request->surname;
+            $user->nickname = $request->surname;
             $user->save();
 
             DB::commit();
 
-            return ApiAnswerService::successfulAnswerWithData(UserService::userAvatar($user));
+            return ApiAnswerService::successfulAnswerWithData($user);
         } catch (\Exception $exception) {
             Log::error($exception);
             DB::rollBack();

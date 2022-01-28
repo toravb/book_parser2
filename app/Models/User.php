@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Services\GenerateUniqueTokenService;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable
@@ -45,6 +45,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getAvatarAttribute($value): ?string
+    {
+        if (isset($value) and Storage::exists($value)) {
+            $value = Storage::url($value);
+        } else {
+            $value = null;
+        }
+
+        return $value;
+    }
+
     public static function create($fields)
     {
         $user = new static();
@@ -55,12 +66,12 @@ class User extends Authenticatable
         return $user;
     }
 
-    public function createUser(string $email=null, string $password = null, string $name = null, bool $needVerify = false): User
+    public function createUser(string $email = null, string $password = null, string $name = null, bool $needVerify = false): User
     {
         $this->email = mb_strtolower($email);
         $this->password = Hash::make($password);
         $this->name = $name;
-        if($needVerify) {
+        if ($needVerify) {
             $this->verify_token = GenerateUniqueTokenService::createTokenWithoutUserId();
         }
         $this->save();
