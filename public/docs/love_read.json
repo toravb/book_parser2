@@ -753,6 +753,21 @@
                 "schema": {
                   "description": "",
                   "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 15,
+                        "name": "Vasya5",
+                        "email": "asdf22@asdf",
+                        "is_admin": 0,
+                        "created_at": "2022-01-18T11:41:48.000000Z",
+                        "updated_at": "2022-01-19T09:53:56.000000Z",
+                        "surname": "Pupkin5",
+                        "avatar": "http://bookparser2/public/storage/avatar/eK2rO3EVZTwnIhVmJZWfIxVYkU2cgGF3KG7w4lQh.jpg"
+                      }
+                    }
+                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -760,6 +775,17 @@
                     },
                     "data": {
                       "type": "object",
+                      "required": [
+                        "id",
+                        "name",
+                        "email",
+                        "is_admin",
+                        "created_at",
+                        "updated_at",
+                        "surname",
+                        "avatar",
+                        "nickname"
+                      ],
                       "properties": {
                         "id": {
                           "type": "number"
@@ -790,39 +816,17 @@
                         "avatar": {
                           "type": "string",
                           "minLength": 1
+                        },
+                        "nickname": {
+                          "type": "string"
                         }
-                      },
-                      "required": [
-                        "id",
-                        "name",
-                        "email",
-                        "is_admin",
-                        "created_at",
-                        "updated_at",
-                        "surname",
-                        "avatar"
-                      ]
+                      }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "id": 15,
-                        "name": "Vasya5",
-                        "email": "asdf22@asdf",
-                        "is_admin": 0,
-                        "created_at": "2022-01-18T11:41:48.000000Z",
-                        "updated_at": "2022-01-19T09:53:56.000000Z",
-                        "surname": "Pupkin5",
-                        "avatar": "http://bookparser2/public/storage/avatar/eK2rO3EVZTwnIhVmJZWfIxVYkU2cgGF3KG7w4lQh.jpg"
-                      }
-                    }
-                  }
+                  ]
                 },
                 "examples": {
                   "example-1": {
@@ -883,6 +887,14 @@
               "schema": {
                 "description": "",
                 "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "name": "Vasya2",
+                    "surname": "Vasya2",
+                    "email": "asdf21@asdf",
+                    "avatar": null
+                  }
+                },
                 "properties": {
                   "name": {
                     "type": "string",
@@ -896,21 +908,18 @@
                     "type": "string",
                     "minLength": 1
                   },
-                  "avatar": {}
+                  "nickname": {
+                    "type": "string",
+                    "description": "should be unique"
+                  },
+                  "avatar": {
+                    "type": "object",
+                    "description": "File"
+                  }
                 },
                 "required": [
-                  "name",
-                  "surname",
                   "email"
-                ],
-                "x-examples": {
-                  "example-1": {
-                    "name": "Vasya2",
-                    "surname": "Vasya2",
-                    "email": "asdf21@asdf",
-                    "avatar": null
-                  }
-                }
+                ]
               },
               "examples": {
                 "example-1": {

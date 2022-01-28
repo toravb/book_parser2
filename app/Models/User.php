@@ -45,10 +45,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function getAvatarAttribute($value)
+    public function getAvatarAttribute($value): ?string
     {
-        if (isset($value)) {
-            $value = url('/') . Storage::url($value);
+        if (isset($value) and Storage::exists($value)) {
+            $value = Storage::url($value);
+        } else {
+            $value = null;
         }
 
         return $value;

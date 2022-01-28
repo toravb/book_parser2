@@ -26,10 +26,11 @@ class ProfileUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore(auth('api')->user()->id)],
+            'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore(auth('api')->id())],
             'avatar' => ['sometimes', 'file'],
-            'name' => ['required', 'string'],
-            'surname' => ['required', 'string'],
+            'name' => ['nullable', 'string'],
+            'surname' => ['nullable', 'string'],
+            'nickname' => ['nullable', 'string', Rule::unique(User::class)->ignore(auth('api')->id())],
         ];
     }
 
@@ -40,6 +41,7 @@ class ProfileUpdateRequest extends FormRequest
             'email.email' => 'Email должен быть в формате user@email.com',
             'email.max' => 'Максимальное количество символов в поле Email 255',
             'email.unique' => 'Такой Email уже зарегистрирован в системе',
+            'nickname.unique' => 'Такой ник уже зарегистрирован в системе',
             'password.required' => 'Пароль обязателен',
             'password.string' => 'Пароль должен быть строкой',
             'password.min' => 'Минимальное количество символов в поле пароль 6',

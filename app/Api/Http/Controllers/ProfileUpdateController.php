@@ -20,7 +20,7 @@ class ProfileUpdateController extends Controller
         try {
             DB::beginTransaction();
             if ($request->avatar) {
-                $path = Storage::put('avatar', $request->avatar);
+                $path = Storage::put('avatar/', $request->avatar);
 
                 if (isset($user->avatar)) Storage::delete($user->avatar);
 
@@ -30,6 +30,7 @@ class ProfileUpdateController extends Controller
             $user->email = $request->email;
             $user->name = $request->name;
             $user->surname = $request->surname;
+            $user->nickname = $request->surname;
             $user->save();
 
             DB::commit();
