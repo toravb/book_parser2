@@ -7,10 +7,12 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class AudioBook extends Model implements BookInterface
 {
     use HasFactory, Sluggable;
+
     const TYPE_AUDIO_BOOK = 'audioBooks';
 
     protected $fillable = [
@@ -43,7 +45,8 @@ class AudioBook extends Model implements BookInterface
         ];
     }
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $book = new static();
         $book->fill($fields);
         $book->save();
@@ -128,6 +131,7 @@ class AudioBook extends Model implements BookInterface
             'reader_id'
         );
     }
+
     public function compilations()
     {
         return $this->MorphToMany(Compilation::class,
@@ -139,7 +143,8 @@ class AudioBook extends Model implements BookInterface
             'id');
     }
 
-    public function bookCompilation(){
+    public function bookCompilation()
+    {
         return $this->morphOne(BookCompilation::class, 'bookCompilationable');
     }
 
@@ -147,10 +152,17 @@ class AudioBook extends Model implements BookInterface
     {
         return $this->belongsTo(AudioBooksLink::class, 'link_id', 'id');
     }
+
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
+
+    public function rates(): BelongsToMany
+    {
+        return $this->belongsToMany(Rate::class, 'rates');
+    }
+
 
     public function getBook(): Builder
     {

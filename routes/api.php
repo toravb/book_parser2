@@ -140,8 +140,12 @@ Route::get('/authors/letter/{letter}', [AuthorController::class, 'showByLetter']
 /*
  * AudioBooks
  */
-Route::group(['prefix' => 'audio_books'], function (){
+Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);
+    });
 });
 /*
  * -------
