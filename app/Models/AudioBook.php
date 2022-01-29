@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Api\Interfaces\BookInterface;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AudioBook extends Model
+class AudioBook extends Model implements BookInterface
 {
     use HasFactory, Sluggable;
     const TYPE_AUDIO_BOOK = 'audioBooks';
@@ -148,5 +150,18 @@ class AudioBook extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function getBook(): Builder
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'genre',
+
+        ])
+            ->select('id', 'title', 'year_id')
+            ->withCount('views')
+            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 }
