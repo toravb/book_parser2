@@ -113,13 +113,6 @@ Route::middleware('auth:api')->group(function () {
 
 
     /*
-     * Ratings
-     */
-    Route::group(['prefix' => 'ratings'], function () {
-        Route::post('/', [RateController::class, 'store']);
-    });
-
-    /*
      * Bookmarks
      */
     Route::group(['prefix' => 'bookmarks'], function () {
@@ -142,6 +135,11 @@ Route::group(['prefix' => 'books'], function () {
 
     // Search by letter
     Route::get('/letter/{letter}', [BookController::class, 'showByLetter']);
+
+    // Ratings
+    Route::group(['prefix' => 'ratings'], function () {
+        Route::post('/', [RateController::class, 'store']);
+    });
 });
 /*
  * --------
