@@ -169,8 +169,13 @@ class AudioBook extends Model implements BookInterface
         return $this->morphMany(View::class, 'viewable');
     }
 
+    public function year()
+    {
+        return $this->hasOne(Year::class, 'id', 'year_id');
+    }
 
-    public function getBook()
+
+    public function getBook(): Builder
     {
         return $this->with([
             'authors',
@@ -180,8 +185,7 @@ class AudioBook extends Model implements BookInterface
         ])
             ->select('id', 'title')
             ->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating')
-            ->get();
+            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)

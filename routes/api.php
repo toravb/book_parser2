@@ -142,7 +142,6 @@ Route::get('/authors/letter/{letter}', [AuthorController::class, 'showByLetter']
  * AudioBooks
  */
 Route::group(['prefix' => 'audio-books'], function () {
-    Route::get('/', [AudioBookController::class, 'show']);
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
     Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
 

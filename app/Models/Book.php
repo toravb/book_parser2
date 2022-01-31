@@ -275,10 +275,10 @@ class Book extends Model implements BookInterface
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }
+
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
     }
-
 }
 

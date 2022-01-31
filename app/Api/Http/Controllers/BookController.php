@@ -14,6 +14,7 @@ use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\AudioBook;
 use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
@@ -34,27 +35,27 @@ class BookController extends Controller
         $books = $model->getBook()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
             ->paginate($perPage);
 
-        $collection = $books->getCollection();
-        foreach ($collection as &$book) {
-            if ($book->rates_avg === null) {
-                $book->rates_avg = 0;
-            }
-
-            foreach ($book->authors as $author) {
-                unset($author->pivot);
-            }
-
-            if ($book->relationLoaded('publishers')) {
-                foreach ($book->publishers as $publisher) {
-                    unset($publisher->pivot);
-                }
-            }
-
-            foreach ($book->bookGenres as $genres) {
-                unset($genres->pivot);
-            }
-        }
-        $books->setCollection($collection);
+//        $collection = $books->getCollection();
+//        foreach ($collection as &$book) {
+//            if ($book->rates_avg === null) {
+//                $book->rates_avg = 0;
+//            }
+//
+//            foreach ($book->authors as $author) {
+//                unset($author->pivot);
+//            }
+//
+//            if ($book->relationLoaded('publishers')) {
+//                foreach ($book->publishers as $publisher) {
+//                    unset($publisher->pivot);
+//                }
+//            }
+//
+//            foreach ($book->bookGenres as $genres) {
+//                unset($genres->pivot);
+//            }
+//        }
+//        $books->setCollection($collection);
 
         return ApiAnswerService::successfulAnswerWithData($books);
     }
