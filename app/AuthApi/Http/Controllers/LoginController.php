@@ -2,23 +2,17 @@
 
 namespace App\AuthApi\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\AuthApi\Http\Requests\LoginRequest;
+use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoginController extends Controller
 {
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-        $loginData = [
-            'email' => $request->email,
-            'password' => $request->password
-        ];
-
-        if (auth()->attempt($loginData)) {
+        if (auth()->attempt($request->only(['email', 'password']))) {
             $user = auth()->user();
             if ($user->hasVerifiedEmail()) {
                 $accessToken = $user->createToken('authToken')->accessToken;
@@ -27,6 +21,19 @@ class LoginController extends Controller
                     'token' => $accessToken
                 ]);
             }
+        }
+
+        if (User::withTrashed()->where($request->only('email'))->exists()) {
+            return response()->json(
+                [
+                    'message' => 'Введены неверные данные.',
+                    'errors' => [
+                        'email' =>
+                            ['Пользователь с такой почтой уже зарегистрирован но был удалён.']
+                    ],
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
         return response()->json(
@@ -39,6 +46,8 @@ class LoginController extends Controller
             Response::HTTP_UNPROCESSABLE_ENTITY
         );
     }
+
+
     public function logout()
     {
         $accessToken = auth()->user()->token();

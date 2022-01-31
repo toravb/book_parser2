@@ -27,11 +27,14 @@ class AddAuthorToFavoritesRequest extends FormRequest
     public function rules()
     {
         return [
-            'author_id' => ['required', 'integer', 'exists:authors,id',
+            'author_id' => [
+                'required',
+                'integer',
+                'exists:authors,id',
                 Rule::unique('user_author')->where(function ($query) {
                     return $query->where('user_id', Auth::id());
-                })],
-
+                })
+            ],
         ];
     }
 }

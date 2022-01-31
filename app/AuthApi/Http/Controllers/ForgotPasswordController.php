@@ -12,13 +12,14 @@ use Illuminate\Support\Facades\Mail;
 
 class ForgotPasswordController extends Controller
 {
-    public function forgot(ForgotPasswordRequest $request, PasswordReset $passwordReset)
+    public function forgot(ForgotPasswordRequest $request, PasswordReset $passwordReset): \Illuminate\Http\JsonResponse
     {
         if (User::where('email', $request->email)->exists()) {
             $passwordReset->deleteRecord($request->email);
             $passwordReset = $passwordReset->create($request->email);
             Mail::to($request->email)->send(new PasswordForgotMail($passwordReset->token, $request->email));
         }
+
         return ApiAnswerService::successfulAnswer();
     }
 }
