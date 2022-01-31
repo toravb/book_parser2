@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\ChapterRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Chapter;
@@ -24,10 +25,21 @@ class ChaptersController extends Controller
         //
     }
 
-    public function showBookContents(Chapter $chapter, Request $request)
+    public function showBookContents(Chapter $chapter, ChapterRequest $request)
     {
-        $chapter=$chapter ->select('title')
-                ->where('book_id', $request->book_id)->get();
+        $chapter=$chapter->select('title')
+                ->where('book_id', $request->id)->get();
+
+        return ApiAnswerService::successfulAnswerWithData($chapter);
+    }
+
+    public function showChapter(Chapter $chapter, ChapterRequest $request)
+    {
+        $chapter=$chapter->select('title')
+            ->orderBy('page_id', 'desc')
+            ->where('page_id', '<=', $request->page_id)
+            ->where('book_id', $request->book_id)
+            ->first();
 
         return ApiAnswerService::successfulAnswerWithData($chapter);
     }

@@ -19,7 +19,7 @@ use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
-use App\Http\Controllers\ChaptersController;
+use App\Api\Http\Controllers\ChaptersController;
 use App\Http\Controllers\ReadingSettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -136,12 +136,15 @@ Route::get('/selections', [CategoryController::class, 'showSelectionType']);
  */
 Route::group(['prefix' => 'books'], function () {
     Route::get('/', [BookController::class, 'show']);
-    Route::get('/{id}', [BookController::class, 'showSingle']);
-    Route::get('/{id}/chapters', [BookController::class, 'showBookContents']);
-    Route::get('/{id}/read', [BookController::class, 'readBook']);
 
+    // Chapters
+    Route::get('/chapters', [ChaptersController::class, 'showChapter']);
     // Search by letter
     Route::get('/letter/{letter}', [BookController::class, 'showByLetter']);
+
+    Route::get('/{id}', [BookController::class, 'showSingle']);
+    Route::get('/{id}/chapters', [ChaptersController::class, 'showBookContents']);
+    Route::get('/{id}/read', [BookController::class, 'readBook']);
 });
 /*
  * --------
