@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
+use App\Models\Chapter;
 use App\Models\Compilation;
 use App\Models\View;
 use Illuminate\Http\Request;
@@ -152,4 +153,23 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
+    public function getBookmarks(Book $book): \Illuminate\Http\JsonResponse
+    {
+        $bookmarks = $book->bookmarks()->with(['page' => function ($q) {
+            $q->select('id', 'page_number');
+        }])->get();
+
+        foreach ($bookmarks as &$bookmark) {
+            $bookmark->chapter = $book->chapters()->whereHas('page', function ($builder) use ($bookmark) {
+                $builder->where('book_id', $bookmark->book_id);
+                $builder->where('page_number', '<=', $bookmark->page->page_number);
+            })
+                ->addSelect('chapters.*', 'pages.id', 'pages.page_number')
+                ->join('pages', 'chapters.page_id', '=', 'pages.id')
+                ->orderBy('pages.page_number', 'desc')
+                ->first();
+        }
+
+        return ApiAnswerService::successfulAnswerWithData($bookmarks);
+    }
 }

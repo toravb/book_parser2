@@ -137,14 +137,16 @@ Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 Route::group(['prefix' => 'books'], function () {
     Route::get('/', [BookController::class, 'show']);
 
-    // Chapters
-    Route::get('/chapters', [ChaptersController::class, 'showChapter']);
     // Search by letter
     Route::get('/letter/{letter}', [BookController::class, 'showByLetter']);
 
     Route::get('/{id}', [BookController::class, 'showSingle']);
-    Route::get('/{id}/chapters', [ChaptersController::class, 'showBookContents']);
+    Route::get('/{book}/chapters', [ChaptersController::class, 'showBookChapters']);
     Route::get('/{id}/read', [BookController::class, 'readBook']);
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/{book}/bookmarks', [BookController::class, 'getBookmarks']);
+    });
 });
 /*
  * --------
