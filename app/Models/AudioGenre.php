@@ -13,7 +13,8 @@ class AudioGenre extends Model
         'name',
     ];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $genre = new static();
         $genre->fill($fields);
         $genre->save();
@@ -33,5 +34,6 @@ class AudioGenre extends Model
             ->with('authors')
             ->with('actors');
     }
+
 
 }
