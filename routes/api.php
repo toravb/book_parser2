@@ -14,7 +14,6 @@ use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\UserAuthorsController;
-use App\AuthApi\Http\Controllers\ForgotPasswordController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
@@ -45,7 +44,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/auth/{provider}', [SocialAuthController::class, 'redirectToGoogle']);
     Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'handleGoogleCallback']);
     Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
-    Route::post('/password_forgot', [ForgotPasswordController::class, 'forgot']);
+    Route::post('/password_forgot', [PasswordController::class, 'forgot']);
 });
 /*
  * -------
@@ -60,7 +59,7 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/', [ProfileController::class, 'profile']);
 
         Route::post('/', [ProfileController::class, 'update']);
-        Route::post('/password-change', [PasswordController::class, 'resetPassword']);
+        Route::post('/password-change', [PasswordController::class, 'change']);
 
         Route::delete('/', [ProfileController::class, 'destroy']);
 
