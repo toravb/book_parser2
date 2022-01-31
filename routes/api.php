@@ -23,6 +23,7 @@ use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
+use App\Http\Controllers\ChaptersController;
 use App\Http\Controllers\ReadingSettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -116,7 +117,8 @@ Route::get('/books', [BookController::class, 'show']);
 Route::get('/books/letter/{letter}', [BookController::class, 'showByLetter']);
 Route::get('/books/{id}', [BookController::class, 'showSingle']);
 Route::get('/books/read/{id}', [BookController::class, 'readBook']);
-Route::get('/books/{id}/chapters', [BookController::class, 'showBookContents']);
+Route::get('/books/{id}/chapters', [ChaptersController::class, 'showBookContents']);
+
 /*
  * --------
  */

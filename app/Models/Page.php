@@ -40,4 +40,14 @@ class Page extends Model
     {
         return $this->hasMany(Image::class, 'page_id', 'id');
     }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(Bookmark::class);
+    }
+
+    public function chapter()
+    {
+        return $this->hasOne(Chapter::class);
+    }
 }
