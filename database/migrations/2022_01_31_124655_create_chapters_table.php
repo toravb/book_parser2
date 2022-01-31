@@ -11,8 +11,8 @@ class CreateChaptersTable extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->foreignId('book_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('page_id')->constrained()->cascadeOnDelete();
             $table->mediumText('title');
-            $table->integer('page_id')->unsigned();
             $table->timestamps();
         });
     }
