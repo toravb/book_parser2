@@ -197,4 +197,30 @@ class AudioBook extends Model implements BookInterface
     {
         $filter->apply($builder);
     }
+
+    public function listeningMode($bookId)
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'genre',
+            'actors',
+            'series',
+            'year',
+            'link'
+
+        ])
+            //TODO: после выяснения подробностей нужно добавить:
+            // count reviews
+            // Правообладателей
+            // Размер и продолжительность файла
+            // Вывод глав
+            // Возврастное ограничение3
+            // Псоле, написать доку
+            ->where('id', $bookId)
+            ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
+            ->withCount(['views', 'audioBookStatuses as listeners_count',  'rates'])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->firstOrFail();
+    }
 }
