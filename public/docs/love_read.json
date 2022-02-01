@@ -2619,10 +2619,10 @@
         "operationId": "get-books-letter-letter"
       }
     },
-    "/ratings": {
+    "/books/ratings": {
       "post": {
         "summary": "Save rating to book",
-        "operationId": "post-ratings",
+        "operationId": "post-books-ratings",
         "responses": {
           "200": {
             "description": "OK",
@@ -2832,7 +2832,8 @@
             "Authorization": []
           }
         ]
-      }
+      },
+      "parameters": []
     },
     "/selections": {
       "get": {

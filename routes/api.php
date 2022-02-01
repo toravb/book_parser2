@@ -19,7 +19,6 @@ use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
-use App\Api\Http\Controllers\ChaptersController;
 use App\Http\Controllers\ReadingSettingsController;
 use Illuminate\Support\Facades\Route;
 
@@ -113,13 +112,6 @@ Route::middleware('auth:api')->group(function () {
 
 
     /*
-     * Ratings
-     */
-    Route::group(['prefix' => 'ratings'], function () {
-        Route::post('/', [RateController::class, 'store']);
-    });
-
-    /*
      * Bookmarks
      */
     Route::group(['prefix' => 'bookmarks'], function () {
@@ -146,6 +138,11 @@ Route::group(['prefix' => 'books'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/{book}/bookmarks', [BookController::class, 'getBookmarks']);
+    });
+
+    // Ratings
+    Route::group(['prefix' => 'ratings'], function () {
+        Route::post('/', [RateController::class, 'store']);
     });
 });
 /*
@@ -187,7 +184,7 @@ Route::group(['prefix' => 'authors'], function () {
  */
 Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
-    Route::get('/{id}/details/', [AudioBookController::class, 'showAudioBookDetails']);
+    Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);

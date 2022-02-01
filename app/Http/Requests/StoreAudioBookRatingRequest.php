@@ -14,7 +14,8 @@ class StoreAudioBookRatingRequest extends FormRequest
             'audio_book_id' => ['required', 'integer', 'exists:audio_books,id',
                 Rule::unique('rates')->where(function ($query) {
                     return $query->where('user_id', Auth::id());
-                })],
+                })
+            ],
             'rating' => ['required', 'numeric', 'between:1,5'],
 
 

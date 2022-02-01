@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class AudioBookController extends Controller
 {
+
     public function showAudioBookDetails($id, AudioBook $book, View $view, Request $request)
     {
         $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());

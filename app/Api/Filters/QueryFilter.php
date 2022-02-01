@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 abstract class QueryFilter
 {
+
+    const SORT_BY_LISTENERS = '2';
     /**
      * @var Request
      */

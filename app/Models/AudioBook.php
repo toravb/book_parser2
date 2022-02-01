@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
@@ -91,13 +92,9 @@ class AudioBook extends Model implements BookInterface
         );
     }
 
-    public function genre()
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(
-            AudioGenre::class,
-            'genre_id',
-            'id'
-        );
+        return $this->belongsTo(AudioGenre::class, 'genre_id', 'id');
     }
 
     public function series()
@@ -161,12 +158,22 @@ class AudioBook extends Model implements BookInterface
 
     public function rates(): BelongsToMany
     {
-        return $this->belongsToMany(Rate::class, 'rates');
+        return $this->belongsToMany(User::class, 'rates');
     }
 
-    public function views():MorphMany
+    public function views(): MorphMany
     {
         return $this->morphMany(View::class, 'viewable');
+    }
+
+    public function year()
+    {
+        return $this->hasOne(Year::class, 'id', 'year_id');
+    }
+
+    public function audioBookStatuses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AudioBookUser::class);
     }
 
 
@@ -178,8 +185,13 @@ class AudioBook extends Model implements BookInterface
             'genre',
 
         ])
-            ->select('id', 'title', 'year_id')
+            ->select('id', 'title', 'year_id', 'genre_id')
             ->withCount('views')
             ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
     }
 }
