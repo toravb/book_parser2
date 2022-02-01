@@ -281,5 +281,9 @@ class Book extends Model implements BookInterface
         return $this->morphMany(Like::class, 'likeable');
     }
 
+    public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Chapter::class);
+    }
 }
 

@@ -32,4 +32,9 @@ class Year extends Model
     {
         return $this->hasMany(Book::class, 'year_id', 'id');
     }
+
+    public function audioBooks()
+    {
+        return $this->hasMany(AudioBook::class);
+    }
 }

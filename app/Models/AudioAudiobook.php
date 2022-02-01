@@ -35,8 +35,4 @@ class AudioAudiobook extends Model
         );
     }
 
-    public function views(): \Illuminate\Database\Eloquent\Relations\MorphMany
-    {
-        return $this->morphMany(View::class, 'viewable');
-    }
 }

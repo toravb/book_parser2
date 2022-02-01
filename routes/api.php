@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\AudioBookController;
 use App\Api\Http\Controllers\AuthorController;
 use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\AuthorSeriesController;
@@ -111,13 +112,6 @@ Route::middleware('auth:api')->group(function () {
 
 
     /*
-     * Ratings
-     */
-    Route::group(['prefix' => 'ratings'], function () {
-        Route::post('/', [RateController::class, 'store']);
-    });
-
-    /*
      * Bookmarks
      */
     Route::group(['prefix' => 'bookmarks'], function () {
@@ -134,12 +128,22 @@ Route::get('/selections', [CategoryController::class, 'showSelectionType']);
  */
 Route::group(['prefix' => 'books'], function () {
     Route::get('/', [BookController::class, 'show']);
-    Route::get('/{id}', [BookController::class, 'showSingle']);
-    Route::get('/{id}/chapters', [BookController::class, 'showBookContents']);
-    Route::get('/{id}/read', [BookController::class, 'readBook']);
 
     // Search by letter
     Route::get('/letter/{letter}', [BookController::class, 'showByLetter']);
+
+    Route::get('/{id}', [BookController::class, 'showSingle']);
+    Route::get('/{book}/chapters', [ChaptersController::class, 'showBookChapters']);
+    Route::get('/{id}/read', [BookController::class, 'readBook']);
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('/{book}/bookmarks', [BookController::class, 'getBookmarks']);
+    });
+
+    // Ratings
+    Route::group(['prefix' => 'ratings'], function () {
+        Route::post('/', [RateController::class, 'store']);
+    });
 });
 /*
  * --------
@@ -173,4 +177,19 @@ Route::group(['prefix' => 'authors'], function () {
 });
 /*
  * --------
+ */
+
+/*
+ * AudioBooks
+ */
+Route::group(['prefix' => 'audio-books'], function () {
+    Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
+    Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);
+    });
+});
+/*
+ * -------
  */
