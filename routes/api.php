@@ -1,5 +1,6 @@
 <?php
 
+use App\Api\Http\Controllers\AudioBookController;
 use App\Api\Http\Controllers\AuthorController;
 use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\AuthorSeriesController;
@@ -173,4 +174,19 @@ Route::group(['prefix' => 'authors'], function () {
 });
 /*
  * --------
+ */
+
+/*
+ * AudioBooks
+ */
+Route::group(['prefix' => 'audio-books'], function () {
+    Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
+    Route::get('/{id}/details/', [AudioBookController::class, 'showAudioBookDetails']);
+
+    Route::middleware('auth:api')->group(function () {
+        Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);
+    });
+});
+/*
+ * -------
  */

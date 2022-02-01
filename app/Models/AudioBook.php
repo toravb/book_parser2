@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Api\Interfaces\BookInterface;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class AudioBook extends Model
+class AudioBook extends Model implements BookInterface
 {
     use HasFactory, Sluggable;
+
     const TYPE_AUDIO_BOOK = 'audioBooks';
 
     protected $fillable = [
@@ -41,7 +46,8 @@ class AudioBook extends Model
         ];
     }
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $book = new static();
         $book->fill($fields);
         $book->save();
@@ -126,6 +132,7 @@ class AudioBook extends Model
             'reader_id'
         );
     }
+
     public function compilations()
     {
         return $this->MorphToMany(Compilation::class,
@@ -137,7 +144,8 @@ class AudioBook extends Model
             'id');
     }
 
-    public function bookCompilation(){
+    public function bookCompilation()
+    {
         return $this->morphOne(BookCompilation::class, 'bookCompilationable');
     }
 
@@ -145,8 +153,33 @@ class AudioBook extends Model
     {
         return $this->belongsTo(AudioBooksLink::class, 'link_id', 'id');
     }
+
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function rates(): BelongsToMany
+    {
+        return $this->belongsToMany(Rate::class, 'rates');
+    }
+
+    public function views():MorphMany
+    {
+        return $this->morphMany(View::class, 'viewable');
+    }
+
+
+    public function getBook(): Builder
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'genre',
+
+        ])
+            ->select('id', 'title', 'year_id')
+            ->withCount('views')
+            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 }

@@ -17,11 +17,7 @@ class BookUser extends Model
 
     protected $table = 'book_user';
 
-    protected $fillable = [
-        'user_id',
-        'book_id',
-        'status'
-    ];
+    protected $guarded = [];
 
     public function deleteBook(int $userId, int $bookId)
     {
@@ -33,21 +29,24 @@ class BookUser extends Model
 
     public function changeCreateStatus(int $userId, int $bookId, int $status)
     {
-        $this->user_id = $userId;
-        $this->book_id = $bookId;
-        $this->status = $status;
+        $record = $this->userBook($userId, $bookId)->first();
 
-        if ($this->userBook($userId, $bookId)->exists()) {
-            $record = $this->userBook($userId, $bookId)->first(['created_at', 'updated_at', 'status']);
+        if ($record) {
+            $this->fill($record->toArray());
 
-            $this->created_at = $record->created_at;
-            $this->updated_at = $record->updated_at;
-
-            if ($record->status !== $this->status) {
+            if ($record->status !== $status) {
+                $this->status = $status;
                 $this->updated_at = Carbon::now();
-                $this->userBook($userId, $bookId)->update(['status' => $this->status, 'updated_at' => $this->updated_at]);
+
+                $this->userBook($userId, $bookId)->update($this->only(['status', 'updated_at']));
             }
         } else {
+            $this->fill([
+                'user_id' => $userId,
+                'book_id' => $bookId,
+                'status' => $status,
+            ]);
+
             $this->save();
         }
     }

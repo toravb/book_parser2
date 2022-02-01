@@ -33,4 +33,5 @@ class AudioGenre extends Model
             ->with('authors')
             ->with('actors');
     }
+
 }
