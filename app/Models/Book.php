@@ -12,6 +12,10 @@ class Book extends Model implements BookInterface
 {
     use HasFactory;
 
+    const WANT_READ = '1';
+    const READING = '2';
+    const HAD_READ = '3';
+
     protected $fillable = [
         'title',
         'series_id',
@@ -27,9 +31,9 @@ class Book extends Model implements BookInterface
     ];
 
     public static array $availableReadingStatuses = [
-        QueryFilter::WANT_READ,
-        QueryFilter::READING,
-        QueryFilter::HAD_READ
+        Book::WANT_READ,
+        Book::READING,
+        Book::HAD_READ
     ];
 
     public function getTypeAttribute()

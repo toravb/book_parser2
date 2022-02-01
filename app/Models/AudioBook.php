@@ -15,6 +15,10 @@ class AudioBook extends Model implements BookInterface
 {
     use HasFactory, Sluggable;
 
+    const WANT_LISTEN = '1';
+    const LISTENING = '2';
+    const HAD_LISTEN = '3';
+
     protected $fillable = [
         'title',
         'description',

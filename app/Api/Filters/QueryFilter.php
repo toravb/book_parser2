@@ -17,9 +17,6 @@ abstract class QueryFilter
     const SORT_BY_RATING_LAST_YEAR = '3';
     const SORT_BY_REVIEWS = '4';
     const BESTSELLERS = '5';
-    const WANT_READ = '1';
-    const READING = '2';
-    const HAD_READ = '3';
     const TYPE_BOOK = 'books';
     const TYPE_AUDIO_BOOK = 'audioBooks';
     /**

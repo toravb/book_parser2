@@ -36,9 +36,9 @@ class SaveBookRequest extends FormRequest
             })],
             'status' => ['required', 'integer',
                 Rule::in(
-                    QueryFilter::WANT_READ,
-                    QueryFilter::READING,
-                    QueryFilter::HAD_READ)],
+                    Book::WANT_READ,
+                    Book::READING,
+                    Book::HAD_READ)],
 
         ];
     }
