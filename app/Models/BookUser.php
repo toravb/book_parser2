@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\BookController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -54,7 +55,7 @@ class BookUser extends Model
 
     public function scopeReading($query)
     {
-        return $query->where('status', Book::SORT_BY_READERS_COUNT);
+        return $query->where('status', QueryFilter::SORT_BY_READERS_COUNT);
     }
 
     public function scopeUserBook($q, int $userId, int $bookId)

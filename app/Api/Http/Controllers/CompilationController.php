@@ -3,6 +3,7 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Filters\CompilationFilter;
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\ShowCompilationRequest;
 use App\Api\Http\Requests\StoreCompilationRequest;
@@ -32,12 +33,12 @@ class CompilationController extends Controller
     public function show(ShowCompilationRequest $request, CompilationFilter $compilationFilter)
     {
 
-        $perList = $request->showType === Book::SHOW_TYPE_BLOCK ? self::COMPILAION_BLOCK_QUANTITY : self::COMPILAION_LIST_QUANTITY;
+        $perList = $request->showType === QueryFilter::SHOW_TYPE_BLOCK ? self::COMPILAION_BLOCK_QUANTITY : self::COMPILAION_LIST_QUANTITY;
 
         $books = Compilation::filter($compilationFilter)
             ->paginate($perList);
 
-        if ($request->showType === Book::SHOW_TYPE_LIST) {
+        if ($request->showType === QueryFilter::SHOW_TYPE_LIST) {
 
             $collection = $books->getCollection();
 

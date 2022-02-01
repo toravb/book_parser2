@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\BookController;
 use App\Models\AudioBook;
 use App\Models\Book;
@@ -32,8 +33,8 @@ class DeleteBookFromCompilationRequest extends FormRequest
             'book_id' => ['bail', 'required', 'integer'],
             'book_type' => ['bail', 'required', 'string',
                 Rule::in(
-                    Book::TYPE_BOOK,
-                    AudioBook::TYPE_AUDIO_BOOK)],
+                    QueryFilter::TYPE_BOOK,
+                    QueryFilter::TYPE_AUDIO_BOOK)],
         ];
     }
 }

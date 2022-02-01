@@ -15,7 +15,7 @@ class BookFilter extends QueryFilter
 
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
-        if ($viewTypeList === Book::SHOW_TYPE_LIST) {
+        if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
             return $this->builder->withCount(['bookLikes', 'bookComments', 'views'])
                 ->with([
                     'year',
@@ -79,11 +79,11 @@ class BookFilter extends QueryFilter
 
     public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
-        if ($sortBy === Book::SORT_BY_DATE) {
+        if ($sortBy === QueryFilter::SORT_BY_DATE) {
             return $this->builder->latest();
         }
 
-        if ($sortBy === Book::SORT_BY_READERS_COUNT) {
+        if ($sortBy === QueryFilter::SORT_BY_READERS_COUNT) {
             return $this->builder->whereHas('bookStatuses', function ($query) {
                 $query->reading();
             })
@@ -91,15 +91,15 @@ class BookFilter extends QueryFilter
                 ->orderBy('readersCount', 'desc');
         }
 
-        if ($sortBy === Book::SORT_BY_RATING_LAST_YEAR) {
+        if ($sortBy === QueryFilter::SORT_BY_RATING_LAST_YEAR) {
             return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
         }
 
-        if ($sortBy === Book::SORT_BY_REVIEWS) {
+        if ($sortBy === QueryFilter::SORT_BY_REVIEWS) {
             return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
         }
 
-        if ($sortBy === Book::BESTSELLERS) {
+        if ($sortBy === QueryFilter::BESTSELLERS) {
             return $this->builder->orderBy('rates_avg', 'desc');
         }
 

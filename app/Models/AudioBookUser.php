@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class AudioBookUser extends Model
 {
-    protected $table = ['audio_book_user'];
+    protected $table = 'audio_book_user';
 
     public function audioBook()
     {

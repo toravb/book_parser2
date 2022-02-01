@@ -1671,7 +1671,8 @@
               "type": "string"
             },
             "in": "query",
-            "name": "findByPublisher"
+            "name": "findByPublisher",
+            "description": "only when type is \"books\""
           },
           {
             "schema": {
@@ -1705,7 +1706,7 @@
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - sort by date; 2 - sort by readers count; 3 - sort by rating, 4 - sort by alphabet",
+            "description": "1 - sort by date; 2 - sort by readers/listenters count; 3 - sort by rating, 4 - sort by alphabet",
             "required": true
           },
           {
@@ -1720,7 +1721,8 @@
               "type": "string"
             },
             "in": "query",
-            "name": "alphabetPublisherIndex"
+            "name": "alphabetPublisherIndex",
+            "description": "only when type is \"books\""
           },
           {
             "schema": {
@@ -1746,8 +1748,23 @@
               ]
             },
             "in": "query",
-            "name": "type",
-            "required": true
+            "name": "type"
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findBySpeaker",
+            "description": "only when type is \"audioBooks\""
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "alphabetSpeakerIndex",
+            "description": "only when type is \"audioBooks\""
           }
         ]
       }

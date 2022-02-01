@@ -15,7 +15,7 @@ class AudioBookFilter extends QueryFilter
 
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
-        if ($viewTypeList === Book::SHOW_TYPE_LIST) {
+        if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
             return $this->builder->withCount('views')
                 ->with('year')
                 ->addSelect('description');
@@ -76,7 +76,7 @@ class AudioBookFilter extends QueryFilter
 
     public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
-        if ($sortBy === Book::SORT_BY_DATE) {
+        if ($sortBy === QueryFilter::SORT_BY_DATE) {
             return $this->builder->latest();
         }
 
@@ -88,25 +88,25 @@ class AudioBookFilter extends QueryFilter
                 ->orderBy('listenerCount', 'desc');
         }
 
-        if ($sortBy === Book::SORT_BY_RATING_LAST_YEAR) {
+        if ($sortBy === QueryFilter::SORT_BY_RATING_LAST_YEAR) {
             return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
         }
 
-        if ($sortBy === Book::SORT_BY_REVIEWS) {
+        if ($sortBy === QueryFilter::SORT_BY_REVIEWS) {
             return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
         }
 
-        if ($sortBy === Book::BESTSELLERS) {
+        if ($sortBy === QueryFilter::BESTSELLERS) {
             return $this->builder->orderBy('rates_avg', 'desc');
         }
 
         return $this->builder;
     }
-//
-//    public function findByCategory(string $findByCategory): \Illuminate\Database\Eloquent\Builder
-//    {
-//        return $this->builder->whereHas('bookGenres', function ($query) use ($findByCategory) {
-//            $query->where('id', $findByCategory);
-//        });
-//    }
+
+    public function findByCategory(string $findByCategory): \Illuminate\Database\Eloquent\Builder
+    {
+        return $this->builder->whereHas('genre', function ($query) use ($findByCategory) {
+            $query->where('id', $findByCategory);
+        });
+    }
 }

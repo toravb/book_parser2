@@ -7,8 +7,21 @@ use Illuminate\Http\Request;
 
 abstract class QueryFilter
 {
-
+    const PER_PAGE_BLOCKS = 40;
+    const PER_PAGE_LIST = 13;
+    const SHOW_TYPE_BLOCK = 'block';
+    const SHOW_TYPE_LIST = 'list';
+    const SORT_BY_DATE = '1';
+    const SORT_BY_READERS_COUNT = '2';
     const SORT_BY_LISTENERS = '2';
+    const SORT_BY_RATING_LAST_YEAR = '3';
+    const SORT_BY_REVIEWS = '4';
+    const BESTSELLERS = '5';
+    const WANT_READ = '1';
+    const READING = '2';
+    const HAD_READ = '3';
+    const TYPE_BOOK = 'books';
+    const TYPE_AUDIO_BOOK = 'audioBooks';
     /**
      * @var Request
      */

@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\BookController;
 use App\Models\Book;
 use App\Providers\RouteServiceProvider;
@@ -35,9 +36,9 @@ class SaveBookRequest extends FormRequest
             })],
             'status' => ['required', 'integer',
                 Rule::in(
-                    Book::WANT_READ,
-                    Book::READING,
-                    Book::HAD_READ)],
+                    QueryFilter::WANT_READ,
+                    QueryFilter::READING,
+                    QueryFilter::HAD_READ)],
 
         ];
     }
