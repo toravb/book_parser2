@@ -2,6 +2,7 @@
 
 namespace App\Api\Services;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\BookController;
 use App\Api\Interfaces\Types;
 use App\Models\AudioBook;
@@ -27,8 +28,8 @@ class TypesGenerator implements Types
     ];
 
     protected $compilationsBookTypes = [
-        Book::TYPE_BOOK => 'App\Models\Book',
-        AudioBook::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
+        QueryFilter::TYPE_BOOK => 'App\Models\Book',
+        QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
     ];
 
 

@@ -15,7 +15,9 @@ class AudioBook extends Model implements BookInterface
 {
     use HasFactory, Sluggable;
 
-    const TYPE_AUDIO_BOOK = 'audioBooks';
+    const WANT_LISTEN = '1';
+    const LISTENING = '2';
+    const HAD_LISTEN = '3';
 
     protected $fillable = [
         'title',
@@ -173,7 +175,7 @@ class AudioBook extends Model implements BookInterface
 
     public function audioBookStatuses(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(AudioBookUser::class);
+        return $this->hasMany(AudioBookUser::class, 'audio_book_id', 'id');
     }
 
 
@@ -183,6 +185,7 @@ class AudioBook extends Model implements BookInterface
             'authors',
             'image',
             'genre',
+            'audioBookStatuses',
 
         ])
             ->select('id', 'title', 'year_id', 'genre_id')

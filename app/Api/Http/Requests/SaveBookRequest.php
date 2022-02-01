@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\BookController;
 use App\Models\Book;
 use App\Providers\RouteServiceProvider;
