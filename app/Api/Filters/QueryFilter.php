@@ -9,6 +9,7 @@ abstract class QueryFilter
 {
     const PER_PAGE_BLOCKS = 40;
     const PER_PAGE_LIST = 13;
+    const PER_PAGE_LIST_AUDIO = 14;
     const SHOW_TYPE_BLOCK = 'block';
     const SHOW_TYPE_LIST = 'list';
     const SORT_BY_DATE = '1';

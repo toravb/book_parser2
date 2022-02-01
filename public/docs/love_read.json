@@ -1238,7 +1238,8 @@
       "get": {
         "summary": "Show all books",
         "tags": [
-          "Book"
+          "Book",
+          "Audio Books"
         ],
         "responses": {
           "200": {

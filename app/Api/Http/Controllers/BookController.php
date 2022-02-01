@@ -30,20 +30,23 @@ class BookController extends Controller
 {
     public function show(GetBooksRequest $request, BookFilter $bookFilter, AudioBookFilter $audioBookFilter, BookFactory $bookFactory)
     {
-        $perPage = $request->showType === QueryFilter::SHOW_TYPE_BLOCK ? QueryFilter::PER_PAGE_BLOCKS : QueryFilter::PER_PAGE_LIST;
+        $perPageList = $request->type === QueryFilter::TYPE_BOOK ? QueryFilter::PER_PAGE_LIST : QueryFilter::PER_PAGE_LIST_AUDIO;
+
+        $perPage = $request->showType === QueryFilter::SHOW_TYPE_BLOCK ? QueryFilter::PER_PAGE_BLOCKS : $perPageList;
 
 
         $model = $bookFactory->createInstance($request->type);
         $books = $model->getBook()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
             ->paginate($perPage);
 
-        if ($model instanceof Book) {
 
-            $collection = $books->getCollection();
-            foreach ($collection as &$book) {
-                if ($book->rates_avg === null) {
-                    $book->rates_avg = 0;
-                }
+        $collection = $books->getCollection();
+        foreach ($collection as &$book) {
+            if ($book->rates_avg === null) {
+                $book->rates_avg = 0;
+            }
+
+            if ($model instanceof Book) {
 
                 foreach ($book->authors as $author) {
                     unset($author->pivot);

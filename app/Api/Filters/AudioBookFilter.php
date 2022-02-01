@@ -16,7 +16,7 @@ class AudioBookFilter extends QueryFilter
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
         if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
-            return $this->builder->withCount('views')
+            return $this->builder->withCount(['views', 'rates'])
                 ->with('year')
                 ->addSelect('description');
         }
