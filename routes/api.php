@@ -176,8 +176,8 @@ Route::group(['prefix' => 'authors'], function () {
  */
 
 /*
- * AudioBooks
- */
+* AudioBooks
+*/
 Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
     Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);

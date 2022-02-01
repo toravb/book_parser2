@@ -92,12 +92,9 @@ class AudioBook extends Model implements BookInterface
         );
     }
 
-    public function genre()
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(
-            AudioGenre::class,
-            'id',
-        );
+        return $this->belongsTo(AudioGenre::class, 'genre_id', 'id');
     }
 
     public function series()
@@ -174,6 +171,11 @@ class AudioBook extends Model implements BookInterface
         return $this->hasOne(Year::class, 'id', 'year_id');
     }
 
+    public function audioBookStatuses(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AudioBookUser::class);
+    }
+
 
     public function getBook(): Builder
     {
@@ -183,7 +185,7 @@ class AudioBook extends Model implements BookInterface
             'genre',
 
         ])
-            ->select('id', 'title')
+            ->select('id', 'title', 'year_id', 'genre_id')
             ->withCount('views')
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
