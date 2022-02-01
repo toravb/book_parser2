@@ -66,11 +66,13 @@ Route::middleware('auth:api')->group(function () {
 
         Route::group(['prefix' => 'lists'], function () {
             Route::group(['prefix' => 'books'], function () {
+                Route::get('/', [BookController::class, 'showUserBooks']);
                 Route::put('/', [BookController::class, 'changeBookStatus']);
                 Route::delete('/', [BookController::class, 'deleteBookFromUsersList']);
             });
 
             Route::group(['prefix' => 'authors'], function () {
+                Route::get('/', [UserAuthorsController::class, 'list']);
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
             });

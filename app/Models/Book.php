@@ -21,6 +21,7 @@ class Book extends Model implements BookInterface
     const SORT_BY_RATING_LAST_YEAR = '3';
     const SORT_BY_REVIEWS = '4';
     const BESTSELLERS = '5';
+    const SORT_BY_ALPHABET = '6';
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';

@@ -146,4 +146,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSettings::class);
     }
+
+    public function authors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Author::class, 'user_author');
+    }
 }
