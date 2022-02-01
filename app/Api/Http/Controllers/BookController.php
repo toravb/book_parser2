@@ -62,8 +62,9 @@ class BookController extends Controller
                     unset($genres->pivot);
                 }
             }
-            $books->setCollection($collection);
         }
+
+        $books->setCollection($collection);
 
         return ApiAnswerService::successfulAnswerWithData($books);
     }
