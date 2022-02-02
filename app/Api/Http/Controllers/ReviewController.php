@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Review;
 use Illuminate\Http\Request;
 

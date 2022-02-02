@@ -184,6 +184,11 @@ class AudioBook extends Model implements BookInterface
         return $this->hasMany(AudioBookUser::class, 'audio_book_id', 'id');
     }
 
+    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AudioBookReview::class);
+    }
+
 
     public function getBook(): Builder
     {
@@ -213,16 +218,14 @@ class AudioBook extends Model implements BookInterface
             'actors',
             'series',
             'year',
-            'link'
-
+            'link',
         ])
             //TODO: после выяснения подробностей нужно добавить:
-            // count reviews
             // Размер и продолжительность файла
             // Псоле, написать доку
             ->where('id', $bookId)
             ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
-            ->withCount(['views', 'audioBookStatuses as listeners_count',  'rates'])
+            ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }
