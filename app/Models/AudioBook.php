@@ -29,6 +29,12 @@ class AudioBook extends Model implements BookInterface
         'litres'
     ];
 
+    public static array $availableListeningStatuses = [
+        self::WANT_LISTEN,
+        self::LISTENING,
+        self::HAD_LISTEN
+    ];
+
     protected $appends = [
         'type'
     ];
@@ -212,10 +218,7 @@ class AudioBook extends Model implements BookInterface
         ])
             //TODO: после выяснения подробностей нужно добавить:
             // count reviews
-            // Правообладателей
             // Размер и продолжительность файла
-            // Вывод глав
-            // Возврастное ограничение3
             // Псоле, написать доку
             ->where('id', $bookId)
             ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')

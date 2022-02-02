@@ -31,9 +31,9 @@ class Book extends Model implements BookInterface
     ];
 
     public static array $availableReadingStatuses = [
-        Book::WANT_READ,
-        Book::READING,
-        Book::HAD_READ
+        self::WANT_READ,
+        self::READING,
+        self::HAD_READ
     ];
 
     public function getTypeAttribute()

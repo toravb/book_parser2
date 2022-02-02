@@ -70,6 +70,11 @@ Route::middleware('auth:api')->group(function () {
                 Route::delete('/', [BookController::class, 'deleteBookFromUsersList']);
             });
 
+            Route::group(['prefix' => 'audio-books'], function () {
+                Route::put('/', [AudioBookController::class, 'changeCreateStatus']);
+                Route::delete('/', [AudioBookController::class, 'deleteAudioBookFromUsersList']);
+            });
+
             Route::group(['prefix' => 'authors'], function () {
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
@@ -185,6 +190,7 @@ Route::group(['prefix' => 'authors'], function () {
 Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
     Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
+    Route::get('/{id}/listen', [AudioBookController::class, 'listeningMode']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);

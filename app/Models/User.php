@@ -122,6 +122,11 @@ class User extends Authenticatable
         return $this->belongsToMany(Book::class);
     }
 
+    public function audioBookStatuses()
+    {
+        return $this->belongsToMany(AudioBook::class);
+    }
+
     public function compilations()
     {
         return $this->hasMany(Compilation::class);
