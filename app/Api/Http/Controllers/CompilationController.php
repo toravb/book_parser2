@@ -17,6 +17,7 @@ class CompilationController extends Controller
 {
     const COMPILAION_LIST_QUANTITY = 5;
     const COMPILAION_BLOCK_QUANTITY = 24;
+    const COMPILAION_USERS_QUANTITY = 9;
 
 
     public function store(StoreCompilationRequest $request, CompilationService $compilation)
@@ -75,5 +76,13 @@ class CompilationController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData(['compilation' => $compilation, 'books' => $books]);
 
+    }
+
+    public function showUserCompilations(): \Illuminate\Http\JsonResponse
+    {
+
+        $books = \auth()->user()->compilationUsers()->paginate(self::COMPILAION_USERS_QUANTITY);
+
+        return ApiAnswerService::successfulAnswerWithData($books);
     }
 }

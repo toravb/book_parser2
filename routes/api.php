@@ -53,6 +53,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 
 Route::middleware('auth:api')->group(function () {
+
     /*
      * User and profile
      */
@@ -155,15 +156,18 @@ Route::group(['prefix' => 'books'], function () {
  * Compilations
  */
 Route::group(['prefix' => 'compilations'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('/', [CompilationController::class, 'store']);
+        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
+        Route::post('/books', [BookController::class, 'saveBookToCompilation']);
+        Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
+    });
+
     Route::get('/', [CompilationController::class, 'show']);
     Route::get('/{id}', [CompilationController::class, 'showCompilationDetails']);
     Route::get('/{id}/load', [CompilationLoadingController::class, 'compilationLoading']);
 
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/', [CompilationController::class, 'store']);
-        Route::post('/books', [BookController::class, 'saveBookToCompilation']);
-        Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
-    });
+
 });
 /*
  * --------
