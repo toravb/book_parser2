@@ -3161,6 +3161,379 @@
         }
       }
     },
+    "/audio-books/{id}/listen": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "audio book id"
+        }
+      ],
+      "get": {
+        "summary": "Single audio book in listening mode",
+        "operationId": "get-audio-books-id-listen",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "description": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "year_id": {
+                          "type": "number"
+                        },
+                        "genre_id": {
+                          "type": "number"
+                        },
+                        "series_id": {
+                          "type": "number"
+                        },
+                        "link_id": {
+                          "type": "number"
+                        },
+                        "views_count": {
+                          "type": "number"
+                        },
+                        "listeners_count": {
+                          "type": "number"
+                        },
+                        "rates_count": {
+                          "type": "number"
+                        },
+                        "reviews_count": {
+                          "type": "number"
+                        },
+                        "rates_avg": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "authors": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "id",
+                              "name",
+                              "laravel_through_key"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {},
+                              "updated_at": {},
+                              "laravel_through_key": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        },
+                        "image": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "link": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "book_id": {
+                              "type": "number"
+                            },
+                            "doParse": {
+                              "type": "number"
+                            },
+                            "created_at": {},
+                            "updated_at": {}
+                          },
+                          "required": [
+                            "id",
+                            "link",
+                            "book_id",
+                            "doParse"
+                          ]
+                        },
+                        "genre": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "updated_at": {}
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "created_at"
+                          ]
+                        },
+                        "actors": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "id",
+                              "name",
+                              "laravel_through_key"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {},
+                              "updated_at": {},
+                              "laravel_through_key": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        },
+                        "series": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "updated_at": {}
+                          },
+                          "required": [
+                            "id",
+                            "name",
+                            "created_at"
+                          ]
+                        },
+                        "year": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "year": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "year"
+                          ]
+                        },
+                        "link": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "link": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "doParse": {
+                              "type": "number"
+                            },
+                            "created_at": {},
+                            "updated_at": {}
+                          },
+                          "required": [
+                            "id",
+                            "link",
+                            "doParse"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "description",
+                        "year_id",
+                        "genre_id",
+                        "series_id",
+                        "link_id",
+                        "views_count",
+                        "listeners_count",
+                        "rates_count",
+                        "reviews_count",
+                        "rates_avg",
+                        "type",
+                        "authors",
+                        "image",
+                        "genre",
+                        "actors",
+                        "series",
+                        "year",
+                        "link"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 5,
+                        "title": "111",
+                        "description": "111111",
+                        "year_id": 2,
+                        "genre_id": 1,
+                        "series_id": 2,
+                        "link_id": 1,
+                        "views_count": 1,
+                        "listeners_count": 1,
+                        "rates_count": 1,
+                        "reviews_count": 1,
+                        "rates_avg": 2.5,
+                        "type": "audioBooks",
+                        "authors": [
+                          {
+                            "id": 2,
+                            "name": "236535",
+                            "created_at": null,
+                            "updated_at": null,
+                            "laravel_through_key": 5
+                          }
+                        ],
+                        "image": {
+                          "id": 1,
+                          "link": "szgdsghdeg",
+                          "book_id": 5,
+                          "doParse": 1,
+                          "created_at": null,
+                          "updated_at": null
+                        },
+                        "genre": {
+                          "id": 1,
+                          "name": "Класическая литература",
+                          "created_at": "2022-01-28T17:30:14.000000Z",
+                          "updated_at": null
+                        },
+                        "actors": [
+                          {
+                            "id": 1,
+                            "name": "Zyec",
+                            "created_at": null,
+                            "updated_at": null,
+                            "laravel_through_key": 5
+                          }
+                        ],
+                        "series": {
+                          "id": 2,
+                          "name": "Tratata",
+                          "created_at": "2022-02-01T17:16:26.000000Z",
+                          "updated_at": null
+                        },
+                        "year": {
+                          "id": 2,
+                          "year": "2008"
+                        },
+                        "link": {
+                          "id": 1,
+                          "link": "zdrfghdghs",
+                          "doParse": 123,
+                          "created_at": null,
+                          "updated_at": null
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Not Found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Audio Books"
+        ],
+        "description": "Not added chapters. Hasn't any information now. Will be add soon and docs wil be updated."
+      }
+    },
     "/selections": {
       "get": {
         "summary": "Get selections type",
@@ -4711,6 +5084,307 @@
         ]
       }
     },
+    "/reviews": {
+      "parameters": [],
+      "put": {
+        "summary": "Save\\change review",
+        "operationId": "put-reviews",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 2,
+                        "user_id": 56,
+                        "audio_book_id": 5,
+                        "review_type_id": "3",
+                        "title": "1234564564656q",
+                        "content": "agaegvaergea",
+                        "created_at": "2022-02-02T17:14:43.000000Z",
+                        "updated_at": "2022-02-03T09:13:16.000000Z"
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "user_id",
+                        "audio_book_id",
+                        "review_type_id",
+                        "title",
+                        "content",
+                        "created_at",
+                        "updated_at"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "audio_book_id": {
+                          "type": "number"
+                        },
+                        "review_type_id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "content": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "review_type": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "review_type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "review_type": [
+                          "The selected review type is invalid."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reviews"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "id",
+            "description": "book or audioBook ID",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "book",
+                "audio_book"
+              ]
+            },
+            "in": "query",
+            "name": "type",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "integer"
+            },
+            "in": "query",
+            "name": "review_type",
+            "required": true,
+            "description": "Id of  ReviewType model"
+          },
+          {
+            "schema": {
+              "type": "string",
+              "maxLength": 150
+            },
+            "in": "query",
+            "name": "title",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "text",
+            "required": true
+          }
+        ]
+      },
+      "delete": {
+        "summary": "Delete review",
+        "operationId": "delete-reviews",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": 0
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reviews"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      }
+    },
+    "/review-types": {
+      "parameters": [],
+      "get": {
+        "summary": "",
+        "operationId": "get-reviews---copy",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "required": [
+                          "id",
+                          "type"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 1,
+                          "type": "Положительная"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Reviews"
+        ]
+      }
+    },
     "/reading_settings": {
       "get": {
         "summary": "Show reading settings",
@@ -5348,7 +6022,66 @@
         "operationId": "put-profile-lists-audio-books",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "audio_book_id": {
+                          "type": "number"
+                        },
+                        "status": {
+                          "type": "number"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "user_id",
+                        "audio_book_id",
+                        "status",
+                        "created_at",
+                        "updated_at"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 56,
+                        "audio_book_id": 5,
+                        "status": 3,
+                        "created_at": "2022-02-02T10:43:45.000000Z",
+                        "updated_at": "2022-02-02T12:08:08.000000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
           },
           "": {
             "content": {
@@ -5438,7 +6171,8 @@
             },
             "in": "query",
             "name": "status",
-            "required": true
+            "required": true,
+            "description": "1 want listen, 2 listening, 3 listened"
           }
         ],
         "security": [
@@ -5986,6 +6720,59 @@
         "type": "string",
         "title": "Password",
         "minLength": 6
+      },
+      "ReviewTypes": {
+        "description": "",
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "minLength": 1
+          },
+          "data": {
+            "type": "array",
+            "uniqueItems": true,
+            "minItems": 1,
+            "items": {
+              "required": [
+                "id",
+                "type"
+              ],
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "type": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              }
+            }
+          }
+        },
+        "required": [
+          "status",
+          "data"
+        ],
+        "x-examples": {
+          "example-1": {
+            "status": "success",
+            "data": [
+              {
+                "id": 1,
+                "type": "Положительная"
+              },
+              {
+                "id": 2,
+                "type": "Нейтральная"
+              },
+              {
+                "id": 3,
+                "type": "Негативная"
+              }
+            ]
+          }
+        }
       }
     },
     "securitySchemes": {
@@ -6026,6 +6813,9 @@
     },
     {
       "name": "Reading settings"
+    },
+    {
+      "name": "Reviews"
     },
     {
       "name": "User profile"
