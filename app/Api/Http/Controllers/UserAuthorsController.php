@@ -17,11 +17,10 @@ class UserAuthorsController extends Controller
     public function list(GetUserAuthorsRequest $request)
     {
         $authors = \auth()->user()->authors()
-            ->where(function ($query) use ($request ){
-                $query->when($request->letter!==null, function ($query) use ($request){
+            ->when($request->letter!==null, function ($query) use ($request){
                     $query->where('author', 'like', '%' . $request->letter . '%');
-                });
                 })->get();
+
 
         return ApiAnswerService::successfulAnswerWithData($authors);
     }

@@ -10,7 +10,6 @@ class GetUserAuthorsRequest extends FormRequest
     {
         return [
             'letter' => ['sometimes', 'string', 'max:200'],
-            //
         ];
     }
 
