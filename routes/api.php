@@ -7,6 +7,7 @@ use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
+use App\Api\Http\Controllers\ChaptersController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\LikeController;

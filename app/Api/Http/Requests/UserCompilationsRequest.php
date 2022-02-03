@@ -27,7 +27,12 @@ class UserCompilationsRequest extends FormRequest
     {
         return [
             'letter'=>['sometimes', 'string'],
-            'compType'=>['sometimes'],
+            'compType'=>['required', 'integer',
+                Rule::in(
+                    Compilation::COMPILATION_USER,
+                    Compilation::COMPILATION_ADMIN,
+                    Compilation::COMPILATION_ALL)
+            ],
             'sortBy' => ['required', 'integer',
                 Rule::in(
                     Compilation::SORT_BY_DATE,
