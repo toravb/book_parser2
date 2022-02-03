@@ -6,6 +6,7 @@ use App\Api\Http\Requests\DeleteQuoteRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use App\Api\Http\Requests\UserQuoteRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Quote;
@@ -93,5 +94,15 @@ class QuoteController extends Controller
         $rowsAffected = $quote->deleteQuote(Auth::id(), $request->quoteId);
 
        return ApiAnswerService::successfulAnswerWithData($rowsAffected);
+    }
+
+    public function showUsers(UserQuoteRequest $request){
+        $quotes = \auth()->user()->quotes()
+            ->with(['book' => function($query){
+                $query->with(['authors']);
+        }])->get();
+
+        return ApiAnswerService::successfulAnswerWithData($quotes);
+
     }
 }

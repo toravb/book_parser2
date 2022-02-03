@@ -151,4 +151,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Author::class, 'user_author');
     }
+
+    public function quotes(){
+        return $this->hasMany(Quote::class);
+    }
 }

@@ -78,6 +78,7 @@ Route::middleware('auth:api')->group(function () {
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
             });
+            Route::get('/quotes', [QuoteController::class, 'showUsers']);
         });
     });
     /*
