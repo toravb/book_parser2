@@ -32,6 +32,15 @@ class TypesGenerator implements Types
         QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
     ];
 
+    protected $reviewTypes = [
+        'book' => 'App\\Models\\BookReview',
+        'audio_book' => 'App\\Models\\AudioBookReview'
+    ];
+    protected $reviewModelTypes = [
+        'book' => 'App\\Models\\Book',
+        'audio_book' => 'App\\Models\\AudioBook'
+    ];
+
 
     public function getCommentTypes(): array
     {
@@ -56,5 +65,13 @@ class TypesGenerator implements Types
     public function getBookTypes(): array
     {
         return $this->compilationsBookTypes;
+    }
+    public function getReviewTypes(): array
+    {
+        return $this->reviewTypes;
+    }
+    public function getReviewModelTypes(): array
+    {
+        return $this->reviewModelTypes;
     }
 }

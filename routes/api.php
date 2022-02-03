@@ -7,6 +7,7 @@ use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
+use App\Api\Http\Controllers\ChaptersController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\LikeController;
@@ -14,6 +15,7 @@ use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
+use App\Api\Http\Controllers\ReviewController;
 use App\Api\Http\Controllers\UserAuthorsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
@@ -94,6 +96,13 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/', [LikeController::class, 'delete']);
     });
 
+    /**
+     * Reviews
+     */
+    Route::group(['prefix' => 'reviews'], function () {
+        Route::put('/', [ReviewController::class, 'saveUpdateReview']);
+        Route::delete('/', [ReviewController::class, 'delete']);
+    });
 
     /*
      * Quotes
@@ -127,6 +136,15 @@ Route::middleware('auth:api')->group(function () {
 
 Route::get('/genres', [CategoryController::class, 'show']);
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
+
+/*
+ * Show available reviews types
+ */
+Route::get('/review-types', [ReviewController::class, 'index']);
+/*
+ * -----------------------------
+ */
+
 
 /*
  * Books

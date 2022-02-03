@@ -12,7 +12,7 @@ use App\Models\Author;
 use App\Models\AuthorToBook;
 use App\Models\Book;
 use App\Models\Compilation;
-use App\Models\Review;
+use App\Models\BookReview;
 use App\Models\Series;
 use App\Models\SimilarAuthors;
 use Illuminate\Http\Request;

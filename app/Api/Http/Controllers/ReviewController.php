@@ -2,85 +2,61 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\DeleteLikeRequest;
+use App\Api\Interfaces\Types;
+use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Models\Review;
+use App\Http\Requests\DeleteReviewRequest;
+use App\Http\Requests\SaveUpdateReviewRequest;
+use App\Models\ReviewType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class ReviewController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private array $reviewTypes;
+
+    public function __construct(Types $types)
+    {
+        $this->reviewTypes = $types->getReviewTypes();
+    }
+
+    public function saveUpdateReview(SaveUpdateReviewRequest $request): \Illuminate\Http\JsonResponse
+    {
+        $userId = Auth::id();
+        $field = $this->getFieldName($request->type);
+        $record = $this->reviewTypes[$request->type]
+            ::updateOrCreate(
+                [
+                    'user_id' => $userId,
+                    $field => $request->id
+                ],
+                [
+                    'review_type_id' => $request->review_type,
+                    'title' => $request->title,
+                    'content' => $request->text,
+                ]);
+        return ApiAnswerService::successfulAnswerWithData($record);
+    }
+
+    private function getFieldName($type)
+    {
+        return $type . '_id';
+    }
+
     public function index()
     {
-        //
+        return ApiAnswerService::successfulAnswerWithData(ReviewType::all());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function delete(DeleteReviewRequest $request)
     {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Review $review)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Review $review)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Review  $review
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Review $review)
-    {
-        //
+        $field = $this->getFieldName($request->type);
+        $review = $this->reviewTypes[$request->type]::where($field, $request->id)
+            ->where('user_id', Auth::id())
+            ->delete();
+        return ApiAnswerService::successfulAnswerWithData($review);
     }
 }

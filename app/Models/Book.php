@@ -147,7 +147,7 @@ class Book extends Model implements BookInterface
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(BookReview::class);
     }
 
     public function quotes()

@@ -77,7 +77,7 @@ class Author extends Model
     public function authorReviews(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
         return $this->hasManyThrough(
-            Review::class,
+            BookReview::class,
             AuthorToBook::class,
             'author_id',
             'book_id',

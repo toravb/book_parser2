@@ -5,9 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Review extends Model
+class BookReview extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'user_id',
+        'book_id',
+        'review_type_id',
+        'title',
+        'content'
+    ];
+
 
 
   /*  public static function create($fields)
@@ -37,5 +46,10 @@ class Review extends Model
     public function likes()
     {
         return $this->morphMany(Like::class, 'likeable');
+    }
+
+    public function reviewTypes()
+    {
+        return $this->belongsTo(ReviewType::class);
     }
 }

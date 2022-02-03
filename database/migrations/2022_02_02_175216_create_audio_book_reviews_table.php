@@ -13,6 +13,8 @@ class CreateAudioBookReviewsTable extends Migration
 
             $table->foreignId('user_id')->constrained();
             $table->foreignId('audio_book_id')->constrained();
+            $table->foreignId('review_type_id')->constrained();
+            $table->string('title', 150);
             $table->text('content');
 
             $table->timestamps();
