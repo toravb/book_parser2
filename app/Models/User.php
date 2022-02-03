@@ -129,7 +129,7 @@ class User extends Authenticatable
 
     public function compilationUsers()
     {
-        return $this->hasMany(CompilationUser::class);
+        return $this->belongsToMany(Compilation::class);
     }
 
     public function readingSettings()

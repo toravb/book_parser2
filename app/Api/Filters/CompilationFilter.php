@@ -2,6 +2,9 @@
 
 namespace App\Api\Filters;
 
+use App\Models\Book;
+use App\Models\Compilation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CompilationFilter extends QueryFilter
@@ -56,5 +59,28 @@ class CompilationFilter extends QueryFilter
 
         return $this->builder->whereHas($bookType);
 
+    }
+    public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
+    {
+        if ($sortBy === Compilation::SORT_BY_DATE) {
+            return $this->builder->latest();
+        }
+
+        if ($sortBy === Compilation::SORT_BY_ALPHABET) {
+            return $this->builder->orderBy('title');
+        }
+
+        return $this->builder;
+    }
+    public function compType(string $compType){
+        if ($compType === Compilation::COMPILATION_USER) {
+            return $this->builder;
+        }
+        if ($compType === Compilation::COMPILATION_ADMIN) {
+            return $this->builder;
+        }
+        if ($compType === Compilation::COMPILATION_ALL) {
+            return $this->builder;
+        }
     }
 }

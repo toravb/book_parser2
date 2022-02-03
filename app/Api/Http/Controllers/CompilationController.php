@@ -6,6 +6,7 @@ use App\Api\Filters\CompilationFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\ShowCompilationRequest;
 use App\Api\Http\Requests\StoreCompilationRequest;
+use App\Api\Http\Requests\UserCompilationsRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
@@ -78,11 +79,23 @@ class CompilationController extends Controller
 
     }
 
-    public function showUserCompilations(): \Illuminate\Http\JsonResponse
+    public function showUserCompilations(UserCompilationsRequest $request, CompilationFilter $compilationFilter): \Illuminate\Http\JsonResponse
     {
 
-        $books = \auth()->user()->compilationUsers()->paginate(self::COMPILAION_USERS_QUANTITY);
+        $compilation=Compilation::where(function ($query) use ($request ){
+            $query->when($request->compType===Compilation::COMPILATION_USER, function ($query) {
+                    $query->whereNull('type');
+                })
+                ->when($request->compType===Compilation::COMPILATION_ADMIN, function($query) {
+                    $query->orWhereNotNull('type');
+                });
+        })
 
-        return ApiAnswerService::successfulAnswerWithData($books);
+            ->filter($compilationFilter)
+            ->where('title', 'like', '%' . $request->letter . '%')
+            ->paginate(self::COMPILAION_USERS_QUANTITY);
+
+        return ApiAnswerService::successfulAnswerWithData($compilation);
     }
+
 }

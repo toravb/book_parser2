@@ -4,18 +4,19 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\AddAuthorToFavoritesRequest;
 use App\Api\Http\Requests\DeleteAuthorFromFavoritesRequest;
+use App\Api\Http\Requests\GetUserAuthorsRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Models\Author;
 use App\Models\UserAuthor;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class UserAuthorsController extends Controller
 {
-    public function list()
+    public function list(GetUserAuthorsRequest $request)
     {
-        $authors = \auth()->user()->authors()->get();
+        $authors = \auth()->user()->authors()
+            ->where('title', 'like', '%' . $request->letter . '%')
+            ->get();
 
         return ApiAnswerService::successfulAnswerWithData($authors);
     }

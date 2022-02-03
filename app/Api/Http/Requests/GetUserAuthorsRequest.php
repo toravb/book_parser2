@@ -9,6 +9,7 @@ class GetUserAuthorsRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'letter' => ['sometimes', 'string', 'max:200'],
             //
         ];
     }
