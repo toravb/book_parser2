@@ -82,18 +82,7 @@ class CompilationController extends Controller
     public function showUserCompilations(UserCompilationsRequest $request, CompilationFilter $compilationFilter): \Illuminate\Http\JsonResponse
     {
 
-        $compilation=Compilation::where(function ($query) use ($request ){
-            $query->when($request->compType===Compilation::COMPILATION_USER, function ($query) {
-                    $query->whereNull('type');
-                })
-                ->when($request->compType===Compilation::COMPILATION_ADMIN, function($query) {
-                    $query->orWhereNotNull('type');
-                });
-        })
-
-            ->filter($compilationFilter)
-            ->where('title', 'like', '%' . $request->letter . '%')
-            ->paginate(self::COMPILAION_USERS_QUANTITY);
+        $compilation=Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
 
         return ApiAnswerService::successfulAnswerWithData($compilation);
     }
