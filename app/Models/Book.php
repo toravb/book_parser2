@@ -135,11 +135,6 @@ class Book extends Model implements BookInterface
         return $this->belongsToMany(User::class, 'rates');
     }
 
-    public function bookComments()
-    {
-        return $this->hasMany(BookComment::class);
-    }
-
     public function bookLikes()
     {
         return $this->hasMany(BookLike::class);
@@ -208,6 +203,16 @@ class Book extends Model implements BookInterface
         return $this->hasMany(Bookmark::class);
     }
 
+    public function bookCompilation()
+    {
+        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(BookComment::class);
+    }
+
     public function getBook(): Builder
     {
         return $this->with([
@@ -221,10 +226,6 @@ class Book extends Model implements BookInterface
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
-    public function bookCompilation()
-    {
-        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
-    }
 
     public function currentReading($request)
     {
@@ -256,12 +257,12 @@ class Book extends Model implements BookInterface
             'bookGenres',
             'year',
             'publishers',
-            'bookComments',
+            'comments',
             'reviews',
             'quotes'])
             ->where('id', $bookId)
             ->select('id', 'title', 'text')
-            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes', 'views'])
+            ->withCount(['rates', 'bookLikes', 'comments', 'reviews', 'quotes', 'views'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }

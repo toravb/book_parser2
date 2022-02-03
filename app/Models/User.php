@@ -111,6 +111,10 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(BookComment::class);
     }
+    public function comments()
+    {
+        return $this->hasMany(AudioBookComment::class);
+    }
 
     public function bookLikes()
     {
@@ -151,4 +155,5 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserSettings::class);
     }
+
 }

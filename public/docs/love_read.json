@@ -3161,7 +3161,7 @@
         }
       }
     },
-    "/audio-books/{id}/listen": {
+    "/audio-books/{id}": {
       "parameters": [
         {
           "schema": {
@@ -3174,7 +3174,7 @@
         }
       ],
       "get": {
-        "summary": "Single audio book in listening mode",
+        "summary": "Single audio book details",
         "operationId": "get-audio-books-id-listen",
         "responses": {
           "200": {
@@ -3531,7 +3531,7 @@
         "tags": [
           "Audio Books"
         ],
-        "description": "Not added chapters. Hasn't any information now. Will be add soon and docs wil be updated."
+        "description": ""
       }
     },
     "/selections": {
@@ -5385,6 +5385,127 @@
         ]
       }
     },
+    "/comments": {
+      "parameters": [],
+      "put": {
+        "summary": "Save\\update comments",
+        "operationId": "put-comments",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "user_id": 56,
+                        "audio_book_id": 5,
+                        "content": "111122332115421qs",
+                        "parent_comment_id": null,
+                        "created_at": "2022-02-03T14:11:43.000000Z",
+                        "updated_at": "2022-02-03T14:46:57.000000Z"
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "user_id",
+                        "model_id",
+                        "content",
+                        "created_at",
+                        "updated_at"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "model_id": {
+                          "type": "number"
+                        },
+                        "content": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "parent_comment_id": {
+                          "type": "number"
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "description": "",
+        "tags": [
+          "Comments"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "id",
+            "description": "model ID (book_id or audio_book_id and other)",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "text",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "book",
+                "audio_book"
+              ]
+            },
+            "in": "query",
+            "name": "type",
+            "required": true
+          }
+        ]
+      }
+    },
     "/reading_settings": {
       "get": {
         "summary": "Show reading settings",
@@ -6798,6 +6919,9 @@
     },
     {
       "name": "Bookmarks"
+    },
+    {
+      "name": "Comments"
     },
     {
       "name": "Compilations"

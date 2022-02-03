@@ -35,15 +35,19 @@ class SaveUpdateReviewRequest extends FormRequest
     public function rules()
     {
         if (is_string($this->type) and $this->type !== '' and $this->type !== null) {
-            return [
-                'id' => ['required', 'integer', 'exists:' . $this->models[$this->type] . ',id'],
-                'type' => [Rule::in($this->types)],
-                'review_type' => ['required', 'integer', 'exists:review_types,id'],
-                'title' => ['required', 'string', 'max:150'],
-                'text' => ['required', 'string']
-            ];
+            if (array_search($this->type, $this->types) !== false) {
+                return [
+                    'id' => ['required', 'integer', 'exists:' . $this->models[$this->type] . ',id'],
+                    'review_type' => ['required', 'integer', 'exists:review_types,id'],
+                    'title' => ['required', 'string', 'max:150'],
+                    'text' => ['required', 'string']
+                ];
+            } else {
+                return [
+                    'type' => [Rule::in($this->types)],
+                ];
+            }
         }
-
         return [
             'type' => ['required', 'string'],
 

@@ -16,7 +16,7 @@ class BookFilter extends QueryFilter
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
         if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
-            return $this->builder->withCount(['bookLikes', 'bookComments', 'views'])
+            return $this->builder->withCount(['bookLikes', 'comments', 'views'])
                 ->with([
                     'year',
                     'publishers'
