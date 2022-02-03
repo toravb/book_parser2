@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model implements BookInterface
 {
     use HasFactory;
-
+  
     const PER_PAGE_BLOCKS = 40;
     const PER_PAGE_LIST = 13;
     const SHOW_TYPE_BLOCK = 'block';
@@ -25,7 +25,6 @@ class Book extends Model implements BookInterface
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
-    const TYPE_BOOK = 'books';
 
     protected $fillable = [
         'title',
@@ -42,9 +41,9 @@ class Book extends Model implements BookInterface
     ];
 
     public static array $availableReadingStatuses = [
-        self::WANT_READ,
-        self::READING,
-        self::HAD_READ
+        Book::WANT_READ,
+        Book::READING,
+        Book::HAD_READ
     ];
 
     public function getTypeAttribute()
