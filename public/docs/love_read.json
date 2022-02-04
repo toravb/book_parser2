@@ -6711,7 +6711,7 @@
                           "type": "string",
                           "minLength": 1
                         },
-                        "author_reviews_count": {
+                        "author_quotes_count": {
                           "type": "number"
                         },
                         "books": {
@@ -6808,7 +6808,7 @@
                       "required": [
                         "id",
                         "author",
-                        "author_reviews_count",
+                        "author_quotes_count",
                         "books"
                       ]
                     }
@@ -6823,7 +6823,7 @@
                       "data": {
                         "id": 1,
                         "author": "Grady Ziemann",
-                        "author_reviews_count": 2,
+                        "author_quotes_count": 2,
                         "books": [
                           {
                             "id": 1,
@@ -6848,6 +6848,30 @@
                                 }
                               }
                             ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "Mr.",
+                            "link": "Velit et.",
+                            "views_count": 0,
+                            "rates_count": 1,
+                            "type": "books",
+                            "quotes": [
+                              {
+                                "id": 2,
+                                "user_id": 12,
+                                "book_id": 2,
+                                "content": "ZXcZXcXZcZXc3333333",
+                                "created_at": null,
+                                "user": {
+                                  "id": 12,
+                                  "name": "Vasya5",
+                                  "surname": "Pupkin5",
+                                  "nickname": null,
+                                  "avatar": null
+                                }
+                              }
+                            ]
                           }
                         ]
                       }
@@ -6861,7 +6885,7 @@
                       "data": {
                         "id": 1,
                         "author": "Grady Ziemann",
-                        "author_reviews_count": 2,
+                        "author_quotes_count": 2,
                         "books": [
                           {
                             "id": 1,
@@ -6876,6 +6900,30 @@
                                 "user_id": 12,
                                 "book_id": 1,
                                 "content": "zxcv22222222",
+                                "created_at": null,
+                                "user": {
+                                  "id": 12,
+                                  "name": "Vasya5",
+                                  "surname": "Pupkin5",
+                                  "nickname": null,
+                                  "avatar": null
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "Mr.",
+                            "link": "Velit et.",
+                            "views_count": 0,
+                            "rates_count": 1,
+                            "type": "books",
+                            "quotes": [
+                              {
+                                "id": 2,
+                                "user_id": 12,
+                                "book_id": 2,
+                                "content": "ZXcZXcXZcZXc3333333",
                                 "created_at": null,
                                 "user": {
                                   "id": 12,
