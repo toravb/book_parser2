@@ -8,9 +8,13 @@ class AddYearIdColumnToAudioBooksTable extends Migration
 {
     public function up()
     {
-        Schema::table('audio_books', function (Blueprint $table) {
-            $table->foreignId('year_id')->after('link_id')->constrained();
-        });
+        if (!Schema::hasColumn('audio_books', 'year_id'))
+        {
+            Schema::table('audio_books', function (Blueprint $table) {
+
+                $table->foreignId('year_id')->after('link_id')->constrained();
+            });
+        }
     }
 
     public function down()
