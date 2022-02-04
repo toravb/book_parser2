@@ -228,7 +228,7 @@ class AudioBook extends Model implements BookInterface
             'reviews',
         ])
             //TODO: после выяснения подробностей нужно добавить:
-            // Размер и продолжительность файла
+            // Продолжительность файла
             // Псоле, написать доку
             ->where('id', $bookId)
             ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
@@ -236,4 +236,5 @@ class AudioBook extends Model implements BookInterface
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }
+
 }

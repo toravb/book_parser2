@@ -211,6 +211,8 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/page', [AuthorPageController::class, 'show']);
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
+    Route::get('/{id}/books', [AuthorController::class, 'showOtherBooks']);
+    Route::get('/{id}/audio-books', [AuthorController::class, 'showOtherAudioBooks']);
 });
 /*
  * --------

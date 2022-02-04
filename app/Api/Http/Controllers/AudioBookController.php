@@ -23,10 +23,9 @@ class AudioBookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($audioBook);
     }
 
-    public function listeningMode(AudioBook $book, View $view, Request $request): \Illuminate\Http\JsonResponse
+    public function listeningMode(AudioBook $book, View $view, Request $request)
     {
-
-        $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());
+        //TODO: Добавить вывод глав с названиями
 
     }
 

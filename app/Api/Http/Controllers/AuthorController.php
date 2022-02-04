@@ -16,4 +16,14 @@ class AuthorController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($authors);
     }
+
+    public function showOtherBooks($id, Author $author)
+    {
+        return ApiAnswerService::successfulAnswerWithData($author->showOtherBooks($id));
+    }
+
+    public function showOtherAudioBooks($id, Author $author)
+    {
+        return ApiAnswerService::successfulAnswerWithData($author->showOtherAudioBooks($id));
+    }
 }

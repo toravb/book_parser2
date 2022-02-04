@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Book extends Model implements BookInterface
 {
     use HasFactory;
-  
+
     const PER_PAGE_BLOCKS = 40;
     const PER_PAGE_LIST = 13;
     const SHOW_TYPE_BLOCK = 'block';
@@ -35,6 +35,8 @@ class Book extends Model implements BookInterface
         'text',
         'donor_id'
     ];
+
+    protected $hidden = ['pivot'];
 
     protected $appends = [
         'type'

@@ -20,7 +20,8 @@ class Author extends Model
 
     protected $hidden = ['pivot'];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $author = new static();
         $author->fill($fields);
         $author->save();
@@ -115,5 +116,39 @@ class Author extends Model
     {
         return $this->belongsToMany(User::class, 'user_author');
     }
+
+    public function showOtherBooks($authorId)
+    {
+        return $this->select('id', 'audio_author_id')
+            ->with([
+                'books' => function ($query) {
+                    return $query
+                        ->with([
+                            'image' => function ($q) {
+                            return $q->where('page_id', null)->select('book_id','link');
+                            },
+                            'authors'
+                        ])
+                        ->select('books.id', 'title')
+                        ->withCount('views')
+                        ->withAvg('rates as rates_avg', 'rates.rating');
+                }
+            ])->findOrFail($authorId);
+    }
+
+    public function showOtherAudioBooks($authorId)
+    {
+        return $this->select('id', 'audio_author_id')
+            ->with([
+                'audioBooks' => function ($query) {
+                    return $query
+                        ->with(['images', 'authors'])
+                        ->select('audio_books.id', 'title')
+                        ->withCount('views')
+                        ->withAvg('rates as rates_avg', 'rates.rating');
+                }
+            ])->findOrFail($authorId);
+    }
+
 
 }
