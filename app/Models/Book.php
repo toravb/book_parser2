@@ -225,6 +225,11 @@ class Book extends Model implements BookInterface
         return $this->hasMany(BookComment::class);
     }
 
+    public function userRecommends()
+    {
+        return $this->hasMany(UsersRecommendation::class);
+    }
+
     public function getBook(): Builder
     {
         return $this->with([

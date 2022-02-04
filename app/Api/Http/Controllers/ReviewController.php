@@ -2,11 +2,11 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\DeleteReviewRequest;
+use App\Api\Http\Requests\SaveUpdateReviewRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DeleteReviewRequest;
-use App\Http\Requests\SaveUpdateReviewRequest;
 use App\Models\ReviewType;
 use Illuminate\Support\Facades\Auth;
 

@@ -2,10 +2,10 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\SaveUpdateCommentRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SaveUpdateCommentRequest;
 
 class CommentController extends Controller
 {

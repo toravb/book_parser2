@@ -12,5 +12,7 @@ interface Types
 
     public function getReviewTypes(): array;
 
+    public function getRecommendTypes(): array;
+
 
 }

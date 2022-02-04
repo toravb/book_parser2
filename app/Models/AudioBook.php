@@ -194,6 +194,10 @@ class AudioBook extends Model implements BookInterface
         return $this->hasMany(AudioBookComment::class);
     }
 
+    public function usersRecommend()
+    {
+        return $this->hasMany(UsersRecommendation::class);
+    }
 
     public function getBook(): Builder
     {

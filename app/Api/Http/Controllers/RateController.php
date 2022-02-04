@@ -2,10 +2,10 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Http\Requests\StoreAudioBookRatingRequest;
 use App\Api\Http\Requests\StoreRatingValidation;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreAudioBookRatingRequest;
 use App\Models\Rate;
 use Illuminate\Support\Facades\Auth;
 

@@ -41,6 +41,16 @@ class TypesGenerator implements Types
         'audio_book' => 'App\\Models\\AudioBook'
     ];
 
+    protected $recommendTypes = [
+        'book' => 'App\\Models\\UserRecommendation',
+        'audio_book' => 'App\\Models\\UserRecommendation'
+    ];
+
+    protected $recommendModelTypes = [
+        'book' => 'App\\Models\\Book',
+        'audio_book' => 'App\\Models\\AudioBook'
+    ];
+
 
     public function getCommentTypes(): array
     {
@@ -78,6 +88,14 @@ class TypesGenerator implements Types
     public function getReviewModelTypes(): array
     {
         return $this->reviewModelTypes;
+    }
+    public function getRecommendTypes(): array
+    {
+        return $this->recommendTypes;
+    }
+    public function getRecommendModelTypes(): array
+    {
+        return $this->recommendModelTypes;
     }
 
 }

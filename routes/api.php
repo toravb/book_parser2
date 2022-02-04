@@ -18,6 +18,7 @@ use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
 use App\Api\Http\Controllers\UserAuthorsController;
+use App\Api\Http\Controllers\UsersRecommendationsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
@@ -147,6 +148,11 @@ Route::middleware('auth:api')->group(function () {
 
 Route::get('/genres', [CategoryController::class, 'show']);
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
+
+/**
+ * Users recommendations
+ */
+Route::post('/users-recommend', [UsersRecommendationsController::class, 'saveUserRecommend']);
 
 /*
  * Show available reviews types

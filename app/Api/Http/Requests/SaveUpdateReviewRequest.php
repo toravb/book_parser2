@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Api\Http\Requests;
 
 use App\Api\Interfaces\Types;
 use Illuminate\Foundation\Http\FormRequest;
@@ -10,6 +10,8 @@ class SaveUpdateReviewRequest extends FormRequest
 {
     protected $types = [];
     protected $models = [];
+
+    protected $stopOnFirstFailure = true;
 
     public function __construct(Types $types)
     {
@@ -34,23 +36,12 @@ class SaveUpdateReviewRequest extends FormRequest
      */
     public function rules()
     {
-        if (is_string($this->type) and $this->type !== '' and $this->type !== null) {
-            if (array_search($this->type, $this->types) !== false) {
-                return [
-                    'id' => ['required', 'integer', 'exists:' . $this->models[$this->type] . ',id'],
-                    'review_type' => ['required', 'integer', 'exists:review_types,id'],
-                    'title' => ['required', 'string', 'max:150'],
-                    'text' => ['required', 'string']
-                ];
-            } else {
-                return [
-                    'type' => [Rule::in($this->types)],
-                ];
-            }
-        }
         return [
-            'type' => ['required', 'string'],
-
+            'type' => ['required', 'string', Rule::in($this->types)],
+            'id' => ['required', 'integer', Rule::exists($this->models[$this->type]??null . '_id')],
+            'review_type' => ['required', 'integer', 'exists:review_types,id'],
+            'title' => ['required', 'string', 'max:150'],
+            'text' => ['required', 'string']
         ];
     }
 }
