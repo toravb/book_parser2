@@ -3518,245 +3518,6 @@
                 "schema": {
                   "description": "",
                   "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number"
-                        },
-                        "title": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "description": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "year_id": {
-                          "type": "number"
-                        },
-                        "genre_id": {
-                          "type": "number"
-                        },
-                        "series_id": {
-                          "type": "number"
-                        },
-                        "link_id": {
-                          "type": "number"
-                        },
-                        "views_count": {
-                          "type": "number"
-                        },
-                        "listeners_count": {
-                          "type": "number"
-                        },
-                        "rates_count": {
-                          "type": "number"
-                        },
-                        "reviews_count": {
-                          "type": "number"
-                        },
-                        "rates_avg": {
-                          "type": "number"
-                        },
-                        "type": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "authors": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "name",
-                              "laravel_through_key"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "name": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "created_at": {},
-                              "updated_at": {},
-                              "laravel_through_key": {
-                                "type": "number"
-                              }
-                            }
-                          }
-                        },
-                        "image": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "link": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "book_id": {
-                              "type": "number"
-                            },
-                            "doParse": {
-                              "type": "number"
-                            },
-                            "created_at": {},
-                            "updated_at": {}
-                          },
-                          "required": [
-                            "id",
-                            "link",
-                            "book_id",
-                            "doParse"
-                          ]
-                        },
-                        "genre": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "name": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "created_at": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "updated_at": {}
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "created_at"
-                          ]
-                        },
-                        "actors": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "name",
-                              "laravel_through_key"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "name": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "created_at": {},
-                              "updated_at": {},
-                              "laravel_through_key": {
-                                "type": "number"
-                              }
-                            }
-                          }
-                        },
-                        "series": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "name": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "created_at": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "updated_at": {}
-                          },
-                          "required": [
-                            "id",
-                            "name",
-                            "created_at"
-                          ]
-                        },
-                        "year": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "year": {
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          },
-                          "required": [
-                            "id",
-                            "year"
-                          ]
-                        },
-                        "link": {
-                          "type": "object",
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "link": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "doParse": {
-                              "type": "number"
-                            },
-                            "created_at": {},
-                            "updated_at": {}
-                          },
-                          "required": [
-                            "id",
-                            "link",
-                            "doParse"
-                          ]
-                        }
-                      },
-                      "required": [
-                        "id",
-                        "title",
-                        "description",
-                        "year_id",
-                        "genre_id",
-                        "series_id",
-                        "link_id",
-                        "views_count",
-                        "listeners_count",
-                        "rates_count",
-                        "reviews_count",
-                        "rates_avg",
-                        "type",
-                        "authors",
-                        "image",
-                        "genre",
-                        "actors",
-                        "series",
-                        "year",
-                        "link"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
                   "x-examples": {
                     "example-1": {
                       "status": "success",
@@ -3771,7 +3532,7 @@
                         "views_count": 1,
                         "listeners_count": 1,
                         "rates_count": 1,
-                        "reviews_count": 1,
+                        "reviews_count": 3,
                         "rates_avg": 2.5,
                         "type": "audioBooks",
                         "authors": [
@@ -3822,10 +3583,386 @@
                           "doParse": 123,
                           "created_at": null,
                           "updated_at": null
+                        },
+                        "comments": [
+                          {
+                            "id": 1,
+                            "user_id": 56,
+                            "audio_book_id": 5,
+                            "content": "111122332115421qs",
+                            "parent_comment_id": null,
+                            "created_at": "2022-02-03T14:11:43.000000Z",
+                            "updated_at": "2022-02-03T14:46:57.000000Z"
+                          }
+                        ],
+                        "reviews": [
+                          {
+                            "id": 3,
+                            "user_id": 56,
+                            "audio_book_id": 5,
+                            "review_type_id": 2,
+                            "title": "1234564564656q",
+                            "content": "agaegvaergea",
+                            "created_at": "2022-02-03T10:33:56.000000Z",
+                            "updated_at": "2022-02-03T10:33:56.000000Z"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "title",
+                        "description",
+                        "year_id",
+                        "genre_id",
+                        "series_id",
+                        "link_id",
+                        "views_count",
+                        "listeners_count",
+                        "rates_count",
+                        "reviews_count",
+                        "rates_avg",
+                        "type",
+                        "authors",
+                        "image",
+                        "genre",
+                        "actors",
+                        "series",
+                        "year",
+                        "link",
+                        "comments",
+                        "reviews"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "description": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "year_id": {
+                          "type": "number"
+                        },
+                        "genre_id": {
+                          "type": "number"
+                        },
+                        "series_id": {
+                          "type": "number"
+                        },
+                        "link_id": {
+                          "type": "number"
+                        },
+                        "views_count": {
+                          "type": "number"
+                        },
+                        "listeners_count": {
+                          "type": "number"
+                        },
+                        "rates_count": {
+                          "type": "number"
+                        },
+                        "reviews_count": {
+                          "type": "number"
+                        },
+                        "rates_avg": {
+                          "type": "number"
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "authors": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string"
+                              },
+                              "updated_at": {
+                                "type": "string"
+                              },
+                              "laravel_through_key": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "laravel_through_key"
+                            ]
+                          }
+                        },
+                        "image": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "link",
+                            "book_id",
+                            "doParse"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "link": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "book_id": {
+                              "type": "number"
+                            },
+                            "doParse": {
+                              "type": "number"
+                            },
+                            "created_at": {
+                              "type": "string"
+                            },
+                            "updated_at": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "genre": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "name",
+                            "created_at"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "updated_at": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "actors": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string"
+                              },
+                              "updated_at": {
+                                "type": "string"
+                              },
+                              "laravel_through_key": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "name",
+                              "laravel_through_key"
+                            ]
+                          }
+                        },
+                        "series": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "name",
+                            "created_at"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "updated_at": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "year": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "year"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "year": {
+                              "type": "string",
+                              "minLength": 1
+                            }
+                          }
+                        },
+                        "link": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "link",
+                            "doParse"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "link": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "doParse": {
+                              "type": "number"
+                            },
+                            "created_at": {
+                              "type": "string"
+                            },
+                            "updated_at": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "comments": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "user_id": {
+                                "type": "number"
+                              },
+                              "audio_book_id": {
+                                "type": "number"
+                              },
+                              "content": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "parent_comment_id": {
+                                "type": "number"
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "user_id",
+                              "audio_book_id",
+                              "content",
+                              "created_at",
+                              "updated_at"
+                            ]
+                          }
+                        },
+                        "reviews": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "user_id": {
+                                "type": "number"
+                              },
+                              "audio_book_id": {
+                                "type": "number"
+                              },
+                              "review_type_id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "content": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "user_id",
+                              "audio_book_id",
+                              "review_type_id",
+                              "title",
+                              "content",
+                              "created_at",
+                              "updated_at"
+                            ]
+                          }
                         }
                       }
                     }
-                  }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
                 }
               }
             }
@@ -6274,6 +6411,29 @@
         "security": [
           {
             "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "id",
+            "description": "book or audioBook ID",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "book",
+                "audio_book"
+              ]
+            },
+            "in": "query",
+            "name": "type",
+            "required": true
           }
         ]
       }
