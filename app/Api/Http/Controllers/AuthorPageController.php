@@ -66,4 +66,13 @@ class AuthorPageController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($series);
     }
+
+    public function showQuotes(AuthorPageRequest $request): \Illuminate\Http\JsonResponse
+    {
+
+        $quotes = Author::quotes($request->id);
+
+        return ApiAnswerService::successfulAnswerWithData($quotes);
+
+    }
 }

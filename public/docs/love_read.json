@@ -6681,6 +6681,234 @@
           "description": ""
         }
       }
+    },
+    "/author/quotes/{id}": {
+      "get": {
+        "summary": "Your GET endpoint",
+        "tags": [
+          "Authors"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "author": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "author_reviews_count": {
+                          "type": "number"
+                        },
+                        "books": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "id",
+                              "title",
+                              "link",
+                              "views_count",
+                              "rates_count",
+                              "type"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "link": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "views_count": {
+                                "type": "number"
+                              },
+                              "rates_count": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "quotes": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "required": [
+                                    "id",
+                                    "user_id",
+                                    "book_id",
+                                    "content"
+                                  ],
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "user_id": {
+                                      "type": "number"
+                                    },
+                                    "book_id": {
+                                      "type": "number"
+                                    },
+                                    "content": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "created_at": {},
+                                    "user": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "name": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "surname": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "nickname": {},
+                                        "avatar": {}
+                                      },
+                                      "required": [
+                                        "id",
+                                        "name",
+                                        "surname"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "author",
+                        "author_reviews_count",
+                        "books"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "author": "Grady Ziemann",
+                        "author_reviews_count": 2,
+                        "books": [
+                          {
+                            "id": 1,
+                            "title": "Dr.",
+                            "link": "A ea.",
+                            "views_count": 0,
+                            "rates_count": 1,
+                            "type": "books",
+                            "quotes": [
+                              {
+                                "id": 1,
+                                "user_id": 12,
+                                "book_id": 1,
+                                "content": "zxcv22222222",
+                                "created_at": null,
+                                "user": {
+                                  "id": 12,
+                                  "name": "Vasya5",
+                                  "surname": "Pupkin5",
+                                  "nickname": null,
+                                  "avatar": null
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "author": "Grady Ziemann",
+                        "author_reviews_count": 2,
+                        "books": [
+                          {
+                            "id": 1,
+                            "title": "Dr.",
+                            "link": "A ea.",
+                            "views_count": 0,
+                            "rates_count": 1,
+                            "type": "books",
+                            "quotes": [
+                              {
+                                "id": 1,
+                                "user_id": 12,
+                                "book_id": 1,
+                                "content": "zxcv22222222",
+                                "created_at": null,
+                                "user": {
+                                  "id": 12,
+                                  "name": "Vasya5",
+                                  "surname": "Pupkin5",
+                                  "nickname": null,
+                                  "avatar": null
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-author-quotes"
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "number"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "author_id"
+        }
+      ]
     }
   },
   "components": {

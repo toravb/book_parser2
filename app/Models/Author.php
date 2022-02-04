@@ -116,4 +116,21 @@ class Author extends Model
         return $this->belongsToMany(User::class, 'user_author');
     }
 
+    public static function quotes(int $author_id): Author|null
+    {
+        return self::select(['id', 'author'])
+            ->withCount('authorReviews')
+            ->with(['books' => function($query){
+                $query->select(['books.id', 'title', 'link'])
+                    ->withCount(['views', 'rates'])
+                    ->with(['quotes' => function($query){
+                        $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
+                            ->with(['user' => function($query){
+                                $query->select('id', 'name', 'surname', 'nickname', 'avatar');
+                            }]);
+                    }]);
+            }])
+            ->find($author_id);
+
+    }
 }

@@ -16,4 +16,5 @@ class AuthorController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($authors);
     }
+
 }
