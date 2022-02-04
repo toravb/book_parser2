@@ -7,6 +7,7 @@ use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
+use App\Api\Http\Controllers\ChaptersController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\LikeController;
@@ -53,6 +54,7 @@ Route::group(['middleware' => 'guest'], function () {
 
 
 Route::middleware('auth:api')->group(function () {
+
     /*
      * User and profile
      */
@@ -66,11 +68,13 @@ Route::middleware('auth:api')->group(function () {
 
         Route::group(['prefix' => 'lists'], function () {
             Route::group(['prefix' => 'books'], function () {
+                Route::get('/', [BookController::class, 'showUserBooks']);
                 Route::put('/', [BookController::class, 'changeBookStatus']);
                 Route::delete('/', [BookController::class, 'deleteBookFromUsersList']);
             });
 
             Route::group(['prefix' => 'authors'], function () {
+                Route::get('/', [UserAuthorsController::class, 'list']);
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
             });
@@ -153,15 +157,18 @@ Route::group(['prefix' => 'books'], function () {
  * Compilations
  */
 Route::group(['prefix' => 'compilations'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::post('/', [CompilationController::class, 'store']);
+        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
+        Route::post('/books', [BookController::class, 'saveBookToCompilation']);
+        Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
+    });
+
     Route::get('/', [CompilationController::class, 'show']);
     Route::get('/{id}', [CompilationController::class, 'showCompilationDetails']);
     Route::get('/{id}/load', [CompilationLoadingController::class, 'compilationLoading']);
 
-    Route::group(['middleware' => 'auth:api'], function () {
-        Route::post('/', [CompilationController::class, 'store']);
-        Route::post('/books', [BookController::class, 'saveBookToCompilation']);
-        Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
-    });
+
 });
 /*
  * --------

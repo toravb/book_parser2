@@ -5,13 +5,18 @@ namespace App\Models;
 use App\Api\Filters\QueryFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\ClassString;
 use Illuminate\Database\Eloquent\Builder;
 
 class Compilation extends Model
 {
     use HasFactory;
 
+
+    const SORT_BY_DATE = '1';
+    const SORT_BY_ALPHABET = '2';
+    const COMPILATION_USER = '1';
+    const COMPILATION_ADMIN = '2';
+    const COMPILATION_ALL = '3';
     const COMPILATION_PER_PAGE = 20;
 
     public function users()
