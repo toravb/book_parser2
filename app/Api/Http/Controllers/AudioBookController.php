@@ -18,15 +18,17 @@ class AudioBookController extends Controller
 
     public function showAudioBookDetails($id, AudioBook $book, View $view, Request $request)
     {
-        $audioBook = $book->showAudioBookDetals($id);
+        $audioBook = $book->showAudioBookDetails($id);
         $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());
         return ApiAnswerService::successfulAnswerWithData($audioBook);
     }
 
-//    public function listeningMode($id, AudioBook $book, View $view, Request $request): \Illuminate\Http\JsonResponse
-//    {
+    public function listeningMode(AudioBook $book, View $view, Request $request): \Illuminate\Http\JsonResponse
+    {
 
-//    }
+        $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());
+
+    }
 
     public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): \Illuminate\Http\JsonResponse
     {

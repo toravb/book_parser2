@@ -3,18 +3,18 @@
 namespace App\Api\Services;
 
 use App\Api\Filters\QueryFilter;
-use App\Api\Http\Controllers\BookController;
 use App\Api\Interfaces\Types;
-use App\Models\AudioBook;
-use App\Models\Book;
 
 class TypesGenerator implements Types
 {
     protected $commentTypes = [
-        'post' => 'App\\PostsComment',
-        'event' => 'App\\EventComment',
-        'photo' => 'App\\MediaPhotoComment',
-        'video' => 'App\\VideoComment',
+        'book' => 'App\\Models\\BookComment',
+        'audio_book' => 'App\\Models\\AudioBookComment'
+    ];
+
+    protected $commentModelTypes = [
+        'book' => 'App\\Models\\Book',
+        'audio_book' => 'App\\Models\\AudioBook'
     ];
 
     protected $likeTypes = [
@@ -47,6 +47,11 @@ class TypesGenerator implements Types
         return $this->commentTypes;
     }
 
+    public function getCommentModelTypes(): array
+    {
+        return $this->commentModelTypes;
+    }
+
     public function getLikeTypes(): array
     {
         return $this->likeTypes;
@@ -74,4 +79,5 @@ class TypesGenerator implements Types
     {
         return $this->reviewModelTypes;
     }
+
 }

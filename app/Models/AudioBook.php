@@ -189,6 +189,11 @@ class AudioBook extends Model implements BookInterface
         return $this->hasMany(AudioBookReview::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(AudioBookComment::class);
+    }
+
 
     public function getBook(): Builder
     {
@@ -209,7 +214,7 @@ class AudioBook extends Model implements BookInterface
         $filter->apply($builder);
     }
 
-    public function showAudioBookDetals($bookId)
+    public function showAudioBookDetails($bookId)
     {
         return $this->with([
             'authors',
@@ -219,7 +224,8 @@ class AudioBook extends Model implements BookInterface
             'series',
             'year',
             'link',
-            'audiobooks'
+            'comments',
+            'reviews',
         ])
             //TODO: после выяснения подробностей нужно добавить:
             // Размер и продолжительность файла

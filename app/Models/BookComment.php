@@ -9,6 +9,12 @@ class BookComment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'book_id',
+        'content',
+    ];
+
     public function users()
     {
         return $this->belongsTo(User::class);

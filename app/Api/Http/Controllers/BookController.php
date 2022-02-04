@@ -11,17 +11,22 @@ use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
+use App\Api\Http\Requests\GetUserAuthorsRequest;
+use App\Api\Http\Requests\GetUserBooksRequest;
 use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+
 use App\Models\AudioBook;
+use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
-use App\Models\Chapter;
 use App\Models\Compilation;
 use App\Models\View;
+
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -181,4 +186,13 @@ class BookController extends Controller
 
         return ApiAnswerService::successfulAnswerWithData($bookmarks);
     }
+
+    public function showUserBooks(Request $request, BookFilter $bookFilter): \Illuminate\Http\JsonResponse
+    {
+        $books = \auth()->user()->bookStatuses()->filter($bookFilter)->get();
+
+        return ApiAnswerService::successfulAnswerWithData($books);
+    }
+
+
 }
