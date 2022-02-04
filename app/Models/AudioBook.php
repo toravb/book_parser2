@@ -209,7 +209,7 @@ class AudioBook extends Model implements BookInterface
         $filter->apply($builder);
     }
 
-    public function listeningMode($bookId)
+    public function showAudioBookDetals($bookId)
     {
         return $this->with([
             'authors',
@@ -219,6 +219,7 @@ class AudioBook extends Model implements BookInterface
             'series',
             'year',
             'link',
+            'audiobooks'
         ])
             //TODO: после выяснения подробностей нужно добавить:
             // Размер и продолжительность файла
