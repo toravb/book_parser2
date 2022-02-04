@@ -134,7 +134,7 @@ class User extends Authenticatable
 
     public function compilationUsers()
     {
-        return $this->hasMany(CompilationUser::class);
+        return $this->belongsToMany(Compilation::class);
     }
 
     public function readingSettings()
@@ -150,5 +150,10 @@ class User extends Authenticatable
     public function userSettings(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(UserSettings::class);
+    }
+
+    public function authors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Author::class, 'user_author');
     }
 }

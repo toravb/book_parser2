@@ -7,6 +7,7 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\ShowCompilationRequest;
 use App\Api\Http\Requests\StoreCompilationRequest;
+use App\Api\Http\Requests\UserCompilationsRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
@@ -18,6 +19,7 @@ class CompilationController extends Controller
 {
     const COMPILAION_LIST_QUANTITY = 5;
     const COMPILAION_BLOCK_QUANTITY = 24;
+    const COMPILAION_USERS_QUANTITY = 9;
 
 
     public function store(StoreCompilationRequest $request, CompilationService $compilation)
@@ -77,4 +79,13 @@ class CompilationController extends Controller
         return ApiAnswerService::successfulAnswerWithData(['compilation' => $compilation, 'books' => $books]);
 
     }
+
+    public function showUserCompilations(UserCompilationsRequest $request, CompilationFilter $compilationFilter): \Illuminate\Http\JsonResponse
+    {
+
+        $compilation=Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
+
+        return ApiAnswerService::successfulAnswerWithData($compilation);
+    }
+
 }
