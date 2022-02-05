@@ -6684,7 +6684,7 @@
     },
     "/author/quotes/{id}": {
       "get": {
-        "summary": "Your GET endpoint",
+        "summary": "Get Author quotes",
         "tags": [
           "Authors"
         ],
@@ -6949,7 +6949,330 @@
       "parameters": [
         {
           "schema": {
-            "type": "number"
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "author_id"
+        }
+      ]
+    },
+    "/author/quotes/{id} - copy": {
+      "get": {
+        "summary": "Get Author quotes",
+        "tags": [
+          "Authors"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "author": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "author_reviews_count": {
+                          "type": "number"
+                        },
+                        "books": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "id",
+                              "title",
+                              "link",
+                              "views_count",
+                              "rates_count",
+                              "type"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "link": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "views_count": {
+                                "type": "number"
+                              },
+                              "rates_count": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "reviews": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "required": [
+                                    "id",
+                                    "user_id",
+                                    "book_id",
+                                    "content"
+                                  ],
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "user_id": {
+                                      "type": "number"
+                                    },
+                                    "book_id": {
+                                      "type": "number"
+                                    },
+                                    "content": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "created_at": {},
+                                    "user": {
+                                      "type": "object",
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "name": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "surname": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "nickname": {},
+                                        "avatar": {},
+                                        "rates": {
+                                          "type": "array",
+                                          "uniqueItems": true,
+                                          "minItems": 1,
+                                          "items": {
+                                            "required": [
+                                              "id",
+                                              "user_id",
+                                              "rating",
+                                              "created_at"
+                                            ],
+                                            "properties": {
+                                              "id": {
+                                                "type": "number"
+                                              },
+                                              "user_id": {
+                                                "type": "number"
+                                              },
+                                              "rating": {
+                                                "type": "number"
+                                              },
+                                              "created_at": {
+                                                "type": "string",
+                                                "minLength": 1
+                                              }
+                                            }
+                                          }
+                                        }
+                                      },
+                                      "required": [
+                                        "id",
+                                        "name",
+                                        "surname",
+                                        "rates"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "author",
+                        "author_reviews_count",
+                        "books"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "author": "Grady Ziemann",
+                        "author_reviews_count": 2,
+                        "books": [
+                          {
+                            "id": 1,
+                            "title": "Dr.",
+                            "link": "A ea.",
+                            "views_count": 0,
+                            "rates_count": 2,
+                            "type": "books",
+                            "reviews": [
+                              {
+                                "id": 1,
+                                "user_id": 15,
+                                "book_id": 1,
+                                "content": "alsijkjdfhjbasdfhasdkdjhfbasd kklkjkj",
+                                "created_at": null,
+                                "user": {
+                                  "id": 15,
+                                  "name": "qwer1212",
+                                  "surname": "asdfasdf",
+                                  "nickname": null,
+                                  "avatar": null,
+                                  "rates": [
+                                    {
+                                      "id": 3,
+                                      "user_id": 15,
+                                      "rating": 5,
+                                      "created_at": "2022-02-01T12:10:13.000000Z"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "Mr.",
+                            "link": "Velit et.",
+                            "views_count": 0,
+                            "rates_count": 1,
+                            "type": "books",
+                            "reviews": [
+                              {
+                                "id": 2,
+                                "user_id": 14,
+                                "book_id": 2,
+                                "content": "111111111 1111111111111",
+                                "created_at": null,
+                                "user": {
+                                  "id": 14,
+                                  "name": null,
+                                  "surname": null,
+                                  "nickname": null,
+                                  "avatar": null,
+                                  "rates": []
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "author": "Grady Ziemann",
+                        "author_reviews_count": 2,
+                        "books": [
+                          {
+                            "id": 1,
+                            "title": "Dr.",
+                            "link": "A ea.",
+                            "views_count": 0,
+                            "rates_count": 2,
+                            "type": "books",
+                            "reviews": [
+                              {
+                                "id": 1,
+                                "user_id": 15,
+                                "book_id": 1,
+                                "content": "alsijkjdfhjbasdfhasdkdjhfbasd kklkjkj",
+                                "created_at": null,
+                                "user": {
+                                  "id": 15,
+                                  "name": "qwer1212",
+                                  "surname": "asdfasdf",
+                                  "nickname": null,
+                                  "avatar": null,
+                                  "rates": [
+                                    {
+                                      "id": 3,
+                                      "user_id": 15,
+                                      "rating": 5,
+                                      "created_at": "2022-02-01T12:10:13.000000Z"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "id": 2,
+                            "title": "Mr.",
+                            "link": "Velit et.",
+                            "views_count": 0,
+                            "rates_count": 1,
+                            "type": "books",
+                            "reviews": [
+                              {
+                                "id": 2,
+                                "user_id": 14,
+                                "book_id": 2,
+                                "content": "111111111 1111111111111",
+                                "created_at": null,
+                                "user": {
+                                  "id": 14,
+                                  "name": null,
+                                  "surname": null,
+                                  "nickname": null,
+                                  "avatar": null,
+                                  "rates": []
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-author-quotes"
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
           },
           "name": "id",
           "in": "path",
