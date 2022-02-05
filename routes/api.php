@@ -78,7 +78,6 @@ Route::middleware('auth:api')->group(function () {
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
             });
-            Route::get('/quotes', [QuoteController::class, 'showUsers']);
         });
     });
     /*
@@ -100,6 +99,7 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'quotes'], function () {
         Route::get('/', [QuoteController::class, 'index']);
+        Route::get('/list', [QuoteController::class, 'showUsers']);
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);
@@ -183,6 +183,7 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
     Route::get('/quotes', [AuthorPageController::class, 'showQuotes']);
+    Route::get('/reviews', [AuthorPageController::class, 'showReviews']);
 });
 /*
  * --------

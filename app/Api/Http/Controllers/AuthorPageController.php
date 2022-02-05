@@ -20,16 +20,28 @@ use Illuminate\Support\Facades\DB;
 
 class AuthorPageController extends Controller
 {
+
     public function show(AuthorPageRequest $request): \Illuminate\Http\JsonResponse
     {
         $authorWithSeries = Author::with([
             'books' => function ($query) {
-                $query->whereNull('series_id');
+                return $query->with([
+                    'image' => function ($q) {
+                        return $q->where('page_id', null)->select('book_id','link');
+                    },
+
+                ])
+                    ->whereNull('series_id');
             },
             'audioBooks',
             'series' => function ($q) {
                 $q->with(['books' => function ($q) {
-                    $q->with('rates');
+                    return $q->with([
+                        'image' => function ($q) {
+                            return $q->where('page_id', null)->select('book_id','link');
+                        },
+
+                    ])->with('rates');
                 }]);
             },
             'similarAuthors' => function ($query) use ($request) {
@@ -48,12 +60,22 @@ class AuthorPageController extends Controller
     {
         $series = Author::with([
             'books' => function ($query) use ($request) {
-                $query->where('series_id', $request->series_id);
+                return $query->with([
+                    'image' => function ($q) {
+                        return $q->where('page_id', null)->select('book_id','link');
+                    },
+
+                ])->where('series_id', $request->series_id);
             },
 
             'series' => function ($q) {
                 $q->with(['books' => function ($q) {
-                    $q->with('rates');
+                    return $q->with([
+                        'image' => function ($q) {
+                            return $q->where('page_id', null)->select('book_id','link');
+                        },
+
+                    ])->with('rates');
                 }]);
             },
 
@@ -71,6 +93,15 @@ class AuthorPageController extends Controller
     {
 
         $quotes = $author->quotes($request->id);
+
+        return ApiAnswerService::successfulAnswerWithData($quotes);
+
+    }
+
+    public function showReviews(AuthorPageRequest $request, Author $author): \Illuminate\Http\JsonResponse
+    {
+
+        $quotes = $author->reviews($request->id);
 
         return ApiAnswerService::successfulAnswerWithData($quotes);
 

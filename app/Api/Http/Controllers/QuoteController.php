@@ -6,7 +6,7 @@ use App\Api\Http\Requests\DeleteQuoteRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
-use App\Api\Http\Requests\UserQuoteRequest;
+use App\Api\Http\Requests\UserQuotesRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Quote;
@@ -39,7 +39,7 @@ class QuoteController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(SaveQuotesRequest $request, Quote $quote)
@@ -51,7 +51,7 @@ class QuoteController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Quote  $quote
+     * @param \App\Models\Quote $quote
      * @return \Illuminate\Http\JsonResponse
      */
     public function show(GetIdRequest $request, Quote $quote)
@@ -63,7 +63,7 @@ class QuoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Quote  $quote
+     * @param \App\Models\Quote $quote
      * @return \Illuminate\Http\Response
      */
     public function edit(Quote $quote)
@@ -74,8 +74,8 @@ class QuoteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Quote  $quote
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Models\Quote $quote
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Quote $quote)
@@ -86,21 +86,23 @@ class QuoteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Quote  $quote
+     * @param \App\Models\Quote $quote
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Quote $quote, DeleteQuoteRequest $request)
     {
         $rowsAffected = $quote->deleteQuote(Auth::id(), $request->quoteId);
 
-       return ApiAnswerService::successfulAnswerWithData($rowsAffected);
+        return ApiAnswerService::successfulAnswerWithData($rowsAffected);
     }
 
-    public function showUsers(UserQuoteRequest $request){
+    // TODO: user quotes - уточнить
+    public function showUserQuotes(UserQuotesRequest $request)
+    {
         $quotes = \auth()->user()->quotes()
-            ->with(['book' => function($query){
+            ->with(['book' => function ($query) {
                 $query->with(['authors']);
-        }])->get();
+            }])->get();
 
         return ApiAnswerService::successfulAnswerWithData($quotes);
 

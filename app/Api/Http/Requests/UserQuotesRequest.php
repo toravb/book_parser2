@@ -6,7 +6,7 @@ use App\Models\Quote;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UserQuoteRequest extends FormRequest
+class UserQuotesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

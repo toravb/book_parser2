@@ -280,5 +280,7 @@ class Book extends Model implements BookInterface
     {
         return $this->hasMany(Chapter::class);
     }
+
+
 }
 

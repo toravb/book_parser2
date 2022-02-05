@@ -20,7 +20,8 @@ class Author extends Model
 
     protected $hidden = ['pivot'];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $author = new static();
         $author->fill($fields);
         $author->save();
@@ -120,14 +121,36 @@ class Author extends Model
     {
         return self::select(['id', 'author'])
             ->withCount('authorQuotes')
-            ->with(['books' => function($query){
+            ->with(['books' => function ($query) {
                 $query->select(['books.id', 'title', 'link'])
                     ->withCount(['views', 'rates'])
-                   ->whereHas('quotes')
-                    ->with(['quotes' => function($query){
+                    ->whereHas('quotes')
+                    ->with(['quotes' => function ($query) {
                         $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
-                            ->with(['user' => function($query){
+                            ->with(['user' => function ($query) {
                                 $query->select('id', 'name', 'surname', 'nickname', 'avatar');
+                            }]);
+                    }]);
+            }])
+            ->find($author_id);
+
+    }
+
+    public function reviews(int $author_id): Author|null
+    {
+        return self::select(['id', 'author'])
+            ->withCount('authorReviews')
+            ->with(['books' => function ($query) {
+                $query->select(['books.id', 'title', 'link'])
+                    ->withCount(['views', 'rates'])
+                    ->whereHas('reviews')
+                    ->with(['reviews' => function ($query) {
+                        $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
+                            ->with(['user' => function ($query) {
+                                $query->select('id', 'name', 'surname', 'nickname', 'avatar')
+                                    ->with(['rates' => function ($query) {
+                                        $query->select(['id', 'user_id', 'rating', 'created_at']);
+                                    }]);
                             }]);
                     }]);
             }])
