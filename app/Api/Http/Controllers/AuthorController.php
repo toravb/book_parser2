@@ -3,6 +3,7 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\GetByLetterRequest;
+use App\Api\Http\Requests\IsAuthorExistsRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
@@ -17,13 +18,13 @@ class AuthorController extends Controller
         return ApiAnswerService::successfulAnswerWithData($authors);
     }
 
-    public function showOtherBooks($id, Author $author)
+    public function showOtherBooks(IsAuthorExistsRequest $id, Author $author)
     {
-        return ApiAnswerService::successfulAnswerWithData($author->showOtherBooks($id));
+        return ApiAnswerService::successfulAnswerWithData($author->showOtherBooks($id->id));
     }
 
-    public function showOtherAudioBooks($id, Author $author)
+    public function showOtherAudioBooks(IsAuthorExistsRequest $id, Author $author)
     {
-        return ApiAnswerService::successfulAnswerWithData($author->showOtherAudioBooks($id));
+        return ApiAnswerService::successfulAnswerWithData($author->showOtherAudioBooks($id->id));
     }
 }

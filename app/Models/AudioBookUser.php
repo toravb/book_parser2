@@ -59,9 +59,9 @@ class AudioBookUser extends Model
             ->delete();
     }
 
-    public function scopeUserAudioBook($q, int $userId, int $bookId)
+    public function scopeUserAudioBook($query, int $userId, int $bookId)
     {
-        return $q->where('user_id', $userId)->where('audio_book_id', $bookId);
+        return $query->where('user_id', $userId)->where('audio_book_id', $bookId);
     }
 
 }
