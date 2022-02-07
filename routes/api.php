@@ -99,7 +99,7 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'quotes'], function () {
         Route::get('/', [QuoteController::class, 'index']);
-        Route::get('/list', [QuoteController::class, 'showUsers']);
+        Route::get('/list', [QuoteController::class, 'showUserQuotes']);
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);

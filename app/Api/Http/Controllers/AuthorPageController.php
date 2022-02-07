@@ -3,20 +3,11 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\AuthorPageRequest;
-use App\Api\Http\Requests\GetBooksRequest;
-use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Models\AudioBook;
 use App\Models\Author;
-use App\Models\AuthorToBook;
-use App\Models\Book;
 use App\Models\Compilation;
-use App\Models\Review;
-use App\Models\Series;
-use App\Models\SimilarAuthors;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 class AuthorPageController extends Controller
 {
@@ -29,7 +20,6 @@ class AuthorPageController extends Controller
                     'image' => function ($query) {
                         return $query->where('page_id', null)->select('book_id','link');
                     },
-
                 ])
                     ->whereNull('series_id');
             },
@@ -40,7 +30,6 @@ class AuthorPageController extends Controller
                         'image' => function ($query) {
                             return $query->where('page_id', null)->select('book_id','link');
                         },
-
                     ])->with('rates');
                 }]);
             },
@@ -64,45 +53,35 @@ class AuthorPageController extends Controller
                     'image' => function ($query) {
                         return $query->where('page_id', null)->select('book_id','link');
                     },
-
                 ])->where('series_id', $request->series_id);
             },
-
             'series' => function ($query) {
                 $query->with(['books' => function ($query) {
                     return $query->with([
                         'image' => function ($query) {
                             return $query->where('page_id', null)->select('book_id','link');
                         },
-
                     ])->with('rates');
                 }]);
             },
-
         ])
             ->withCount(['authorReviews', 'authorQuotes', 'books'])
             ->find($request->id);
 
         $series->compilation = Compilation::withCount('books')->get();
 
-
         return ApiAnswerService::successfulAnswerWithData($series);
     }
 
     public function showQuotes(Author $author): \Illuminate\Http\JsonResponse
     {
-
         $quotes = $author->quotes($author->id);
-
         return ApiAnswerService::successfulAnswerWithData($quotes);
-
     }
 
     public function showReviews(Author $author): \Illuminate\Http\JsonResponse
     {
         $reviews = $author->reviews($author->id);
-
         return ApiAnswerService::successfulAnswerWithData($reviews);
-
     }
 }

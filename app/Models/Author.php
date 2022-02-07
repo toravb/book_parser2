@@ -87,18 +87,6 @@ class Author extends Model
         );
     }
 
-    public function authorLatestReview()
-    {
-        return $this->hasOneThrough(
-            Review::class,
-            AuthorToBook::class,
-            'author_id',
-            'book_id',
-            'authors.id',
-            'book_id'
-        );
-    }
-
     public function authorQuotes()
     {
         return $this->hasManyThrough(
