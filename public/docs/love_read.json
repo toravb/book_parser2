@@ -6775,22 +6775,16 @@
                                       "id": {
                                         "type": "number"
                                       },
-                                      "name": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
-                                      "surname": {
-                                        "type": "string",
-                                        "minLength": 1
-                                      },
                                       "nickname": {},
                                       "avatar": {},
-                                      "book_rate": {}
+                                      "created_at": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      }
                                     },
                                     "required": [
                                       "id",
-                                      "name",
-                                      "surname"
+                                      "created_at"
                                     ]
                                   }
                                 },
@@ -6842,11 +6836,9 @@
                               "created_at": "2022-02-07T10:48:39.000000Z",
                               "user": {
                                 "id": 12,
-                                "name": "Vasya5",
-                                "surname": "Pupkin5",
                                 "nickname": null,
                                 "avatar": null,
-                                "book_rate": null
+                                "created_at": "2022-01-13T16:17:15.000000Z"
                               }
                             }
                           },
@@ -6865,18 +6857,9 @@
                               "created_at": "2022-02-07T11:19:43.000000Z",
                               "user": {
                                 "id": 12,
-                                "name": "Vasya5",
-                                "surname": "Pupkin5",
                                 "nickname": null,
                                 "avatar": null,
-                                "book_rate": {
-                                  "id": 2,
-                                  "book_id": 2,
-                                  "user_id": 12,
-                                  "rating": 5,
-                                  "created_at": "2022-01-04T19:42:38.000000Z",
-                                  "updated_at": "2022-01-05T19:42:38.000000Z"
-                                }
+                                "created_at": "2022-01-13T16:17:15.000000Z"
                               }
                             }
                           }
@@ -6909,11 +6892,9 @@
                               "created_at": "2022-02-07T10:48:39.000000Z",
                               "user": {
                                 "id": 12,
-                                "name": "Vasya5",
-                                "surname": "Pupkin5",
                                 "nickname": null,
                                 "avatar": null,
-                                "book_rate": null
+                                "created_at": "2022-01-13T16:17:15.000000Z"
                               }
                             }
                           },
@@ -6932,18 +6913,9 @@
                               "created_at": "2022-02-07T11:19:43.000000Z",
                               "user": {
                                 "id": 12,
-                                "name": "Vasya5",
-                                "surname": "Pupkin5",
                                 "nickname": null,
                                 "avatar": null,
-                                "book_rate": {
-                                  "id": 2,
-                                  "book_id": 2,
-                                  "user_id": 12,
-                                  "rating": 5,
-                                  "created_at": "2022-01-04T19:42:38.000000Z",
-                                  "updated_at": "2022-01-05T19:42:38.000000Z"
-                                }
+                                "created_at": "2022-01-13T16:17:15.000000Z"
                               }
                             }
                           }
@@ -7036,86 +7008,34 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "reviews": {
-                                "type": "array",
-                                "uniqueItems": true,
-                                "minItems": 1,
-                                "items": {
-                                  "required": [
-                                    "id",
-                                    "user_id",
-                                    "book_id",
-                                    "content"
-                                  ],
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "user_id": {
-                                      "type": "number"
-                                    },
-                                    "book_id": {
-                                      "type": "number"
-                                    },
-                                    "content": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "created_at": {},
-                                    "user": {
-                                      "type": "object",
-                                      "properties": {
-                                        "id": {
-                                          "type": "number"
-                                        },
-                                        "name": {
-                                          "type": "string",
-                                          "minLength": 1
-                                        },
-                                        "surname": {
-                                          "type": "string",
-                                          "minLength": 1
-                                        },
-                                        "nickname": {},
-                                        "avatar": {},
-                                        "rates": {
-                                          "type": "array",
-                                          "uniqueItems": true,
-                                          "minItems": 1,
-                                          "items": {
-                                            "required": [
-                                              "id",
-                                              "user_id",
-                                              "rating",
-                                              "created_at"
-                                            ],
-                                            "properties": {
-                                              "id": {
-                                                "type": "number"
-                                              },
-                                              "user_id": {
-                                                "type": "number"
-                                              },
-                                              "rating": {
-                                                "type": "number"
-                                              },
-                                              "created_at": {
-                                                "type": "string",
-                                                "minLength": 1
-                                              }
-                                            }
-                                          }
-                                        }
-                                      },
-                                      "required": [
-                                        "id",
-                                        "name",
-                                        "surname",
-                                        "rates"
-                                      ]
-                                    }
+                              "latest_review": {
+                                "type": "object",
+                                "properties": {
+                                  "user_id": {
+                                    "type": "number"
+                                  },
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "content": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "created_at": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "review_rating": {
+                                    "type": "number"
                                   }
-                                }
+                                },
+                                "required": [
+                                  "user_id",
+                                  "book_id",
+                                  "content",
+                                  "created_at",
+                                  "review_rating"
+                                ]
                               }
                             }
                           }
@@ -7139,7 +7059,7 @@
                       "data": {
                         "id": 1,
                         "author": "Grady Ziemann",
-                        "author_reviews_count": 2,
+                        "author_reviews_count": 3,
                         "books": [
                           {
                             "id": 1,
@@ -7148,30 +7068,13 @@
                             "views_count": 0,
                             "rates_count": 2,
                             "type": "books",
-                            "reviews": [
-                              {
-                                "id": 1,
-                                "user_id": 15,
-                                "book_id": 1,
-                                "content": "alsijkjdfhjbasdfhasdkdjhfbasd kklkjkj",
-                                "created_at": null,
-                                "user": {
-                                  "id": 15,
-                                  "name": "qwer1212",
-                                  "surname": "asdfasdf",
-                                  "nickname": null,
-                                  "avatar": null,
-                                  "rates": [
-                                    {
-                                      "id": 3,
-                                      "user_id": 15,
-                                      "rating": 5,
-                                      "created_at": "2022-02-01T12:10:13.000000Z"
-                                    }
-                                  ]
-                                }
-                              }
-                            ]
+                            "latest_review": {
+                              "user_id": 15,
+                              "book_id": 1,
+                              "content": "first",
+                              "created_at": "2022-02-05T10:56:56.000000Z",
+                              "review_rating": 4
+                            }
                           },
                           {
                             "id": 2,
@@ -7180,23 +7083,13 @@
                             "views_count": 0,
                             "rates_count": 1,
                             "type": "books",
-                            "reviews": [
-                              {
-                                "id": 2,
-                                "user_id": 14,
-                                "book_id": 2,
-                                "content": "111111111 1111111111111",
-                                "created_at": null,
-                                "user": {
-                                  "id": 14,
-                                  "name": null,
-                                  "surname": null,
-                                  "nickname": null,
-                                  "avatar": null,
-                                  "rates": []
-                                }
-                              }
-                            ]
+                            "latest_review": {
+                              "user_id": 12,
+                              "book_id": 2,
+                              "content": "111111111 1111111111111",
+                              "created_at": "2022-02-06T11:04:57.000000Z",
+                              "review_rating": 5
+                            }
                           }
                         ]
                       }
@@ -7210,7 +7103,7 @@
                       "data": {
                         "id": 1,
                         "author": "Grady Ziemann",
-                        "author_reviews_count": 2,
+                        "author_reviews_count": 3,
                         "books": [
                           {
                             "id": 1,
@@ -7219,30 +7112,13 @@
                             "views_count": 0,
                             "rates_count": 2,
                             "type": "books",
-                            "reviews": [
-                              {
-                                "id": 1,
-                                "user_id": 15,
-                                "book_id": 1,
-                                "content": "alsijkjdfhjbasdfhasdkdjhfbasd kklkjkj",
-                                "created_at": null,
-                                "user": {
-                                  "id": 15,
-                                  "name": "qwer1212",
-                                  "surname": "asdfasdf",
-                                  "nickname": null,
-                                  "avatar": null,
-                                  "rates": [
-                                    {
-                                      "id": 3,
-                                      "user_id": 15,
-                                      "rating": 5,
-                                      "created_at": "2022-02-01T12:10:13.000000Z"
-                                    }
-                                  ]
-                                }
-                              }
-                            ]
+                            "latest_review": {
+                              "user_id": 15,
+                              "book_id": 1,
+                              "content": "first",
+                              "created_at": "2022-02-05T10:56:56.000000Z",
+                              "review_rating": 4
+                            }
                           },
                           {
                             "id": 2,
@@ -7251,23 +7127,13 @@
                             "views_count": 0,
                             "rates_count": 1,
                             "type": "books",
-                            "reviews": [
-                              {
-                                "id": 2,
-                                "user_id": 14,
-                                "book_id": 2,
-                                "content": "111111111 1111111111111",
-                                "created_at": null,
-                                "user": {
-                                  "id": 14,
-                                  "name": null,
-                                  "surname": null,
-                                  "nickname": null,
-                                  "avatar": null,
-                                  "rates": []
-                                }
-                              }
-                            ]
+                            "latest_review": {
+                              "user_id": 12,
+                              "book_id": 2,
+                              "content": "111111111 1111111111111",
+                              "created_at": "2022-02-06T11:04:57.000000Z",
+                              "review_rating": 5
+                            }
                           }
                         ]
                       }
