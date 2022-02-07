@@ -182,8 +182,8 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/page', [AuthorPageController::class, 'show']);
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
-    Route::get('/quotes', [AuthorPageController::class, 'showQuotes']);
-    Route::get('/reviews', [AuthorPageController::class, 'showReviews']);
+    Route::get('/{author}/quotes', [AuthorPageController::class, 'showQuotes']);
+    Route::get('/{author}/reviews', [AuthorPageController::class, 'showReviews']);
 });
 /*
  * --------

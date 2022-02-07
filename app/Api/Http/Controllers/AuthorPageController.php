@@ -26,19 +26,19 @@ class AuthorPageController extends Controller
         $authorWithSeries = Author::with([
             'books' => function ($query) {
                 return $query->with([
-                    'image' => function ($q) {
-                        return $q->where('page_id', null)->select('book_id','link');
+                    'image' => function ($query) {
+                        return $query->where('page_id', null)->select('book_id','link');
                     },
 
                 ])
                     ->whereNull('series_id');
             },
             'audioBooks',
-            'series' => function ($q) {
-                $q->with(['books' => function ($q) {
-                    return $q->with([
-                        'image' => function ($q) {
-                            return $q->where('page_id', null)->select('book_id','link');
+            'series' => function ($query) {
+                $query->with(['books' => function ($query) {
+                    return $query->with([
+                        'image' => function ($query) {
+                            return $query->where('page_id', null)->select('book_id','link');
                         },
 
                     ])->with('rates');
@@ -61,18 +61,18 @@ class AuthorPageController extends Controller
         $series = Author::with([
             'books' => function ($query) use ($request) {
                 return $query->with([
-                    'image' => function ($q) {
-                        return $q->where('page_id', null)->select('book_id','link');
+                    'image' => function ($query) {
+                        return $query->where('page_id', null)->select('book_id','link');
                     },
 
                 ])->where('series_id', $request->series_id);
             },
 
-            'series' => function ($q) {
-                $q->with(['books' => function ($q) {
-                    return $q->with([
-                        'image' => function ($q) {
-                            return $q->where('page_id', null)->select('book_id','link');
+            'series' => function ($query) {
+                $query->with(['books' => function ($query) {
+                    return $query->with([
+                        'image' => function ($query) {
+                            return $query->where('page_id', null)->select('book_id','link');
                         },
 
                     ])->with('rates');
@@ -89,21 +89,20 @@ class AuthorPageController extends Controller
         return ApiAnswerService::successfulAnswerWithData($series);
     }
 
-    public function showQuotes(AuthorPageRequest $request, Author $author): \Illuminate\Http\JsonResponse
+    public function showQuotes(Author $author): \Illuminate\Http\JsonResponse
     {
 
-        $quotes = $author->quotes($request->id);
+        $quotes = $author->quotes($author->id);
 
         return ApiAnswerService::successfulAnswerWithData($quotes);
 
     }
 
-    public function showReviews(AuthorPageRequest $request, Author $author): \Illuminate\Http\JsonResponse
+    public function showReviews(Author $author): \Illuminate\Http\JsonResponse
     {
+        $reviews = $author->reviews($author->id);
 
-        $quotes = $author->reviews($request->id);
-
-        return ApiAnswerService::successfulAnswerWithData($quotes);
+        return ApiAnswerService::successfulAnswerWithData($reviews);
 
     }
 }

@@ -155,6 +155,16 @@ class Book extends Model implements BookInterface
         return $this->hasMany(Review::class);
     }
 
+    public function latestReview()
+    {
+        return $this->hasOne(Review::class)->latest();
+    }
+
+    public function latestQuote()
+    {
+        return $this->hasOne(Quote::class)->latest();
+    }
+
     public function quotes()
     {
         return $this->hasMany(Quote::class);

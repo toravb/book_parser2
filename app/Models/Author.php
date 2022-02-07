@@ -87,6 +87,18 @@ class Author extends Model
         );
     }
 
+    public function authorLatestReview()
+    {
+        return $this->hasOneThrough(
+            Review::class,
+            AuthorToBook::class,
+            'author_id',
+            'book_id',
+            'authors.id',
+            'book_id'
+        );
+    }
+
     public function authorQuotes()
     {
         return $this->hasManyThrough(
@@ -119,42 +131,62 @@ class Author extends Model
 
     public function quotes(int $author_id): Author|null
     {
-        return self::select(['id', 'author'])
+        $authorWithBooks = self::select(['id', 'author'])
             ->withCount('authorQuotes')
             ->with(['books' => function ($query) {
                 $query->select(['books.id', 'title', 'link'])
                     ->withCount(['views', 'rates'])
                     ->whereHas('quotes')
-                    ->with(['quotes' => function ($query) {
+                    ->with(['latestQuote' => function ($query) {
                         $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
+                            ->orderBy('created_at', 'desc')
                             ->with(['user' => function ($query) {
                                 $query->select('id', 'name', 'surname', 'nickname', 'avatar');
                             }]);
                     }]);
             }])
             ->find($author_id);
+        $books = [];
+        foreach ($authorWithBooks->books as $book) {
+            if(isset($book->latestQuote)) {
+                $book->latestQuote->user->book_rate = $book->latestQuote->user->rates()->where('book_id', $book->id)->first();
 
+                $books[] = json_decode(json_encode($book));
+            }
+        }
+
+        $authorWithBooks->setRelation('books', collect($books));
+        return  $authorWithBooks;
     }
 
     public function reviews(int $author_id): Author|null
     {
-        return self::select(['id', 'author'])
+        $authorWithBooks = self::select(['id', 'author'])
             ->withCount('authorReviews')
             ->with(['books' => function ($query) {
                 $query->select(['books.id', 'title', 'link'])
                     ->withCount(['views', 'rates'])
                     ->whereHas('reviews')
-                    ->with(['reviews' => function ($query) {
+                    ->with(['latestReview' => function ($query) {
                         $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
                             ->with(['user' => function ($query) {
-                                $query->select('id', 'name', 'surname', 'nickname', 'avatar')
-                                    ->with(['rates' => function ($query) {
-                                        $query->select(['id', 'user_id', 'rating', 'created_at']);
-                                    }]);
+                                $query->select(['id', 'name', 'surname', 'nickname', 'avatar']);
                             }]);
                     }]);
             }])
             ->find($author_id);
 
+        $books = [];
+        foreach ($authorWithBooks->books as $book) {
+            if(isset($book->latestReview)) {
+                $book->latestReview->user->book_rate = $book->latestReview->user->rates()->where('book_id', $book->id)->first();
+
+                $books[] = json_decode(json_encode($book));
+            }
+        }
+
+        $authorWithBooks->setRelation('books', collect($books));
+
+        return  $authorWithBooks;
     }
 }

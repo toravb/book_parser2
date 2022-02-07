@@ -6682,7 +6682,7 @@
         }
       }
     },
-    "/author/quotes/{id}": {
+    "/authors/{author}/quotes": {
       "get": {
         "summary": "Get Author quotes",
         "tags": [
@@ -6749,57 +6749,59 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "quotes": {
-                                "type": "array",
-                                "uniqueItems": true,
-                                "minItems": 1,
-                                "items": {
-                                  "required": [
-                                    "id",
-                                    "user_id",
-                                    "book_id",
-                                    "content"
-                                  ],
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "user_id": {
-                                      "type": "number"
-                                    },
-                                    "book_id": {
-                                      "type": "number"
-                                    },
-                                    "content": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "created_at": {},
-                                    "user": {
-                                      "type": "object",
-                                      "properties": {
-                                        "id": {
-                                          "type": "number"
-                                        },
-                                        "name": {
-                                          "type": "string",
-                                          "minLength": 1
-                                        },
-                                        "surname": {
-                                          "type": "string",
-                                          "minLength": 1
-                                        },
-                                        "nickname": {},
-                                        "avatar": {}
+                              "latest_quote": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "user_id": {
+                                    "type": "number"
+                                  },
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "content": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "created_at": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "user": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
                                       },
-                                      "required": [
-                                        "id",
-                                        "name",
-                                        "surname"
-                                      ]
-                                    }
+                                      "name": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "surname": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "nickname": {},
+                                      "avatar": {},
+                                      "book_rate": {}
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name",
+                                      "surname"
+                                    ]
                                   }
-                                }
+                                },
+                                "required": [
+                                  "id",
+                                  "user_id",
+                                  "book_id",
+                                  "content",
+                                  "created_at",
+                                  "user"
+                                ]
                               }
                             }
                           }
@@ -6823,31 +6825,30 @@
                       "data": {
                         "id": 1,
                         "author": "Grady Ziemann",
-                        "author_quotes_count": 2,
+                        "author_quotes_count": 3,
                         "books": [
                           {
                             "id": 1,
                             "title": "Dr.",
                             "link": "A ea.",
                             "views_count": 0,
-                            "rates_count": 1,
+                            "rates_count": 2,
                             "type": "books",
-                            "quotes": [
-                              {
-                                "id": 1,
-                                "user_id": 12,
-                                "book_id": 1,
-                                "content": "zxcv22222222",
-                                "created_at": null,
-                                "user": {
-                                  "id": 12,
-                                  "name": "Vasya5",
-                                  "surname": "Pupkin5",
-                                  "nickname": null,
-                                  "avatar": null
-                                }
+                            "latest_quote": {
+                              "id": 4,
+                              "user_id": 12,
+                              "book_id": 1,
+                              "content": "last",
+                              "created_at": "2022-02-07T10:48:39.000000Z",
+                              "user": {
+                                "id": 12,
+                                "name": "Vasya5",
+                                "surname": "Pupkin5",
+                                "nickname": null,
+                                "avatar": null,
+                                "book_rate": null
                               }
-                            ]
+                            }
                           },
                           {
                             "id": 2,
@@ -6856,22 +6857,28 @@
                             "views_count": 0,
                             "rates_count": 1,
                             "type": "books",
-                            "quotes": [
-                              {
-                                "id": 2,
-                                "user_id": 12,
-                                "book_id": 2,
-                                "content": "ZXcZXcXZcZXc3333333",
-                                "created_at": null,
-                                "user": {
-                                  "id": 12,
-                                  "name": "Vasya5",
-                                  "surname": "Pupkin5",
-                                  "nickname": null,
-                                  "avatar": null
+                            "latest_quote": {
+                              "id": 5,
+                              "user_id": 12,
+                              "book_id": 2,
+                              "content": "new",
+                              "created_at": "2022-02-07T11:19:43.000000Z",
+                              "user": {
+                                "id": 12,
+                                "name": "Vasya5",
+                                "surname": "Pupkin5",
+                                "nickname": null,
+                                "avatar": null,
+                                "book_rate": {
+                                  "id": 2,
+                                  "book_id": 2,
+                                  "user_id": 12,
+                                  "rating": 5,
+                                  "created_at": "2022-01-04T19:42:38.000000Z",
+                                  "updated_at": "2022-01-05T19:42:38.000000Z"
                                 }
                               }
-                            ]
+                            }
                           }
                         ]
                       }
@@ -6885,31 +6892,30 @@
                       "data": {
                         "id": 1,
                         "author": "Grady Ziemann",
-                        "author_quotes_count": 2,
+                        "author_quotes_count": 3,
                         "books": [
                           {
                             "id": 1,
                             "title": "Dr.",
                             "link": "A ea.",
                             "views_count": 0,
-                            "rates_count": 1,
+                            "rates_count": 2,
                             "type": "books",
-                            "quotes": [
-                              {
-                                "id": 1,
-                                "user_id": 12,
-                                "book_id": 1,
-                                "content": "zxcv22222222",
-                                "created_at": null,
-                                "user": {
-                                  "id": 12,
-                                  "name": "Vasya5",
-                                  "surname": "Pupkin5",
-                                  "nickname": null,
-                                  "avatar": null
-                                }
+                            "latest_quote": {
+                              "id": 4,
+                              "user_id": 12,
+                              "book_id": 1,
+                              "content": "last",
+                              "created_at": "2022-02-07T10:48:39.000000Z",
+                              "user": {
+                                "id": 12,
+                                "name": "Vasya5",
+                                "surname": "Pupkin5",
+                                "nickname": null,
+                                "avatar": null,
+                                "book_rate": null
                               }
-                            ]
+                            }
                           },
                           {
                             "id": 2,
@@ -6918,22 +6924,28 @@
                             "views_count": 0,
                             "rates_count": 1,
                             "type": "books",
-                            "quotes": [
-                              {
-                                "id": 2,
-                                "user_id": 12,
-                                "book_id": 2,
-                                "content": "ZXcZXcXZcZXc3333333",
-                                "created_at": null,
-                                "user": {
-                                  "id": 12,
-                                  "name": "Vasya5",
-                                  "surname": "Pupkin5",
-                                  "nickname": null,
-                                  "avatar": null
+                            "latest_quote": {
+                              "id": 5,
+                              "user_id": 12,
+                              "book_id": 2,
+                              "content": "new",
+                              "created_at": "2022-02-07T11:19:43.000000Z",
+                              "user": {
+                                "id": 12,
+                                "name": "Vasya5",
+                                "surname": "Pupkin5",
+                                "nickname": null,
+                                "avatar": null,
+                                "book_rate": {
+                                  "id": 2,
+                                  "book_id": 2,
+                                  "user_id": 12,
+                                  "rating": 5,
+                                  "created_at": "2022-01-04T19:42:38.000000Z",
+                                  "updated_at": "2022-01-05T19:42:38.000000Z"
                                 }
                               }
-                            ]
+                            }
                           }
                         ]
                       }
@@ -6951,16 +6963,15 @@
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "author",
           "in": "path",
-          "required": true,
-          "description": "author_id"
+          "required": true
         }
       ]
     },
-    "/author/quotes/{id} - copy": {
+    "/authors/{author}/review": {
       "get": {
-        "summary": "Get Author quotes",
+        "summary": "Get Author reviews",
         "tags": [
           "Authors"
         ],
@@ -7267,17 +7278,17 @@
             }
           }
         },
-        "operationId": "get-author-quotes"
+        "operationId": "get-author-quotes",
+        "description": ""
       },
       "parameters": [
         {
           "schema": {
             "type": "string"
           },
-          "name": "id",
+          "name": "author",
           "in": "path",
-          "required": true,
-          "description": "author_id"
+          "required": true
         }
       ]
     }
