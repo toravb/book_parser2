@@ -1,0 +1,42 @@
+{
+  "name": "bloggers-socket-server",
+  "version": "1.0.0",
+  "description": "Socket server for STAJ",
+  "author": "devvela",
+  "license": "proprietary",
+  "main": "server/index.js",
+  "scripts": {
+    "dev": "nodemon server/index.js --watch server",
+    "start": "pm2 start",
+    "stop": "pm2 stop bloggers-socket-server",
+    "restart": "pm2 restart bloggers-socket-server",
+    "lint": "npx eslint server/"
+  },
+  "lint-staged": {
+    "*.js": "npx eslint server/"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "devDependencies": {
+    "eslint": "^7.17.0",
+    "eslint-config-standard": "^16.0.2",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "husky": "^4.3.7",
+    "lint-staged": "^10.5.3",
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "ioredis": "^4.19.4",
+    "pm2": "^4.5.6",
+    "socket.io": "^3.0.4",
+    "validate": "^5.1.0"
+  }
+}

@@ -9,4 +9,6 @@ interface Types
     public function getLikeTypes(): array;
 
     public function getBookTypes(): array;
+
+    public function getNotificationTypes(): array;
 }
