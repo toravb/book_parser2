@@ -5746,11 +5746,9 @@
       }
     },
     "/users-recommend": {
-      "get": {
+      "post": {
         "summary": "Save Book or audio book recommendet by user",
-        "tags": [
-          "Compilations"
-        ],
+        "operationId": "post-users-recommend",
         "responses": {
           "200": {
             "description": "OK",
@@ -5767,7 +5765,7 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "audio_book_id": {
+                        "book_id": {
                           "type": "string",
                           "minLength": 1
                         },
@@ -5788,7 +5786,7 @@
                         }
                       },
                       "required": [
-                        "audio_book_id",
+                        "book_id",
                         "content",
                         "updated_at",
                         "created_at",
@@ -5804,83 +5802,11 @@
                     "example-1": {
                       "status": "success",
                       "data": {
-                        "audio_book_id": "5",
-                        "content": "111122332115421qsasfca",
-                        "updated_at": "2022-02-04T15:15:47.000000Z",
-                        "created_at": "2022-02-04T15:15:47.000000Z",
-                        "id": 6
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "book": {
-                    "value": {
-                      "status": "string",
-                      "data": {
-                        "book_id": "string",
-                        "content": "string",
-                        "updated_at": "string",
-                        "created_at": "string",
-                        "id": 0
-                      }
-                    }
-                  },
-                  "audio_book": {
-                    "value": {
-                      "status": "string",
-                      "data": {
-                        "audio_book_id": "string",
-                        "content": "string",
-                        "updated_at": "string",
-                        "created_at": "string",
-                        "id": 0
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Unprocessable Entity (WebDAV)",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "errors": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "type"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "message",
-                    "errors"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "message": "The given data was invalid.",
-                      "errors": {
-                        "type": [
-                          "The selected type is invalid."
-                        ]
+                        "book_id": "2",
+                        "content": "111122332115421qsвцвцв",
+                        "updated_at": "2022-02-07T12:51:48.000000Z",
+                        "created_at": "2022-02-07T12:51:48.000000Z",
+                        "id": 7
                       }
                     }
                   }
@@ -5889,15 +5815,14 @@
             }
           }
         },
-        "operationId": "get-users-recommend",
         "parameters": [
           {
             "schema": {
-              "type": "string"
+              "type": "integer"
             },
             "in": "query",
             "name": "id",
-            "description": "book or audio book id",
+            "description": "id of book or audio_book for which is saving recommendation",
             "required": true
           },
           {
@@ -5920,7 +5845,11 @@
             "name": "content",
             "required": true
           }
-        ]
+        ],
+        "tags": [
+          "Compilations"
+        ],
+        "description": ""
       }
     },
     "/quotes": {
