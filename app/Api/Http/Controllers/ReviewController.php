@@ -61,8 +61,8 @@ class ReviewController extends Controller
 
     public function showUserReviews()
     {
-        $reviews= \auth()->user()->reviews()
-            //->withCount([''])
+        // TODO: добавить кол-во лайков на отзыв + комментарии + просмотры
+        $reviews = \auth()->user()->reviews()
             ->with(['book' => function ($query) {
                 $query->with(['authors']);
             }])->get();
