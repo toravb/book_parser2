@@ -113,8 +113,8 @@ Route::middleware('auth:api')->group(function () {
     /**
      * Comments
      */
-    Route::group(['prefix' => 'comments'], function (){
-        Route::put('/',[CommentController::class, 'saveChangeComment']);
+    Route::group(['prefix' => 'comments'], function () {
+        Route::put('/', [CommentController::class, 'saveChangeComment']);
     });
 
     /*
@@ -148,7 +148,15 @@ Route::middleware('auth:api')->group(function () {
     });
 });
 
-Route::get('/genres', [CategoryController::class, 'show']);
+/**
+ * genres
+ */
+Route::group(['prefix' => 'genres'], function () {
+    Route::get('/', [CategoryController::class, 'show']);
+    Route::get('/books', [CategoryController::class, 'withBooksCount']);
+    Route::get('/audio-books', [CategoryController::class, 'withAudioBooksCount']);
+});
+
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
 /**

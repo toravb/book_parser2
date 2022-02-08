@@ -35,5 +35,10 @@ class AudioGenre extends Model
             ->with('actors');
     }
 
+    public function audioBooksCount()
+    {
+        return $this->withCount('books')->get();
+    }
+
 
 }

@@ -17,4 +17,9 @@ class BookGenre extends Model
         return $this->belongsToMany(Book::class);
     }
 
+    public function booksCount()
+    {
+        return $this->withCount('books')->get();
+    }
+
 }
