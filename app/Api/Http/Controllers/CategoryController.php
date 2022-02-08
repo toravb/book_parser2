@@ -21,13 +21,13 @@ class CategoryController extends Controller
         );
     }
 
-    public function showAudioBookGenres()
+    public function showAudioBookGenres(): \Illuminate\Http\JsonResponse
     {
         $audioBookGenres = AudioGenre::orderBy('name')->get();
         return ApiAnswerService::successfulAnswerWithData($audioBookGenres);
     }
 
-    public function showSelectionType()
+    public function showSelectionType(): \Illuminate\Http\JsonResponse
     {
         $selectionType = CompilationType::get();
         return response()->json([
@@ -36,4 +36,15 @@ class CategoryController extends Controller
             ]
         );
     }
+
+    public function withBooksCount(BookGenre $count): \Illuminate\Http\JsonResponse
+    {
+        return ApiAnswerService::successfulAnswerWithData($count->booksCount());
+    }
+
+    public function withAudioBooksCount(AudioGenre $count): \Illuminate\Http\JsonResponse
+    {
+        return ApiAnswerService::successfulAnswerWithData($count->audioBooksCount());
+    }
+
 }
