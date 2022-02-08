@@ -78,7 +78,7 @@ class Author extends Model
     public function authorReviews(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
         return $this->hasManyThrough(
-            Review::class,
+            BookReview::class,
             AuthorToBook::class,
             'author_id',
             'book_id',
@@ -167,4 +167,38 @@ class Author extends Model
 
         return $authorWithBooks;
     }
+    public function showOtherBooks($authorId)
+    {
+        return $this->select('id', 'audio_author_id')
+            ->with([
+                'books' => function ($query) {
+                    return $query
+                        ->with([
+                            'image' => function ($q) {
+                            return $q->where('page_id', null)->select('book_id','link');
+                            },
+                            'authors'
+                        ])
+                        ->select('books.id', 'title')
+                        ->withCount('views')
+                        ->withAvg('rates as rates_avg', 'rates.rating');
+                }
+            ])->findOrFail($authorId);
+    }
+
+    public function showOtherAudioBooks($authorId)
+    {
+        return $this->select('id', 'audio_author_id')
+            ->with([
+                'audioBooks' => function ($query) {
+                    return $query
+                        ->with(['images', 'authors'])
+                        ->select('audio_books.id', 'title')
+                        ->withCount('views')
+                        ->withAvg('rates as rates_avg', 'rates.rating');
+                }
+            ])->findOrFail($authorId);
+    }
+
+
 }

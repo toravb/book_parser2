@@ -40,7 +40,7 @@ class Series extends Model
         return $this->with(['books' => function ($query) {
             return $query->select('id', 'year_id', 'series_id', 'title', 'link', 'text')
                 ->with(['year', 'genres', 'authors'])
-                ->withCount(['rates', 'bookLikes', 'bookComments'])
+                ->withCount(['rates', 'bookLikes', 'сomments'])
                 ->withAvg('rates as rates_avg', 'rates.rating');
         }])->withCount('books');
     }

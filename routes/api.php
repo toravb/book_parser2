@@ -8,6 +8,7 @@ use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
 use App\Api\Http\Controllers\ChaptersController;
+use App\Api\Http\Controllers\CommentController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\LikeController;
@@ -15,7 +16,9 @@ use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
+use App\Api\Http\Controllers\ReviewController;
 use App\Api\Http\Controllers\UserAuthorsController;
+use App\Api\Http\Controllers\UsersRecommendationsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
@@ -73,6 +76,11 @@ Route::middleware('auth:api')->group(function () {
                 Route::delete('/', [BookController::class, 'deleteBookFromUsersList']);
             });
 
+            Route::group(['prefix' => 'audio-books'], function () {
+                Route::put('/', [AudioBookController::class, 'changeCreateStatus']);
+                Route::delete('/', [AudioBookController::class, 'deleteAudioBookFromUsersList']);
+            });
+
             Route::group(['prefix' => 'authors'], function () {
                 Route::get('/', [UserAuthorsController::class, 'list']);
                 Route::post('/', [UserAuthorsController::class, 'store']);
@@ -93,6 +101,20 @@ Route::middleware('auth:api')->group(function () {
         Route::delete('/', [LikeController::class, 'delete']);
     });
 
+    /**
+     * Reviews
+     */
+    Route::group(['prefix' => 'reviews'], function () {
+        Route::put('/', [ReviewController::class, 'saveUpdateReview']);
+        Route::delete('/', [ReviewController::class, 'delete']);
+    });
+
+    /**
+     * Comments
+     */
+    Route::group(['prefix' => 'comments'], function (){
+        Route::put('/',[CommentController::class, 'saveChangeComment']);
+    });
 
     /*
      * Quotes
@@ -127,6 +149,20 @@ Route::middleware('auth:api')->group(function () {
 
 Route::get('/genres', [CategoryController::class, 'show']);
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
+
+/**
+ * Users recommendations
+ */
+Route::post('/users-recommend', [UsersRecommendationsController::class, 'saveUserRecommend']);
+
+/*
+ * Show available reviews types
+ */
+Route::get('/review-types', [ReviewController::class, 'index']);
+/*
+ * -----------------------------
+ */
+
 
 /*
  * Books
@@ -184,6 +220,8 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
     Route::get('/{author}/quotes', [AuthorPageController::class, 'showQuotes']);
     Route::get('/{author}/reviews', [AuthorPageController::class, 'showReviews']);
+    Route::get('/{id}/books', [AuthorController::class, 'showOtherBooks']);
+    Route::get('/{id}/audio-books', [AuthorController::class, 'showOtherAudioBooks']);
 });
 /*
  * --------
@@ -195,6 +233,7 @@ Route::group(['prefix' => 'authors'], function () {
 Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
     Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
+    Route::get('/{id}/listen', [AudioBookController::class, 'listeningMode']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);
