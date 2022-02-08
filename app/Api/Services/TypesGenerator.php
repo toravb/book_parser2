@@ -2,6 +2,7 @@
 
 namespace App\Api\Services;
 
+use App\Api\Events\NewNotificationEvent;
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\Types;
 
@@ -19,7 +20,8 @@ class TypesGenerator implements Types
 
     protected $likeTypes = [
         'book' => 'App\\Api\\Models\\BookLike',
-        'audio_book' => 'App\\Api\\Models\\AudioBookLike'
+        'audio_book' => 'App\\Api\\Models\\AudioBookLike',
+        'comment' => 'App\\Api\\Models\\CommentLike'
     ];
 
     protected $likeModelTypes = [
@@ -30,6 +32,10 @@ class TypesGenerator implements Types
     protected $compilationsBookTypes = [
         QueryFilter::TYPE_BOOK => 'App\Models\Book',
         QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
+    ];
+
+    protected $notificationableTypes = [
+        NewNotificationEvent::LIKED_COMMENT => 'App\\Models\\Comment'
     ];
 
     protected $reviewTypes = [
@@ -80,6 +86,11 @@ class TypesGenerator implements Types
     public function getBookTypes(): array
     {
         return $this->compilationsBookTypes;
+    }
+
+    public function getNotificationTypes(): array
+    {
+        return $this->notificationableTypes;
     }
     public function getReviewTypes(): array
     {

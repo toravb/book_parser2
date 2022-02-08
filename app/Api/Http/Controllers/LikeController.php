@@ -87,6 +87,7 @@ class LikeController extends Controller
                 'user_id' => $userId,
                 $field => $request->id,
             ]);
+
         if ($record) {
             $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
             return response()->json([

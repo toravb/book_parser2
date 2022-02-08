@@ -61,4 +61,6 @@ return [
 
     ],
 
+    'name_notification_channel' => env('NOTIFICATION_CHANNEL', 'null')
+
 ];
