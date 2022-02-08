@@ -4,6 +4,8 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\DeleteReviewRequest;
 use App\Api\Http\Requests\SaveUpdateReviewRequest;
+use App\Api\Http\Requests\UserQuotesRequest;
+use App\Api\Http\Requests\UserReviewsRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
@@ -55,5 +57,17 @@ class ReviewController extends Controller
             ->where('user_id', Auth::id())
             ->delete();
         return ApiAnswerService::successfulAnswerWithData($review);
+    }
+
+    public function showUserReviews()
+    {
+        $reviews= \auth()->user()->reviews()
+            //->withCount([''])
+            ->with(['book' => function ($query) {
+                $query->with(['authors']);
+            }])->get();
+
+        return ApiAnswerService::successfulAnswerWithData($reviews);
+
     }
 }

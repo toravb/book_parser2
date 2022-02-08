@@ -20,10 +20,6 @@ class CreateAudioBookUserTable extends Migration
 
     public function down()
     {
-        Schema::table('audio_book_user', function (Blueprint $table) {
-            $table->dropUnique(['user_id', 'audio_book_id']);
-        });
-
         Schema::dropIfExists('audio_book_user');
     }
 }

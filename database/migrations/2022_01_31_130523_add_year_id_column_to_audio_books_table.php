@@ -19,8 +19,10 @@ class AddYearIdColumnToAudioBooksTable extends Migration
 
     public function down()
     {
-        Schema::table('audio_books', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('year_id');
-        });
+        if (Schema::hasColumns('audio_books', ['year_id', 'audio_books_year_id_foreign'])) {
+            Schema::table('audio_books', function (Blueprint $table) {
+                $table->dropConstrainedForeignId('year_id');
+            });
+        }
     }
 }
