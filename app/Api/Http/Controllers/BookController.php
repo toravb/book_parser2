@@ -23,7 +23,6 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
-use App\Models\Chapter;
 use App\Models\Compilation;
 use App\Models\View;
 

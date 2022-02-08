@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Requests\ReadingSettingsRequest;
+use App\Api\Http\Requests\ReadingSettingsRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class ReadingSettings extends Model

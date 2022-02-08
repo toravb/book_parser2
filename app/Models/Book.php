@@ -12,6 +12,11 @@ class Book extends Model implements BookInterface
 {
     use HasFactory;
 
+    const PER_PAGE_BLOCKS = 40;
+    const PER_PAGE_LIST = 13;
+    const SHOW_TYPE_BLOCK = 'block';
+    const SHOW_TYPE_LIST = 'list';
+
     const SORT_BY_DATE = '1';
     const SORT_BY_RATING_LAST_YEAR = '3';
     const SORT_BY_ALPHABET = '6';
@@ -36,9 +41,9 @@ class Book extends Model implements BookInterface
     ];
 
     public static array $availableReadingStatuses = [
-        Book::WANT_READ,
-        Book::READING,
-        Book::HAD_READ
+        self::WANT_READ,
+        self::READING,
+        self::HAD_READ
     ];
 
     public function getTypeAttribute()
@@ -152,7 +157,7 @@ class Book extends Model implements BookInterface
 
     public function reviews()
     {
-        return $this->hasMany(Review::class);
+        return $this->hasMany(BookReview::class);
     }
 
     public function latestReview()
@@ -223,6 +228,21 @@ class Book extends Model implements BookInterface
         return $this->hasMany(Bookmark::class);
     }
 
+    public function bookCompilation()
+    {
+        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(BookComment::class);
+    }
+
+    public function userRecommends()
+    {
+        return $this->hasMany(UsersRecommendation::class);
+    }
+
     public function getBook(): Builder
     {
         return $this->with([
@@ -236,10 +256,6 @@ class Book extends Model implements BookInterface
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
-    public function bookCompilation()
-    {
-        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
-    }
 
     public function currentReading($request)
     {
@@ -271,12 +287,12 @@ class Book extends Model implements BookInterface
             'bookGenres',
             'year',
             'publishers',
-            'bookComments',
+            'comments',
             'reviews',
             'quotes'])
             ->where('id', $bookId)
             ->select('id', 'title', 'text')
-            ->withCount(['rates', 'bookLikes', 'bookComments', 'reviews', 'quotes', 'views'])
+            ->withCount(['rates', 'bookLikes', 'comments', 'reviews', 'quotes', 'views'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }

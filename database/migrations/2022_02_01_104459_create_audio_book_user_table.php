@@ -14,9 +14,7 @@ class CreateAudioBookUserTable extends Migration
             $table->unsignedTinyInteger('status');
             $table->unique(['user_id', 'audio_book_id']);
 
-            //
-
-            $table->timestamp('created_at');
+            $table->timestamps();
         });
     }
 

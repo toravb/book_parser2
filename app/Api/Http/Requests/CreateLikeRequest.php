@@ -36,10 +36,15 @@ class CreateLikeRequest extends FormRequest
     {
 
         if (is_string($this->type) and $this->type !== '' and $this->type !== null) {
-            return [
-                'id' => ['required', 'integer', 'exists:' . $this->models[$this->type] . ',id'],
-                'type' => [Rule::in($this->types)]
-            ];
+            if (array_search($this->type, $this->types) !== false) {
+                return [
+                    'id' => ['required', 'integer', 'exists:' . $this->models[$this->type] . ',id'],
+                ];
+            } else {
+                return [
+                    'type' => [Rule::in($this->types)],
+                ];
+            }
         }
 
         return ['type' => ['required', 'string']];

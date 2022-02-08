@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Api\Http\Requests\ReadingSettingsRequest;
 use App\Api\Services\ApiAnswerService;
-use App\Http\Requests\ReadingSettingsRequest;
 use App\Models\ReadingSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
