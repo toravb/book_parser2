@@ -102,7 +102,7 @@ class User extends Authenticatable
         }
     }
 
-    public function rates()
+    public function rates(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Rate::class);
     }
@@ -150,5 +150,9 @@ class User extends Authenticatable
     public function authors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Author::class, 'user_author');
+    }
+
+    public function quotes(){
+        return $this->hasMany(Quote::class);
     }
 }

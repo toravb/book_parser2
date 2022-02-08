@@ -5,12 +5,17 @@ namespace App\Models;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Quote extends Model
 {
     use HasFactory;
+
+    const SHOW_BY_BOOK_AND_AUTHOR = '1';
+    const SHOW_BY_BOOK = '2';
+    const SHOW_BY_AUTHOR = '3';
 
     public function user()
     {
@@ -61,4 +66,5 @@ class Quote extends Model
             ->where('id', $quoteId)
             ->delete();
     }
+
 }
