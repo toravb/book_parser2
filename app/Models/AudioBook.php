@@ -233,12 +233,22 @@ class AudioBook extends Model implements BookInterface
         ])
             //TODO: после выяснения подробностей нужно добавить:
             // Продолжительность файла
-            // Псоле, написать доку
+            // После, дописать доку
             ->where('id', $bookId)
             ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
+    }
+    public function getBookForLetterFilter(): Builder
+    {
+        return $this
+            ->with(['authors' => function($query){
+                return $query->select('name');
+            }])
+            ->select(['id', 'title'])
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
 }

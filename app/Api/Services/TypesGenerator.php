@@ -92,18 +92,22 @@ class TypesGenerator implements Types
     {
         return $this->notificationableTypes;
     }
+
     public function getReviewTypes(): array
     {
         return $this->reviewTypes;
     }
+
     public function getReviewModelTypes(): array
     {
         return $this->reviewModelTypes;
     }
+
     public function getRecommendTypes(): array
     {
         return $this->recommendTypes;
     }
+
     public function getRecommendModelTypes(): array
     {
         return $this->recommendModelTypes;
