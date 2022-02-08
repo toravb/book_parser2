@@ -2,6 +2,7 @@
 
 namespace App\Api\Events;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
@@ -13,15 +14,15 @@ class NewLikeNotificationEvent implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     private $channel;
+    public string $type;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(public array  $to)
+    public function __construct(public array $to, public User  $sender, public $book, public $createdAt)
     {
-        $this->to = $to;
         $this->type = 'new_comment_like';
         $this->channel = config('broadcasting.name_notification_channel');
     }

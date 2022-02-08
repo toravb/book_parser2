@@ -17,7 +17,7 @@ class NewNotificationEvent
     public int $notificationableId;
     public int $userId;
 
-    public function __construct(string $type, int $notificationableId, int $userId)
+    public function __construct(string $type, public string $notificationableType, int $notificationableId, int $userId)
     {
         $this->type = $type;
         $this->notificationableId = $notificationableId;

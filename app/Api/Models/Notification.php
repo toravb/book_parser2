@@ -10,7 +10,7 @@ class Notification extends Model
 {
     use HasFactory;
 
-    public function createNewNotification(int $userId, string $type, int $notificationableId)
+    public function createNewNotification(int $userId, string $type, int $notificationableId): Notification
     {
         $this->user_id = $userId;
         $this->notificationable_type = $type;
@@ -32,5 +32,7 @@ class Notification extends Model
             'notification_id' => $this->id,
             'read' => NotificationUser::UNREAD_NOTIFICATION
         ]);
+
+        return $this;
     }
 }

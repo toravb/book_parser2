@@ -9,6 +9,10 @@ class NotificationUser extends Model
 {
     use HasFactory;
 
+    protected $table = 'notification_user';
+
+    public $timestamps = false;
+
     const READ_NOTIFICATION = true;
     const UNREAD_NOTIFICATION = false;
 

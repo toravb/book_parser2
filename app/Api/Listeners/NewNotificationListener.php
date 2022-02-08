@@ -10,20 +10,29 @@ use App\Api\Notifications\LikedComment;
 class NewNotificationListener
 {
 
-
-    public function handle(NewNotificationEvent $event, Types $types, Notification $notification)
+    public function __construct(public Types $types, public Notification $notification)
     {
-        $notificationableModelTypes = $types->getNotificationTypes();
-        $modelType = $notificationableModelTypes[$event->type];
-        $notification->createNewNotification($event->userId, $modelType, $event->notificationableId);
 
-        $class = $notificationableModelTypes[$event->type];
+    }
+
+
+    public function handle(NewNotificationEvent $event)
+    {
+        $notificationableModelTypes = $this->types->getNotificationTypes();
+        $modelType = $notificationableModelTypes[$event->type][$event->notificationableType];
+
+        $notification = $this->notification->createNewNotification($event->userId, $modelType, $event->notificationableId);
+
+        $notificationableHandlers = $this->types->getNotificationHandleObjects();
+        $notificationHandlerClass = $notificationableHandlers[$event->type];
+//        $class = $notificationableModelTypes[$event->type];
 
 
         if ($event->type === NewNotificationEvent::LIKED_COMMENT) {
-            $notificationObject = new $class($event->userId, $event->notificationableId);
+//            $notificationHandler = new $notificationableHandlers[$event->type];
+            $notificationHandler = new $notificationHandlerClass($event->userId, $event->notificationableId, $this->types->getNotificationTypes(), $event->type, $event->notificationableType, $notification->created_at);
         }
 
-        $class->sendNotification();
+        $notificationHandler->sendNotification();
     }
 }
