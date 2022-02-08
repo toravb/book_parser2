@@ -20,7 +20,8 @@ class Author extends Model
 
     protected $hidden = ['pivot'];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $author = new static();
         $author->fill($fields);
         $author->save();
@@ -116,4 +117,54 @@ class Author extends Model
         return $this->belongsToMany(User::class, 'user_author');
     }
 
+    public function quotes(int $author_id): Author|null
+    {
+        $authorWithBooks = self::select(['id', 'author'])
+            ->withCount('authorQuotes')
+            ->with(['books' => function ($query) {
+                $query->select(['books.id', 'title', 'link'])
+                    ->withCount(['views', 'rates'])
+                    ->whereHas('quotes')
+                    ->with(['latestQuote' => function ($query) {
+                        $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
+                            ->with(['user' => function ($query) {
+                                $query->select(['id', 'nickname', 'avatar', 'created_at']);
+                            }]);
+                    }]);
+            }])
+
+            ->find($author_id);
+
+        return $authorWithBooks;
+    }
+
+    public function reviews(int $author_id): Author|null
+    {
+        $authorWithBooks = self::select(['authors.id', 'author'])
+            ->withCount('authorReviews')
+            ->with(['books' => function ($query) {
+                $query->select(['books.id', 'title', 'link'])
+                    ->withCount(['views', 'rates'])
+                    ->whereHas('reviews')
+                    ->with(['latestReview' => function ($query) {
+                        $query->select([
+                            'reviews.user_id',
+                            'reviews.book_id',
+                            'reviews.content',
+                            'reviews.created_at',
+                            'rates.rating as review_rating',
+                            'rates.book_id',
+                            'rates.user_id',
+                        ]);
+                        $query->with(['user']);
+                        $query->leftJoin('rates', function ($join) {
+                            $join->on('rates.book_id', '=', 'reviews.book_id');
+                            $join->on('rates.user_id', '=', 'reviews.user_id');
+                        });
+                    }]);
+            }])
+            ->find($author_id);
+
+        return $authorWithBooks;
+    }
 }
