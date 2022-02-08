@@ -121,6 +121,7 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'quotes'], function () {
         Route::get('/', [QuoteController::class, 'index']);
+        Route::get('/list', [QuoteController::class, 'showUserQuotes']);
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);
@@ -217,6 +218,8 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/page', [AuthorPageController::class, 'show']);
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
+    Route::get('/{author}/quotes', [AuthorPageController::class, 'showQuotes']);
+    Route::get('/{author}/reviews', [AuthorPageController::class, 'showReviews']);
     Route::get('/{id}/books', [AuthorController::class, 'showOtherBooks']);
     Route::get('/{id}/audio-books', [AuthorController::class, 'showOtherAudioBooks']);
 });

@@ -16,11 +16,9 @@ class Book extends Model implements BookInterface
     const PER_PAGE_LIST = 13;
     const SHOW_TYPE_BLOCK = 'block';
     const SHOW_TYPE_LIST = 'list';
+
     const SORT_BY_DATE = '1';
-    const SORT_BY_READERS_COUNT = '2';
     const SORT_BY_RATING_LAST_YEAR = '3';
-    const SORT_BY_REVIEWS = '4';
-    const BESTSELLERS = '5';
     const SORT_BY_ALPHABET = '6';
     const WANT_READ = '1';
     const READING = '2';
@@ -147,6 +145,11 @@ class Book extends Model implements BookInterface
         return $this->belongsToMany(User::class, 'rates');
     }
 
+    public function bookComments()
+    {
+        return $this->hasMany(BookComment::class);
+    }
+
     public function bookLikes()
     {
         return $this->hasMany(BookLike::class);
@@ -155,6 +158,16 @@ class Book extends Model implements BookInterface
     public function reviews()
     {
         return $this->hasMany(BookReview::class);
+    }
+
+    public function latestReview()
+    {
+        return $this->hasOne(Review::class)->latest();
+    }
+
+    public function latestQuote()
+    {
+        return $this->hasOne(Quote::class)->latest();
     }
 
     public function quotes()
@@ -293,5 +306,7 @@ class Book extends Model implements BookInterface
     {
         return $this->hasMany(Chapter::class);
     }
+
+
 }
 
