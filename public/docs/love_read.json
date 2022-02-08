@@ -3267,7 +3267,121 @@
             }
           }
         },
-        "operationId": "get-books-letter-letter"
+        "operationId": "get-books-letter-letter",
+        "parameters": []
+      }
+    },
+    "/books/filter": {
+      "parameters": [],
+      "get": {
+        "summary": "Filter books by first letter (Filter by letter page)",
+        "tags": [
+          "Book"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "required": [
+                          "id",
+                          "title",
+                          "rates_count",
+                          "rates_avg",
+                          "type"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "rates_count": {
+                            "type": "number"
+                          },
+                          "rates_avg": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "authors": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "minItems": 1,
+                            "items": {
+                              "required": [
+                                "author"
+                              ],
+                              "properties": {
+                                "author": {
+                                  "type": "string",
+                                  "minLength": 1
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 1,
+                          "title": "А 259. Всплеск ярости",
+                          "rates_count": 1,
+                          "rates_avg": 1,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "author": "Саймон Стронг"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-books-filter",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "alphabetTitleIndex",
+            "description": "alphabetical",
+            "required": true
+          }
+        ],
+        "description": ""
       }
     },
     "/books/ratings": {
@@ -3427,18 +3541,6 @@
                       "errors": {
                         "book_id": [
                           "The book id has already been taken."
-                        ]
-                      }
-                    }
-                  }
-                },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "message": "string",
-                      "errors": {
-                        "book_id": [
-                          {}
                         ]
                       }
                     }
@@ -8640,6 +8742,117 @@
         "operationId": "get-author-letter-letter",
         "tags": [
           "Authors"
+        ]
+      }
+    },
+    "/authors/filter": {
+      "parameters": [],
+      "get": {
+        "summary": "Filtering authors by first letter (filtering by letter page)",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "required": [
+                          "id",
+                          "author"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "author": {
+                            "type": "string",
+                            "minLength": 1
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 176,
+                          "author": "Fkbv Fkbvjd"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "author": {
+                            "type": "string"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "author"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-authors-filter",
+        "tags": [
+          "Authors"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "letter",
+            "description": "alphabetical",
+            "required": true
+          }
         ]
       }
     },

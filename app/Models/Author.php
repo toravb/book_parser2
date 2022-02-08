@@ -132,7 +132,6 @@ class Author extends Model
                             }]);
                     }]);
             }])
-
             ->find($author_id);
 
         return $authorWithBooks;
@@ -167,6 +166,7 @@ class Author extends Model
 
         return $authorWithBooks;
     }
+
     public function showOtherBooks($authorId)
     {
         return $this->select('id', 'audio_author_id')
@@ -175,7 +175,7 @@ class Author extends Model
                     return $query
                         ->with([
                             'image' => function ($q) {
-                            return $q->where('page_id', null)->select('book_id','link');
+                                return $q->where('page_id', null)->select('book_id', 'link');
                             },
                             'authors'
                         ])
@@ -198,6 +198,15 @@ class Author extends Model
                         ->withAvg('rates as rates_avg', 'rates.rating');
                 }
             ])->findOrFail($authorId);
+    }
+
+    public function letterFiltering($letter)
+    {
+        return $this
+            ->where('author', 'like', $letter . '%')
+            ->select('id', 'author')
+            ->orderBy('author')
+            ->get();
     }
 
 
