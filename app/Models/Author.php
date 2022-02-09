@@ -49,7 +49,7 @@ class Author extends Model
 
     public function audioBooks(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
     {
-        return $this->hasManyDeep(AudioBook::class, [AudioAuthor::class, AudioAuthorsToBook::class],
+        return $this->hasManyDeep(AudioBook::class, [AudioAuthor::class, AuthorsToAudioBook::class],
             [
                 'id',
                 'author_id',
