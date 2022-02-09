@@ -46,7 +46,7 @@ class Book extends Model implements BookInterface
         self::HAD_READ
     ];
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
 
         return 'books';

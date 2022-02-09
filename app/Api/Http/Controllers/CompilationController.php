@@ -13,6 +13,7 @@ use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Compilation;
+use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 
 class CompilationController extends Controller
@@ -67,7 +68,7 @@ class CompilationController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function showCompilationDetails(GetIdRequest $request, CompilationService $compilationService)
+    public function showCompilationDetails(GetIdRequest $request, CompilationService $compilationService, View $view)
     {
 
         $compilation = Compilation::select('id', 'title', 'background', 'description', 'type')
@@ -75,6 +76,8 @@ class CompilationController extends Controller
             ->findOrfail($request->id);
         $books = $compilationService->showCompilationDetails($request->id);
         $compilation->generalBooksCount = $compilation->books_count + $compilation->audio_books_count;
+
+        $view->addView(\auth('api')->user()?->id, $request->ip(), $compilation->id, $compilation->getTypeAttribute());
 
         return ApiAnswerService::successfulAnswerWithData(['compilation' => $compilation, 'books' => $books]);
 

@@ -37,7 +37,7 @@ class ProfileController extends Controller
             $user->email = $request->email;
             $user->name = $request->name;
             $user->surname = $request->surname;
-            $user->nickname = $request->surname;
+            $user->nickname = $request->nickname;
             $user->save();
 
             DB::commit();

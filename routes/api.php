@@ -12,6 +12,7 @@ use App\Api\Http\Controllers\CommentController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\LikeController;
+use App\Api\Http\Controllers\MainPageController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
@@ -54,7 +55,10 @@ Route::group(['middleware' => 'guest'], function () {
 /*
  * -------
  */
-
+/**
+ * Main Page
+ */
+Route::get('/home', [MainPageController::class, 'home']);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -91,6 +95,7 @@ Route::middleware('auth:api')->group(function () {
     /*
      * -----------
      */
+
 
 
     /**

@@ -39,7 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $typesGenerator = new TypesGenerator();
-        Relation::enforceMorphMap($typesGenerator->getCompilationsBookTypes());
+        Relation::enforceMorphMap($typesGenerator->getViewsTypes());
 
         Queue::looping(function (Looping $event){
             if ($event->queue == 'audio_parse_authors'){
