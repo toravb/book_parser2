@@ -18,6 +18,7 @@ class AudioBook extends Model implements BookInterface
     const WANT_LISTEN = '1';
     const LISTENING = '2';
     const HAD_LISTEN = '3';
+    const MAIN_PAGE_PAGINATE = 6;
 
     protected $fillable = [
         'title',
@@ -240,15 +241,49 @@ class AudioBook extends Model implements BookInterface
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }
+
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function($query){
+            ->with(['authors' => function ($query) {
                 return $query->select('name');
             }])
             ->select(['id', 'title'])
             ->withCount('rates')
             ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
+    public function mainPagePaginateList()
+    {
+        $audioBookList = $this
+            ->select([
+                'id',
+                'title',
+                'genre_id',
+                'link_id',
+            ])
+            ->with([
+                'authors' => function ($query) {
+                    $query->select('name');
+                },
+                'genre' => function ($query) {
+                    $query->select(['id', 'name']);
+                },
+                'image' => function ($query) {
+                    $query->select(['book_id', 'link']);
+                }
+            ])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->withCount('views')
+            ->paginate(self::MAIN_PAGE_PAGINATE, ['*'], 'audioBookList');
+
+        $audioBookList->map(function ($compilation) {
+            if ($compilation->rates_avg === null) {
+                $compilation->rates_avg = 0;
+            }
+        });
+
+        return $audioBookList;
     }
 
 }

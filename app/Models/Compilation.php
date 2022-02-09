@@ -92,7 +92,7 @@ class Compilation extends Model
             ])
             ->whereNotNull('type')
             ->orderBy('created_at')
-            ->paginate(MainPageController::COMPILATION_PAGINATION);
+            ->paginate(MainPageController::COMPILATION_PAGINATION, ['*'], 'compilationPage');
 
         $compilations->map(function ($compilation) {
             $compilation->total_count = $compilation->books_count + $compilation->audio_books_count;
