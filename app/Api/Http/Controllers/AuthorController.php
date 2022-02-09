@@ -6,6 +6,7 @@ use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\IsAuthorExistsRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AuthorsFilteringByLetterRequest;
 use App\Models\Author;
 
 class AuthorController extends Controller
@@ -26,5 +27,10 @@ class AuthorController extends Controller
     public function showOtherAudioBooks(IsAuthorExistsRequest $id, Author $author)
     {
         return ApiAnswerService::successfulAnswerWithData($author->showOtherAudioBooks($id->id));
+    }
+
+    public function filterByLetter(AuthorsFilteringByLetterRequest $request, Author $author)
+    {
+        return ApiAnswerService::successfulAnswerWithData($author->letterFiltering($request->letter));
     }
 }

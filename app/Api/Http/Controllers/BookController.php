@@ -15,6 +15,7 @@ use App\Api\Http\Requests\GetUserAuthorsRequest;
 use App\Api\Http\Requests\GetUserBooksRequest;
 use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
+use App\Api\Http\Requests\ShowBooksFilterByLetterRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 
@@ -191,6 +192,14 @@ class BookController extends Controller
     {
         $books = \auth()->user()->bookStatuses()->filter($bookFilter)->get();
 
+        return ApiAnswerService::successfulAnswerWithData($books);
+    }
+
+    public function filteringByLetterPage(ShowBooksFilterByLetterRequest $request, AudioBookFilter $audioBookFilter, BookFilter $bookFilter, BookFactory $bookFactory)
+    {
+        $model = $bookFactory->createInstance($request->type);
+        $books = $model->getBookForLetterFilter()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
+            ->get();
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 

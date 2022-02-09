@@ -305,6 +305,15 @@ class Book extends Model implements BookInterface
         return $this->hasMany(Chapter::class);
     }
 
-
+    public function getBookForLetterFilter(): Builder
+    {
+        return $this
+            ->with(['authors' => function($query){
+                return $query->select('author');
+            }])
+            ->select(['id', 'title'])
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
 }
 
