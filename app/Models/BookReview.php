@@ -62,7 +62,7 @@ class BookReview extends Model
 
     public function comments(): hasMany
     {
-        return $this->hasMany(BookCommentReview::class);
+        return $this->hasMany(BookReviewComment::class);
     }
 
 
@@ -87,6 +87,7 @@ class BookReview extends Model
             ])
             ->withCount(['views', 'likes', 'comments'])
             ->orderBy('created_at')
-            ->paginate(MainPageController::REVIEWS_PAGINATION, ['*'], 'reviews-list-page');
+            ->limit(20)
+            ->get();
     }
 }

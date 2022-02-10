@@ -275,7 +275,8 @@ class AudioBook extends Model implements BookInterface
             ])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->withCount('views')
-            ->paginate(self::MAIN_PAGE_PAGINATE, ['*'], 'audiobook-list-page');
+            ->limit(20)
+            ->get();
 
         $audioBookList->map(function ($compilation) {
             if ($compilation->rates_avg === null) {

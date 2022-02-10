@@ -35,6 +35,6 @@ class AudioBookReview extends Model
 
     public function comments(): hasMany
     {
-        return $this->hasMany(AudioBookCommentReview::class);
+        return $this->hasMany(AudioBookReviewComment::class);
     }
 }

@@ -4,9 +4,11 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\JoinClause;
 
 class Book extends Model implements BookInterface
 {
@@ -314,6 +316,19 @@ class Book extends Model implements BookInterface
             ->select(['id', 'title'])
             ->withCount('rates')
             ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
+    public function hotDailyUpdates()
+    {
+        return $this
+            ->select(['id', 'title', 'created_at'])
+            ->with(['authors' => function ($query) {
+                $query->select('author');
+            }])
+            ->orderBy('created_at', 'desc')
+            ->get()->groupBy(function (Book $book) {
+                return Carbon::parse($book->created_at)->format('d-m-Y');
+            });
     }
 }
 

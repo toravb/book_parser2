@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class BookCommentReview extends Model
+class BookReviewComment extends Model
 {
     public function bookReview(): BelongsTo
     {
