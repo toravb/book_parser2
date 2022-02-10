@@ -47,20 +47,15 @@ class Author extends Model
             'books');
     }
 
-    public function audioBooks(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
+    public function audioBooks()
     {
-        return $this->hasManyDeep(AudioBook::class, [AudioAuthor::class, AuthorsToAudioBook::class],
-            [
-                'id',
-                'author_id',
-                'id',
-            ],
-            [
-                'audio_author_id',
-                'id',
-                'book_id',
-            ],
-        );
+        return $this->belongsToMany(AudioBook::class,
+            AuthorsToAudioBook::class,
+            'author_id',
+            'book_id',
+            'id',
+            'id',
+            'audiobooks');
     }
 
     public function series(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
@@ -169,7 +164,7 @@ class Author extends Model
 
     public function showOtherBooks($authorId)
     {
-        return $this->select('id', 'audio_author_id')
+        return $this->select('id')
             ->with([
                 'books' => function ($query) {
                     return $query
@@ -188,7 +183,7 @@ class Author extends Model
 
     public function showOtherAudioBooks($authorId)
     {
-        return $this->select('id', 'audio_author_id')
+        return $this->select('id')
             ->with([
                 'audioBooks' => function ($query) {
                     return $query

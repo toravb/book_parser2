@@ -190,8 +190,15 @@ class BookController extends Controller
 
     public function showUserBooks(Request $request, BookFilter $bookFilter): \Illuminate\Http\JsonResponse
     {
-        $books = \auth()->user()->bookStatuses()->filter($bookFilter)->get();
-
+        $books = \auth()->user()
+            ->bookStatuses()
+            ->filter($bookFilter)
+            ->select('id', 'title')
+            ->with(['authors', 'image', 'bookGenres'])
+            ->withCount('views')
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->get();
+        $books->books_count = $books->count();
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
