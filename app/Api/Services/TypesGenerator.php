@@ -60,7 +60,8 @@ class TypesGenerator implements Types
     protected $viewsTypes = [
         QueryFilter::TYPE_BOOK => 'App\Models\Book',
         QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
-        'compilation' => 'App\\Models\\Compilation'
+        'compilation' => 'App\\Models\\Compilation',
+        'review' => 'App\\Models\\BookReview'
     ];
 
 

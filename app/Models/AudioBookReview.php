@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBookReview extends Model
 
@@ -24,5 +26,15 @@ class AudioBookReview extends Model
     public function reviewTypes()
     {
         return $this->belongsTo(ReviewType::class);
+    }
+
+    public function views(): MorphMany
+    {
+        return $this->morphMany(View::class, 'viewable');
+    }
+
+    public function comments(): hasMany
+    {
+        return $this->hasMany(AudioBookCommentReview::class);
     }
 }

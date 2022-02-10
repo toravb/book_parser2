@@ -118,7 +118,7 @@ class Book extends Model implements BookInterface
 
     public function image(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(Image::class, 'book_id', 'id');
+        return $this->hasOne(Image::class)->whereNull('page_id');
     }
 
     public function images()
@@ -308,7 +308,7 @@ class Book extends Model implements BookInterface
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function($query){
+            ->with(['authors' => function ($query) {
                 return $query->select('author');
             }])
             ->select(['id', 'title'])

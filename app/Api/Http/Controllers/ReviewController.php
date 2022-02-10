@@ -70,4 +70,5 @@ class ReviewController extends Controller
         return ApiAnswerService::successfulAnswerWithData($reviews);
 
     }
+
 }
