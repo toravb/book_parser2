@@ -180,6 +180,12 @@ class Book extends Model implements BookInterface
         return $this->hasMany(BookUser::class);
     }
 
+    public function readers()
+    {
+        return $this->hasMany(BookUser::class)->where('status', QueryFilter::SORT_BY_READERS_COUNT);
+    }
+
+
     public function scopePopular($query)
     {
         return $query->orderBy('rates_avg', 'desc');
@@ -325,10 +331,27 @@ class Book extends Model implements BookInterface
             ->with(['authors' => function ($query) {
                 $query->select('author');
             }])
+            ->withCount('views')
             ->orderBy('created_at', 'desc')
+            ->orderBy('views_count', 'desc')
             ->get()->groupBy(function (Book $book) {
                 return Carbon::parse($book->created_at)->format('d-m-Y');
             });
     }
+
+    public function getBooksForMainPageFilter()
+    {
+        return $this
+            ->select(['id', 'title'])
+            ->with([
+                'genres:name',
+                'authors:author',
+                'image:book_id,link'
+            ])
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->withCount('views');
+    }
+
+
 }
 

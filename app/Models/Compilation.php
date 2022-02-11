@@ -7,6 +7,7 @@ use App\Api\Http\Controllers\MainPageController;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Compilation extends Model
 {
@@ -98,6 +99,27 @@ class Compilation extends Model
         $compilations->map(function ($compilation) {
             $compilation->total_count = $compilation->books_count + $compilation->audio_books_count;
         });
+
+        return $compilations;
+    }
+
+    public function searchByType(int $type)
+    {
+        $compilations = $this
+            ->select(['id', 'title'])
+            ->with(['books' => function (MorphToMany $query) {
+                $query
+                    ->select(['id', 'title'])
+                    ->with([
+                        'authors:author',
+                        'genres:name',
+                        'image:book_id,link'])
+                    ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+                    ->withCount('views');
+            }])
+            ->where('type', $type)
+            ->limit(20)
+            ->get();
 
         return $compilations;
     }
