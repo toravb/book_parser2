@@ -105,7 +105,7 @@ class Compilation extends Model
 
     public function searchByType(int $type)
     {
-        $compilations = $this
+        return $this
             ->select(['id', 'title'])
             ->with(['books' => function (MorphToMany $query) {
                 $query
@@ -118,10 +118,8 @@ class Compilation extends Model
                     ->withCount('views');
             }])
             ->where('type', $type)
-            ->limit(20)
-            ->get();
+            ->first();
 
-        return $compilations;
     }
 
 }

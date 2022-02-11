@@ -42,13 +42,13 @@ class MainPageController extends Controller
         $mainPageBooksFilter = $book->getBooksForMainPageFilter()->filter($bookFilter)->paginate(self::MAIN_PER_PAGE);
 
         return ApiAnswerService::successfulAnswerWithData([
-            'genres' => $genres,
+//            'genres' => $genres,
             'newBooksCompilations' => $newBooksCompilation,
-            'dailyHotUpdates' => $bookDailyHot,
-            'mainPageBookFilter' => $mainPageBooksFilter,
-            'compilations' => $compilations,
-            'audioBooksList' => $audioBooksList,
-            'reviews' => $mainPageReview
+//            'dailyHotUpdates' => $bookDailyHot,
+//            'mainPageBookFilter' => $mainPageBooksFilter,
+//            'compilations' => $compilations,
+//            'audioBooksList' => $audioBooksList,
+//            'reviews' => $mainPageReview
         ]);
     }
 }
