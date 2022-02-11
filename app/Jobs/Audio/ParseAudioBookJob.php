@@ -5,7 +5,7 @@ namespace App\Jobs\Audio;
 use App\Http\Controllers\Audio\AudioParserController;
 use App\Models\AudioAudiobook;
 use App\Models\AudioAuthor;
-use App\Models\AudioAuthorsToBook;
+use App\Models\AuthorsToAudioBook;
 use App\Models\AudioBook;
 use App\Models\AudioBooksLink;
 use App\Models\AudioGenre;
@@ -91,7 +91,7 @@ class ParseAudioBookJob implements ShouldQueue
         foreach ($authors as $author){
             $author['book_id'] = $book->id;
             try {
-                AudioAuthorsToBook::create($author);
+                AuthorsToAudioBook::create($author);
             }catch (\Throwable $e){
                 if ($e->getCode() != 23000){
                     $this->fail($e);
