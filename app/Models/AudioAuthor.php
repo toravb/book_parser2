@@ -9,9 +9,7 @@ class AudioAuthor extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-    ];
+    protected $table = ['authors'];
 
     public static function create($fields){
         $author = new static();
@@ -25,7 +23,7 @@ class AudioAuthor extends Model
     {
         return $this->hasManyThrough(
             AudioBook::class,
-            AudioAuthorsToBook::class,
+            AuthorsToAudioBook::class,
             'author_id',
             'id',
             'id',

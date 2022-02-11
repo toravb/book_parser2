@@ -118,8 +118,8 @@ class AudioBook extends Model implements BookInterface
     public function authors()
     {
         return $this->hasManyThrough(
-            AudioAuthor::class,
-            AudioAuthorsToBook::class,
+            Author::class,
+            AuthorsToAudioBook::class,
             'book_id',
             'id',
             'id',
