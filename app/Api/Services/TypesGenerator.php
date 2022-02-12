@@ -38,11 +38,15 @@ class TypesGenerator implements Types
     protected array $notificationableTypes = [
         NewNotificationEvent::LIKED_COMMENT => [
             'book_comment' => 'App\\Models\\BookComment'
+        ],
+        NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => [
+            'book' => 'App\\Models\\BookComment'
         ]
     ];
 
     protected array $notificationableHandleTypes = [
-        NewNotificationEvent::LIKED_COMMENT => 'App\\Api\\Notifications\\LikedComment'
+        NewNotificationEvent::LIKED_COMMENT => 'App\\Api\\Notifications\\LikedComment',
+        NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => 'App\\Api\\Notifications\\CommentsNotifications'
     ];
 
     protected $reviewTypes = [

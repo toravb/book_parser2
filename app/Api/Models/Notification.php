@@ -3,6 +3,7 @@
 namespace App\Api\Models;
 
 use App\Api\Events\NewNotificationEvent;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -17,22 +18,22 @@ class Notification extends Model
         $this->notificationable_id = $notificationableId;
         $this->save();
 
-//        if ($type === NewNotificationEvent::LIKED_COMMENT) {
-//            $commentModel = new  $types[$type];
-//            $comment = $commentModel->find($notificationableId);
-//            NotificationUser::create([
-//                'user_id' => $userId,
-//                'notification_id' => $this->id,
-//                'read' => NotificationUser::UNREAD_NOTIFICATION
-//            ]);
-//        }
-
-        NotificationUser::create([
-            'user_id' => $userId,
-            'notification_id' => $this->id,
-            'read' => NotificationUser::UNREAD_NOTIFICATION
-        ]);
-
         return $this;
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+
+    public function notificationable()
+    {
+        return $this->morphTo();
+    }
+
+    public function sender()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'name', 'avatar');
+    }
+
 }

@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Api\Models\Notification;
+use App\Api\Models\NotificationUser;
 use App\Api\Models\UserSettings;
 use App\Services\GenerateUniqueTokenService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -111,6 +113,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(BookComment::class);
     }
+
     public function comments()
     {
         return $this->hasMany(AudioBookComment::class);
@@ -161,11 +164,23 @@ class User extends Authenticatable
         return $this->belongsToMany(Author::class, 'user_author');
     }
 
-    public function quotes(){
+    public function quotes()
+    {
         return $this->hasMany(Quote::class);
     }
+
     public function reviews()
     {
         return $this->hasMany(BookReview::class);
+    }
+
+    public function notifications()
+    {
+        return $this->belongsToMany(Notification::class);
+    }
+
+    public function unreadNotifications()
+    {
+        return $this->notifications()->wherePivot('read', NotificationUser::UNREAD_NOTIFICATION);
     }
 }

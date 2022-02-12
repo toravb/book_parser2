@@ -24,6 +24,7 @@ use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
+use App\Api\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -114,7 +115,7 @@ Route::middleware('auth:api')->group(function () {
      * Comments
      */
     Route::group(['prefix' => 'comments'], function () {
-        Route::put('/', [CommentController::class, 'saveChangeComment']);
+        Route::post('/', [CommentController::class, 'saveComment']);
     });
 
     /*
@@ -145,6 +146,12 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'bookmarks'], function () {
         Route::post('/', [BookmarksController::class, 'create']);
         Route::delete('/{bookmark}', [BookmarksController::class, 'destroy']);
+    });
+    /**
+     * Notifications
+     */
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationController::class, 'get']);
     });
 });
 
