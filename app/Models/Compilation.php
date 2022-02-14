@@ -115,7 +115,8 @@ class Compilation extends Model
                         'genres:name',
                         'image:book_id,link'])
                     ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-                    ->withCount('views');
+                    ->withCount('views')
+                    ->limit(20);
             }])
             ->where('type', $type)
             ->first();

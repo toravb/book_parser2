@@ -264,7 +264,7 @@ class AudioBook extends Model implements BookInterface
             ])
             ->with([
                 'authors:author',
-                'genre:name',
+                'genre:id,name',
                 'image:book_id,link'
             ])
             ->withAvg('rates as rates_avg', 'rates.rating')

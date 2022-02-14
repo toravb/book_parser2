@@ -16,6 +16,7 @@ class MainPageController extends Controller
 
     const MAIN_PAGE_COMPILATION_TYPE = 3;
     const MAIN_PER_PAGE = 16;
+    const PERIOD_FOR_HOT_DAILY_UPDATES = 10;
 
     public function home(
         MainPageBookFilterRequest $request,
@@ -42,13 +43,13 @@ class MainPageController extends Controller
         $mainPageBooksFilter = $book->getBooksForMainPageFilter()->filter($bookFilter)->paginate(self::MAIN_PER_PAGE);
 
         return ApiAnswerService::successfulAnswerWithData([
-//            'genres' => $genres,
+            'genres' => $genres,
             'newBooksCompilations' => $newBooksCompilation,
-//            'dailyHotUpdates' => $bookDailyHot,
-//            'mainPageBookFilter' => $mainPageBooksFilter,
-//            'compilations' => $compilations,
-//            'audioBooksList' => $audioBooksList,
-//            'reviews' => $mainPageReview
+            'dailyHotUpdates' => $bookDailyHot,
+            'mainPageBookFilter' => $mainPageBooksFilter,
+            'compilations' => $compilations,
+            'audioBooksList' => $audioBooksList,
+            'reviews' => $mainPageReview
         ]);
     }
 }
