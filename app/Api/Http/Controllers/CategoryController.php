@@ -13,12 +13,7 @@ class CategoryController extends Controller
 {
     public function show()
     {
-        $genres = BookGenre::orderBy('name')->get();
-        return response()->json([
-                'status' => 'success',
-                'data' => $genres
-            ]
-        );
+        return ApiAnswerService::successfulAnswerWithData(BookGenre::orderBy('name')->get());
     }
 
     public function showAudioBookGenres(): \Illuminate\Http\JsonResponse
