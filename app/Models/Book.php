@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
+use App\Api\Http\Controllers\MainPageController;
 use App\Api\Interfaces\BookInterface;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
@@ -182,7 +183,7 @@ class Book extends Model implements BookInterface
 
     public function readers()
     {
-        return $this->hasMany(BookUser::class)->where('status', QueryFilter::SORT_BY_READERS_COUNT);
+        return $this->bookStatuses()->where('status', QueryFilter::SORT_BY_READERS_COUNT);
     }
 
 
@@ -328,18 +329,17 @@ class Book extends Model implements BookInterface
     {
         return $this
             ->select(['id', 'title', 'created_at'])
+            ->where('created_at', '>', Carbon::now()->subDays(MainPageController::PERIOD_FOR_HOT_DAILY_UPDATES))
             ->with(['authors' => function ($query) {
                 $query->select('author');
             }])
-            ->withCount('views')
             ->orderBy('created_at', 'desc')
-            ->orderBy('views_count', 'desc')
             ->get()->groupBy(function (Book $book) {
                 return Carbon::parse($book->created_at)->format('d-m-Y');
             });
     }
 
-    public function getBooksForMainPageFilter()
+    public function getBooksForMainPageFilter(): Builder
     {
         return $this
             ->select(['id', 'title'])

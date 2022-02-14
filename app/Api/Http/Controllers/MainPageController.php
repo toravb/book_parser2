@@ -16,6 +16,7 @@ class MainPageController extends Controller
 
     const MAIN_PAGE_COMPILATION_TYPE = 3;
     const MAIN_PER_PAGE = 16;
+    const PERIOD_FOR_HOT_DAILY_UPDATES = 10;
 
     public function home(
         MainPageBookFilterRequest $request,

@@ -263,15 +263,9 @@ class AudioBook extends Model implements BookInterface
                 'link_id',
             ])
             ->with([
-                'authors' => function ($query) {
-                    $query->select('name');
-                },
-                'genre' => function ($query) {
-                    $query->select(['id', 'name']);
-                },
-                'image' => function ($query) {
-                    $query->select(['book_id', 'link']);
-                }
+                'authors:author',
+                'genre:id,name',
+                'image:book_id,link'
             ])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->withCount('views')
