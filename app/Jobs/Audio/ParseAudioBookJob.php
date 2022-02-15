@@ -54,7 +54,7 @@ class ParseAudioBookJob implements ShouldQueue
         $genre = null;
         $series = null;
         foreach ($data['authors'] as $author) {
-            $author_id = AudioAuthor::query()->query()->firstOrCreate(['name' => $author])->id;
+            $author_id = AudioAuthor::query()->firstOrCreate(['name' => $author])->id;
             $authors[] = [
                 'author_id' => $author_id,
             ];
