@@ -54,20 +54,36 @@ class ParseAudioBookJob implements ShouldQueue
         $genre = null;
         $series = null;
         foreach ($data['authors'] as $author) {
-            $author_id = AudioAuthor::query()->firstOrCreate(['name' => $author])->id;
+            $author = AudioAuthor::query()->where('name', '=', $author)->first();
+            if ($author == null){
+                $author = AudioAuthor::create(['name' => $author]);
+            }
+            $author_id = $author->id;
             $authors[] = [
                 'author_id' => $author_id,
             ];
         }
         foreach ($data['readers'] as $reader) {
-            $reader_id = AudioReader::query()->firstOrCreate(['name' => $reader])->id;
+            $reader = AudioReader::query()->where('name', '=', $reader)->first();
+            if ($reader == null){
+                $reader = AudioReader::create(['name' => $reader]);
+            }
+            $reader_id = $reader->id;
             $readers[] = [
                 'reader_id' => $reader_id,
             ];
         }
-        $genre = AudioGenre::query()->firstOrCreate(['name' => $data['genre']])->id;
+        $genre = AudioGenre::query()->where('name', '=', $data['genre'])->first();
+        if ($genre == null){
+            $genre = AudioGenre::create(['name' => $data['genre']]);
+        }
+        $genre = $genre->id;
         if ($data['series']) {
-            $series = AudioSeries::query()->firstOrCreate(['name' => $data['series']])->id;
+            $series = AudioSeries::query()->where('name', '=', $data['series'])->first();
+            if ($series == null){
+                $series = AudioSeries::create(['name' => $data['series']]);
+            }
+            $series = $series->id;
         }
         if ($book == null) {
             $book = $url->book()->create([
