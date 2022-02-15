@@ -54,20 +54,20 @@ class ParseAudioBookJob implements ShouldQueue
         $genre = null;
         $series = null;
         foreach ($data['authors'] as $author) {
-            $author_id = AudioAuthor::firstOrCreate(['name' => $author])->id;
+            $author_id = AudioAuthor::query()->query()->firstOrCreate(['name' => $author])->id;
             $authors[] = [
                 'author_id' => $author_id,
             ];
         }
         foreach ($data['readers'] as $reader) {
-            $reader_id = AudioReader::firstOrCreate(['name' => $reader])->id;
+            $reader_id = AudioReader::query()->firstOrCreate(['name' => $reader])->id;
             $readers[] = [
                 'reader_id' => $reader_id,
             ];
         }
-        $genre = AudioGenre::firstOrCreate(['name' => $data['genre']])->id;
+        $genre = AudioGenre::query()->firstOrCreate(['name' => $data['genre']])->id;
         if ($data['series']) {
-            $series = AudioSeries::firstOrCreate(['name' => $data['series']])->id;
+            $series = AudioSeries::query()->firstOrCreate(['name' => $data['series']])->id;
         }
         if ($book == null) {
             $book = $url->book()->create([
@@ -134,7 +134,7 @@ class ParseAudioBookJob implements ShouldQueue
                         return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
                     }, $link['title']);
                 }
-                $audio = $book->audiobook()->where(['index' => $index])->first();
+                $audio = $book->audiobook()->where('index', '=', $index)->first();
                 if ($audio == null){
                     $book->audiobook()->create([
                         'link' => str_replace('\\', '', $link['url']),
