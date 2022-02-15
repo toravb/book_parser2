@@ -217,13 +217,26 @@ class BookController extends Controller
     {
         $newBooks = $books
             ->select('books.id', 'books.created_at')
-            ->selectRaw("coalesce('books', '0') as 'type'");
+            ->selectRaw("coalesce('books', '0') as 'type'")
+            ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
+                $query->withAvg('rates as rates_avg', 'rates.rating');
+            });
 
         $newAudioBooks = $audioBooks
             ->select('audio_books.id', 'audio_books.created_at')
-            ->selectRaw("coalesce('audioBooks', '0') as 'type'");
+            ->selectRaw("coalesce('audioBooks', '0') as 'type'")
+            ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
+                $query->withAvg('rates as rates_avg', 'rates.rating');
+            });
 
-        $novelties = $newBooks->unionAll($newAudioBooks)->latest()->paginate(self::NOVELTIES_PAGINATE);
+        $novelties = $newBooks->unionAll($newAudioBooks)
+            ->when(\request()->sortBy === QueryFilter::SORT_BY_DATE, function (Builder $query) {
+                $query->latest();
+            })
+            ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function (Builder $query) {
+                $query->orderBy('rates_avg', 'desc');
+            })
+            ->paginate(self::NOVELTIES_PAGINATE);
 
         $allBooks = collect();
 
@@ -240,7 +253,7 @@ class BookController extends Controller
         }))->get());
 
         $newNovelties = collect();
-        foreach ($novelties as &$novelty) {
+        foreach ($novelties as $novelty) {
             $newNovelties->add($allBooks->first(function ($value) use ($novelty) {
                 return $novelty->type === $value->type and $novelty->id === $value->id;
             }));
