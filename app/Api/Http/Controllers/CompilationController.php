@@ -64,7 +64,6 @@ class CompilationController extends Controller
 
         }
 
-
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
@@ -86,9 +85,9 @@ class CompilationController extends Controller
     public function showUserCompilations(UserCompilationsRequest $request, CompilationFilter $compilationFilter): \Illuminate\Http\JsonResponse
     {
 
-        $compilation=Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
+        $compilation = Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
 
         return ApiAnswerService::successfulAnswerWithData($compilation);
-    }
 
+    }
 }

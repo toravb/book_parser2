@@ -16,6 +16,7 @@ use App\Api\Http\Requests\GetUserBooksRequest;
 use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Http\Requests\ShowBooksFilterByLetterRequest;
+use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 
@@ -34,6 +35,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
 {
+    const NOVELTIES_PAGINATE = 32;
+
     public function show(GetBooksRequest $request, BookFilter $bookFilter, AudioBookFilter $audioBookFilter, BookFactory $bookFactory)
     {
         $perPageList = $request->type === QueryFilter::TYPE_BOOK ? QueryFilter::PER_PAGE_LIST : QueryFilter::PER_PAGE_LIST_AUDIO;
@@ -210,5 +213,41 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
+    public function novelties(Book $books, AudioBook $audioBooks)
+    {
+        $newBooks = $books
+            ->select('books.id', 'books.created_at')
+            ->selectRaw("coalesce('books', '0') as 'type'");
 
+        $newAudioBooks = $audioBooks
+            ->select('audio_books.id', 'audio_books.created_at')
+            ->selectRaw("coalesce('audioBooks', '0') as 'type'");
+
+        $novelties = $newBooks->unionAll($newAudioBooks)->latest()->paginate(self::NOVELTIES_PAGINATE);
+
+        $allBooks = collect();
+
+        $allBooks = $allBooks->concat((new Book())->newBooks()->whereIn('books.id', $novelties->filter(function ($value) {
+            return $value->type === QueryFilter::TYPE_BOOK;
+        })->map(function ($value) {
+            return $value->id;
+        }))->get());
+
+        $allBooks = $allBooks->concat((new AudioBook())->newAudioBooks()->whereIn('audio_books.id', $novelties->filter(function ($value) {
+            return $value->type === QueryFilter::TYPE_AUDIO_BOOK;
+        })->map(function ($value) {
+            return $value->id;
+        }))->get());
+
+        $newNovelties = collect();
+        foreach ($novelties as &$novelty) {
+            $newNovelties->add($allBooks->first(function ($value) use ($novelty) {
+                return $novelty->type === $value->type and $novelty->id === $value->id;
+            }));
+        }
+
+        $novelties->setCollection($newNovelties);
+
+        return ApiAnswerService::successfulAnswerWithData($novelties);
+    }
 }
