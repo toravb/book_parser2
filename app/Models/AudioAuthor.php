@@ -9,6 +9,8 @@ class AudioAuthor extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $table = 'authors';
 
     protected $fillable = [
