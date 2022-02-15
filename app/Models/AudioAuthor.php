@@ -11,6 +11,10 @@ class AudioAuthor extends Model
 
     protected $table = 'authors';
 
+    protected $fillable = [
+        'author'
+    ];
+
     public static function create($fields){
         $author = new static();
         $author->fill($fields);
