@@ -11,6 +11,7 @@ use App\Api\Http\Controllers\ChaptersController;
 use App\Api\Http\Controllers\CommentController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
+use App\Api\Http\Controllers\FeedbackFormsController;
 use App\Api\Http\Controllers\LikeController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
@@ -255,3 +256,4 @@ Route::group(['prefix' => 'audio-books'], function () {
 /*
  * -------
  */
+Route::post('/support', [FeedbackFormsController::class, 'create']);
