@@ -30,6 +30,8 @@ class AudioBook extends Model implements BookInterface
         'litres'
     ];
 
+    protected $hidden = ['pivot'];
+
     public static array $availableListeningStatuses = [
         self::WANT_LISTEN,
         self::LISTENING,
@@ -40,11 +42,9 @@ class AudioBook extends Model implements BookInterface
         'type'
     ];
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
-
-        return 'audioBooks';
-
+        return $this->getRawOriginal['type'] ?? 'audioBooks';
     }
 
     public function sluggable(): array
@@ -279,6 +279,21 @@ class AudioBook extends Model implements BookInterface
         });
 
         return $audioBookList;
+    }
+
+    public function noveltiesBooks(): Builder
+    {
+        return $this
+            ->select('audio_books.id', 'audio_books.title', 'genre_id', 'audio_books.year_id')
+            ->with([
+                'genre:id,name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ])
+            ->withCount('views')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->join('years', 'years.id', '=', 'audio_books.year_id');
     }
 
 }

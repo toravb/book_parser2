@@ -51,12 +51,8 @@ class Book extends Model implements BookInterface
 
     public function getTypeAttribute(): string
     {
-
-        return 'books';
-
+        return $this->getRawOriginal('type') ?? 'books';
     }
-
-//    protected $morphClass = 'Book';
 
     public static function create($fields)
     {
@@ -352,6 +348,19 @@ class Book extends Model implements BookInterface
             ->withCount('views');
     }
 
-
+    public function noveltiesBooks()
+    {
+        return $this
+            ->select('books.id', 'books.title', 'books.year_id')
+            ->with([
+                'genres:name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ])
+            ->withCount('views')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->join('years', 'years.id', '=', 'books.year_id');
+    }
 }
 

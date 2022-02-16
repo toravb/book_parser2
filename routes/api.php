@@ -60,6 +60,8 @@ Route::group(['middleware' => 'guest'], function () {
  */
 Route::get('/home', [MainPageController::class, 'home']);
 
+Route::get('/novelties', [BookController::class, 'novelties']);
+
 Route::middleware('auth:api')->group(function () {
 
     /*
