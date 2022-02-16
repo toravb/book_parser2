@@ -20,6 +20,7 @@ abstract class QueryFilter
     const BESTSELLERS = '5';
     const TYPE_BOOK = 'books';
     const TYPE_AUDIO_BOOK = 'audioBooks';
+    const TYPE_ALL = 'all';
     /**
      * @var Request
      */

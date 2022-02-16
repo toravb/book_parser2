@@ -281,12 +281,12 @@ class AudioBook extends Model implements BookInterface
         return $audioBookList;
     }
 
-    public function newAudioBooks(): Builder
+    public function noveltiesBooks(): Builder
     {
         return $this
-            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id')
+            ->select('audio_books.id', 'audio_books.title', 'genre_id', 'audio_books.year_id')
             ->with([
-//                'genre:id,name',
+                'genre:id,name',
                 'authors:author',
                 'image:book_id,link',
                 'year:id,year'

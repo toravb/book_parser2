@@ -348,7 +348,7 @@ class Book extends Model implements BookInterface
             ->withCount('views');
     }
 
-    public function newBooks()
+    public function noveltiesBooks()
     {
         return $this
             ->select('books.id', 'books.title', 'books.year_id')

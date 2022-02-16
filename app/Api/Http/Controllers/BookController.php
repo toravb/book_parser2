@@ -14,6 +14,7 @@ use App\Api\Http\Requests\GetBooksRequest;
 use App\Api\Http\Requests\GetUserAuthorsRequest;
 use App\Api\Http\Requests\GetUserBooksRequest;
 use App\Api\Http\Requests\GetByLetterRequest;
+use App\Api\Http\Requests\NoveltiesRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Http\Requests\ShowBooksFilterByLetterRequest;
 use App\Api\Interfaces\Types;
@@ -213,54 +214,72 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function novelties(Book $books, AudioBook $audioBooks)
+    public function novelties(
+        NoveltiesRequest $request,
+        Book             $books,
+        AudioBook        $audioBooks,
+        BookFactory      $bookFactory,
+        BookFilter       $bookFilter,
+        AudioBookFilter  $audioBookFilter
+    )
     {
-        $newBooks = $books
-            ->select('books.id', 'books.created_at')
-            ->selectRaw("coalesce('books', '0') as 'type'")
-            ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
-                $query->withAvg('rates as rates_avg', 'rates.rating');
-            });
 
-        $newAudioBooks = $audioBooks
-            ->select('audio_books.id', 'audio_books.created_at')
-            ->selectRaw("coalesce('audioBooks', '0') as 'type'")
-            ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
-                $query->withAvg('rates as rates_avg', 'rates.rating');
-            });
+        if ($request->type === QueryFilter::TYPE_ALL) {
 
-        $novelties = $newBooks->unionAll($newAudioBooks)
-            ->when(\request()->sortBy === QueryFilter::SORT_BY_DATE, function (Builder $query) {
-                $query->latest();
-            })
-            ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function (Builder $query) {
-                $query->orderBy('rates_avg', 'desc');
-            })
-            ->paginate(self::NOVELTIES_PAGINATE);
+            $newBooks = $books
+                ->select('books.id', 'books.created_at')
+                ->selectRaw("coalesce('books', '0') as 'type'")
+                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
+                    $query->withAvg('rates as rates_avg', 'rates.rating');
+                });
 
-        $allBooks = collect();
+            $newAudioBooks = $audioBooks
+                ->select('audio_books.id', 'audio_books.created_at')
+                ->selectRaw("coalesce('audioBooks', '0') as 'type'")
+                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
+                    $query->withAvg('rates as rates_avg', 'rates.rating');
+                });
 
-        $allBooks = $allBooks->concat((new Book())->newBooks()->whereIn('books.id', $novelties->filter(function ($value) {
-            return $value->type === QueryFilter::TYPE_BOOK;
-        })->map(function ($value) {
-            return $value->id;
-        }))->get());
+            $novelties = $newBooks->unionAll($newAudioBooks)
+                ->when($request->sortBy === QueryFilter::SORT_BY_DATE, function (Builder $query) {
+                    $query->latest();
+                })
+                ->when($request->sortBy === QueryFilter::BESTSELLERS, function (Builder $query) {
+                    $query->orderBy('rates_avg', 'desc');
+                })
+                ->paginate(self::NOVELTIES_PAGINATE);
 
-        $allBooks = $allBooks->concat((new AudioBook())->newAudioBooks()->whereIn('audio_books.id', $novelties->filter(function ($value) {
-            return $value->type === QueryFilter::TYPE_AUDIO_BOOK;
-        })->map(function ($value) {
-            return $value->id;
-        }))->get());
+            $allBooks = collect();
 
-        $newNovelties = collect();
-        foreach ($novelties as $novelty) {
-            $newNovelties->add($allBooks->first(function ($value) use ($novelty) {
-                return $novelty->type === $value->type and $novelty->id === $value->id;
-            }));
+            $allBooks = $allBooks->concat((new Book())->noveltiesBooks()->whereIn('books.id', $novelties->filter(function ($value) {
+                return $value->type === QueryFilter::TYPE_BOOK;
+            })->map(function ($value) {
+                return $value->id;
+            }))->get());
+
+            $allBooks = $allBooks->concat((new AudioBook())->noveltiesBooks()->whereIn('audio_books.id', $novelties->filter(function ($value) {
+                return $value->type === QueryFilter::TYPE_AUDIO_BOOK;
+            })->map(function ($value) {
+                return $value->id;
+            }))->get());
+
+            $newNovelties = collect();
+            foreach ($novelties as $novelty) {
+                $newNovelties->add($allBooks->first(function ($value) use ($novelty) {
+                    return $novelty->type === $value->type and $novelty->id === $value->id;
+                }));
+            }
+
+            $novelties->setCollection($newNovelties);
+
+            return ApiAnswerService::successfulAnswerWithData($novelties);
+        } else {
+
+            $model = $bookFactory->createInstance($request->type);
+            $novelties = $model->noveltiesBooks()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
+                ->paginate(self::NOVELTIES_PAGINATE);
+            return ApiAnswerService::successfulAnswerWithData($novelties);
         }
 
-        $novelties->setCollection($newNovelties);
-
-        return ApiAnswerService::successfulAnswerWithData($novelties);
     }
 }
