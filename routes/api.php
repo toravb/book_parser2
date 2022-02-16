@@ -8,6 +8,7 @@ use App\Api\Http\Controllers\BookController;
 use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
 use App\Api\Http\Controllers\ChaptersController;
+use App\Api\Http\Controllers\ClaimFormsController;
 use App\Api\Http\Controllers\CommentController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
@@ -257,3 +258,4 @@ Route::group(['prefix' => 'audio-books'], function () {
  * -------
  */
 Route::post('/support', [FeedbackFormsController::class, 'create']);
+Route::post('/claim', [ClaimFormsController::class, 'create']);

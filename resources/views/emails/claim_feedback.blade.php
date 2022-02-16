@@ -8,10 +8,15 @@
     <title></title>
 </head>
 <body>
+<p>Subject: {{ $form->subject }}</p>
+<p>Link source: {{ $form->link_source }}</p>
+<p>Link content: {{ $form->link_content }}</p>
 <p>Name: {{ $form->name }}</p>
 <p>Email: {{ $form->email }}</p>
-<p>Subject: {{ $form->subject }}</p>
-<p>Message: {{ $form->message }}</p>
+<p>Agreement: {{ $form->agreement }}</p>
+<p>Copyright holder: {{ $form->copyright_holder }}</p>
+<p>Interaction: {{ $form->interaction }}</p>
+
 
 </body>
 </html>

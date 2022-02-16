@@ -5,11 +5,9 @@ namespace App\Api\Http\Controllers;
 use App\Api\Http\Requests\FeedbackFormRequest;
 use App\Api\Services\ApiAnswerService;
 use App\AuthApi\Mails\FeedbackFormMail;
-use App\AuthApi\Mails\PasswordForgotMail;
 use App\Http\Controllers\Controller;
 use App\Models\FeedbackForm;
 use App\Models\FeedbackFormImage;
-use App\Models\ImageFeedbackForm;
 use Illuminate\Support\Facades\Mail;
 
 

@@ -9173,6 +9173,215 @@
       },
       "parameters": []
     },
+    "/claim": {
+      "post": {
+        "summary": "Create claim form",
+        "operationId": "post-bookmark",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "subject": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "link_source": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "link_content": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "email": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "agreement": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "copyright_holder": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "interaction": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "subject",
+                        "link_source",
+                        "link_content",
+                        "name",
+                        "email",
+                        "agreement",
+                        "copyright_holder",
+                        "interaction",
+                        "updated_at",
+                        "created_at",
+                        "id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "subject": "theme",
+                        "link_source": "qwer",
+                        "link_content": "qwer",
+                        "name": "test",
+                        "email": "test@mail.com",
+                        "agreement": "1",
+                        "copyright_holder": "1",
+                        "interaction": "1",
+                        "updated_at": "2022-02-16T12:05:23.000000Z",
+                        "created_at": "2022-02-16T12:05:23.000000Z",
+                        "id": 1
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "subject": "theme",
+                        "link_source": "qwer",
+                        "link_content": "qwer",
+                        "name": "test",
+                        "email": "test@mail.com",
+                        "agreement": "1",
+                        "copyright_holder": "1",
+                        "interaction": "1",
+                        "updated_at": "2022-02-16T12:05:23.000000Z",
+                        "created_at": "2022-02-16T12:05:23.000000Z",
+                        "id": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "subject": "theme",
+                    "link_source": "qwer",
+                    "link_content": "qwer",
+                    "name": "test",
+                    "email": "test@mail.com",
+                    "agreement": "1",
+                    "copyright_holder": "1",
+                    "interaction": "1",
+                    "updated_at": "2022-02-16T12:05:23.000000Z",
+                    "created_at": "2022-02-16T12:05:23.000000Z",
+                    "id": 1
+                  }
+                },
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "link_source": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "link_content": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "email": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "agreement": {
+                    "type": "boolean"
+                  },
+                  "copyright_holder": {
+                    "type": "boolean"
+                  },
+                  "interaction": {
+                    "type": "boolean"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "subject",
+                  "link_source",
+                  "name",
+                  "link_content",
+                  "email",
+                  "agreement",
+                  "copyright_holder",
+                  "interaction",
+                  "updated_at",
+                  "created_at"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    },
     "/bookmarks/{id}": {
       "parameters": [
         {
