@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "almasaeed2010/adminlte": "~3.0",
         "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^3.2",
         "fideloper/proxy": "^4.4",

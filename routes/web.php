@@ -1,6 +1,12 @@
 <?php
 
 use App\Api\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\Audio\AdminController;
+use App\Http\Controllers\Parser\Admin\DashboardController;
+use App\Http\Controllers\Parser\Admin\PageController;
+use App\Http\Controllers\Parser\Admin\ParserController;
+use App\Http\Controllers\Parser\Admin\ProfileController;
+use App\Http\Controllers\Parser\Admin\ProxySettingsController;
 use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,61 +26,88 @@ Route::get('/', function () {
     return redirect('login');
 });
 
+Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
 
-Route::get('/dashboard', 'App\Http\Controllers\Parser\Admin\DashboardController@main')->middleware(['auth'])->name('dashboard');
-Route::get('/main', [MainController::class, 'index'])->middleware(['auth'])->name('main');
+    Route::get('/dashboard', [DashboardController::class, 'main'])->name('dashboard');
 
-Route::post('/parser/links', 'App\Http\Controllers\Parser\Admin\ParserController@parseLink')->middleware(['auth'])->name('parser.parse.links');
-Route::post('/parser/books', 'App\Http\Controllers\Parser\Admin\ParserController@parseBooks')->middleware(['auth'])->name('parser.parse.books');
-Route::post('/parser/pages', 'App\Http\Controllers\Parser\Admin\ParserController@parsePages')->middleware(['auth'])->name('parser.parse.pages');
-Route::post('/parser/images', 'App\Http\Controllers\Parser\Admin\ParserController@parseImages')->middleware(['auth'])->name('parser.parse.images');
-Route::get('/books', 'App\Http\Controllers\Parser\Admin\PageController@books')->middleware(['auth'])->name('books.show');
-Route::get('/books/{id}', 'App\Http\Controllers\Parser\Admin\PageController@booksPages')->middleware(['auth'])->name('books.item');
+    Route::group(['prefix' => 'admin-panel'], function () {
+        Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
+        Route::get('/books', [\App\Http\Controllers\Admin\HomeController::class, 'listBooks'])->name('list.books');
 
-Route::post('/add/auth', 'App\Http\Controllers\Parser\Admin\ProxySettingsController@addAuthData')->middleware(['auth'])->name('add.authdata');
-Route::get('/parser/pages', 'App\Http\Controllers\Parser\Admin\PageController@index')->middleware(['auth'])->name( 'parser.pages');
-Route::get('/parser/proxy/show', 'App\Http\Controllers\Parser\Admin\PageController@showProxies')->middleware(['auth'])->name( 'show.proxies');
-Route::get('/parser/proxy/settings', 'App\Http\Controllers\Parser\Admin\ProxySettingsController@index')->middleware(['auth'])->name( 'proxy.settings');
-Route::get('/parser', 'App\Http\Controllers\Parser\Admin\ParserController@index')->middleware(['auth'])->name( 'parser');
-Route::get('/profile', 'App\Http\Controllers\Parser\Admin\ProfileController@index')->middleware(['auth'])->name( 'profile.change');
-Route::post('/profile', 'App\Http\Controllers\Parser\Admin\ProfileController@change')->middleware(['auth'])->name( 'profile.change.data');
-Route::post('/parser/parse/page','App\Http\Controllers\Parser\Admin\ParserController@parsePage')->middleware(['auth'])->name('parser.parse.page.post');
-Route::post('/parser/parse/add/pages','App\Http\Controllers\Parser\Admin\ParserController@addPagesToQueue')->middleware(['auth'])->name('parser.add.pages');
-Route::get('/parser/parse/page','App\Http\Controllers\Parser\Admin\ParserController@parsePage')->middleware(['auth'])->name('parser.parse.page');
-Route::post('/parser/parse/page_image','App\Http\Controllers\Parser\Admin\ParserController@parsePageImage')->middleware(['auth'])->name('parser.parse.pageImage');
-Route::get('/parser/parse/proxy','App\Http\Controllers\Parser\Admin\ParserController@parseProxy')->middleware(['auth'])->name('parser.parse.proxy');
-Route::post('/parser/parse/sitemap','App\Http\Controllers\Parser\Admin\ParserController@parseSiteMap')->middleware(['auth'])->name('parser.parse.sitemap');
-Route::get('/parser/excel/download','App\Http\Controllers\Parser\Admin\ParserController@getDownload')->middleware(['auth'])->name('parser.parse.download');
-Route::get('/parser/excel/generate','App\Http\Controllers\Parser\Admin\ParserController@generateExcel')->middleware(['auth'])->name('parser.parse.generate');
+    });
+
+    Route::group(['as' => 'parser.', 'prefix' => 'parser'], function () {
+        Route::get('/', [ParserController::class, 'index']);
+        Route::get('/pages', [PageController::class, 'index'])->name('pages');
+        Route::get('/proxy/show', [PageController::class, 'showProxies'])->name('show.proxies');
+        Route::get('/proxy/settings', [ProxySettingsController::class, 'index'])->name('proxy.settings');
+
+        Route::group(['prefix' => 'parse'], function () {
+            Route::post('/add/pages', [ParserController::class, 'addPagesToQueue'])->name('add.pages');
+
+            Route::group(['as' => 'parse.'], function () {
+                Route::get('/page', [ParserController::class, 'parsePages'])->name('page');
+                Route::get('/proxy', [ParserController::class, 'parseProxy'])->name('proxy');
+
+                Route::post('/page', [ParserController::class, 'parsePages'])->name('page.post');
+                Route::post('/page_image', [ParserController::class, 'parsePageImage'])->name('pageImage');
+                Route::post('/sitemap', [ParserController::class, 'parseSiteMap'])->name('sitemap');
+            });
+        });
+
+        Route::group(['as' => 'parse.'], function () {
+            Route::get('/excel/download', [ParserController::class, 'getDownload'])->name('download');
+            Route::get('/excel/generate', [ParserController::class, 'generateExcel'])->name('generate');
+
+            Route::post('/links', [ParserController::class, 'parseLink'])->name('links');
+            Route::post('/books', [ParserController::class, 'parseBooks'])->name('books');
+            Route::post('/pages', [ParserController::class, 'parsePages'])->name('pages');
+            Route::post('/images', [ParserController::class, 'parseImages'])->name('images');
+        });
 
 
-Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
-    Route::get('/menu', [\App\Http\Controllers\Audio\AdminController::class, 'index'])->name('menu');
-    Route::prefix('{site}')->group(function (){
-        Route::prefix('parsing')->name('parsing.')->group(function (){
-            Route::post('/default', [\App\Http\Controllers\Audio\AdminController::class, 'startDefaultParsing'])->name('default');
-            Route::post('/authors', [\App\Http\Controllers\Audio\AdminController::class, 'startAuthorsParsing'])->name('authors');
-            Route::post('/books', [\App\Http\Controllers\Audio\AdminController::class, 'startBooksParsing'])->name('books');
-            Route::post('/images', [\App\Http\Controllers\Audio\AdminController::class, 'startImagesParsing'])->name('images');
-            Route::post('/audiobook', [\App\Http\Controllers\Audio\AdminController::class, 'startAudioBooksParsing'])->name('audio');
-            Route::post('/check', [\App\Http\Controllers\Audio\AdminController::class, 'checkErrors'])->name('check');
+    });
+
+    Route::group(['as' => 'profile.', 'prefix' => 'profile'], function () {
+        Route::get('/', [ProfileController::class, 'index'])->name('change');
+
+        Route::post('/', [ProfileController::class, 'change'])->name('change.data');
+    });
+
+    Route::post('/add/auth', [ProxySettingsController::class, 'addAuthData'])->name('add.authdata');
+
+    Route::group(['as' => 'audio.', 'prefix' => 'audio'], function () {
+        Route::get('/menu', [AdminController::class, 'index'])->name('menu');
+        Route::prefix('{site}')->group(function () {
+            Route::group(['as' => 'parsing.', 'prefix' => 'parsing'], function () {
+                Route::post('/default', [AdminController::class, 'startDefaultParsing'])->name('default');
+                Route::post('/authors', [AdminController::class, 'startAuthorsParsing'])->name('authors');
+                Route::post('/books', [AdminController::class, 'startBooksParsing'])->name('books');
+                Route::post('/images', [AdminController::class, 'startImagesParsing'])->name('images');
+                Route::post('/audiobook', [AdminController::class, 'startAudioBooksParsing'])->name('audio');
+                Route::post('/check', [AdminController::class, 'checkErrors'])->name('check');
+            });
+        });
+
+        Route::group(['as' => 'books.', 'prefix' => 'books'], function () {
+            Route::get('/list', [AdminController::class, 'booksList'])->name('list');
+            Route::get('/table', [AdminController::class, 'booksTable'])->name('table');
+            Route::get('/authors', [AdminController::class, 'authorsList'])->name('authors');
+            Route::get('/actors', [AdminController::class, 'actorsList'])->name('actors');
+            Route::get('/genres/{genre}', [AdminController::class, 'booksGenre'])->name('genre');
+            Route::get('/series/{series}', [AdminController::class, 'booksSeries'])->name('series');
+            Route::get('/authors/{author}', [AdminController::class, 'booksFromAuthor'])->name('author');
+            Route::get('/actors/{actor}', [AdminController::class, 'booksFromActor'])->name('actor');
+            Route::get('/{book}', [AdminController::class, 'booksItem'])->name('show');
         });
     });
-    Route::prefix('books')->name('books.')->group(function (){
-        Route::get('/list', [\App\Http\Controllers\Audio\AdminController::class, 'booksList'])->name('list');
-        Route::get('/table', [\App\Http\Controllers\Audio\AdminController::class, 'booksTable'])->name('table');
-        Route::get('/authors', [\App\Http\Controllers\Audio\AdminController::class, 'authorsList'])->name('authors');
-        Route::get('/actors', [\App\Http\Controllers\Audio\AdminController::class, 'actorsList'])->name('actors');
-        Route::get('/genres/{genre}', [\App\Http\Controllers\Audio\AdminController::class, 'booksGenre'])->name('genre');
-        Route::get('/series/{series}', [\App\Http\Controllers\Audio\AdminController::class, 'booksSeries'])->name('series');
-        Route::get('/authors/{author}', [\App\Http\Controllers\Audio\AdminController::class, 'booksFromAuthor'])->name('author');
-        Route::get('/actors/{actor}', [\App\Http\Controllers\Audio\AdminController::class, 'booksFromActor'])->name('actor');
-        Route::get('/{book}', [\App\Http\Controllers\Audio\AdminController::class, 'booksItem'])->name('show');
+
+    Route::group(['as' => 'books.', 'prefix' => 'books'], function () {
+        Route::get('/', [PageController::class, 'books'])->name('show');
+        Route::get('/{id}', [PageController::class, 'booksPages'])->name('item');
     });
+
+    Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
 });
 
-Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
-
-
-
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

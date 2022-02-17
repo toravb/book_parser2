@@ -7,7 +7,7 @@
             <ul>
                 @if($books)
                     @foreach($books as $book)
-                        <li><a href="{{route('books.item', ['id' => $book->id])}}">{{$book->title}}</a></li>
+                        <li><a href="{{route('admin.books.item', ['id' => $book->id])}}">{{$book->title}}</a></li>
                     @endforeach
                 @endif
             </ul>

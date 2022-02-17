@@ -15,7 +15,7 @@
                 @endif
 
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.default', ['site' => $site])}}">
+                    <form class="form-horizontal" method="post" action="{{route('admin.audio.parsing.default', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.authors', ['site' => $site])}}">
+                    <form class="form-horizontal" method="post" action="{{route('admin.audio.parsing.authors', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
@@ -66,7 +66,7 @@
                 </div>
 
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.books', ['site' => $site])}}">
+                    <form class="form-horizontal" method="post" action="{{route('admin.audio.parsing.books', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
@@ -153,7 +153,7 @@
 
             <div class="sub-container main-menu-right">
                 <div class="form-container">
-                    <form class="form-horizontal" method="post" action="{{route('audio.parsing.check', ['site' => $site])}}">
+                    <form class="form-horizontal" method="post" action="{{route('admin.audio.parsing.check', ['site' => $site])}}">
                         {{ csrf_field() }}
                         <div class="box-body">
                             <div class="form-group">
