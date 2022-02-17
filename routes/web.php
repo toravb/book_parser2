@@ -1,6 +1,7 @@
 <?php
 
 use App\Api\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -21,6 +22,7 @@ Route::get('/', function () {
 
 
 Route::get('/dashboard', 'App\Http\Controllers\Parser\Admin\DashboardController@main')->middleware(['auth'])->name('dashboard');
+Route::get('/main', [MainController::class, 'index'])->middleware(['auth'])->name('main');
 
 Route::post('/parser/links', 'App\Http\Controllers\Parser\Admin\ParserController@parseLink')->middleware(['auth'])->name('parser.parse.links');
 Route::post('/parser/books', 'App\Http\Controllers\Parser\Admin\ParserController@parseBooks')->middleware(['auth'])->name('parser.parse.books');
