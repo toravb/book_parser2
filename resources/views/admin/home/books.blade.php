@@ -6,22 +6,22 @@
             <thead>
             <tr>
                 <th>id</th>
-                <th>Жанр</th>
-                <th>Автор</th>
+                <th>Название</th>
+                <th>Active</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($book as $books)
+            @foreach($books as $book)
 
                 <tr>
                     <td>
-                        <a href="{{route('admin.list.books', ['books' => $books])}}">{!!$books->id!!}</a>
+                        {{ $book['id'] }}
                     </td>
                     <td>
-                        <a href="{{route('admin.list.books', ['books' => $books])}}">{!!$books->title!!}</a>
+                        <a href="">{!! $book['title'] !!}</a>
                     </td>
                     <td>
-                        <a href="{{route('admin.list.books', ['books' => $books])}}">{!!$books->active!!}</a>
+                        <a href="">{!!$book['active']!!}</a>
                     </td>
                 </tr>
             @endforeach

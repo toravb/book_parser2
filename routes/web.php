@@ -32,6 +32,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin-panel'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
         Route::get('/books', [\App\Http\Controllers\Admin\HomeController::class, 'listBooks'])->name('list.books');
+        Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('category.index');
 
     });
 

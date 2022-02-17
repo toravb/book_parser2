@@ -22,4 +22,9 @@ class BookGenre extends Model
         return $this->withCount('books')->get();
     }
 
+    public function index()
+    {
+        return $this->orderBy('name', 'asc')->get();
+    }
+
 }
