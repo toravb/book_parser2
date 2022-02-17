@@ -13,7 +13,7 @@
                 {{session('error')}}
             </div>
         @endif
-<form class="form-horizontal profile" method="post" action="{{route('profile.change.data')}}">
+<form class="form-horizontal profile" method="post" action="{{route('admin.profile.change.data')}}">
     {{ csrf_field() }}
     <div class="box-body">
         <div class="form-group">

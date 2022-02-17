@@ -15,7 +15,7 @@
 
                     <tr>
                         <td>
-                            <a href="{{route('audio.books.show', ['book' => $book])}}">{!!$book->title!!}</a>
+                            <a href="{{route('admin.audio.books.show', ['book' => $book])}}">{!!$book->title!!}</a>
                         </td>
                     </tr>
                 @endforeach
