@@ -19,12 +19,14 @@ use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
 use App\Api\Http\Controllers\UserAuthorsController;
+use App\Api\Http\Controllers\UserController;
 use App\Api\Http\Controllers\UsersRecommendationsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
+use App\Api\Http\Controllers\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -98,6 +100,8 @@ Route::middleware('auth:api')->group(function () {
      * -----------
      */
 
+    Route::get('/users/user_id', [UserController::class, 'getUserId']);
+
 
 
     /**
@@ -121,7 +125,7 @@ Route::middleware('auth:api')->group(function () {
      * Comments
      */
     Route::group(['prefix' => 'comments'], function () {
-        Route::put('/', [CommentController::class, 'saveChangeComment']);
+        Route::post('/', [CommentController::class, 'saveComment']);
     });
 
     /*
@@ -152,6 +156,12 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'bookmarks'], function () {
         Route::post('/', [BookmarksController::class, 'create']);
         Route::delete('/{bookmark}', [BookmarksController::class, 'destroy']);
+    });
+    /**
+     * Notifications
+     */
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationController::class, 'get']);
     });
 });
 

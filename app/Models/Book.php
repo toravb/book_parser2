@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\MainPageController;
 use App\Api\Interfaces\BookInterface;
+use App\Api\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -308,6 +309,11 @@ class Book extends Model implements BookInterface
     public function chapters(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notificationable');
     }
 
     public function getBookForLetterFilter(): Builder

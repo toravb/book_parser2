@@ -21,12 +21,13 @@ class TypesGenerator implements Types
     protected $likeTypes = [
         'book' => 'App\\Api\\Models\\BookLike',
         'audio_book' => 'App\\Api\\Models\\AudioBookLike',
-        'comment' => 'App\\Api\\Models\\CommentLike'
+        'book_comment' => 'App\\Api\\Models\\BookCommentLike'
     ];
 
     protected $likeModelTypes = [
         'book' => 'App\\Models\\Book',
-        'audio_book' => 'App\\Api\\Models\\AudioBook'
+        'audio_book' => 'App\\Api\\Models\\AudioBook',
+        'book_comment' => 'App\\Models\\BookComment'
     ];
 
     protected $compilationsBookTypes = [
@@ -34,8 +35,18 @@ class TypesGenerator implements Types
         QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
     ];
 
-    protected $notificationableTypes = [
-        NewNotificationEvent::LIKED_COMMENT => 'App\\Models\\Comment'
+    protected array $notificationableTypes = [
+        NewNotificationEvent::LIKED_COMMENT => [
+            'book_comment' => 'App\\Models\\BookComment'
+        ],
+        NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => [
+            'book' => 'App\\Models\\BookComment'
+        ]
+    ];
+
+    protected array $notificationableHandleTypes = [
+        NewNotificationEvent::LIKED_COMMENT => 'App\\Api\\Notifications\\LikedComment',
+        NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => 'App\\Api\\Notifications\\CommentsNotifications'
     ];
 
     protected $reviewTypes = [
@@ -98,6 +109,12 @@ class TypesGenerator implements Types
     public function getNotificationTypes(): array
     {
         return $this->notificationableTypes;
+    }
+
+
+    public function getNotificationHandleObjects(): array
+    {
+        return $this->notificationableHandleTypes;
     }
 
     public function getReviewTypes(): array
