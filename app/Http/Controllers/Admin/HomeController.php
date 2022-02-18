@@ -15,7 +15,7 @@ class HomeController extends Controller
     public function listBooks(Book $book)
     {
         $books = $book->getBooksForMainPageFilter()->paginate(10);
-        return view('admin.home.books', ['book' => $books]);
+        return view('admin.home.books', ['books' => $books]);
 
     }
 }
