@@ -78,6 +78,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{route('admin.create.books')}}" class="nav-link">
+                                    <p>Добавление книги</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
                                     <p>SEO настройки</p>
                                 </a>
