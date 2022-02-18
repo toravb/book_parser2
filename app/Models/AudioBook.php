@@ -18,6 +18,7 @@ class AudioBook extends Model implements BookInterface
     const WANT_LISTEN = '1';
     const LISTENING = '2';
     const HAD_LISTEN = '3';
+    const MAIN_PAGE_PAGINATE = 6;
 
     protected $fillable = [
         'title',
@@ -29,6 +30,8 @@ class AudioBook extends Model implements BookInterface
         'litres'
     ];
 
+    protected $hidden = ['pivot'];
+
     public static array $availableListeningStatuses = [
         self::WANT_LISTEN,
         self::LISTENING,
@@ -39,11 +42,9 @@ class AudioBook extends Model implements BookInterface
         'type'
     ];
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
-
-        return 'audioBooks';
-
+        return $this->getRawOriginal['type'] ?? 'audioBooks';
     }
 
     public function sluggable(): array
@@ -117,8 +118,8 @@ class AudioBook extends Model implements BookInterface
     public function authors()
     {
         return $this->hasManyThrough(
-            AudioAuthor::class,
-            AudioAuthorsToBook::class,
+            Author::class,
+            AuthorsToAudioBook::class,
             'book_id',
             'id',
             'id',
@@ -233,12 +234,66 @@ class AudioBook extends Model implements BookInterface
         ])
             //TODO: после выяснения подробностей нужно добавить:
             // Продолжительность файла
-            // Псоле, написать доку
+            // После, дописать доку
             ->where('id', $bookId)
             ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
+    }
+
+    public function getBookForLetterFilter(): Builder
+    {
+        return $this
+            ->with(['authors' => function ($query) {
+                return $query->select('name');
+            }])
+            ->select(['id', 'title'])
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
+    public function mainPagePaginateList()
+    {
+        $audioBookList = $this
+            ->select([
+                'id',
+                'title',
+                'genre_id',
+                'link_id',
+            ])
+            ->with([
+                'authors:author',
+                'genre:id,name',
+                'image:book_id,link'
+            ])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->withCount('views')
+            ->limit(20)
+            ->get();
+
+        $audioBookList->map(function ($compilation) {
+            if ($compilation->rates_avg === null) {
+                $compilation->rates_avg = 0;
+            }
+        });
+
+        return $audioBookList;
+    }
+
+    public function noveltiesBooks(): Builder
+    {
+        return $this
+            ->select('audio_books.id', 'audio_books.title', 'genre_id', 'audio_books.year_id')
+            ->with([
+                'genre:id,name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ])
+            ->withCount('views')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->join('years', 'years.id', '=', 'audio_books.year_id');
     }
 
 }

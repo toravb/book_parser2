@@ -68,6 +68,13 @@ class TypesGenerator implements Types
         'audio_book' => 'App\\Models\\AudioBook'
     ];
 
+    protected $viewsTypes = [
+        QueryFilter::TYPE_BOOK => 'App\Models\Book',
+        QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
+        'compilation' => 'App\\Models\\Compilation',
+        'review' => 'App\\Models\\BookReview'
+    ];
+
 
     public function getCommentTypes(): array
     {
@@ -104,6 +111,7 @@ class TypesGenerator implements Types
         return $this->notificationableTypes;
     }
 
+
     public function getNotificationHandleObjects(): array
     {
         return $this->notificationableHandleTypes;
@@ -127,6 +135,10 @@ class TypesGenerator implements Types
     public function getRecommendModelTypes(): array
     {
         return $this->recommendModelTypes;
+    }
+    public function getViewsTypes(): array
+    {
+        return $this->viewsTypes;
     }
 
 }

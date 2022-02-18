@@ -23,7 +23,7 @@ class LoginController extends Controller
             }
         }
 
-        if (User::withTrashed()->where($request->only('email'))->exists()) {
+        if (User::withTrashed()->where($request->only('email'))->whereNotNull('deleted_at')->exists()) {
             return response()->json(
                 [
                     'message' => 'Введены неверные данные.',

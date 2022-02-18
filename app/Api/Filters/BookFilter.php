@@ -84,10 +84,8 @@ class BookFilter extends QueryFilter
         }
 
         if ($sortBy === QueryFilter::SORT_BY_READERS_COUNT) {
-            return $this->builder->whereHas('bookStatuses', function ($query) {
-                $query->reading();
-            })
-                ->withCount('bookStatuses as readersCount')
+            return $this->builder->whereHas('readers')
+                ->withCount('readers as readersCount')
                 ->orderBy('readersCount', 'desc');
         }
 

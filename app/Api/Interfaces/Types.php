@@ -20,5 +20,4 @@ interface Types
 
     public function getRecommendTypes(): array;
 
-
 }

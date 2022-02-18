@@ -12,6 +12,7 @@ use App\Api\Http\Controllers\CommentController;
 use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\LikeController;
+use App\Api\Http\Controllers\MainPageController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
@@ -56,7 +57,12 @@ Route::group(['middleware' => 'guest'], function () {
 /*
  * -------
  */
+/**
+ * Main Page
+ */
+Route::get('/home', [MainPageController::class, 'home']);
 
+Route::get('/novelties', [BookController::class, 'novelties']);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -95,6 +101,7 @@ Route::middleware('auth:api')->group(function () {
      */
 
     Route::get('/users/user_id', [UserController::class, 'getUserId']);
+
 
 
     /**
@@ -190,6 +197,7 @@ Route::group(['prefix' => 'books'], function () {
     Route::get('/', [BookController::class, 'show']);
 
     // Search by letter
+    Route::get('/filter', [BookController::class, 'filteringByLetterPage']);
     Route::get('/letter/{letter}', [BookController::class, 'showByLetter']);
 
     Route::get('/{id}', [BookController::class, 'showSingle']);
@@ -198,12 +206,14 @@ Route::group(['prefix' => 'books'], function () {
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/{book}/bookmarks', [BookController::class, 'getBookmarks']);
+
+        // Ratings
+        Route::group(['prefix' => 'ratings'], function () {
+            Route::post('/', [RateController::class, 'store']);
+        });
+
     });
 
-    // Ratings
-    Route::group(['prefix' => 'ratings'], function () {
-        Route::post('/', [RateController::class, 'store']);
-    });
 });
 /*
  * --------
@@ -236,6 +246,7 @@ Route::group(['prefix' => 'compilations'], function () {
 Route::group(['prefix' => 'authors'], function () {
     Route::get('/page', [AuthorPageController::class, 'show']);
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
+    Route::get('/filter', [AuthorController::class, 'filterByLetter']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
     Route::get('/{author}/quotes', [AuthorPageController::class, 'showQuotes']);
     Route::get('/{author}/reviews', [AuthorPageController::class, 'showReviews']);

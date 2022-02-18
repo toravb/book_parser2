@@ -18,17 +18,17 @@ class CompilationFilter extends QueryFilter
 
             return $this->builder->with([
                 'books' => function ($query) {
-                    return $query->with(['authors', 'image'])
+                    return $query->with(['authors:author', 'image:book_id,link'])
                         ->select('id', 'title')
                         ->withCount('rates')
                         ->withAvg('rates as rates_avg', 'rates.rating');
                 },
                 'audioBooks' => function ($query) {
                     return $query
-//                        ->with(['authors', 'image'])
-                        ->select('id', 'title');
-//                        ->withCount('rates')
-//                        ->withAvg('rates as rates_avg', 'rates.rating');
+                        ->with(['authors:author', 'image:book_id,link'])
+                        ->select('id', 'title')
+                        ->withCount('rates')
+                        ->withAvg('rates as rates_avg', 'rates.rating');
                 }
 
             ])
@@ -39,7 +39,7 @@ class CompilationFilter extends QueryFilter
         if ($showType === 'block') {
             return $this->builder
                 ->select(['id', 'title', 'background'])
-                ->withCount('books');
+                ->withCount(['books', 'audioBooks']);
 
         }
     }

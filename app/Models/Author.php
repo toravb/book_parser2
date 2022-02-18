@@ -47,20 +47,15 @@ class Author extends Model
             'books');
     }
 
-    public function audioBooks(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
+    public function audioBooks()
     {
-        return $this->hasManyDeep(AudioBook::class, [AudioAuthor::class, AudioAuthorsToBook::class],
-            [
-                'id',
-                'author_id',
-                'id',
-            ],
-            [
-                'audio_author_id',
-                'id',
-                'book_id',
-            ],
-        );
+        return $this->belongsToMany(AudioBook::class,
+            AuthorsToAudioBook::class,
+            'author_id',
+            'book_id',
+            'id',
+            'id',
+            'audiobooks');
     }
 
     public function series(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
@@ -132,7 +127,6 @@ class Author extends Model
                             }]);
                     }]);
             }])
-
             ->find($author_id);
 
         return $authorWithBooks;
@@ -167,15 +161,16 @@ class Author extends Model
 
         return $authorWithBooks;
     }
+
     public function showOtherBooks($authorId)
     {
-        return $this->select('id', 'audio_author_id')
+        return $this->select('id')
             ->with([
                 'books' => function ($query) {
                     return $query
                         ->with([
                             'image' => function ($q) {
-                            return $q->where('page_id', null)->select('book_id','link');
+                                return $q->where('page_id', null)->select('book_id', 'link');
                             },
                             'authors'
                         ])
@@ -188,7 +183,7 @@ class Author extends Model
 
     public function showOtherAudioBooks($authorId)
     {
-        return $this->select('id', 'audio_author_id')
+        return $this->select('id')
             ->with([
                 'audioBooks' => function ($query) {
                     return $query
@@ -198,6 +193,15 @@ class Author extends Model
                         ->withAvg('rates as rates_avg', 'rates.rating');
                 }
             ])->findOrFail($authorId);
+    }
+
+    public function letterFiltering($letter)
+    {
+        return $this
+            ->where('author', 'like', $letter . '%')
+            ->select('id', 'author')
+            ->orderBy('author')
+            ->get();
     }
 
 

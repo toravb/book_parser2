@@ -3,11 +3,14 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
+use App\Api\Http\Controllers\MainPageController;
 use App\Api\Interfaces\BookInterface;
 use App\Api\Models\Notification;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\JoinClause;
 
 class Book extends Model implements BookInterface
 {
@@ -47,14 +50,10 @@ class Book extends Model implements BookInterface
         self::HAD_READ
     ];
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
-
-        return 'books';
-
+        return $this->getRawOriginal('type') ?? 'books';
     }
-
-//    protected $morphClass = 'Book';
 
     public static function create($fields)
     {
@@ -119,7 +118,7 @@ class Book extends Model implements BookInterface
 
     public function image(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(Image::class, 'book_id', 'id');
+        return $this->hasOne(Image::class)->whereNull('page_id');
     }
 
     public function images()
@@ -178,6 +177,12 @@ class Book extends Model implements BookInterface
     {
         return $this->hasMany(BookUser::class);
     }
+
+    public function readers()
+    {
+        return $this->bookStatuses()->where('status', QueryFilter::SORT_BY_READERS_COUNT);
+    }
+
 
     public function scopePopular($query)
     {
@@ -311,6 +316,57 @@ class Book extends Model implements BookInterface
         return $this->morphMany(Notification::class, 'notificationable');
     }
 
+    public function getBookForLetterFilter(): Builder
+    {
+        return $this
+            ->with(['authors' => function ($query) {
+                return $query->select('author');
+            }])
+            ->select(['id', 'title'])
+            ->withCount('rates')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
 
+    public function hotDailyUpdates()
+    {
+        return $this
+            ->select(['id', 'title', 'created_at'])
+            ->where('created_at', '>', Carbon::now()->subDays(MainPageController::PERIOD_FOR_HOT_DAILY_UPDATES))
+            ->with(['authors' => function ($query) {
+                $query->select('author');
+            }])
+            ->orderBy('created_at', 'desc')
+            ->get()->groupBy(function (Book $book) {
+                return Carbon::parse($book->created_at)->format('d-m-Y');
+            });
+    }
+
+    public function getBooksForMainPageFilter(): Builder
+    {
+        return $this
+            ->select(['id', 'title'])
+            ->with([
+                'genres:name',
+                'authors:author',
+                'image:book_id,link'
+            ])
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->withCount('views');
+    }
+
+    public function noveltiesBooks()
+    {
+        return $this
+            ->select('books.id', 'books.title', 'books.year_id')
+            ->with([
+                'genres:name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ])
+            ->withCount('views')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->join('years', 'years.id', '=', 'books.year_id');
+    }
 }
 
