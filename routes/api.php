@@ -18,6 +18,7 @@ use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
 use App\Api\Http\Controllers\UserAuthorsController;
+use App\Api\Http\Controllers\UserController;
 use App\Api\Http\Controllers\UsersRecommendationsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
@@ -92,6 +93,8 @@ Route::middleware('auth:api')->group(function () {
     /*
      * -----------
      */
+
+    Route::get('/users/user_id', [UserController::class, 'getUserId']);
 
 
     /**

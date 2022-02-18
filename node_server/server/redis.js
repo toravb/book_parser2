@@ -8,6 +8,5 @@ const redis = new Redis({
   db: config.redisDb
 })
 redis.subscribe(config.redisNotificationsChannel)
-redis.subscribe(config.redisAttechmentsionsChannel)
 
 module.exports = redis

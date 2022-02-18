@@ -72,6 +72,7 @@ Route::prefix('audio')->name('audio.')->middleware('auth')->group(function (){
 });
 
 Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
+Route::view('/wss', 'wss');
 
 
 

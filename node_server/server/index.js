@@ -10,11 +10,13 @@ const io = require('socket.io')(http, {
   }
 })
 const nsp = require('./nsp.js')
-const Chat = require('./chat.js')
+const Notifications = require('./notifications.js')
 
 nsp(io, ['chat'])
+nsp(io, ['notifications'])
 
-Chat(io.nsps.chat)
+Notifications(io.nsps.notifications)
+// Chat(io.nsps.chat)
 
 express.get('/', (req, res) => {
   res.send('<h1>Hello world</h1>')
