@@ -115,9 +115,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         Route::get('/{id}', [PageController::class, 'booksPages'])->name('item');
     });
 
+    Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
 });
-Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
-Route::view('/wss', 'wss');
-
 
 require __DIR__ . '/auth.php';
