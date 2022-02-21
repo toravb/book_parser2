@@ -13,4 +13,5 @@ class CategoryController extends Controller
 
         return view('admin.Categories.index', ['categories' => $categories]);
     }
+
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Parser\Admin\PageController;
 use App\Http\Controllers\Parser\Admin\ParserController;
 use App\Http\Controllers\Parser\Admin\ProfileController;
 use App\Http\Controllers\Parser\Admin\ProxySettingsController;
+use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -32,6 +33,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
     Route::group(['prefix' => 'admin-panel'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
         Route::get('/books', [\App\Http\Controllers\Admin\HomeController::class, 'listBooks'])->name('list.books');
+        Route::get('/book', [\App\Http\Controllers\Admin\HomeController::class, 'create'])->name('create.books');
+        Route::post('/book', [\App\Http\Controllers\Admin\HomeController::class, 'store'])->name('store.books');
+        Route::put('/book', [\App\Http\Controllers\Admin\HomeController::class, 'edit'])->name('edit.books');
         Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('category.index');
 
     });
