@@ -5,8 +5,11 @@ const redis = require('./redis.js')
 
 module.exports = function (nsp) {
   nsp.on('connection', (socket) => {
+      console.log('socket')
+      // console.log(socket)
     socket.join(String(socket.auth.id))
     const roomId = socket.auth.id
+      console.log(roomId)
     // api.get(`/chats/rooms/${roomId}`).then(
     //   (resp) => {
     //     let chatsList = []
@@ -117,58 +120,29 @@ module.exports = function (nsp) {
     //       )
     //   }
     // })
-    // socket.on('disconnect', () => {
-    //   api.get(`/chats/rooms/${roomId}`).then(
-    //     (resp) => {
-    //       let chatsList = []
-    //       if (resp.data.data.length) {
-    //         chatsList = resp.data.data
-    //         chatsList.forEach((el) => {
-    //           if (
-    //             socket.adapter.rooms.get(String(el)) &&
-    //             !socket.adapter.rooms.get(String(roomId))
-    //           ) {
-    //             socket.to(String(el)).emit('statusChanged', [
-    //               {
-    //                 id: roomId,
-    //                 status: 'offline'
-    //               }
-    //             ])
-    //           }
-    //         })
-    //       }
-    //     },
-    //     (e) => {
-    //       console.log(e.response.data)
-    //     }
-    //   )
-    //   console.log('Client disconnected from /chat')
-    // })
+    socket.on('disconnect', () => {
+
+      console.log('Client disconnected from /chat')
+    })
   })
   redis.on('message', (channel, message) => {
+      console.log('Redis')
       console.log(channel)
     if (channel === config.redisNotificationsChannel) {
 
       message = JSON.parse(message)
         console.log(message)
-      if (message.data.type === 'new_message') {
+      if (message.data.type === 'new_comment_like') {
         const data = {
-          id: message.data.messageId,
-          attachments: null,
-          chat_id: message.data.chatId,
-          text: message.data.text,
-          type: message.data.messageType,
-          created_at: message.data.created
+         sender: message.data.sender,
+            book: message.data.book,
+            createdAt: message.data.createdAt
         }
         if (message.data && Array.isArray(message.data.to)) {
           message.data.to.forEach((el) => {
             data.to = [el]
             nsp.to(String(el)).emit('sendMessage', data)
           })
-        }
-      } else if (message.data.type === 'read_message') {
-        if (message.data && message.data.to && message.data.countReadMessages) {
-          nsp.to(String(message.data.to)).emit('readedCount', message.data)
         }
       }
     }

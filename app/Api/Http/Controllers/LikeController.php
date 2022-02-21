@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Events\NewNotificationEvent;
 use Illuminate\Support\Facades\Auth;
 use App\Api\Interfaces\Types;
 use App\Http\Controllers\Controller;
@@ -89,6 +90,8 @@ class LikeController extends Controller
             ]);
 
         if ($record) {
+            NewNotificationEvent::dispatch(NewNotificationEvent::LIKED_COMMENT, $request->type,  $request->id, $userId);
+
             $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
             return response()->json([
                 'status' => 'success',
