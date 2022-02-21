@@ -33,15 +33,15 @@ class HomeController extends Controller
     {
         $book->update(\request()->only(['id', 'title', 'text']));
     }
-    public function create( BookGenre $category){
-        $categories = $category->index();
+    public function create(){
 
-
-        return view('admin.home.create', ['categories' => $categories]);
+        return view('admin.books.create');
     }
-    public function store(Request $request, Book $book){
-        $book->title=$request->title;
-        $book->text=$request->text;
+    public function store(Request $request){
+
+        dd($request);
+//        $book->title=$request->title;
+//        $book->text=$request->text;
        // $book->save();
 
         return redirect()->back()->withSuccess('Книга была успешно добавленна');
