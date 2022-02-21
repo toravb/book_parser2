@@ -182,6 +182,7 @@ return [
         * */
         App\Providers\ComposerServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
+        Barryvdh\Elfinder\ElfinderServiceProvider::class
     ],
 
     /*

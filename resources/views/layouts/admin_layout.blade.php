@@ -73,12 +73,12 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="{{route('admin.book.list')}}" class="nav-link">
+                                <a href="{{route('admin.list.books')}}" class="nav-link">
                                     <p>Администрирование</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{route('admin.book.create')}}" class="nav-link">
+                                <a href="{{route('admin.create.books')}}" class="nav-link">
                                     <p>Добавление книги</p>
                                 </a>
                             </li>

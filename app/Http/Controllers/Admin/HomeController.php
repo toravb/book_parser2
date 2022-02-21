@@ -11,7 +11,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('admin.home.books');
+        return view('admin.home.index');
     }
 
     public function listBooks(Book $book)
@@ -22,12 +22,13 @@ class HomeController extends Controller
 
     }
 
-    public function edit($book)
+    public function edit($book, BookGenre $category)
     {
         $book =  (new Book())->getBooksForAdminPanel()
             ->findOrFail($book);
+        $categories = $category->index();
 
-        return view('admin.home.edit', compact('book'));
+        return view('admin.home.edit', compact('book'), ['categories' => $categories]);
     }
     public function storeEdit(Book $book)
     {

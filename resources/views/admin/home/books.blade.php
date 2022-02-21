@@ -64,7 +64,7 @@
                         @endif
                     </td>
                     <td>
-                        {{$book->year->year}}
+                        {{$book->year?->year}}
                     </td>
                     <td class="project-actions text-right">
                         <x-button-edit :route="route('admin.edit.books', $book)" label="Редактировать"></x-button-edit>

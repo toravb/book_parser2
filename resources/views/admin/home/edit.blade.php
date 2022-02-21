@@ -32,25 +32,28 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="bookTitleInput">Название книги</label>
-                        <input type="text" value="{{$book->title}}" name="title" class="form-control" id="bookTitleInput">
+                        <input type="text" value="{{$book->title}}" name="title" class="form-control"
+                               id="bookTitleInput">
                     </div>
                     <div class="form-group">
                         <label for="bookAuthorInput">Автор</label>
-                        <input type="text" value="{{$book}}"  name="authorName" class="form-control" id="bookTitleInput" >
+                        <input type="text" value="@if($book->authors ?? false)@foreach($book->authors as $bookAuthor) {{$bookAuthor->author}}, @endforeach
+                        @endif"
+                               name="authorName" class="form-control" id="bookTitleInput">
                     </div>
                     <div class="form-group">
                         <label for="bookTextInput">Описание</label>
-                        <input type="text"  name="text" class="form-control" id="bookTextInput" placeholder="Enter text">
+                        <input type="text" name="text" class="form-control" id="bookTextInput" placeholder="Enter text">
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
                             <!-- select -->
                             <div class="form-group">
                                 <label>Жанр</label>
-                                <select class="form-control"  name="genre">
-{{--                                    @foreach($categories as $category)--}}
-{{--                                        <option>{{$category['name']}}</option>--}}
-{{--                                    @endforeach--}}
+                                <select class="form-control" name="genre">
+                                    @foreach($categories as $category)
+                                        <option>{{$category['name']}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -58,10 +61,10 @@
                             <!-- select -->
                             <div class="form-group">
                                 <label>Статус</label>
-                                <select class="form-control"  name="status">
+                                <select class="form-control" name="status">
+                                    <option>0</option>
                                     <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
+
 
                                 </select>
                             </div>
@@ -80,7 +83,8 @@
                         </div>
                         <div class="form-group" style="margin-left: 50px">
                             <label for="bookYearInput">Год издания</label>
-                            <input type="text"  name="year" class="form-control" id="bookTitleInput" placeholder="Enter year">
+                            <input type="text" name="year" class="form-control" id="bookTitleInput"
+                                   placeholder="Enter year">
                         </div>
 
                     </div>
