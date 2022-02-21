@@ -16,16 +16,22 @@ class HomeController extends Controller
 
     public function listBooks(Book $book)
     {
-        $books = $book->getBooksForMainPageFilter()->paginate(10);
+        $books = $book->getBooksForAdminPanel()->paginate(10);
+//        dd($books);
         return view('admin.home.books', ['books' => $books]);
 
     }
 
-    public function edit(Book $book)
+    public function edit($book)
     {
-        return view('admin.home.edit', [
-            'book'=> $book
-        ]);
+        $book =  (new Book())->getBooksForAdminPanel()
+            ->findOrFail($book);
+
+        return view('admin.home.edit', compact('book'));
+    }
+    public function storeEdit(Book $book)
+    {
+        $book->update(\request()->only(['id', 'title', 'text']));
     }
     public function create( BookGenre $category){
         $categories = $category->index();

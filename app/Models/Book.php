@@ -368,5 +368,22 @@ class Book extends Model implements BookInterface
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
             ->join('years', 'years.id', '=', 'books.year_id');
     }
+
+    public function getBooksForAdminPanel()
+    {
+        return $this
+            ->select(['books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'genres:name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ]);
+    }
+
+    public function updateBook($fields)
+    {
+        return $this->fill($fields)->update();
+    }
 }
 

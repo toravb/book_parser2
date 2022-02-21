@@ -11,7 +11,7 @@ class CategoryController extends Controller
     {
         $categories = $category->index();
 
-        return view('admin.Categories.index', ['categories' => $categories]);
+        return view('admin.categories.index', ['categories' => $categories]);
     }
 
 }

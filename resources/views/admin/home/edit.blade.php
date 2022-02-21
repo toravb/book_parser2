@@ -26,17 +26,17 @@
     <section class="content">
         <div class="container-fluid">
 
-            <form action="{{route('admin.update.books', $book['id'])}}" method="post">
+            <form action="{{route('admin.store.edit.books', $book['id'])}}" method="post">
                 @csrf
                 @method("PUT")
                 <div class="card-body">
                     <div class="form-group">
                         <label for="bookTitleInput">Название книги</label>
-                        <input type="text" value="{{$book['title']}}" name="title" class="form-control" id="bookTitleInput" placeholder="Enter title">
+                        <input type="text" value="{{$book->title}}" name="title" class="form-control" id="bookTitleInput">
                     </div>
                     <div class="form-group">
                         <label for="bookAuthorInput">Автор</label>
-                        <input type="text"  name="authorName" class="form-control" id="bookTitleInput" placeholder="Enter author">
+                        <input type="text" value="{{$book}}"  name="authorName" class="form-control" id="bookTitleInput" >
                     </div>
                     <div class="form-group">
                         <label for="bookTextInput">Описание</label>
@@ -48,9 +48,9 @@
                             <div class="form-group">
                                 <label>Жанр</label>
                                 <select class="form-control"  name="genre">
-                                    @foreach($categories as $category)
-                                        <option>{{$category['name']}}</option>
-                                    @endforeach
+{{--                                    @foreach($categories as $category)--}}
+{{--                                        <option>{{$category['name']}}</option>--}}
+{{--                                    @endforeach--}}
                                 </select>
                             </div>
                         </div>
