@@ -9321,10 +9321,6 @@
             }
           }
         },
-        "description": "",
-        "tags": [
-          "Comments"
-        ],
         "security": [
           {
             "Authorization": []
