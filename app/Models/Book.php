@@ -388,15 +388,16 @@ class Book extends Model implements BookInterface
         return $this->fill($fields)->update();
     }
 
-    public function storeBooksByAdmin(String $title, String $text, int $status, String $link)
+    public function storeBooksByAdmin(string $title, string $text, int $status, string $link)
     {
-        $this->create([
+       $book = $this->create([
             'title' => $title,
             'text' => $text,
             'active' => $status,
             'link' => $link,
             'params' => '{}'
         ]);
+
+       return $book->id;
     }
 }
-

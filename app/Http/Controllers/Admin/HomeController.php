@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBookRequest;
 use App\Models\Book;
 use App\Models\BookGenre;
+use App\Models\Image;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -42,7 +43,7 @@ class HomeController extends Controller
         return view('admin.books.create');
     }
 
-    public function store(StoreBookRequest $request, Book $book)
+    public function store(StoreBookRequest $request, Book $book, Image $cover)
     {
 
         $background = $request->file('cover-image')->store('BookCoverImages');
@@ -50,11 +51,15 @@ class HomeController extends Controller
 //        dd($request->all());
 //        dd($request->status);
 //        dd((int)$request->get('status'));
-        $book->storeBooksByAdmin(
+        $bookId = $book->storeBooksByAdmin(
             $request->title,
             $request->description,
             $request->status,
             $bookFile,
         );
+
+        $cover->storeBookCoverByAdmin($bookId, $background);
+        return redirect(route('admin.book.create'));
+
     }
 }

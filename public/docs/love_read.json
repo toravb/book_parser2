@@ -4221,12 +4221,13 @@
                 1,
                 2,
                 3,
-                4
+                4,
+                5
               ]
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - sort by date; 2 - sort by readers/listenters count; 3 - sort by rating, 4 - sort by alphabet",
+            "description": "1 - sort by date; 2 - sort by readers/listenters count; 3 - sort by rating, 4 - sort by reviews, 5 - sort by bestseller",
             "required": true
           },
           {

@@ -30,4 +30,13 @@ class Image extends Model
         $this->fill($fields);
         $this->save();
     }
+    public function storeBookCoverByAdmin(int $bookId, string $link)
+    {
+        $this->create([
+            'page_id' => null,
+           'book_id' => $bookId,
+           'link' => $link,
+           'doParse' => 1
+        ]);
+    }
 }

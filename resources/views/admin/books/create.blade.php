@@ -10,69 +10,90 @@
     <x-error-alerts/>
     <!-- /.content header -->
     <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
+    <div class="content">
+        <form
+            action="{{route('admin.book.store')}}"
+            method="post"
+            enctype="multipart/form-data"
+            class="card">
+            @csrf
 
-            <form action="{{route('admin.book.store')}}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="card-body">
-                    <div class="form-group">
-                        <label for="bookTitleInput">Название книги</label>
-                        <input type="text" name="title" class="form-control" id="bookTitleInput"
-                               placeholder="Название книги">
-                    </div>
-                    <div class="form-group">
-                        <label for="bookTextInput">Описание</label>
-                        <textarea name="description" class="form-control" id="bookDescription"
-                                  placeholder="Краткое описание книги"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <!-- select -->
-                            <div class="form-group">
-                                <label>Статус</label>
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="customRadio1" name="status"
-                                           value="1">
-                                    <label for="customRadio1" class="custom-control-label">Активна</label>
-                                </div>
-                                <div class="custom-control custom-radio">
-                                    <input class="custom-control-input" type="radio" id="customRadio2" name="status"
-                                           value="0" checked="">
-                                    <label for="customRadio2" class="custom-control-label">Скрыта</label>
-                                </div>
+            <div class="card-body">
+                <div class="row mb-3 pb-3 border-bottom">
+                    <label class="col-12 d-block">
+                        Название книги
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            placeholder="Название книги">
+                    </label>
+
+                    <label class="col-12 d-block">
+                        Описание
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            placeholder="Краткое описание книги"></textarea>
+                    </label>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <!-- status select -->
+                        <div class="form-group">
+                            <label>Статус</label>
+
+                            <div class="form-check">
+                                <label class="d-block col-12 form-check-label">
+                                    <input type="radio" name="status" value="1" class="form-check-input">
+                                    Активна
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="d-block col-12 form-check-label">
+                                    <input type="radio" name="status" value="0" checked class="form-check-input">
+                                    Скрыта
+                                </label>
+                            </div>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="">
+                                    Default checkbox
+                                </label>
                             </div>
                         </div>
 
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="bookInputFile">Файл книги</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" name="book-file" class="file-input" id="book-file">
-                                </div>
-                            </div>
+                        <div class="form-group">
+                            <label class="w-100">
+                                Файл книги
+                                <input type="file" name="book-file" class="form-control-file" id="book-file">
+                            </label>
+                        </div>
+
+                        <div class="form-group mb-0">
+                            <label class="w-100">
+                                Обложка
+                                <input type="file" name="cover-image" class="form-control-file" id="cover-image">
+                            </label>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <label for="bookCoverImage">Обложка</label>
-                            <div class="input-group">
-                                <div class="custom-file">
-                                    <input type="file" name="cover-image" class="file-input" id="cover-image">
-                                </div>
-                            </div>
-                        </div>
+                    <!--genres checkbox-->
+                    <div class="col-12 col-md-6">
+                        <x-genres/>
                     </div>
-                    <!-- /.card-body -->
                 </div>
-                <div class="col d-flex justify-content-center">
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                <div class="form-group mb-0">
+
                 </div>
-                <!-- /.card -->
-            </form>
-        </div>
-    </section>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
 
 @endsection
