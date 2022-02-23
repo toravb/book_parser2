@@ -26,7 +26,7 @@
     <section class="content">
         <div class="container-fluid">
 
-            <form action="{{route('admin.store.edit.books', $book['id'])}}" method="post">
+            <form action="{{route('admin.book.store.edit', $book['id'])}}" method="post">
                 @csrf
                 @method("PUT")
                 <div class="card-body">

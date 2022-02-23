@@ -7,7 +7,7 @@
         Список всех книг
 
         <x-slot name="actions">
-            <button type="button" class="btn btn-success bg-gradient-success">
+            <button type="button" class="btn btn-success bg-gradient-success" href="{{route('admin.book.create')}}">
                 <i class="fa fa-plus"></i> Добавить книгу
             </button>
         </x-slot>
@@ -67,7 +67,7 @@
                         {{$book->year->year}}
                     </td>
                     <td class="project-actions text-right">
-                        <x-button-edit :route="route('admin.edit.books', $book)" label="Редактировать"></x-button-edit>
+                        <x-button-edit :route="route('admin.book.edit', $book)" label="Редактировать"></x-button-edit>
 
                         <a class="btn btn-danger btn-sm" href="#">
                             <i class="fas fa-trash">

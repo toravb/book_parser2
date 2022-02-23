@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Book extends Model implements BookInterface
 {
@@ -35,7 +36,8 @@ class Book extends Model implements BookInterface
         'link',
         'params',
         'text',
-        'donor_id'
+        'donor_id',
+        'active'
     ];
 
     protected $hidden = ['pivot'];
@@ -384,6 +386,17 @@ class Book extends Model implements BookInterface
     public function updateBook($fields)
     {
         return $this->fill($fields)->update();
+    }
+
+    public function storeBooksByAdmin(String $title, String $text, int $status, String $link)
+    {
+        $this->create([
+            'title' => $title,
+            'text' => $text,
+            'active' => $status,
+            'link' => $link,
+            'params' => '{}'
+        ]);
     }
 }
 

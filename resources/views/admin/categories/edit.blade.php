@@ -5,64 +5,36 @@
 @section('content')
 
     <!-- Content header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0">Редактирование категории</h1>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-header>
+        Редактирование категории
+    </x-header>
+    <x-error-alerts/>
     <!-- /.content header -->
-
     <!-- Main content -->
     <section class="content">
-        <div class="card">
-            <div class="card-body p-0">
-                <table class="table table-striped projects">
-                    <thead>
-                    <tr>
-                        <th style="width: 5%">
-                            id
-                        </th>
-                        <th style="width: 50%">
-                            Название
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    @foreach($categories as $category)
-                        <tr>
-                            <td>
-                                {{$category['id']}}
-                            </td>
-                            <td>
-                                {{$category['name']}}
-                            </td>
-                            <td class="project-actions text-right">
-                                <a class="btn btn-info btn-sm" href="#">
-                                    <i class="fas fa-pencil-alt">
-                                    </i>
-                                    Edit
-                                </a>
-                                <a class="btn btn-danger btn-sm" href="#">
-                                    <i class="fas fa-trash">
-                                    </i>
-                                    Delete
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-
-                    </tbody>
-                </table>
-            </div>
-            <!-- /.card-body -->
+        <div class="container-fluid">
+            <form action="{{route('admin.category.update')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="card-body">
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-1 p-0">
+                                <label for="genreInput">ID</label>
+                                <input type="text" name="id" class="form-control" id="genreInput"
+                                       value="{{$category['id']}}" readonly>
+                            </div>
+                            <div class="col-4 p-0">
+                                <label for="genreInput">Жанр</label>
+                                <input type="text" name="genre" class="form-control" id="genreInput"
+                                       value="{{$category['name']}}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Обновить</button>
+            </form>
         </div>
-        <!-- /.card -->
-
     </section>
 
 @endsection

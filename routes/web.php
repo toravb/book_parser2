@@ -32,14 +32,20 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'admin-panel'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
-        Route::get('/categories', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('category.index');
+
+        Route::group(['as' => 'category.', 'prefix' => 'categories'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('index');
+            Route::get('/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('edit');
+
+            Route::put('/', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('update');
+        });
 
         Route::group(['as' => 'book.', 'prefix' => 'books'], function () {
             Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'listBooks'])->name('list');
             Route::get('/create', [\App\Http\Controllers\Admin\HomeController::class, 'create'])->name('create');
             Route::post('/store', [\App\Http\Controllers\Admin\HomeController::class, 'store'])->name('store');
-            Route::get('/edit/{book}', [\App\Http\Controllers\Admin\HomeController::class, 'edit'])->name('edit.books');
-            Route::put('/edit/store', [\App\Http\Controllers\Admin\HomeController::class, 'storeEdit'])->name('store.edit.books');
+            Route::get('/edit/{book}', [\App\Http\Controllers\Admin\HomeController::class, 'edit'])->name('edit');
+            Route::put('/edit/store', [\App\Http\Controllers\Admin\HomeController::class, 'storeEdit'])->name('store.edit');
         });
 
     });
