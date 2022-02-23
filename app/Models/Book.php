@@ -135,7 +135,7 @@ class Book extends Model implements BookInterface
 
     public function bookGenres()
     {
-        return $this->belongsToMany(BookGenre::class);
+        return $this->belongsToMany(Genre::class);
     }
 
     public function rates()
@@ -187,18 +187,6 @@ class Book extends Model implements BookInterface
     public function scopePopular($query)
     {
         return $query->orderBy('rates_avg', 'desc');
-    }
-
-    public function genres()
-    {
-        return $this->hasManyThrough(
-            BookGenre::class,
-            BookBookGenre::class,
-            'book_id',
-            'id',
-            'id',
-            'book_genre_id'
-        );
     }
 
     public function anchors()

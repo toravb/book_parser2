@@ -13,6 +13,7 @@ use App\Models\AudioParsingStatus;
 use App\Models\AudioReader;
 use App\Models\AudioReadersToBook;
 use App\Models\AudioSeries;
+use App\Models\Genre;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -73,10 +74,7 @@ class ParseAudioBookJob implements ShouldQueue
                 'reader_id' => $reader_id,
             ];
         }
-        $genre = AudioGenre::query()->where('name', '=', $data['genre'])->first();
-        if ($genre == null){
-            $genre = AudioGenre::create(['name' => $data['genre']]);
-        }
+        $genre = Genre::firstOrCreate(['name' => $data['genre']]);
         $genre = $genre->id;
         if ($data['series']) {
             $series = AudioSeries::query()->where('name', '=', $data['series'])->first();
