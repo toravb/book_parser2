@@ -9316,6 +9316,36 @@
                     "status",
                     "data"
                   ]
+                },
+                "examples": {
+                  "new comment": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 56,
+                        "book_id": 1,
+                        "content": "string",
+                        "parent_comment_id": null,
+                        "updated_at": "2022-02-23T10:52:34.000000Z",
+                        "created_at": "2022-02-23T10:52:34.000000Z",
+                        "id": 4
+                      }
+                    }
+                  },
+                  "reply comment": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 56,
+                        "book_id": 1,
+                        "content": "string",
+                        "parent_comment_id": 1,
+                        "updated_at": "2022-02-23T10:51:38.000000Z",
+                        "created_at": "2022-02-23T10:51:38.000000Z",
+                        "id": 3
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -9360,10 +9390,19 @@
                 ]
               },
               "examples": {
-                "test": {
+                "new comment": {
                   "value": {
                     "id": 1,
-                    "text": "text comment",
+                    "text": "string",
+                    "parent_comment_id": null,
+                    "type": "book"
+                  }
+                },
+                "comment reply": {
+                  "value": {
+                    "id": 1,
+                    "text": "string",
+                    "parent_comment_id": 1,
                     "type": "book"
                   }
                 }
