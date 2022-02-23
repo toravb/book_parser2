@@ -5,21 +5,20 @@ namespace App\Api\Http\Controllers;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\AudioGenre;
-use App\Models\BookGenre;
 use App\Models\CompilationType;
+use App\Models\Genre;
 
 
 class CategoryController extends Controller
 {
     public function show()
     {
-        return ApiAnswerService::successfulAnswerWithData(BookGenre::orderBy('name')->get());
+        return ApiAnswerService::successfulAnswerWithData(Genre::orderBy('name')->get());
     }
 
     public function showAudioBookGenres(): \Illuminate\Http\JsonResponse
     {
-        $audioBookGenres = AudioGenre::orderBy('name')->get();
-        return ApiAnswerService::successfulAnswerWithData($audioBookGenres);
+        return ApiAnswerService::successfulAnswerWithData(Genre::orderBy('name')->get());
     }
 
     public function showSelectionType(): \Illuminate\Http\JsonResponse
@@ -32,14 +31,15 @@ class CategoryController extends Controller
         );
     }
 
-    public function withBooksCount(BookGenre $count): \Illuminate\Http\JsonResponse
+    // todo: rewrite
+    public function withBooksCount(): \Illuminate\Http\JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($count->booksCount());
+        return ApiAnswerService::successfulAnswerWithData([]);
     }
 
-    public function withAudioBooksCount(AudioGenre $count): \Illuminate\Http\JsonResponse
+    // todo: rewrite
+    public function withAudioBooksCount(): \Illuminate\Http\JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($count->audioBooksCount());
+        return ApiAnswerService::successfulAnswerWithData([]);
     }
-
 }

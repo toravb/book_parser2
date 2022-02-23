@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BookGenre extends Model
+class Genre extends Model
 {
     use HasFactory;
     protected $hidden = ['pivot'];
-
 
 
     public function books()
@@ -17,9 +16,8 @@ class BookGenre extends Model
         return $this->belongsToMany(Book::class);
     }
 
-    public function booksCount()
+    public function audioBooks()
     {
-        return $this->withCount('books')->get();
+        return $this->belongsToMany(AudioBook::class);
     }
-
 }

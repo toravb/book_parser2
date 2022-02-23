@@ -24,7 +24,6 @@ class AudioBook extends Model implements BookInterface
         'title',
         'description',
         'params',
-        'genre_id',
         'series_id',
         'link_id',
         'litres'
@@ -101,9 +100,9 @@ class AudioBook extends Model implements BookInterface
         );
     }
 
-    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(AudioGenre::class, 'genre_id', 'id');
+        return $this->belongsToMany(Genre::class);
     }
 
     public function series()
@@ -209,7 +208,7 @@ class AudioBook extends Model implements BookInterface
             'audioBookStatuses',
 
         ])
-            ->select('id', 'title', 'year_id', 'genre_id')
+            ->select('id', 'title', 'year_id')
             ->withCount('views')
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
@@ -236,7 +235,7 @@ class AudioBook extends Model implements BookInterface
             // Продолжительность файла
             // После, дописать доку
             ->where('id', $bookId)
-            ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
+            ->select('id', 'title', 'description', 'year_id', 'series_id', 'link_id')
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
@@ -259,7 +258,6 @@ class AudioBook extends Model implements BookInterface
             ->select([
                 'id',
                 'title',
-                'genre_id',
                 'link_id',
             ])
             ->with([
@@ -284,7 +282,7 @@ class AudioBook extends Model implements BookInterface
     public function noveltiesBooks(): Builder
     {
         return $this
-            ->select('audio_books.id', 'audio_books.title', 'genre_id', 'audio_books.year_id')
+            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id')
             ->with([
                 'genre:id,name',
                 'authors:author',
