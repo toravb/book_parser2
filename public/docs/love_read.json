@@ -7,7 +7,12 @@
   },
   "servers": [
     {
-      "url": "http://api.loveread.staj.fun/api/"
+      "url": "http://api.loveread.staj.fun/api/",
+      "description": "Dev"
+    },
+    {
+      "description": "Prod",
+      "url": "https://loveread.webnauts.pw/api"
     }
   ],
   "paths": {
