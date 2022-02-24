@@ -27,7 +27,7 @@ class SaveCommentRequest extends FormRequest
         return [
             'type' => ['required', 'string', Rule::in($this->types)],
             'id' => ['required', 'integer', Rule::exists($this->models[$this->type] ?? null . '_id')],
-            'parent_comment_id' => ['sometimes', 'integer',  Rule::exists($this->modelOfComment[$this->type], 'id' )],
+            'parent_comment_id' => ['sometimes', 'nullable', 'integer',  Rule::exists($this->modelOfComment[$this->type], 'id' )],
             'text' => ['required', 'string', 'max:65500' ]
         ];
     }

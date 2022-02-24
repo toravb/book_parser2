@@ -3,7 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Book;
-use App\Models\BookGenre;
+use App\Models\Genre;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 
@@ -54,12 +54,9 @@ class ParseGenres extends Command
 
                     $genre = mb_substr($p, 5);
 
-                    $book_genre = BookGenre::query()->where('name', '=', $genre)->first();
-                    if ($book_genre == null){
-                        $book_genre = new BookGenre();
-                        $book_genre->name = $genre;
-                        $book_genre->save();
-                    }
+                    $book_genre = Genre::firstOrCreate([
+                        'name' => $genre
+                    ]);
                     $book->genre_id = $book_genre->id;
                     $book->save();
 

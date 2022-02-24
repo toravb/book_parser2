@@ -11,6 +11,7 @@ use App\Models\AudioGenre;
 use App\Models\AudioReader;
 use App\Models\AudioReadersToBook;
 use App\Models\AudioSeries;
+use App\Models\Genre;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Console\Command;
 
@@ -68,7 +69,7 @@ class ParseAudioBook extends Command
                     'reader_id' => $reader_id,
                 ];
             }
-            $genre = AudioGenre::firstOrCreate(['name' => $data['genre']])->id;
+            $genre = Genre::firstOrCreate(['name' => $data['genre']])->id;
             if ($data['series']) {
                 $series = AudioSeries::firstOrCreate(['name' => $data['series']])->id;
             }

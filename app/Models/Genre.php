@@ -6,22 +6,21 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class BookGenre extends Model
+class Genre extends Model
 {
     use HasFactory;
 
     protected $hidden = ['pivot'];
     protected $fillable = ['name'];
 
-
     public function books()
     {
         return $this->belongsToMany(Book::class);
     }
 
-    public function booksCount()
+    public function audioBooks()
     {
-        return $this->withCount('books')->get();
+        return $this->belongsToMany(AudioBook::class);
     }
 
     public function index()

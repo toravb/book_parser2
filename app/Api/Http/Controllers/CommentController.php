@@ -22,10 +22,6 @@ class CommentController extends Controller
     {
         $field = $this->getFieldName($request->type);
         $userId = Auth::id();
-//        $recordExists = $this->commentTypes[$request->type]::where([
-//            ['user_id', '=', $userId],
-//            [$field, '=', $request->id]
-//        ])->exists();
         $record = $this->commentTypes[$request->type]
             ::create(
                 [
