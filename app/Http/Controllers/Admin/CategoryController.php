@@ -24,7 +24,7 @@ class CategoryController extends Controller
         return view('admin.categories.edit', ['category' => $category]);
     }
 
-    public function update(UpdateGenreRequest $request, BookGenre $genre)
+    public function update(UpdateGenreRequest $request, Genre $genre)
     {
 //        dd($request);
        $genre->storeUpdates($request->id ,$request->genre);
