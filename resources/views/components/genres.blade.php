@@ -1,10 +1,7 @@
-<div class="row">
-    <div class="col-sm-6">
-        <div class="form-group">
-            <div class="custom-control custom-checkbox">
-                <input name="" class="custom-control-input" type="checkbox" id="customCheckbox1">
-                <label for="customCheckbox1" class="custom-control-label"></label>
-            </div>
-        </div>
-    </div>
-</div>
+@foreach($genres as $genre)
+    <label class="col-12 font-weight-normal">
+        <input type="checkbox" name="genre_id[]" value="{{$genre->id}}"
+               @if(in_array($genre->id, $genreId)) checked @endif>
+        <span>{{$genre->name}}</span>
+    </label>
+@endforeach

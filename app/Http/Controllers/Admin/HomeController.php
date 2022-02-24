@@ -46,9 +46,9 @@ class HomeController extends Controller
     public function store(StoreBookRequest $request, Book $book, Image $cover)
     {
 
+        dd($request->all());
         $background = $request->file('cover-image')->store('BookCoverImages');
         $bookFile = $request->file('book-file')->store('Books');
-//        dd($request->all());
 //        dd($request->status);
 //        dd((int)$request->get('status'));
         $bookId = $book->storeBooksByAdmin(

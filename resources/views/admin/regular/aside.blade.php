@@ -17,7 +17,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="{{route('admin.book.create')}}" class="nav-link">
+                <a href="{{route('admin.book.create')}}" @class(['nav-link', 'active' => request()->route()->named('admin.book.create')])>
                     <p>Добавление книги</p>
                 </a>
             </li>
@@ -73,8 +73,8 @@
         </ul>
     </li>
     --}}
-    <li class="nav-item">
-        <a href="#" class="nav-link">
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.category.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.category.*')])>
             <i class="nav-icon fas fa-list"></i>
             <p>
                 Категории/разделы
@@ -83,7 +83,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.category.index')}}" class="nav-link">
+                <a href="{{route('admin.category.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.category.index')])>
                     <p>Редактирование/Удаление</p>
                 </a>
             </li>
