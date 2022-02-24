@@ -246,7 +246,7 @@ class Book extends Model implements BookInterface
             'bookStatuses'
         ])
             ->select('id', 'title', 'year_id')
-            ->withCount('rates')
+            ->withCount('rates', 'views')
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
@@ -364,7 +364,7 @@ class Book extends Model implements BookInterface
         return $this
             ->select(['books.id', 'title', 'active', 'year_id'])
             ->with([
-                'genres:name',
+                'bookGenres:name',
                 'authors:author',
                 'image:book_id,link',
                 'year:id,year'

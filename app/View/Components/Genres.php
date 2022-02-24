@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-use App\Models\BookGenre;
+use App\Models\Genre;
 use Illuminate\Support\Collection;
 use Illuminate\View\Component;
 
@@ -13,7 +13,7 @@ class Genres extends Component
 
     public function __construct(array $genreId = [])
     {
-        $this->genres = BookGenre::select(['id', 'name'])->get();
+        $this->genres = Genre::select(['id', 'name'])->get();
         $this->genreId = $genreId;
     }
 

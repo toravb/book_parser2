@@ -4,13 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateGenreRequest;
-use App\Models\BookGenre;
-use Illuminate\Http\Request;
-use PhpOffice\PhpSpreadsheet\Calculation\Category;
+use App\Models\Genre;
 
 class CategoryController extends Controller
 {
-    public function index(BookGenre $category)
+    public function index(Genre $category)
     {
         $categories = $category->index();
 
@@ -21,7 +19,7 @@ class CategoryController extends Controller
     {
 //        dd($category);
         //TODO: заменить полсе переопределение (объединение) таблицы жанров
-        $category = (new BookGenre())->findOrFail($category);
+        $category = (new Genre())->findOrFail($category);
 
         return view('admin.categories.edit', ['category' => $category]);
     }
