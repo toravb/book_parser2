@@ -23,13 +23,27 @@ class LikedComment implements NotificationInterface
         public int $notificationId
     )
     {
+//        dd($this->likedType);
+//dd($this->notificationableTypes[$this->type][$this->likedType]);
+//        dump($this->type);
+//        dump($this->likedType);
+//        dd($this->notificationableTypes);
+        if($this->notificationableTypes[$this->type][$this->likedType] === 'App\\Models\\AudioBookComment') {
+            $this->comment = $this->notificationableTypes[$this->type][$this->likedType]::with([
+                'audioBook' => function ($query) {
+                    return $query->select('id', 'title');
+                }
+            ])
+                ->findOrFail($this->commentId);
+        } else {
+            $this->comment = $this->notificationableTypes[$this->type][$this->likedType]::with([
+                'books' => function ($query) {
+                    return $query->select('id', 'title');
+                }
+            ])
+                ->findOrFail($this->commentId);
+        }
 
-        $this->comment = $this->notificationableTypes[$this->type][$this->likedType]::with([
-            'books' => function ($query) {
-                return $query->select('id', 'title');
-            }
-        ])
-            ->findOrFail($this->commentId);
 
 
         $this->sender = User::select('id', 'avatar', 'name')->findOrFail($this->senderUserId);
@@ -43,7 +57,12 @@ class LikedComment implements NotificationInterface
             if ($settings->likes) {
                 $notificationUserModel = new NotificationUser();
                 $notificationUserModel->createRelation($this->comment->user_id, $this->notificationId, NewLikeNotificationEvent::TYPE);
-                NewLikeNotificationEvent::dispatch([$this->comment->user_id], $this->sender, $this->comment->books, $this->createdAt);
+                if($this->notificationableTypes[$this->type][$this->likedType] === 'App\\Models\\AudioBookComment') {
+                    NewLikeNotificationEvent::dispatch([$this->comment->user_id], $this->sender, $this->comment->audioBook, $this->createdAt);
+                } else {
+                    NewLikeNotificationEvent::dispatch([$this->comment->user_id], $this->sender, $this->comment->audioBook, $this->createdAt);
+                }
+
             }
         }
     }
