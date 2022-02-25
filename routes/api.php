@@ -27,6 +27,7 @@ use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
 use App\Api\Http\Controllers\NotificationController;
+use App\Api\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -272,3 +273,8 @@ Route::group(['prefix' => 'audio-books'], function () {
 /*
  * -------
  */
+
+/**
+ * Search
+ */
+Route::get('/search', [SearchController::class, 'search']);

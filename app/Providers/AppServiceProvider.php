@@ -11,6 +11,8 @@ use Illuminate\Queue\Events\Looping;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -67,5 +69,13 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
+//dd(config('services.search.hosts'));
+        $this->app->bind(Client::class, function () {
+            return ClientBuilder::create()
+                ->setHosts(config('services.search.hosts'))
+                ->build();
+        });
+
+        $this->app->bind('App\Api\Interfaces\SearchRepositoryInterface', 'App\Api\Repositories\ElasticsearchRepository');
     }
 }

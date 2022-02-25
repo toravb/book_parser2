@@ -4,14 +4,16 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\MainPageController;
+use App\Api\Interfaces\SearchModelInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use App\Api\Traits\ElasticSearchTrait;
 
-class Compilation extends Model
+class Compilation extends Model implements SearchModelInterface
 {
-    use HasFactory;
+    use HasFactory, ElasticSearchTrait;
 
 
     const SORT_BY_DATE = '1';
@@ -122,4 +124,20 @@ class Compilation extends Model
 
     }
 
+    public function toSearchArray(): array
+    {
+        return [
+            'title' => $this->title
+        ];
+    }
+
+    public function baseSearchQuery(): Builder
+    {
+        return $this->select('id', 'title', 'background')->withCount(['books', 'audioBooks']);
+    }
+
+    public function getElasticKey()
+    {
+        return $this->getKey();
+    }
 }

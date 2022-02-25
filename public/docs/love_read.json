@@ -11238,6 +11238,1918 @@
           "Bookmarks"
         ]
       }
+    },
+    "search": {
+      "get": {
+        "summary": "Search pages",
+        "tags": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "books": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "year_id",
+                                  "rates_count",
+                                  "views_count",
+                                  "rates_avg",
+                                  "type"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "year_id": {
+                                    "type": "number"
+                                  },
+                                  "rates_count": {
+                                    "type": "number"
+                                  },
+                                  "views_count": {
+                                    "type": "number"
+                                  },
+                                  "rates_avg": {
+                                    "type": "number"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "authors": {
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                    "minItems": 1,
+                                    "items": {
+                                      "required": [
+                                        "id",
+                                        "author"
+                                      ],
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "author": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "avatar": {},
+                                        "about": {}
+                                      }
+                                    }
+                                  },
+                                  "image": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "page_id": {},
+                                      "book_id": {
+                                        "type": "number"
+                                      },
+                                      "link": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "doParse": {
+                                        "type": "number"
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "book_id",
+                                      "link",
+                                      "doParse"
+                                    ]
+                                  },
+                                  "book_genres": {
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                    "minItems": 1,
+                                    "items": {
+                                      "required": [
+                                        "id",
+                                        "name",
+                                        "created_at",
+                                        "updated_at"
+                                      ],
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "name": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "created_at": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "updated_at": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        },
+                        "audio_books": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "year_id",
+                                  "genre_id",
+                                  "views_count",
+                                  "rates_avg",
+                                  "type"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "year_id": {
+                                    "type": "number"
+                                  },
+                                  "genre_id": {
+                                    "type": "number"
+                                  },
+                                  "views_count": {
+                                    "type": "number"
+                                  },
+                                  "rates_avg": {
+                                    "type": "number"
+                                  },
+                                  "type": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "authors": {
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                    "minItems": 1,
+                                    "items": {
+                                      "required": [
+                                        "id",
+                                        "author",
+                                        "laravel_through_key"
+                                      ],
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "author": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "avatar": {},
+                                        "about": {},
+                                        "laravel_through_key": {
+                                          "type": "number"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "image": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "link": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "book_id": {
+                                        "type": "number"
+                                      },
+                                      "doParse": {
+                                        "type": "number"
+                                      },
+                                      "created_at": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "updated_at": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "link",
+                                      "book_id",
+                                      "doParse",
+                                      "created_at",
+                                      "updated_at"
+                                    ]
+                                  },
+                                  "genre": {
+                                    "type": "object",
+                                    "properties": {
+                                      "id": {
+                                        "type": "number"
+                                      },
+                                      "name": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "created_at": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      },
+                                      "updated_at": {
+                                        "type": "string",
+                                        "minLength": 1
+                                      }
+                                    },
+                                    "required": [
+                                      "id",
+                                      "name",
+                                      "created_at",
+                                      "updated_at"
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        },
+                        "authors": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "id",
+                                  "author",
+                                  "books_count"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "author": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "avatar": {},
+                                  "books_count": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        },
+                        "compilations": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "background",
+                                  "books_count"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "background": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "to",
+                            "total"
+                          ]
+                        },
+                        "series": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "id",
+                                  "series",
+                                  "books_count"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "series": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  },
+                                  "books": {
+                                    "type": "array",
+                                    "uniqueItems": true,
+                                    "minItems": 1,
+                                    "items": {
+                                      "required": [
+                                        "id",
+                                        "series_id",
+                                        "type"
+                                      ],
+                                      "properties": {
+                                        "id": {
+                                          "type": "number"
+                                        },
+                                        "series_id": {
+                                          "type": "number"
+                                        },
+                                        "type": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        },
+                                        "image": {
+                                          "type": "object",
+                                          "properties": {
+                                            "book_id": {
+                                              "type": "number"
+                                            },
+                                            "link": {
+                                              "type": "string",
+                                              "minLength": 1
+                                            }
+                                          },
+                                          "required": [
+                                            "book_id",
+                                            "link"
+                                          ]
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "books",
+                        "audio_books",
+                        "authors",
+                        "compilations",
+                        "series"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "books": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "А 259. Всплеск ярости",
+                              "year_id": 1,
+                              "rates_count": 0,
+                              "views_count": 0,
+                              "rates_avg": 0,
+                              "type": "books",
+                              "authors": [
+                                {
+                                  "id": 1,
+                                  "author": "Саймон Стронг",
+                                  "avatar": null,
+                                  "about": null
+                                }
+                              ],
+                              "image": {
+                                "id": 1,
+                                "page_id": null,
+                                "book_id": 1,
+                                "link": "/storage/image.png",
+                                "doParse": 1
+                              },
+                              "book_genres": [
+                                {
+                                  "id": 1,
+                                  "name": "Фантастика",
+                                  "created_at": "2022-02-24T13:51:06.000000Z",
+                                  "updated_at": "2022-02-24T13:51:06.000000Z"
+                                }
+                              ]
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "audio_books": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "А потом",
+                              "year_id": 17,
+                              "genre_id": 1,
+                              "views_count": 0,
+                              "rates_avg": 0,
+                              "type": "audioBooks",
+                              "authors": [
+                                {
+                                  "id": 1,
+                                  "author": "Саймон Стронг",
+                                  "avatar": null,
+                                  "about": null,
+                                  "laravel_through_key": 1
+                                }
+                              ],
+                              "image": {
+                                "id": 1,
+                                "link": "/storage/image.png",
+                                "book_id": 1,
+                                "doParse": 1,
+                                "created_at": "2022-02-24T16:16:12.000000Z",
+                                "updated_at": "2022-02-24T16:16:12.000000Z"
+                              },
+                              "genre": {
+                                "id": 1,
+                                "name": "Фантастика",
+                                "created_at": "2022-02-23T12:33:28.000000Z",
+                                "updated_at": "2022-02-23T12:33:28.000000Z"
+                              }
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "authors": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 75,
+                              "author": "Сергей В. Иванов",
+                              "avatar": null,
+                              "books_count": 0
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "compilations": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "Compilation",
+                              "background": "/asdasd",
+                              "books_count": 0
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": 1,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": 1,
+                          "total": 1
+                        },
+                        "series": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 6,
+                              "series": "Частный детектив Татьяна Иванова",
+                              "books_count": 3,
+                              "books": [
+                                {
+                                  "id": 28,
+                                  "series_id": 6,
+                                  "type": "books",
+                                  "image": {
+                                    "book_id": 28,
+                                    "link": "/storage/image.png"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "books": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "А 259. Всплеск ярости",
+                              "year_id": 1,
+                              "rates_count": 0,
+                              "views_count": 0,
+                              "rates_avg": 0,
+                              "type": "books",
+                              "authors": [
+                                {
+                                  "id": 1,
+                                  "author": "Саймон Стронг",
+                                  "avatar": null,
+                                  "about": null
+                                }
+                              ],
+                              "image": {
+                                "id": 1,
+                                "page_id": null,
+                                "book_id": 1,
+                                "link": "/storage/image.png",
+                                "doParse": 1
+                              },
+                              "book_genres": [
+                                {
+                                  "id": 1,
+                                  "name": "Фантастика",
+                                  "created_at": "2022-02-24T13:51:06.000000Z",
+                                  "updated_at": "2022-02-24T13:51:06.000000Z"
+                                }
+                              ]
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "audio_books": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "А потом",
+                              "year_id": 17,
+                              "genre_id": 1,
+                              "views_count": 0,
+                              "rates_avg": 0,
+                              "type": "audioBooks",
+                              "authors": [
+                                {
+                                  "id": 1,
+                                  "author": "Саймон Стронг",
+                                  "avatar": null,
+                                  "about": null,
+                                  "laravel_through_key": 1
+                                }
+                              ],
+                              "image": {
+                                "id": 1,
+                                "link": "/storage/image.png",
+                                "book_id": 1,
+                                "doParse": 1,
+                                "created_at": "2022-02-24T16:16:12.000000Z",
+                                "updated_at": "2022-02-24T16:16:12.000000Z"
+                              },
+                              "genre": {
+                                "id": 1,
+                                "name": "Фантастика",
+                                "created_at": "2022-02-23T12:33:28.000000Z",
+                                "updated_at": "2022-02-23T12:33:28.000000Z"
+                              }
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "authors": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 75,
+                              "author": "Сергей В. Иванов",
+                              "avatar": null,
+                              "books_count": 0
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "compilations": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "Compilation",
+                              "background": "/asdasd",
+                              "books_count": 0
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": 1,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": 1,
+                          "total": 1
+                        },
+                        "series": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 6,
+                              "series": "Частный детектив Татьяна Иванова",
+                              "books_count": 3,
+                              "books": [
+                                {
+                                  "id": 28,
+                                  "series_id": 6,
+                                  "type": "books",
+                                  "image": {
+                                    "book_id": 28,
+                                    "link": "/storage/image.png"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "array",
+                          "items": {
+                            "required": [],
+                            "properties": {}
+                          }
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "message",
+                    "errors"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "type": [
+                          "The type field is required."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "books": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "required": [],
+                                "properties": {}
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        },
+                        "audio_books": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "required": [],
+                                "properties": {}
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        },
+                        "authors": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "required": [],
+                                "properties": {}
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        },
+                        "compilations": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "background",
+                                  "books_count"
+                                ],
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "background": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  }
+                                }
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "to",
+                            "total"
+                          ]
+                        },
+                        "series": {
+                          "type": "object",
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "items": {
+                                "required": [],
+                                "properties": {}
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {},
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "required": [
+                                  "label",
+                                  "active"
+                                ],
+                                "properties": {
+                                  "url": {},
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              }
+                            },
+                            "next_page_url": {},
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {},
+                            "total": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "total"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "books",
+                        "audio_books",
+                        "authors",
+                        "compilations",
+                        "series"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "books": {
+                          "current_page": 1,
+                          "data": [],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "audio_books": {
+                          "current_page": 1,
+                          "data": [],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "authors": {
+                          "current_page": 1,
+                          "data": [],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        },
+                        "compilations": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "Compilation",
+                              "background": "/asdasd",
+                              "books_count": 0
+                            }
+                          ],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": 1,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": 1,
+                          "total": 1
+                        },
+                        "series": {
+                          "current_page": 1,
+                          "data": [],
+                          "first_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "from": null,
+                          "last_page": 1,
+                          "last_page_url": "http://loveread/api/search?search=comp&type=full&page=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Previous",
+                              "active": false
+                            },
+                            {
+                              "url": "http://loveread/api/search?search=comp&type=full&page=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Next &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://loveread/api/search",
+                          "per_page": 8,
+                          "prev_page_url": null,
+                          "to": null,
+                          "total": 0
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-search",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "search",
+            "description": "String for query",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "type",
+            "description": "Type of searchable objects. Can be books, audio_books, authors, compilations, series for pagination and short or full for getting all pages pack",
+            "required": true
+          }
+        ]
+      },
+      "parameters": []
     }
   },
   "components": {
