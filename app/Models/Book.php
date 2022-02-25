@@ -5,7 +5,9 @@ namespace App\Models;
 use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\MainPageController;
 use App\Api\Interfaces\BookInterface;
+use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Models\Notification;
+use App\Api\Traits\ElasticSearchTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,9 +15,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
 use phpDocumentor\Reflection\Types\Boolean;
 
-class Book extends Model implements BookInterface
+class Book extends Model implements BookInterface, SearchModelInterface
 {
-    use HasFactory;
+    use HasFactory, ElasticSearchTrait;
 
     const PER_PAGE_BLOCKS = 40;
     const PER_PAGE_LIST = 13;
@@ -242,11 +244,10 @@ class Book extends Model implements BookInterface
         return $this->with([
             'authors',
             'image',
-            'bookGenres',
-            'bookStatuses'
+            'bookGenres'
         ])
             ->select('id', 'title', 'year_id')
-            ->withCount('rates', 'views')
+            ->withCount(['rates', 'views'])
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
@@ -358,6 +359,17 @@ class Book extends Model implements BookInterface
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
             ->join('years', 'years.id', '=', 'books.year_id');
     }
+
+    public function baseSearchQuery(): Builder
+    {
+        return $this->getBook();
+    }
+
+    public function getElasticKey()
+    {
+        return $this->getKey();
+    }
+}
 
     public function getBooksForAdminPanel()
     {

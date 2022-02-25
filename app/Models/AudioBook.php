@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
+use App\Api\Interfaces\SearchModelInterface;
+use App\Api\Traits\ElasticSearchTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,9 +13,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class AudioBook extends Model implements BookInterface
+class AudioBook extends Model implements BookInterface, SearchModelInterface
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, ElasticSearchTrait;
 
     const WANT_LISTEN = '1';
     const LISTENING = '2';
@@ -205,8 +207,6 @@ class AudioBook extends Model implements BookInterface
             'authors',
             'image',
             'genre',
-            'audioBookStatuses',
-
         ])
             ->select('id', 'title', 'year_id')
             ->withCount('views')
@@ -294,4 +294,13 @@ class AudioBook extends Model implements BookInterface
             ->join('years', 'years.id', '=', 'audio_books.year_id');
     }
 
+    public function baseSearchQuery(): Builder
+    {
+        return $this->getBook();
+    }
+
+    public function getElasticKey()
+    {
+        return $this->getKey();
+    }
 }

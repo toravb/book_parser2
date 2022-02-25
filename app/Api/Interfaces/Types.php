@@ -20,4 +20,7 @@ interface Types
 
     public function getRecommendTypes(): array;
 
+    public function getSearchableTypes(): array;
+
+    public function getSearchableRepositories(): array;
 }

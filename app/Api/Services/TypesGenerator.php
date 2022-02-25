@@ -75,6 +75,22 @@ class TypesGenerator implements Types
         'review' => 'App\\Models\\BookReview'
     ];
 
+    protected array $searchableTypes = [
+        'books' => 'App\Models\Book',
+        'audio_books' => 'App\Models\AudioBook',
+        'authors' => 'App\Models\Author',
+        'compilations' => 'App\Models\Compilation',
+        'series' => 'App\Models\Series'
+    ];
+
+    protected array $searchableRepositories = [
+        'books' => 'App\Api\Repositories\BookSearchRepository',
+        'audio_books' => 'App\Api\Repositories\AudioBookSearchRepository',
+        'authors' => 'App\Api\Repositories\AuthorSearchRepository',
+        'compilations' => 'App\Api\Repositories\CompilationSearchRepository',
+        'series' => 'App\Api\Repositories\SeriesSearchRepository'
+    ];
+
 
     public function getCommentTypes(): array
     {
@@ -136,9 +152,19 @@ class TypesGenerator implements Types
     {
         return $this->recommendModelTypes;
     }
+
     public function getViewsTypes(): array
     {
         return $this->viewsTypes;
     }
 
+    public function getSearchableTypes(): array
+    {
+        return $this->searchableTypes;
+    }
+
+    public function getSearchableRepositories(): array
+    {
+        return $this->searchableRepositories;
+    }
 }

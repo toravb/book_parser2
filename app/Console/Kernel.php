@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Api\Commands\ReindexBookCommand;
 use App\Http\Controllers\ParserController;
 use App\Jobs\Audio\ParseAudioAuthorsLinksJob;
 use App\Jobs\Audio\ParseAudioNavigationJob;
@@ -23,7 +24,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        ReindexBookCommand::class
     ];
 
     /**
