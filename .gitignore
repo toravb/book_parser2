@@ -18,4 +18,4 @@ yarn-error.log
 /public/admin/plugins
 /public/admin/dist
 /public/admin/plugins
-
+..env.swp

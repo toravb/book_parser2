@@ -360,17 +360,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->join('years', 'years.id', '=', 'books.year_id');
     }
 
-    public function baseSearchQuery(): Builder
-    {
-        return $this->getBook();
-    }
-
-    public function getElasticKey()
-    {
-        return $this->getKey();
-    }
-}
-
     public function getBooksForAdminPanel()
     {
         return $this
@@ -386,6 +375,16 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function updateBook($fields)
     {
         return $this->fill($fields)->update();
+    }
+
+    public function baseSearchQuery(): Builder
+    {
+        return $this->getBook();
+    }
+
+    public function getElasticKey()
+    {
+        return $this->getKey();
     }
 
     public function storeBooksByAdmin(string $title, string $text, int $status, string $link)

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4894d91c8bd0981401dd80662b3ce6b4",
+    "content-hash": "6bc71311b1f036b3bc5df345eaf815e9",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -8822,12 +8822,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "57d2942d5edd89b2018d0a3447da321fa35baac7"
+                "reference": "53dd949a2134bd468f50defce85de566a7800dd9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/57d2942d5edd89b2018d0a3447da321fa35baac7",
-                "reference": "57d2942d5edd89b2018d0a3447da321fa35baac7",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/53dd949a2134bd468f50defce85de566a7800dd9",
+                "reference": "53dd949a2134bd468f50defce85de566a7800dd9",
                 "shasum": ""
             },
             "require": {
