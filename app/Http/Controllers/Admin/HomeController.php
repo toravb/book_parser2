@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Api\Http\Controllers\AudioBookController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBookRequest;
+use App\Models\AudioBook;
 use App\Models\Book;
 use App\Models\BookGenre;
 use App\Models\Image;
@@ -20,7 +22,7 @@ class HomeController extends Controller
     {
         $books = $book->getBooksForAdminPanel()->paginate(10);
 //        dd($books);
-        return view('admin.home.books', ['books' => $books]);
+        return view('admin.books.index', ['books' => $books]);
 
     }
 
@@ -61,5 +63,12 @@ class HomeController extends Controller
         $cover->storeBookCoverByAdmin($bookId, $background);
         return redirect(route('admin.book.create'));
 
+    }
+
+    public function getAudioBookForDasboard(AudioBook $audioBook)
+    {
+        $audioBooks = $audioBook->getForAdmin()->get();
+//dd($audioBooks);
+        return view('admin.audio.index', ['audioBooks' => $audioBooks]);
     }
 }

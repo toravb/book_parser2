@@ -40,7 +40,7 @@
             --}}
         </ul>
     </li>
-    {{--
+
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-headphones"></i>
@@ -51,10 +51,16 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
+                <a href="{{route('admin.audio_book.index')}}" class="nav-link">
                     <p>Администрирование</p>
                 </a>
             </li>
+{{--            <li class="nav-item">--}}
+{{--                <a href="" class="nav-link">--}}
+{{--                    <p>Добавление книги</p>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+            {{--
             <li class="nav-item">
                 <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
                     <p>SEO настройки</p>
@@ -70,9 +76,9 @@
                     <p>Статистика</p>
                 </a>
             </li>
+    --}}
         </ul>
     </li>
-    --}}
     <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.category.*')])>
         <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.category.*')])>
             <i class="nav-icon fas fa-list"></i>

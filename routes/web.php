@@ -1,6 +1,8 @@
 <?php
 
+use App\Api\Http\Controllers\AudioBookController;
 use App\Api\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Audio\AdminController;
 use App\Http\Controllers\Parser\Admin\DashboardController;
 use App\Http\Controllers\Parser\Admin\PageController;
@@ -41,11 +43,15 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         });
 
         Route::group(['as' => 'book.', 'prefix' => 'books'], function () {
-            Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'listBooks'])->name('list');
-            Route::get('/create', [\App\Http\Controllers\Admin\HomeController::class, 'create'])->name('create');
-            Route::post('/store', [\App\Http\Controllers\Admin\HomeController::class, 'store'])->name('store');
-            Route::get('/edit/{book}', [\App\Http\Controllers\Admin\HomeController::class, 'edit'])->name('edit');
-            Route::put('/edit/store', [\App\Http\Controllers\Admin\HomeController::class, 'storeEdit'])->name('store.edit');
+            Route::get('/', [HomeController::class, 'listBooks'])->name('list');
+            Route::get('/create', [HomeController::class, 'create'])->name('create');
+            Route::post('/store', [HomeController::class, 'store'])->name('store');
+            Route::get('/edit/{book}', [HomeController::class, 'edit'])->name('edit');
+            Route::put('/edit/store', [HomeController::class, 'storeEdit'])->name('store.edit');
+        });
+
+        Route::group(['as' => 'audio_book.', 'prefix' => 'audio_book'], function (){
+            route::get('/', [HomeController::class, 'getAudioBookForDasboard'])->name('index');
         });
 
     });
