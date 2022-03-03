@@ -173,7 +173,7 @@
               "examples": {
                 "example-1": {
                   "value": {
-                    "email": "email@gemail.com",
+                    "email": "email@gmail.com",
                     "password": "12qwaszx"
                   }
                 }
@@ -300,7 +300,7 @@
               "examples": {
                 "example-1": {
                   "value": {
-                    "email": "email@gemail.com",
+                    "email": "email@gmail.com",
                     "password": "12qwaszx"
                   }
                 }
@@ -3534,7 +3534,7 @@
         },
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
                 "description": "",
                 "type": "object",
@@ -3564,8 +3564,9 @@
                     "description": "should be unique"
                   },
                   "avatar": {
-                    "type": "object",
-                    "description": "File"
+                    "description": "File",
+                    "type": "string",
+                    "format": "binary"
                   }
                 },
                 "required": [
