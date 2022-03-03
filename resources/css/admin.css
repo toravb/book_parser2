@@ -1,1 +1,6 @@
 @import "admin-lte";
+
+label.required:before {
+    content: "*";
+    color: var(--danger);
+}

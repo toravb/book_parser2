@@ -64,6 +64,20 @@
 
         <section class="content">
             <div class="container-fluid">
+                @if ($errors->any())
+                    <div class="alert-default-info">
+                        <div class="container-fluid">
+                            <div class="alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+
                 @yield('content')
             </div>
         </section>

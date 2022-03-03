@@ -41795,4 +41795,8 @@ a.text-muted:hover {
 .dark-mode .border-dark {
   border-color: #4b545c !important;
 }
+label.required:before {
+    content: "*";
+    color: var(--danger);
+}
 

@@ -22,10 +22,12 @@ class BooksController extends Controller
         return view('admin.books.create');
     }
 
-    public function edit($id, Book $book)
+    public function edit($book)
     {
-        $book = $book->getBooksForAdminPanel()->findOrFail($id);
+        $book = (new Book())->getBooksForAdminPanel()->findOrFail($book);
 
+        echo 'переработать редактирование книги.';
+        dd($book);
         return view('admin.books.edit', compact('book'));
     }
 

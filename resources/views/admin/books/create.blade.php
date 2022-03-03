@@ -7,7 +7,7 @@
     <x-header>
         Добавление книги
     </x-header>
-    <x-error-alerts/>
+
     <!-- /.content header -->
     <!-- Main content -->
     <div class="content">
@@ -16,6 +16,7 @@
             method="post"
             enctype="multipart/form-data"
             class="card">
+
             @csrf
 
             <div class="card-body">
@@ -23,18 +24,25 @@
                     <label class="col-12 d-block">
                         Название книги
                         <input
+                            required
                             type="text"
                             name="title"
-                            class="form-control"
+                            @class(['form-control', 'is-invalid' => $errors->has('title')])
                             placeholder="Название книги">
+
+                        <x-error name="title"></x-error>
                     </label>
 
                     <label class="col-12 d-block">
                         Описание
                         <textarea
+                            required
+                            rows="5"
                             name="description"
-                            class="form-control"
+                            @class(['form-control', 'is-invalid' => $errors->has('title')])
                             placeholder="Краткое описание книги"></textarea>
+
+                        <x-error name="description"></x-error>
                     </label>
                 </div>
 
@@ -42,7 +50,8 @@
                     <div class="col-12 col-md-6">
                         <!-- status select -->
                         <div class="form-group">
-                            <label>Статус</label>
+                            <label>Статус активности</label>
+                            <x-error name="status"></x-error>
 
                             <div class="form-check">
                                 <label class="d-block col-12 form-check-label">
@@ -57,29 +66,36 @@
                                     Скрыта
                                 </label>
                             </div>
-
-{{--                            <div class="form-check">--}}
-{{--                                <label class="form-check-label">--}}
-{{--                                    <input class="form-check-input" type="checkbox" value="">--}}
-{{--                                    Default checkbox--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
                         </div>
 
                         <div class="form-group">
                             <label class="w-100">
                                 Файл книги
-                                <input type="file" name="book-file" class="form-control-file" id="book-file">
+                                <input
+                                    required
+                                    type="file"
+                                    name="book-file"
+                                    class="form-control-file">
+
+                                <x-error name="book-file"></x-error>
                             </label>
+
                         </div>
 
                         <div class="form-group mb-0">
                             <label class="w-100">
                                 Обложка
-                                <input type="file" name="cover-image" class="form-control-file" id="cover-image">
+                                <input
+                                    required
+                                    type="file"
+                                    name="cover-image"
+                                    class="form-control-file">
+
+                                <x-error name="book-file"></x-error>
                             </label>
                         </div>
                     </div>
+
                     <!--genres checkbox-->
                     <div class="col-12 col-md-6">
                         <x-genres/>
