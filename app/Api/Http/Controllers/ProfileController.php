@@ -31,7 +31,7 @@ class ProfileController extends Controller
             if ($request->avatar) {
                 if (isset($user->avatar)) Storage::delete($user->avatar);
 
-                $user->avatar = Storage::putFile('avatar', $request->avatar);
+                $user->avatar = Storage::put('avatar', $request->avatar);
             }
 
             $user->email = $request->email;
