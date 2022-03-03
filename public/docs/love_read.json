@@ -7,16 +7,16 @@
   },
   "servers": [
     {
-      "url": "http://api.loveread.staj.fun/api/",
-      "description": "Dev"
-    },
-    {
       "description": "Prod",
-      "url": "https://loveread.webnauts.pw/api/"
+      "url": "https://loveread.webnauts.pro/api/"
     },
     {
       "description": "Local",
       "url": "http://book-parser2/api/"
+    },
+    {
+      "url": "http://localhost/api",
+      "description": "Localhost"
     }
   ],
   "paths": {
