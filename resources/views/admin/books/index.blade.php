@@ -55,7 +55,7 @@
                                     {{$book->year?->year}}
                                 </td>
                                 <td class="text-right">
-                                    <x-button-edit :route="route('admin.book.edit', $book)"></x-button-edit>
+                                    <x-button-edit :route="route('admin.books.edit', $book)"></x-button-edit>
 
                                     <x-button-delete :route="route('admin.books.destroy', $book)"></x-button-delete>
                                 </td>

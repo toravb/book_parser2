@@ -1,3 +1,3 @@
-<a class="btn btn-info" href="{{$route}}">
+<a class="btn btn-outline-warning" href="{{$route}}">
     <i class="fas fa-pencil-alt"></i>
 </a>

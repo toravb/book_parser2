@@ -6,6 +6,7 @@ use App\Api\Services\TypesGenerator;
 use App\Models\AudioAuthorsLink;
 use App\Models\AudioSite;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Queue\Events\JobProcessing;
 use Illuminate\Queue\Events\Looping;
 use Illuminate\Support\Facades\Queue;
@@ -38,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Paginator::useBootstrap();
+
         Schema::defaultStringLength(191);
 
         $typesGenerator = new TypesGenerator();
@@ -69,7 +72,7 @@ class AppServiceProvider extends ServiceProvider
                 }
             }
         });
-//dd(config('services.search.hosts'));
+
         $this->app->bind(Client::class, function () {
             return ClientBuilder::create()
                 ->setHosts(config('services.search.hosts'))

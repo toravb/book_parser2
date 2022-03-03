@@ -14,7 +14,7 @@ class BooksController extends Controller
     {
         $books = $book->getBooksForAdminPanel()->paginate(10);
 
-        return view('admin.books.index', ['books' => $books]);
+        return view('admin.books.index', compact('books'));
     }
 
     public function create()
