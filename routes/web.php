@@ -29,17 +29,16 @@ Route::get('/', function () {
 });
 
 Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
+    /*
+     * New admin panel
+     */
     Route::group(['prefix' => 'admin-panel'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
 
-        Route::group(['as' => 'category.', 'prefix' => 'categories'], function () {
-            Route::get('/', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('index');
-            Route::get('/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('edit');
-
-            Route::put('/', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('update');
-        });
-
-        Route::group(['as' => 'book.', 'prefix' => 'books'], function () {
+        /*
+         * Books
+         */
+        Route::group(['prefix' => 'books', 'as' => 'book.'], function () {
             Route::get('/', [HomeController::class, 'listBooks'])->name('list');
             Route::get('/create', [HomeController::class, 'create'])->name('create');
             Route::post('/store', [HomeController::class, 'store'])->name('store');
@@ -47,12 +46,28 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
             Route::put('/edit/store', [HomeController::class, 'storeEdit'])->name('store.edit');
         });
 
-        Route::group(['as' => 'audio_book.', 'prefix' => 'audio_book'], function (){
-            route::get('/', [HomeController::class, 'getAudioBookForDasboard'])->name('index');
+        /*
+         * Audio books
+         */
+        Route::group(['prefix' => 'audio_book', 'as' => 'audio_book.'], function (){
+            Route::get('/', [HomeController::class, 'getAudioBookForDasboard'])->name('index');
+        });
+
+        /*
+         * Categories
+         */
+        Route::group(['prefix' => 'categories', 'as' => 'category.'], function () {
+            Route::get('/', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('index');
+            Route::get('/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('edit');
+
+            Route::put('/', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('update');
         });
 
     });
 
+    /*
+     * Old admin panel
+     */
     Route::group(['as' => 'parser.', 'prefix' => 'parser'], function () {
         Route::get('/', [ParserController::class, 'index']);
         Route::get('/pages', [PageController::class, 'index'])->name('pages');
