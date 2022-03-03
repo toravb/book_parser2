@@ -82,6 +82,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->belongsTo(Series::class, 'series_id', 'id');
     }
 
+    public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class);
+    }
+
     public function pageLinks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(PageLink::class, 'book_id', 'id');
