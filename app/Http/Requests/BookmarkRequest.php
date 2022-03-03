@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Book;
+use App\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -12,7 +13,7 @@ class BookmarkRequest extends FormRequest
     {
         return [
             'book_id' => ['required', 'integer', Rule::exists(Book::class, 'id')],
-            'page_id' => ['required', 'integer'],
+            'page_id' => ['required', 'integer', Rule::exists(Page::class, 'id')->where('book_id', $this->book_id)],
         ];
     }
 

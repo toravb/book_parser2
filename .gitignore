@@ -19,3 +19,4 @@ yarn-error.log
 /public/admin/dist
 /public/admin/plugins
 ..env.swp
+.rnd

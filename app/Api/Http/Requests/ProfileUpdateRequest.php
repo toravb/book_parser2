@@ -27,7 +27,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'email' => ['required', 'email', 'max:255', Rule::unique(User::class)->ignore(auth('api')->id())],
-            'avatar' => ['sometimes', 'file'],
+            'avatar' => ['image'],
             'name' => ['nullable', 'string'],
             'surname' => ['nullable', 'string'],
             'nickname' => ['nullable', 'string', Rule::unique(User::class)->ignore(auth('api')->id())],
