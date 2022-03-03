@@ -52,10 +52,8 @@ class User extends Authenticatable
 
     public function toArray(): array
     {
-        $array = parent::toArray();
-
-        $array['avatar'] = self::avatarAttribute($array['avatar']);
-        return $array;
+        $this->avatar = self::avatarAttribute($this->avatar);
+        return parent::toArray();
     }
 
     public static function avatarAttribute($value): ?string
