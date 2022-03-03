@@ -12,7 +12,7 @@
     <!-- Main content -->
     <div class="content">
         <form
-            action="{{route('admin.book.store')}}"
+            action="{{route('admin.books.store')}}"
             method="post"
             enctype="multipart/form-data"
             class="card">

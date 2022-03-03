@@ -2,8 +2,8 @@
     data-accordion="false">
     <!-- Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library -->
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.book.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.book.*')])>
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.books.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.books.*')])>
             <i class="nav-icon fas fa-book"></i>
             <p>
                 Работа с книгами
@@ -12,13 +12,8 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.book.list')}}" @class(['nav-link', 'active' => request()->route()->named('admin.book.list')])>
+                <a href="{{route('admin.books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.books.index')])>
                     <p>Администрирование</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="{{route('admin.book.create')}}" @class(['nav-link', 'active' => request()->route()->named('admin.book.create')])>
-                    <p>Добавление книги</p>
                 </a>
             </li>
             {{--

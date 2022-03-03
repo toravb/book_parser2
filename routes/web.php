@@ -1,7 +1,9 @@
 <?php
 
-use App\Api\Http\Controllers\AudioBookController;
 use App\Api\Http\Controllers\StaticPagesController;
+use App\Http\Controllers\Admin\AudioBooksController;
+use App\Http\Controllers\Admin\BooksController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Audio\AdminController;
 use App\Http\Controllers\Parser\Admin\DashboardController;
@@ -9,7 +11,6 @@ use App\Http\Controllers\Parser\Admin\PageController;
 use App\Http\Controllers\Parser\Admin\ParserController;
 use App\Http\Controllers\Parser\Admin\ProfileController;
 use App\Http\Controllers\Parser\Admin\ProxySettingsController;
-use App\Http\Controllers\MainController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -33,34 +34,28 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
      * New admin panel
      */
     Route::group(['prefix' => 'admin-panel'], function () {
-        Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
+        Route::get('/', [HomeController::class, 'index'])->name('index');
 
         /*
          * Books
          */
-        Route::group(['prefix' => 'books', 'as' => 'book.'], function () {
-            Route::get('/', [HomeController::class, 'listBooks'])->name('list');
-            Route::get('/create', [HomeController::class, 'create'])->name('create');
-            Route::post('/store', [HomeController::class, 'store'])->name('store');
-            Route::get('/edit/{book}', [HomeController::class, 'edit'])->name('edit');
-            Route::put('/edit/store', [HomeController::class, 'storeEdit'])->name('store.edit');
-        });
+        Route::resource('books', BooksController::class)->except(['show']);
 
         /*
          * Audio books
          */
-        Route::group(['prefix' => 'audio_book', 'as' => 'audio_book.'], function (){
-            Route::get('/', [HomeController::class, 'getAudioBookForDasboard'])->name('index');
+        Route::group(['prefix' => 'audio_book', 'as' => 'audio_book.'], function () {
+            Route::get('/', [AudioBooksController::class, 'index'])->name('index');
         });
 
         /*
          * Categories
          */
         Route::group(['prefix' => 'categories', 'as' => 'category.'], function () {
-            Route::get('/', [\App\Http\Controllers\Admin\CategoryController::class, 'index'])->name('index');
-            Route::get('/{category}/edit', [\App\Http\Controllers\Admin\CategoryController::class, 'edit'])->name('edit');
+            Route::get('/', [CategoryController::class, 'index'])->name('index');
+            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
 
-            Route::put('/', [\App\Http\Controllers\Admin\CategoryController::class, 'update'])->name('update');
+            Route::put('/', [CategoryController::class, 'update'])->name('update');
         });
 
     });
