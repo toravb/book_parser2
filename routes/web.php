@@ -29,9 +29,6 @@ Route::get('/', function () {
 });
 
 Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
-
-    Route::get('/dashboard', [DashboardController::class, 'main'])->name('dashboard');
-
     Route::group(['prefix' => 'admin-panel'], function () {
         Route::get('/', [\App\Http\Controllers\Admin\HomeController::class, 'index'])->name('index');
 
