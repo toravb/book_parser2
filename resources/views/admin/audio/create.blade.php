@@ -5,9 +5,9 @@
 @section('content')
     <!-- Content header (Page header) -->
     <x-header>
-        Добавление книги
+        Добавление аудио книги
     </x-header>
-    <x-error-alerts/>
+
     <!-- /.content header -->
     <!-- Main content -->
     <div class="content">
@@ -15,8 +15,8 @@
             action="{{route('admin.audio_book.store')}}"
             method="post"
             enctype="multipart/form-data"
-            class="card"
-        id="audio-book">
+            class="card">
+
             @csrf
 
             <div class="card-body">
@@ -24,18 +24,25 @@
                     <label class="col-12 d-block">
                         Название книги
                         <input
+                            required
                             type="text"
                             name="title"
-                            class="form-control"
+                            @class(['form-control', 'is-invalid' => $errors->has('title')])
                             placeholder="Название книги">
+
+                        <x-error name="title"></x-error>
                     </label>
 
                     <label class="col-12 d-block">
                         Описание
                         <textarea
+                            required
+                            rows="5"
                             name="description"
-                            class="form-control"
+                            @class(['form-control', 'is-invalid' => $errors->has('description')])
                             placeholder="Краткое описание книги"></textarea>
+
+                        <X-error name="description"></X-error>
                     </label>
                 </div>
 
@@ -43,7 +50,8 @@
                     <div class="col-12 col-md-6">
                         <!-- status select -->
                         <div class="form-group">
-                            <label>Статус</label>
+                            <label>Статус активности</label>
+                            <x-error name="status"></x-error>
 
                             <div class="form-check">
                                 <label class="d-block col-12 form-check-label">
@@ -70,10 +78,15 @@
                         <div class="form-group mb-0">
                             <label class="w-100">
                                 Обложка
-                                <input type="file" name="cover-image" class="form-control-file" id="cover-image">
+                                <input
+                                    required
+                                    type="file"
+                                    name="cover-image"
+                                    class="form-control-file">
+
+                                <x-error name="cover-image"></x-error>
                             </label>
                         </div>
-
                     </div>
                     <!--genres checkbox-->
                     <div class="col-12 col-md-6">
@@ -86,35 +99,6 @@
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </form>
-        <div class="form-group">
-            <form action="{{route('admin.audio_book.store')}}" method="POST"
-                  class="dropzone" id="audio-book" enctype="multipart/form-data">
-                <label class="w-100">
-                    Файл книги
-{{--                    <input type="file" name="book-file" class="form-control-file" id="audio-file">--}}
-                </label>
-            </form>
-            <script type="text/javascript">
-                Dropzone.options.audioBook =
-                    {
-                        maxFilesize: 10,
-                        renameFile: function (file) {
-                            var dt = new Date();
-                            var time = dt.getTime();
-                            return time + file.name;
-                        },
-                        acceptedFiles: ".jpeg,.jpg,.png,.gif",
-                        addRemoveLinks: true,
-                        timeout: 60000,
-                        success: function (file, response) {
-                            console.log(response);
-                        },
-                        error: function (file, response) {
-                            return false;
-                        }
-                    };
-            </script>
-        </div>
     </div>
 
 @endsection

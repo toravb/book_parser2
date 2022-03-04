@@ -393,11 +393,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->getKey();
     }
 
-    public function storeBooksByAdmin(string $title, string $text, int $status, string $link)
+    public function storeBooksByAdmin(string $title, string $description, int $status, string $link)
     {
         $book = $this->create([
             'title' => $title,
-            'text' => $text,
+            'text' => $description,
             'active' => $status,
             'link' => $link,
             'params' => '{}'
