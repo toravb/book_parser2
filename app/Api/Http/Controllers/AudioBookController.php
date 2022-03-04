@@ -50,6 +50,4 @@ class AudioBookController extends Controller
 
         return ApiAnswerService::errorAnswer("Недостаточно прав для редактирования", Response::HTTP_FORBIDDEN);
     }
-
-
 }

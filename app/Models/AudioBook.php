@@ -303,4 +303,21 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     {
         return $this->getKey();
     }
+
+    public function getForAdmin()
+    {
+        return $this
+            ->select(
+                'audio_books.id',
+                'audio_books.active',
+                'audio_books.title',
+                'audio_books.year_id'
+            )
+            ->with([
+                'image:book_id,link',
+                'genre:id,name',
+                'authors:author',
+                'year:id,year'
+            ]);
+    }
 }

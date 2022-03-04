@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\JoinClause;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Book extends Model implements BookInterface, SearchModelInterface
 {
@@ -37,7 +38,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
         'link',
         'params',
         'text',
-        'donor_id'
+        'donor_id',
+        'active'
     ];
 
     protected $hidden = ['pivot'];
@@ -358,6 +360,23 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->join('years', 'years.id', '=', 'books.year_id');
     }
 
+    public function getBooksForAdminPanel()
+    {
+        return $this
+            ->select(['books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'bookGenres:name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ]);
+    }
+
+    public function updateBook($fields)
+    {
+        return $this->fill($fields)->update();
+    }
+
     public function baseSearchQuery(): Builder
     {
         return $this->getBook();
@@ -367,5 +386,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this->getKey();
     }
-}
 
+    public function storeBooksByAdmin(string $title, string $text, int $status, string $link)
+    {
+       $book = $this->create([
+            'title' => $title,
+            'text' => $text,
+            'active' => $status,
+            'link' => $link,
+            'params' => '{}'
+        ]);
+
+       return $book->id;
+    }
+}

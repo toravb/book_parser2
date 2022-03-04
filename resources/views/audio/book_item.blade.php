@@ -23,7 +23,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <a href="{{route('audio.books.genre', ['genre' => $book->genre])}}">{{$book->genre->name}}</a>
+                            <a href="{{route('admin.audio.books.genre', ['genre' => $book->genre])}}">{{$book->genre->name}}</a>
                         </td>
                     </tr>
                     @if($book->series)
@@ -33,7 +33,7 @@
                         <tr>
                             <td>
 
-                                <a href="{{route('audio.books.series', ['series' => $book->series])}}">{{$book->series->name}}</a>
+                                <a href="{{route('admin.audio.books.series', ['series' => $book->series])}}">{{$book->series->name}}</a>
 
                             </td>
                         </tr>
@@ -44,7 +44,7 @@
                         @foreach($book->authors as $author)
                             <tr>
                         <td>
-                            <a href="{{route('audio.books.author', ['author' => $author])}}">{!!$author->name!!}</a>
+                            <a href="{{route('admin.audio.books.author', ['author' => $author])}}">{!!$author->name!!}</a>
                         </td>
                             </tr>
                         @endforeach
@@ -54,7 +54,7 @@
                         @foreach($book->actors as $actor)
                             <tr>
                             <td>
-                                <a href="{{route('audio.books.actor', ['actor' => $actor])}}">{!!$actor->name!!}</a>
+                                <a href="{{route('admin.audio.books.actor', ['actor' => $actor])}}">{!!$actor->name!!}</a>
                             </td>
                             </tr>
                         @endforeach
