@@ -5605,38 +5605,1700 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "description": "",
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": "string"
+                      "type": "string",
+                      "minLength": 1
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "number"
-                          },
-                          "title": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "data": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "id",
+                              "title",
+                              "type"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
                           }
                         },
-                        "required": [
-                          "id",
-                          "title",
-                          "type"
-                        ]
-                      }
+                        "first_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "from": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "last_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "links": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "label",
+                              "active"
+                            ],
+                            "properties": {
+                              "url": {},
+                              "label": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        },
+                        "next_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "prev_page_url": {},
+                        "to": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "current_page",
+                        "data",
+                        "first_page_url",
+                        "from",
+                        "last_page",
+                        "last_page_url",
+                        "links",
+                        "next_page_url",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ]
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ]
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "current_page": 1,
+                        "data": [
+                          {
+                            "id": 6,
+                            "title": "А вот еще...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 7,
+                            "title": "А вот и завтра",
+                            "type": "books"
+                          },
+                          {
+                            "id": 8,
+                            "title": "А вот и Полетта",
+                            "type": "books"
+                          },
+                          {
+                            "id": 9,
+                            "title": "А время уходит",
+                            "type": "books"
+                          },
+                          {
+                            "id": 10,
+                            "title": "А вы, случайно, не убийца?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 11,
+                            "title": "А дело было так...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 12,
+                            "title": "А другого глобуса у вас нет?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 13,
+                            "title": "А другой мне не надо",
+                            "type": "books"
+                          },
+                          {
+                            "id": 14,
+                            "title": "А если ты ошибся?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 15,
+                            "title": "А если это был Он?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 16,
+                            "title": "А еще я танцую",
+                            "type": "books"
+                          },
+                          {
+                            "id": 17,
+                            "title": "А жизнь была совсем хорошая...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 18,
+                            "title": "А жизнь продолжается",
+                            "type": "books"
+                          },
+                          {
+                            "id": 19,
+                            "title": "А жизнь так коротка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 20,
+                            "title": "А жизнь так коротка!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 21,
+                            "title": "А жить когда? 11 законов Анунаха",
+                            "type": "books"
+                          },
+                          {
+                            "id": 22,
+                            "title": "А зори здесь тихие...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 23,
+                            "title": "А и Б сидели на трубе...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 24,
+                            "title": "А как же любовь?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 25,
+                            "title": "А кому сейчас легко?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 26,
+                            "title": "А кота спросить забыли?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 27,
+                            "title": "А кто виноват? Кот!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 28,
+                            "title": "А ларчик просто открывался",
+                            "type": "books"
+                          },
+                          {
+                            "id": 29,
+                            "title": "А ларчик просто открывался",
+                            "type": "books"
+                          },
+                          {
+                            "id": 30,
+                            "title": "А любовь как сон",
+                            "type": "books"
+                          },
+                          {
+                            "id": 31,
+                            "title": "А может, это любовь?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 32,
+                            "title": "А может, это любовь?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 33,
+                            "title": "А мы с тобой, брат, из пехоты. \"Из адов ад\"",
+                            "type": "books"
+                          },
+                          {
+                            "id": 34,
+                            "title": "А наутро радость",
+                            "type": "books"
+                          },
+                          {
+                            "id": 35,
+                            "title": "А не пойти ли вам лесом, господин инквизитор?..",
+                            "type": "books"
+                          },
+                          {
+                            "id": 36,
+                            "title": "А ночь была как музыка, как милость",
+                            "type": "books"
+                          },
+                          {
+                            "id": 37,
+                            "title": "А ну-ка, вспоминай!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 38,
+                            "title": "А обещали сказку...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 39,
+                            "title": "А под ним я голая",
+                            "type": "books"
+                          },
+                          {
+                            "id": 40,
+                            "title": "А порою очень грустны",
+                            "type": "books"
+                          },
+                          {
+                            "id": 41,
+                            "title": "А потом - убийство!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 42,
+                            "title": "А потом будет утро...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 43,
+                            "title": "А потом пошел снег...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 44,
+                            "title": "А потом пришла любовь",
+                            "type": "books"
+                          },
+                          {
+                            "id": 45,
+                            "title": "А Роза упала... Дом, в котором живет месть",
+                            "type": "books"
+                          },
+                          {
+                            "id": 46,
+                            "title": "А собаку я возьму себе",
+                            "type": "books"
+                          },
+                          {
+                            "id": 47,
+                            "title": "А счастье пахнет лавандой!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 48,
+                            "title": "А счетчик тикает",
+                            "type": "books"
+                          },
+                          {
+                            "id": 49,
+                            "title": "А там живут ласточки",
+                            "type": "books"
+                          },
+                          {
+                            "id": 50,
+                            "title": "А тебе слабо?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 51,
+                            "title": "А теперь Горбатый!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 52,
+                            "title": "А теперь держи меня",
+                            "type": "books"
+                          },
+                          {
+                            "id": 53,
+                            "title": "А теперь любите меня",
+                            "type": "books"
+                          },
+                          {
+                            "id": 54,
+                            "title": "А теперь мы порвем Африку!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 55,
+                            "title": "А тому ли я дала? Когда хотелось счастья, а получилось как всегда",
+                            "type": "books"
+                          },
+                          {
+                            "id": 56,
+                            "title": "А ты бы ей отказал?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 57,
+                            "title": "А ты попробуй",
+                            "type": "books"
+                          },
+                          {
+                            "id": 58,
+                            "title": "А ты постарайся!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 59,
+                            "title": "А ты пребудешь вечно",
+                            "type": "books"
+                          },
+                          {
+                            "id": 60,
+                            "title": "А ты уловила флюиды?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 61,
+                            "title": "А что вы хотели от Бабы-яги",
+                            "type": "books"
+                          },
+                          {
+                            "id": 62,
+                            "title": "А что дальше?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 63,
+                            "title": "А что же случится со мной?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 64,
+                            "title": "А что это я здесь делаю? Путь журналиста",
+                            "type": "books"
+                          },
+                          {
+                            "id": 65,
+                            "title": "А что, если они нам не враги? Как болезни спасают людей от вымирания",
+                            "type": "books"
+                          },
+                          {
+                            "id": 66,
+                            "title": "А что, если?.. Научные ответы на абсурдные гипотетические вопросы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 67,
+                            "title": "А этот пусть живет...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 68,
+                            "title": "А я дура пятая!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 69,
+                            "title": "А я леплю горбатого",
+                            "type": "books"
+                          },
+                          {
+                            "id": 70,
+                            "title": "А я люблю военных, или космическая история попаданки",
+                            "type": "books"
+                          },
+                          {
+                            "id": 71,
+                            "title": "А я люблю военных...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 72,
+                            "title": "А я люблю женатого",
+                            "type": "books"
+                          },
+                          {
+                            "id": 73,
+                            "title": "А я смогу...",
+                            "type": "books"
+                          },
+                          {
+                            "id": 74,
+                            "title": "А я тебя «нет». Как не бояться отказов и идти напролом к своей цели",
+                            "type": "books"
+                          },
+                          {
+                            "id": 75,
+                            "title": "А,Б,В,Г,Д… И другие",
+                            "type": "books"
+                          },
+                          {
+                            "id": 76,
+                            "title": "А-бомба. От Сталина до Путина. Фрагменты истории в воспоминаниях и документах",
+                            "type": "books"
+                          },
+                          {
+                            "id": 77,
+                            "title": "А-Прогрессор",
+                            "type": "books"
+                          },
+                          {
+                            "id": 78,
+                            "title": "А. С. Секретная миссия",
+                            "type": "books"
+                          },
+                          {
+                            "id": 79,
+                            "title": "А.....а",
+                            "type": "books"
+                          },
+                          {
+                            "id": 80,
+                            "title": "А6М Zero",
+                            "type": "books"
+                          },
+                          {
+                            "id": 81,
+                            "title": "Аакер о брендинге. 20 принципов достижения успеха",
+                            "type": "books"
+                          },
+                          {
+                            "id": 82,
+                            "title": "Ааргх",
+                            "type": "books"
+                          },
+                          {
+                            "id": 83,
+                            "title": "Ааргх в эльфятнике",
+                            "type": "books"
+                          },
+                          {
+                            "id": 84,
+                            "title": "Ааргх на троне",
+                            "type": "books"
+                          },
+                          {
+                            "id": 85,
+                            "title": "Аарон",
+                            "type": "books"
+                          },
+                          {
+                            "id": 86,
+                            "title": "Абандон. Брошенный город",
+                            "type": "books"
+                          },
+                          {
+                            "id": 87,
+                            "title": "Абарат",
+                            "type": "books"
+                          },
+                          {
+                            "id": 88,
+                            "title": "Абатта",
+                            "type": "books"
+                          },
+                          {
+                            "id": 89,
+                            "title": "Аббарр. Пепел и крылья",
+                            "type": "books"
+                          },
+                          {
+                            "id": 90,
+                            "title": "Аббатство Даунтон. История гордости и предубеждений",
+                            "type": "books"
+                          },
+                          {
+                            "id": 91,
+                            "title": "Аббатство Теней",
+                            "type": "books"
+                          },
+                          {
+                            "id": 92,
+                            "title": "Абвер против СМЕРШа. Убить Сталина!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 93,
+                            "title": "Абвер – «щит и меч» III Рейха",
+                            "type": "books"
+                          },
+                          {
+                            "id": 94,
+                            "title": "Абель-Фишер",
+                            "type": "books"
+                          },
+                          {
+                            "id": 95,
+                            "title": "Аберистуит, любовь моя",
+                            "type": "books"
+                          },
+                          {
+                            "id": 96,
+                            "title": "Аберрация",
+                            "type": "books"
+                          },
+                          {
+                            "id": 97,
+                            "title": "Абигайль, или Романтическая катастрофа",
+                            "type": "books"
+                          },
+                          {
+                            "id": 98,
+                            "title": "Абиссаль",
+                            "type": "books"
+                          },
+                          {
+                            "id": 99,
+                            "title": "Абиссинцы. Потомки царя Соломона",
+                            "type": "books"
+                          },
+                          {
+                            "id": 100,
+                            "title": "Аблай Хан и его батыры. Легенды Великой степи",
+                            "type": "books"
+                          },
+                          {
+                            "id": 101,
+                            "title": "Абонемент на счастье",
+                            "type": "books"
+                          },
+                          {
+                            "id": 102,
+                            "title": "Абонент временно замужем",
+                            "type": "books"
+                          },
+                          {
+                            "id": 103,
+                            "title": "Абонент доступен",
+                            "type": "books"
+                          },
+                          {
+                            "id": 104,
+                            "title": "Абонент недоступен",
+                            "type": "books"
+                          },
+                          {
+                            "id": 105,
+                            "title": "Абонент недоступен",
+                            "type": "books"
+                          },
+                          {
+                            "id": 106,
+                            "title": "Абордажная доля",
+                            "type": "books"
+                          },
+                          {
+                            "id": 107,
+                            "title": "Абордажник",
+                            "type": "books"
+                          },
+                          {
+                            "id": 108,
+                            "title": "Абориген",
+                            "type": "books"
+                          },
+                          {
+                            "id": 109,
+                            "title": "Аборигены галактики",
+                            "type": "books"
+                          },
+                          {
+                            "id": 110,
+                            "title": "Аборигены Прерии",
+                            "type": "books"
+                          },
+                          {
+                            "id": 111,
+                            "title": "Аборсен",
+                            "type": "books"
+                          },
+                          {
+                            "id": 112,
+                            "title": "Абрафаксы под черным флагом",
+                            "type": "books"
+                          },
+                          {
+                            "id": 113,
+                            "title": "Абраша",
+                            "type": "books"
+                          },
+                          {
+                            "id": 114,
+                            "title": "Абрикосовый мальчик",
+                            "type": "books"
+                          },
+                          {
+                            "id": 115,
+                            "title": "Абрис облика будущего",
+                            "type": "books"
+                          },
+                          {
+                            "id": 116,
+                            "title": "Абсолем",
+                            "type": "books"
+                          },
+                          {
+                            "id": 117,
+                            "title": "Абсолют в моём сердце. Часть 1",
+                            "type": "books"
+                          },
+                          {
+                            "id": 118,
+                            "title": "Абсолютист",
+                            "type": "books"
+                          },
+                          {
+                            "id": 119,
+                            "title": "Абсолютная альтернатива",
+                            "type": "books"
+                          },
+                          {
+                            "id": 120,
+                            "title": "Абсолютная вера в любовь",
+                            "type": "books"
+                          },
+                          {
+                            "id": 121,
+                            "title": "Абсолютная власть",
+                            "type": "books"
+                          },
+                          {
+                            "id": 122,
+                            "title": "Абсолютная война",
+                            "type": "books"
+                          },
+                          {
+                            "id": 123,
+                            "title": "Абсолютная гарантия",
+                            "type": "books"
+                          },
+                          {
+                            "id": 124,
+                            "title": "Абсолютная защита",
+                            "type": "books"
+                          },
+                          {
+                            "id": 125,
+                            "title": "Абсолютная красота. Сияющая кожа и внутренняя гармония. Древние тайны аюрведы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 126,
+                            "title": "Абсолютная ложь",
+                            "type": "books"
+                          },
+                          {
+                            "id": 127,
+                            "title": "Абсолютная память",
+                            "type": "books"
+                          },
+                          {
+                            "id": 128,
+                            "title": "Абсолютная пустота",
+                            "type": "books"
+                          },
+                          {
+                            "id": 129,
+                            "title": "Абсолютная реальность",
+                            "type": "books"
+                          },
+                          {
+                            "id": 130,
+                            "title": "Абсолютно женское чтиво. Стилизм",
+                            "type": "books"
+                          },
+                          {
+                            "id": 131,
+                            "title": "Абсолютно ненормально",
+                            "type": "books"
+                          },
+                          {
+                            "id": 132,
+                            "title": "Абсолютно неожиданные истории",
+                            "type": "books"
+                          },
+                          {
+                            "id": 133,
+                            "title": "Абсолютно честен. Автобиография",
+                            "type": "books"
+                          },
+                          {
+                            "id": 134,
+                            "title": "Абсолютное доказательство",
+                            "type": "books"
+                          },
+                          {
+                            "id": 135,
+                            "title": "Абсолютное зло",
+                            "type": "books"
+                          },
+                          {
+                            "id": 136,
+                            "title": "Абсолютное оружие. Как убить конкуренцию: захват и удержание рынка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 137,
+                            "title": "Абсолютное правило",
+                            "type": "books"
+                          },
+                          {
+                            "id": 138,
+                            "title": "Абсолютное соло",
+                            "type": "books"
+                          },
+                          {
+                            "id": 139,
+                            "title": "Абсолютные друзья",
+                            "type": "books"
+                          },
+                          {
+                            "id": 140,
+                            "title": "Абсолютные миротворцы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 141,
+                            "title": "Абсолютный враг",
+                            "type": "books"
+                          },
+                          {
+                            "id": 142,
+                            "title": "Абсолютный доступ",
+                            "type": "books"
+                          },
+                          {
+                            "id": 143,
+                            "title": "Абсолютный минимум. Как квантовая теория объясняет наш мир",
+                            "type": "books"
+                          },
+                          {
+                            "id": 144,
+                            "title": "Абсолютный ноль",
+                            "type": "books"
+                          },
+                          {
+                            "id": 145,
+                            "title": "Абсолютный холод",
+                            "type": "books"
+                          },
+                          {
+                            "id": 146,
+                            "title": "Абсурдистан",
+                            "type": "books"
+                          },
+                          {
+                            "id": 147,
+                            "title": "Абу Нувас",
+                            "type": "books"
+                          },
+                          {
+                            "id": 148,
+                            "title": "Абхазский миротворец",
+                            "type": "books"
+                          },
+                          {
+                            "id": 149,
+                            "title": "Абхорсен",
+                            "type": "books"
+                          },
+                          {
+                            "id": 150,
+                            "title": "Ава и Звезда",
+                            "type": "books"
+                          },
+                          {
+                            "id": 151,
+                            "title": "Аваддон-Губитель",
+                            "type": "books"
+                          },
+                          {
+                            "id": 152,
+                            "title": "Авалон-2314",
+                            "type": "books"
+                          },
+                          {
+                            "id": 153,
+                            "title": "Авантюра времени",
+                            "type": "books"
+                          },
+                          {
+                            "id": 154,
+                            "title": "Авантюра леди Олстон",
+                            "type": "books"
+                          },
+                          {
+                            "id": 155,
+                            "title": "Авантюра леди Шелдон",
+                            "type": "books"
+                          },
+                          {
+                            "id": 156,
+                            "title": "Авантюра с последствиями, или Отличницу вызывали?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 157,
+                            "title": "Авантюризм для себя любимой",
+                            "type": "books"
+                          },
+                          {
+                            "id": 158,
+                            "title": "Авантюрист",
+                            "type": "books"
+                          },
+                          {
+                            "id": 159,
+                            "title": "Авантюрист",
+                            "type": "books"
+                          },
+                          {
+                            "id": 160,
+                            "title": "Авантюрист",
+                            "type": "books"
+                          },
+                          {
+                            "id": 161,
+                            "title": "Авантюрист",
+                            "type": "books"
+                          },
+                          {
+                            "id": 162,
+                            "title": "Авантюрист",
+                            "type": "books"
+                          },
+                          {
+                            "id": 163,
+                            "title": "Авантюрист: Новичок-одиночка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 164,
+                            "title": "Авантюристка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 165,
+                            "title": "Авантюристка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 166,
+                            "title": "Авантюристка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 167,
+                            "title": "Авантюристка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 168,
+                            "title": "Авантюристка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 169,
+                            "title": "Авантюристка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 170,
+                            "title": "Авантюристка в Академии",
+                            "type": "books"
+                          },
+                          {
+                            "id": 171,
+                            "title": "Авантюристка поневоле",
+                            "type": "books"
+                          },
+                          {
+                            "id": 172,
+                            "title": "Авантюристка поневоле. Баронесса",
+                            "type": "books"
+                          },
+                          {
+                            "id": 173,
+                            "title": "Авантюристка. Возлюбленная из будущего",
+                            "type": "books"
+                          },
+                          {
+                            "id": 174,
+                            "title": "Авантюристка. Посланница судьбы. Книга 4",
+                            "type": "books"
+                          },
+                          {
+                            "id": 175,
+                            "title": "Авантюристы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 176,
+                            "title": "Авантюристы его величества",
+                            "type": "books"
+                          },
+                          {
+                            "id": 177,
+                            "title": "Авантюристы. Морские бродяги. Золотая Кастилия (сборник)",
+                            "type": "books"
+                          },
+                          {
+                            "id": 178,
+                            "title": "Авантюры открытого моря",
+                            "type": "books"
+                          },
+                          {
+                            "id": 179,
+                            "title": "Аварийная команда",
+                            "type": "books"
+                          },
+                          {
+                            "id": 180,
+                            "title": "Авария Джорджа Гарриса",
+                            "type": "books"
+                          },
+                          {
+                            "id": 181,
+                            "title": "Авария, дочь мента",
+                            "type": "books"
+                          },
+                          {
+                            "id": 182,
+                            "title": "Аватар",
+                            "type": "books"
+                          },
+                          {
+                            "id": 183,
+                            "title": "Аватар бога",
+                            "type": "books"
+                          },
+                          {
+                            "id": 184,
+                            "title": "Аватар Джеймса Кэмерона. В поисках На'ви",
+                            "type": "books"
+                          },
+                          {
+                            "id": 185,
+                            "title": "Аватар судьбы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 186,
+                            "title": "Аватар. Другая сторона правды",
+                            "type": "books"
+                          },
+                          {
+                            "id": 187,
+                            "title": "Аватара клоуна",
+                            "type": "books"
+                          },
+                          {
+                            "id": 188,
+                            "title": "Аввакум",
+                            "type": "books"
+                          },
+                          {
+                            "id": 189,
+                            "title": "Август",
+                            "type": "books"
+                          },
+                          {
+                            "id": 190,
+                            "title": "Август",
+                            "type": "books"
+                          },
+                          {
+                            "id": 191,
+                            "title": "Август 1991 г. Где был КГБ?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 192,
+                            "title": "Август 1991. Где была армия?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 193,
+                            "title": "Август 91-го. А был ли заговор?",
+                            "type": "books"
+                          },
+                          {
+                            "id": 194,
+                            "title": "Август Хромер",
+                            "type": "books"
+                          },
+                          {
+                            "id": 195,
+                            "title": "Август. Первый император Рима",
+                            "type": "books"
+                          },
+                          {
+                            "id": 196,
+                            "title": "Августейший бунт. Дом Романовых накануне революции",
+                            "type": "books"
+                          },
+                          {
+                            "id": 197,
+                            "title": "Августейший мастер выживания. Жизнь Карла II",
+                            "type": "books"
+                          },
+                          {
+                            "id": 198,
+                            "title": "Августовские пушки",
+                            "type": "books"
+                          },
+                          {
+                            "id": 199,
+                            "title": "Августовские танки",
+                            "type": "books"
+                          },
+                          {
+                            "id": 200,
+                            "title": "Авдотья и Пифагор",
+                            "type": "books"
+                          },
+                          {
+                            "id": 201,
+                            "title": "Аверс и реверс",
+                            "type": "books"
+                          },
+                          {
+                            "id": 202,
+                            "title": "Аверуан",
+                            "type": "books"
+                          },
+                          {
+                            "id": 203,
+                            "title": "Авианосец AKAGI: от Пёрл-Харбора до Мидуэя",
+                            "type": "books"
+                          },
+                          {
+                            "id": 204,
+                            "title": "Авианосец Третьего рейха Graf Zeppelin – история, конструкция, авиационное вооружение",
+                            "type": "books"
+                          },
+                          {
+                            "id": 205,
+                            "title": "Авианосцы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 206,
+                            "title": "Авианосцы адмирала Колчака",
+                            "type": "books"
+                          },
+                          {
+                            "id": 207,
+                            "title": "Авианосцы мира 1939-1945 (Великобритания, США, СССР)",
+                            "type": "books"
+                          },
+                          {
+                            "id": 208,
+                            "title": "Авианосцы мира. 1917 - 1939",
+                            "type": "books"
+                          },
+                          {
+                            "id": 209,
+                            "title": "Авианосцы США «Essex»",
+                            "type": "books"
+                          },
+                          {
+                            "id": 210,
+                            "title": "Авианосцы, том",
+                            "type": "books"
+                          },
+                          {
+                            "id": 211,
+                            "title": "Авианосцы, том 1",
+                            "type": "books"
+                          },
+                          {
+                            "id": 212,
+                            "title": "Авиатор",
+                            "type": "books"
+                          },
+                          {
+                            "id": 213,
+                            "title": "Авиатор",
+                            "type": "books"
+                          },
+                          {
+                            "id": 214,
+                            "title": "Авиатор",
+                            "type": "books"
+                          },
+                          {
+                            "id": 215,
+                            "title": "Авиационные террористы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 216,
+                            "title": "Авиация во второй мировой войне. Самолеты Франции. Часть 1",
+                            "type": "books"
+                          },
+                          {
+                            "id": 217,
+                            "title": "Авиация во второй мировой войне. Самолеты Франции. Часть 2",
+                            "type": "books"
+                          },
+                          {
+                            "id": 218,
+                            "title": "Авиация Красной армии",
+                            "type": "books"
+                          },
+                          {
+                            "id": 219,
+                            "title": "Авиньонский квинтет. Quinx, или Рассказ Потрошителя",
+                            "type": "books"
+                          },
+                          {
+                            "id": 220,
+                            "title": "Авиньонский квинтет. Констанс, или Одинокие пути",
+                            "type": "books"
+                          },
+                          {
+                            "id": 221,
+                            "title": "Авиньонский квинтет. Ливия, или погребённая заживо",
+                            "type": "books"
+                          },
+                          {
+                            "id": 222,
+                            "title": "Авиньонский квинтет. Себастьян, или Неодолимые страсти",
+                            "type": "books"
+                          },
+                          {
+                            "id": 223,
+                            "title": "Авиньонский квинтет: Месье, или Князь Тьмы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 224,
+                            "title": "Ависийская роза",
+                            "type": "books"
+                          },
+                          {
+                            "id": 225,
+                            "title": "Авиценна. Канон биохакинга",
+                            "type": "books"
+                          },
+                          {
+                            "id": 226,
+                            "title": "Авоська с Алмазным фондом",
+                            "type": "books"
+                          },
+                          {
+                            "id": 227,
+                            "title": "Авраам Линкольн",
+                            "type": "books"
+                          },
+                          {
+                            "id": 228,
+                            "title": "Аврия. Первый курс",
+                            "type": "books"
+                          },
+                          {
+                            "id": 229,
+                            "title": "Аврора",
+                            "type": "books"
+                          },
+                          {
+                            "id": 230,
+                            "title": "Аврора",
+                            "type": "books"
+                          },
+                          {
+                            "id": 231,
+                            "title": "Аврора",
+                            "type": "books"
+                          },
+                          {
+                            "id": 232,
+                            "title": "Австралийская дикарка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 233,
+                            "title": "Австралийское сокровище",
+                            "type": "books"
+                          },
+                          {
+                            "id": 234,
+                            "title": "Австралия - Terra Incognita. Когда звери еще были людьми",
+                            "type": "books"
+                          },
+                          {
+                            "id": 235,
+                            "title": "Австрийская площадь, или Петербургские игры",
+                            "type": "books"
+                          },
+                          {
+                            "id": 236,
+                            "title": "Австрийские Габсбурги и сословия в начале XVII века",
+                            "type": "books"
+                          },
+                          {
+                            "id": 237,
+                            "title": "Австрийские фрукты",
+                            "type": "books"
+                          },
+                          {
+                            "id": 238,
+                            "title": "Австро-Венгерская империя",
+                            "type": "books"
+                          },
+                          {
+                            "id": 239,
+                            "title": "Австро-Венгрия. Судьба империи",
+                            "type": "books"
+                          },
+                          {
+                            "id": 240,
+                            "title": "Австро-прусская война. 1866 год",
+                            "type": "books"
+                          },
+                          {
+                            "id": 241,
+                            "title": "Автобаза",
+                            "type": "books"
+                          },
+                          {
+                            "id": 242,
+                            "title": "Автобиография",
+                            "type": "books"
+                          },
+                          {
+                            "id": 243,
+                            "title": "Автобиография Иисуса Христа",
+                            "type": "books"
+                          },
+                          {
+                            "id": 244,
+                            "title": "Автовор",
+                            "type": "books"
+                          },
+                          {
+                            "id": 245,
+                            "title": "Автоворонка для инфобизнеса",
+                            "type": "books"
+                          },
+                          {
+                            "id": 246,
+                            "title": "Автограф ликвидатора",
+                            "type": "books"
+                          },
+                          {
+                            "id": 247,
+                            "title": "Автограф убийцы",
+                            "type": "books"
+                          },
+                          {
+                            "id": 248,
+                            "title": "Автомат Калашникова. Символ России",
+                            "type": "books"
+                          },
+                          {
+                            "id": 249,
+                            "title": "Автоматический покупатель. Как создать бизнес по подписке в любой отрасли",
+                            "type": "books"
+                          },
+                          {
+                            "id": 250,
+                            "title": "Автоматический уничтожитель иллюзий, или 150 идей для умных и критичных",
+                            "type": "books"
+                          },
+                          {
+                            "id": 251,
+                            "title": "Автоматная баллада",
+                            "type": "books"
+                          },
+                          {
+                            "id": 252,
+                            "title": "Автомобили Красной Армии, 1941–1945 гг.",
+                            "type": "books"
+                          },
+                          {
+                            "id": 253,
+                            "title": "Автомобили по Кларксону",
+                            "type": "books"
+                          },
+                          {
+                            "id": 254,
+                            "title": "Автомобили Советской Армии 1946-1991",
+                            "type": "books"
+                          },
+                          {
+                            "id": 255,
+                            "title": "Автомобиль Иоанна Крестителя",
+                            "type": "books"
+                          },
+                          {
+                            "id": 256,
+                            "title": "Автонашествие на СССР. Трофейные и лендлизовские автомобили",
+                            "type": "books"
+                          },
+                          {
+                            "id": 257,
+                            "title": "Автономия. Как появился автомобиль без водителя и что это значит для нашего будущего",
+                            "type": "books"
+                          },
+                          {
+                            "id": 258,
+                            "title": "Автономка",
+                            "type": "books"
+                          },
+                          {
+                            "id": 259,
+                            "title": "Автономность",
+                            "type": "books"
+                          },
+                          {
+                            "id": 260,
+                            "title": "Автономный дрейф",
+                            "type": "books"
+                          },
+                          {
+                            "id": 261,
+                            "title": "Автономный режим",
+                            "type": "books"
+                          },
+                          {
+                            "id": 262,
+                            "title": "Автономный режим",
+                            "type": "books"
+                          },
+                          {
+                            "id": 263,
+                            "title": "Автопортрет неизвестного",
+                            "type": "books"
+                          },
+                          {
+                            "id": 264,
+                            "title": "Автопортрет с устрицей в кармане",
+                            "type": "books"
+                          },
+                          {
+                            "id": 265,
+                            "title": "Автопортрет, или Записки повешенного",
+                            "type": "books"
+                          },
+                          {
+                            "id": 266,
+                            "title": "Автор жизни. Как изменить себя, не изменяя себе",
+                            "type": "books"
+                          },
+                          {
+                            "id": 267,
+                            "title": "Автор, ножницы, бумага. Как быстро писать впечатляющие тексты. 14 уроков",
+                            "type": "books"
+                          },
+                          {
+                            "id": 268,
+                            "title": "Автора!",
+                            "type": "books"
+                          },
+                          {
+                            "id": 269,
+                            "title": "Авторитет",
+                            "type": "books"
+                          },
+                          {
+                            "id": 270,
+                            "title": "Авторитет из детдома",
+                            "type": "books"
+                          },
+                          {
+                            "id": 271,
+                            "title": "Авторитет. Как стать уверенным, весомым и влиятельным",
+                            "type": "books"
+                          },
+                          {
+                            "id": 272,
+                            "title": "Авторитетный роман",
+                            "type": "books"
+                          },
+                          {
+                            "id": 273,
+                            "title": "Автостопом до Водоворота",
+                            "type": "books"
+                          },
+                          {
+                            "id": 274,
+                            "title": "Автостопом по восьмидесятым. Яшины рассказы 08",
+                            "type": "books"
+                          },
+                          {
+                            "id": 275,
+                            "title": "Автостопом по восьмидесятым. Яшины рассказы 09",
+                            "type": "books"
+                          },
+                          {
+                            "id": 276,
+                            "title": "Автостопом по Галактике. Ресторан \"У конца Вселенной\"",
+                            "type": "books"
+                          },
+                          {
+                            "id": 277,
+                            "title": "Автострада запредельности",
+                            "type": "books"
+                          },
+                          {
+                            "id": 278,
+                            "title": "Автохтоны",
+                            "type": "books"
+                          },
+                          {
+                            "id": 279,
+                            "title": "Агарта",
+                            "type": "books"
+                          },
+                          {
+                            "id": 280,
+                            "title": "Агасфер. Старьевщик",
+                            "type": "books"
+                          },
+                          {
+                            "id": 281,
+                            "title": "Агата и археолог. Мемуары мужа Агаты Кристи",
+                            "type": "books"
+                          },
+                          {
+                            "id": 282,
+                            "title": "Агата и тьма",
+                            "type": "books"
+                          },
+                          {
+                            "id": 283,
+                            "title": "Агата Кристи",
+                            "type": "books"
+                          },
+                          {
+                            "id": 284,
+                            "title": "Агата Кристи",
+                            "type": "books"
+                          },
+                          {
+                            "id": 285,
+                            "title": "Агата Кристи. 11 дней отсутствия",
+                            "type": "books"
+                          },
+                          {
+                            "id": 286,
+                            "title": "Агафонкин и Время",
+                            "type": "books"
+                          },
+                          {
+                            "id": 287,
+                            "title": "Агент",
+                            "type": "books"
+                          },
+                          {
+                            "id": 288,
+                            "title": "Агент 013",
+                            "type": "books"
+                          },
+                          {
+                            "id": 289,
+                            "title": "Агент алеф-класса",
+                            "type": "books"
+                          },
+                          {
+                            "id": 290,
+                            "title": "Агент без прикрытия [= Агент особого назначения]",
+                            "type": "books"
+                          },
+                          {
+                            "id": 291,
+                            "title": "Агент в кринолине",
+                            "type": "books"
+                          },
+                          {
+                            "id": 292,
+                            "title": "Агент в юбке",
+                            "type": "books"
+                          },
+                          {
+                            "id": 293,
+                            "title": "Агент Византии",
+                            "type": "books"
+                          },
+                          {
+                            "id": 294,
+                            "title": "Агент влияния",
+                            "type": "books"
+                          },
+                          {
+                            "id": 295,
+                            "title": "Агент возмездия",
+                            "type": "books"
+                          },
+                          {
+                            "id": 296,
+                            "title": "Агент ворон. Взгляд из Зазеркалья",
+                            "type": "books"
+                          },
+                          {
+                            "id": 297,
+                            "title": "Агент его Величества",
+                            "type": "books"
+                          },
+                          {
+                            "id": 298,
+                            "title": "Агент звездного корпуса",
+                            "type": "books"
+                          },
+                          {
+                            "id": 299,
+                            "title": "Агент Зигзаг. Подлинная история Эдди Чапмена - предателя и героя",
+                            "type": "books"
+                          },
+                          {
+                            "id": 300,
+                            "title": "Агент из Версаля",
+                            "type": "books"
+                          },
+                          {
+                            "id": 301,
+                            "title": "Агент из Кандагара",
+                            "type": "books"
+                          },
+                          {
+                            "id": 302,
+                            "title": "Агент из подземелья",
+                            "type": "books"
+                          },
+                          {
+                            "id": 303,
+                            "title": "Агент КФ",
+                            "type": "books"
+                          },
+                          {
+                            "id": 304,
+                            "title": "Агент ливийского полковника",
+                            "type": "books"
+                          },
+                          {
+                            "id": 305,
+                            "title": "Агент на мягких лапах",
+                            "type": "books"
+                          }
+                        ],
+                        "first_page_url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=1",
+                        "from": 1,
+                        "last_page": 10,
+                        "last_page_url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=10",
+                        "links": [
+                          {
+                            "url": null,
+                            "label": "&laquo; Previous",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=1",
+                            "label": "1",
+                            "active": true
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=2",
+                            "label": "2",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=3",
+                            "label": "3",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=4",
+                            "label": "4",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=5",
+                            "label": "5",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=6",
+                            "label": "6",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=7",
+                            "label": "7",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=8",
+                            "label": "8",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=9",
+                            "label": "9",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=10",
+                            "label": "10",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=2",
+                            "label": "Next &raquo;",
+                            "active": false
+                          }
+                        ],
+                        "next_page_url": "https://loveread.webnauts.pro/api/books/letter/%D0%B0?page=2",
+                        "path": "https://loveread.webnauts.pro/api/books/letter/%D0%B0",
+                        "per_page": 300,
+                        "prev_page_url": null,
+                        "to": 300,
+                        "total": 2806
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -11282,31 +12944,1407 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "description": "",
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": "string"
+                      "type": "string",
+                      "minLength": 1
                     },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "type": "object",
-                        "properties": {
-                          "id": {
-                            "type": "number"
-                          },
-                          "title": {
-                            "type": "string"
-                          },
-                          "type": {
-                            "type": "string"
+                      "type": "object",
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "data": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "id",
+                              "author"
+                            ],
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "author": {
+                                "type": "string",
+                                "minLength": 1
+                              }
+                            }
                           }
                         },
-                        "required": [
-                          "id",
-                          "title",
-                          "type"
-                        ]
+                        "first_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "from": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "last_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "links": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "label",
+                              "active"
+                            ],
+                            "properties": {
+                              "url": {},
+                              "label": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            }
+                          }
+                        },
+                        "next_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "prev_page_url": {},
+                        "to": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "current_page",
+                        "data",
+                        "first_page_url",
+                        "from",
+                        "last_page",
+                        "last_page_url",
+                        "links",
+                        "next_page_url",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "current_page": 1,
+                        "data": [
+                          {
+                            "id": 22355,
+                            "author": "А. Альтшуллер"
+                          },
+                          {
+                            "id": 19777,
+                            "author": "А. Брэди"
+                          },
+                          {
+                            "id": 25399,
+                            "author": "А. В. Б. Норман"
+                          },
+                          {
+                            "id": 17012,
+                            "author": "А. В. Гейджер"
+                          },
+                          {
+                            "id": 3469,
+                            "author": "А. Вайник"
+                          },
+                          {
+                            "id": 7468,
+                            "author": "А. Вербовой"
+                          },
+                          {
+                            "id": 2183,
+                            "author": "А. Вороной"
+                          },
+                          {
+                            "id": 15359,
+                            "author": "А. Г. Говард"
+                          },
+                          {
+                            "id": 27593,
+                            "author": "А. Гопаченко"
+                          },
+                          {
+                            "id": 11839,
+                            "author": "А. Дж. Беттс"
+                          },
+                          {
+                            "id": 3229,
+                            "author": "А. Дж. Лейк"
+                          },
+                          {
+                            "id": 13604,
+                            "author": "А. Дж. Моллой"
+                          },
+                          {
+                            "id": 7941,
+                            "author": "А. Дж. Риддл"
+                          },
+                          {
+                            "id": 11256,
+                            "author": "А. Дж. Финн"
+                          },
+                          {
+                            "id": 26478,
+                            "author": "А. Ежова"
+                          },
+                          {
+                            "id": 24045,
+                            "author": "А. И. Акрам"
+                          },
+                          {
+                            "id": 694,
+                            "author": "А. Ильин"
+                          },
+                          {
+                            "id": 22030,
+                            "author": "А. Й. Казински"
+                          },
+                          {
+                            "id": 22031,
+                            "author": "А. Й. Казински"
+                          },
+                          {
+                            "id": 28959,
+                            "author": "А. К. Ларквуд"
+                          },
+                          {
+                            "id": 28608,
+                            "author": "А. К. Тернер"
+                          },
+                          {
+                            "id": 28465,
+                            "author": "А. Кошелев"
+                          },
+                          {
+                            "id": 13605,
+                            "author": "А. Л. Мейкок"
+                          },
+                          {
+                            "id": 433,
+                            "author": "А. Ли Мартинес"
+                          },
+                          {
+                            "id": 17124,
+                            "author": "А. М. Петрункевич"
+                          },
+                          {
+                            "id": 14286,
+                            "author": "А. Макеев"
+                          },
+                          {
+                            "id": 14262,
+                            "author": "А. Матанцев-Воинов"
+                          },
+                          {
+                            "id": 26094,
+                            "author": "А. Машкин"
+                          },
+                          {
+                            "id": 27846,
+                            "author": "А. Мелехин"
+                          },
+                          {
+                            "id": 25047,
+                            "author": "А. Можаров"
+                          },
+                          {
+                            "id": 15274,
+                            "author": "А. Мурэт"
+                          },
+                          {
+                            "id": 6245,
+                            "author": "А. Мышкина"
+                          },
+                          {
+                            "id": 10008,
+                            "author": "А. Нуне"
+                          },
+                          {
+                            "id": 12016,
+                            "author": "А. Ольшанский"
+                          },
+                          {
+                            "id": 12017,
+                            "author": "А. Ольшанский"
+                          },
+                          {
+                            "id": 12880,
+                            "author": "А. Петроченков"
+                          },
+                          {
+                            "id": 11791,
+                            "author": "А. Райнер"
+                          },
+                          {
+                            "id": 16418,
+                            "author": "А. Розенберг"
+                          },
+                          {
+                            "id": 355,
+                            "author": "А. Русаков"
+                          },
+                          {
+                            "id": 13908,
+                            "author": "А. Русанова"
+                          },
+                          {
+                            "id": 13747,
+                            "author": "А. Русецкий"
+                          },
+                          {
+                            "id": 26347,
+                            "author": "А. С. А. Харрисон"
+                          },
+                          {
+                            "id": 21644,
+                            "author": "А. Синельников"
+                          },
+                          {
+                            "id": 9841,
+                            "author": "А. Синельникова"
+                          },
+                          {
+                            "id": 21437,
+                            "author": "А. Солнцев-Засекин"
+                          },
+                          {
+                            "id": 26998,
+                            "author": "А. Сотникова"
+                          },
+                          {
+                            "id": 26999,
+                            "author": "А. Сотникова"
+                          },
+                          {
+                            "id": 2278,
+                            "author": "А. Устинов"
+                          },
+                          {
+                            "id": 3736,
+                            "author": "А. Фемина"
+                          },
+                          {
+                            "id": 15220,
+                            "author": "А. Ш."
+                          },
+                          {
+                            "id": 18828,
+                            "author": "А. Шантарский"
+                          },
+                          {
+                            "id": 16086,
+                            "author": "А. Штунь"
+                          },
+                          {
+                            "id": 8646,
+                            "author": "А. Шумов"
+                          },
+                          {
+                            "id": 4181,
+                            "author": "А. Ю. Феттер"
+                          },
+                          {
+                            "id": 22887,
+                            "author": "А. Яковлева"
+                          },
+                          {
+                            "id": 14511,
+                            "author": "Аарон Аппельфельд"
+                          },
+                          {
+                            "id": 8982,
+                            "author": "Аарон Дембски-Боуден"
+                          },
+                          {
+                            "id": 26932,
+                            "author": "Аарон Кеммер"
+                          },
+                          {
+                            "id": 17763,
+                            "author": "Аарон Кэрролл"
+                          },
+                          {
+                            "id": 6118,
+                            "author": "Аарон Раш"
+                          },
+                          {
+                            "id": 18885,
+                            "author": "Аарон Хартцлер"
+                          },
+                          {
+                            "id": 29210,
+                            "author": "Аарон Эхаз"
+                          },
+                          {
+                            "id": 26621,
+                            "author": "Абдель Селлу"
+                          },
+                          {
+                            "id": 19158,
+                            "author": "Абдул аль Хазред"
+                          },
+                          {
+                            "id": 20598,
+                            "author": "Абдулманап Нурмагомедов"
+                          },
+                          {
+                            "id": 11755,
+                            "author": "Абдурахман Авторханов"
+                          },
+                          {
+                            "id": 10239,
+                            "author": "Абель Поссе"
+                          },
+                          {
+                            "id": 7806,
+                            "author": "Абигайль Кейси"
+                          },
+                          {
+                            "id": 25384,
+                            "author": "Абилио Эстевес"
+                          },
+                          {
+                            "id": 27675,
+                            "author": "Абир Мукерджи"
+                          },
+                          {
+                            "id": 22060,
+                            "author": "Абиссин"
+                          },
+                          {
+                            "id": 20467,
+                            "author": "Абрам Рейтблат"
+                          },
+                          {
+                            "id": 4344,
+                            "author": "Абрам Хаит"
+                          },
+                          {
+                            "id": 23473,
+                            "author": "Абрахам Вергезе"
+                          },
+                          {
+                            "id": 15016,
+                            "author": "Абрахам Грэйс Меррит"
+                          },
+                          {
+                            "id": 18127,
+                            "author": "Абрахам Харольд Маслоу"
+                          },
+                          {
+                            "id": 21956,
+                            "author": "Абраша Ротенберг"
+                          },
+                          {
+                            "id": 21276,
+                            "author": "Ава Деллайра"
+                          },
+                          {
+                            "id": 22874,
+                            "author": "Ава МакКарти"
+                          },
+                          {
+                            "id": 2624,
+                            "author": "Ава Рид"
+                          },
+                          {
+                            "id": 12374,
+                            "author": "Август Вейссель"
+                          },
+                          {
+                            "id": 27291,
+                            "author": "Август Кубичек"
+                          },
+                          {
+                            "id": 13608,
+                            "author": "Август Мюллер"
+                          },
+                          {
+                            "id": 22319,
+                            "author": "Август фон Кагенек"
+                          },
+                          {
+                            "id": 22755,
+                            "author": "Августо Кури"
+                          },
+                          {
+                            "id": 24063,
+                            "author": "Авдотья Смирнова"
+                          },
+                          {
+                            "id": 7195,
+                            "author": "Аве Бак"
+                          },
+                          {
+                            "id": 10851,
+                            "author": "Авигдор Эскин"
+                          },
+                          {
+                            "id": 24301,
+                            "author": "Авигея Бархоленко"
+                          },
+                          {
+                            "id": 26266,
+                            "author": "Авинаш К. Диксит"
+                          },
+                          {
+                            "id": 10474,
+                            "author": "Авишай Маргалит"
+                          },
+                          {
+                            "id": 13233,
+                            "author": "Авнер Грейф"
+                          },
+                          {
+                            "id": 6409,
+                            "author": "Авраам Бен Иегошуа"
+                          },
+                          {
+                            "id": 28831,
+                            "author": "Аврельева Алиса"
+                          },
+                          {
+                            "id": 25225,
+                            "author": "Аврил Тремейн"
+                          },
+                          {
+                            "id": 26126,
+                            "author": "Аврора Гитри"
+                          },
+                          {
+                            "id": 560,
+                            "author": "Аврора Лимонова"
+                          },
+                          {
+                            "id": 11193,
+                            "author": "Аврора Майер"
+                          },
+                          {
+                            "id": 29068,
+                            "author": "Аврора Максимова"
+                          },
+                          {
+                            "id": 26512,
+                            "author": "Агата Бариста"
+                          },
+                          {
+                            "id": 27993,
+                            "author": "Агата Вебер"
+                          },
+                          {
+                            "id": 11685,
+                            "author": "Агата Горай"
+                          },
+                          {
+                            "id": 354,
+                            "author": "Агата Грин"
+                          },
+                          {
+                            "id": 2098,
+                            "author": "Агата Кристи"
+                          },
+                          {
+                            "id": 5721,
+                            "author": "Агата Лав"
+                          },
+                          {
+                            "id": 4241,
+                            "author": "Агата Лель"
+                          },
+                          {
+                            "id": 2737,
+                            "author": "Агата Мур"
+                          },
+                          {
+                            "id": 16789,
+                            "author": "Агата Озолс"
+                          },
+                          {
+                            "id": 11194,
+                            "author": "Агата Санлайт"
+                          },
+                          {
+                            "id": 26371,
+                            "author": "Агата Чернышова"
+                          },
+                          {
+                            "id": 11164,
+                            "author": "Агата Эмералд"
+                          },
+                          {
+                            "id": 1446,
+                            "author": "Агафья Звонарева"
+                          },
+                          {
+                            "id": 19173,
+                            "author": "Агаша Колч"
+                          },
+                          {
+                            "id": 25859,
+                            "author": "Аглаида Лой"
+                          },
+                          {
+                            "id": 5686,
+                            "author": "Аглая Дюрсо"
+                          },
+                          {
+                            "id": 5240,
+                            "author": "Аглая Отрада"
+                          },
+                          {
+                            "id": 14551,
+                            "author": "Агнес Мак-Кензи"
+                          },
+                          {
+                            "id": 23107,
+                            "author": "Агнес Раватн"
+                          },
+                          {
+                            "id": 18500,
+                            "author": "Агнета Плейель"
+                          },
+                          {
+                            "id": 13046,
+                            "author": "Агнеш Балинт"
+                          },
+                          {
+                            "id": 28336,
+                            "author": "Агниджо Банерджи"
+                          },
+                          {
+                            "id": 29107,
+                            "author": "Агостино Паравичини - Бальяни"
+                          },
+                          {
+                            "id": 26369,
+                            "author": "Агота Кристоф"
+                          },
+                          {
+                            "id": 21814,
+                            "author": "Ад Вороновский"
+                          },
+                          {
+                            "id": 17062,
+                            "author": "Ада Баскина"
+                          },
+                          {
+                            "id": 3134,
+                            "author": "Ада Быковская"
+                          },
+                          {
+                            "id": 17057,
+                            "author": "Ада Квинн"
+                          },
+                          {
+                            "id": 15918,
+                            "author": "Ада Петрова"
+                          },
+                          {
+                            "id": 2872,
+                            "author": "Ада Раевская"
+                          },
+                          {
+                            "id": 19257,
+                            "author": "Ада Ридель"
+                          },
+                          {
+                            "id": 10809,
+                            "author": "Ада Самарка"
+                          },
+                          {
+                            "id": 12461,
+                            "author": "Ада Суинберн"
+                          },
+                          {
+                            "id": 12462,
+                            "author": "Ада Суинберн"
+                          },
+                          {
+                            "id": 2878,
+                            "author": "Адалин Черно"
+                          },
+                          {
+                            "id": 28764,
+                            "author": "Адалинда Морриган"
+                          },
+                          {
+                            "id": 21520,
+                            "author": "Адальбер-Гюстав Аман"
+                          },
+                          {
+                            "id": 18896,
+                            "author": "Адам Алтер"
+                          },
+                          {
+                            "id": 3834,
+                            "author": "Адам Б. Улам"
+                          },
+                          {
+                            "id": 12649,
+                            "author": "Адам Бодор"
+                          },
+                          {
+                            "id": 14435,
+                            "author": "Адам Браун"
+                          },
+                          {
+                            "id": 19274,
+                            "author": "Адам Бревер"
+                          },
+                          {
+                            "id": 18207,
+                            "author": "Адам Гидвиц"
+                          },
+                          {
+                            "id": 28986,
+                            "author": "Адам Грант"
+                          },
+                          {
+                            "id": 23583,
+                            "author": "Адам Данн"
+                          },
+                          {
+                            "id": 15808,
+                            "author": "Адам Джей Эпштейн"
+                          },
+                          {
+                            "id": 9607,
+                            "author": "Адам Джексон"
+                          },
+                          {
+                            "id": 25826,
+                            "author": "Адам Джонсон"
+                          },
+                          {
+                            "id": 4594,
+                            "author": "Адам Кахане"
+                          },
+                          {
+                            "id": 4235,
+                            "author": "Адам Кей"
+                          },
+                          {
+                            "id": 26660,
+                            "author": "Адам Кристофер"
+                          },
+                          {
+                            "id": 12871,
+                            "author": "Адам Кучарски"
+                          },
+                          {
+                            "id": 6255,
+                            "author": "Адам Лашински"
+                          },
+                          {
+                            "id": 2110,
+                            "author": "Адам Нэвилл"
+                          },
+                          {
+                            "id": 27659,
+                            "author": "Адам Пиорей"
+                          },
+                          {
+                            "id": 381,
+                            "author": "Адам Пшехшта"
+                          },
+                          {
+                            "id": 15589,
+                            "author": "Адам Резерфорд"
+                          },
+                          {
+                            "id": 25168,
+                            "author": "Адам Робертс"
+                          },
+                          {
+                            "id": 16602,
+                            "author": "Адам Робинсон"
+                          },
+                          {
+                            "id": 26677,
+                            "author": "Адам Роджерс"
+                          },
+                          {
+                            "id": 25728,
+                            "author": "Адам Смит"
+                          },
+                          {
+                            "id": 13888,
+                            "author": "Адам Сэвидж"
+                          },
+                          {
+                            "id": 21774,
+                            "author": "Адам Терлвелл"
+                          },
+                          {
+                            "id": 7409,
+                            "author": "Адам Туз"
+                          },
+                          {
+                            "id": 1692,
+                            "author": "Адам Хард"
+                          },
+                          {
+                            "id": 27747,
+                            "author": "Адам Хиггинботам"
+                          },
+                          {
+                            "id": 9645,
+                            "author": "Адам Хо"
+                          },
+                          {
+                            "id": 26619,
+                            "author": "Адам Хэзлетт"
+                          },
+                          {
+                            "id": 11569,
+                            "author": "Адела Муньос Паес"
+                          },
+                          {
+                            "id": 5894,
+                            "author": "Аделаида Сванидзе"
+                          },
+                          {
+                            "id": 17913,
+                            "author": "Аделин Гаденн"
+                          },
+                          {
+                            "id": 7233,
+                            "author": "Аделин Грейс"
+                          },
+                          {
+                            "id": 15504,
+                            "author": "Аделина Камински"
+                          },
+                          {
+                            "id": 25395,
+                            "author": "Аделина Рюкуа"
+                          },
+                          {
+                            "id": 8017,
+                            "author": "Аделия Амраева"
+                          },
+                          {
+                            "id": 3943,
+                            "author": "Адель Алексеева"
+                          },
+                          {
+                            "id": 28825,
+                            "author": "Адель Грейс"
+                          },
+                          {
+                            "id": 24697,
+                            "author": "Адель Линн"
+                          },
+                          {
+                            "id": 5263,
+                            "author": "Адель Лозовская"
+                          },
+                          {
+                            "id": 22531,
+                            "author": "Адель Лэнг"
+                          },
+                          {
+                            "id": 13343,
+                            "author": "Адель Нагая"
+                          },
+                          {
+                            "id": 5394,
+                            "author": "Адель Нурмухаметова"
+                          },
+                          {
+                            "id": 11191,
+                            "author": "Адель Паркс"
+                          },
+                          {
+                            "id": 17633,
+                            "author": "Адель Уолдман"
+                          },
+                          {
+                            "id": 4038,
+                            "author": "Адель Фабер"
+                          },
+                          {
+                            "id": 4879,
+                            "author": "Адель Эшуорт"
+                          },
+                          {
+                            "id": 21599,
+                            "author": "Адельхайд Дюванель"
+                          },
+                          {
+                            "id": 19951,
+                            "author": "Аджа Рейден"
+                          },
+                          {
+                            "id": 1145,
+                            "author": "Аджан Буддхадаса"
+                          },
+                          {
+                            "id": 12782,
+                            "author": "Аджони Рас"
+                          },
+                          {
+                            "id": 9721,
+                            "author": "Адлер Сайрус"
+                          },
+                          {
+                            "id": 17015,
+                            "author": "Адольф Бадэн"
+                          },
+                          {
+                            "id": 429,
+                            "author": "Адольф Бело"
+                          },
+                          {
+                            "id": 21063,
+                            "author": "Адольф Галланд"
+                          },
+                          {
+                            "id": 24522,
+                            "author": "Адольф Мушг"
+                          },
+                          {
+                            "id": 6603,
+                            "author": "Адольф фон Эрнстхаузен"
+                          },
+                          {
+                            "id": 8635,
+                            "author": "Адольф Эрман"
+                          },
+                          {
+                            "id": 9995,
+                            "author": "Адольфо Биой Касарес"
+                          },
+                          {
+                            "id": 18403,
+                            "author": "Адриан Антони Гилл"
+                          },
+                          {
+                            "id": 20088,
+                            "author": "Адриан Голдсуорси"
+                          },
+                          {
+                            "id": 6294,
+                            "author": "Адриан Голдсуорти"
+                          },
+                          {
+                            "id": 25690,
+                            "author": "Адриан Д'Аже"
+                          },
+                          {
+                            "id": 17456,
+                            "author": "Адриан Коул"
+                          },
+                          {
+                            "id": 5763,
+                            "author": "Адриан Крупчанский"
+                          },
+                          {
+                            "id": 14202,
+                            "author": "Адриан Сливотски"
+                          },
+                          {
+                            "id": 6870,
+                            "author": "Адриан Фараван"
+                          },
+                          {
+                            "id": 9635,
+                            "author": "Адриан Чайковски"
+                          },
+                          {
+                            "id": 14641,
+                            "author": "Адриан Шульте"
+                          },
+                          {
+                            "id": 20165,
+                            "author": "Адриана Алекс"
+                          },
+                          {
+                            "id": 6927,
+                            "author": "Адриана Имж"
+                          },
+                          {
+                            "id": 14083,
+                            "author": "Адриана Калабрезе"
+                          },
+                          {
+                            "id": 14141,
+                            "author": "Адриана Мэзер"
+                          },
+                          {
+                            "id": 11174,
+                            "author": "Адриана Триджиани"
+                          },
+                          {
+                            "id": 28678,
+                            "author": "Адрианна Кресс"
+                          },
+                          {
+                            "id": 18368,
+                            "author": "Адриен Гомбо"
+                          },
+                          {
+                            "id": 6468,
+                            "author": "Адриенна Бассо"
+                          },
+                          {
+                            "id": 11840,
+                            "author": "Адриенна Джордано"
+                          },
+                          {
+                            "id": 17758,
+                            "author": "Адриенна Мэйор"
+                          },
+                          {
+                            "id": 3066,
+                            "author": "Аегл Акулина"
+                          },
+                          {
+                            "id": 24408,
+                            "author": "Аждар Улдуз"
+                          },
+                          {
+                            "id": 16543,
+                            "author": "Аза Тахо-Годи"
+                          },
+                          {
+                            "id": 16184,
+                            "author": "Азамат Козаев"
+                          },
+                          {
+                            "id": 20443,
+                            "author": "Азамат Мготлов"
+                          },
+                          {
+                            "id": 7008,
+                            "author": "Азамат Рахимов"
+                          },
+                          {
+                            "id": 13295,
+                            "author": "Азамат Ушанов"
+                          },
+                          {
+                            "id": 20864,
+                            "author": "Азарий Лапидус"
+                          },
+                          {
+                            "id": 11426,
+                            "author": "Азарий Плисецкий"
+                          },
+                          {
+                            "id": 4494,
+                            "author": "Азат Ахмаров"
+                          },
+                          {
+                            "id": 4498,
+                            "author": "Азиз Ансари"
+                          },
+                          {
+                            "id": 22510,
+                            "author": "Азия Биби"
+                          },
+                          {
+                            "id": 29052,
+                            "author": "Аида Арье"
+                          },
+                          {
+                            "id": 29059,
+                            "author": "Аида Византийская"
+                          },
+                          {
+                            "id": 15783,
+                            "author": "Аида Янг"
+                          },
+                          {
+                            "id": 700,
+                            "author": "Аиша Саид"
+                          },
+                          {
+                            "id": 9822,
+                            "author": "Ай Рин"
+                          },
+                          {
+                            "id": 9811,
+                            "author": "Айан Гейтли"
+                          },
+                          {
+                            "id": 27166,
+                            "author": "Айваз Маннанов"
+                          },
+                          {
+                            "id": 26264,
+                            "author": "Айван Пастин"
+                          },
+                          {
+                            "id": 23137,
+                            "author": "Айвен Саутолл"
+                          },
+                          {
+                            "id": 15527,
+                            "author": "Айви Девлин"
+                          },
+                          {
+                            "id": 26845,
+                            "author": "Айгуль Иксанова"
+                          },
+                          {
+                            "id": 22213,
+                            "author": "Айдан Бен-Барак"
+                          },
+                          {
+                            "id": 21417,
+                            "author": "Айдар Ишмаев"
+                          },
+                          {
+                            "id": 1477,
+                            "author": "Айеле Лушкау"
+                          },
+                          {
+                            "id": 16093,
+                            "author": "Айелет Гундар-Гушан"
+                          },
+                          {
+                            "id": 619,
+                            "author": "Айза Блэк"
+                          },
+                          {
+                            "id": 23344,
+                            "author": "Айзек Адамсон"
+                          },
+                          {
+                            "id": 573,
+                            "author": "Айзек Азимов"
+                          },
+                          {
+                            "id": 26286,
+                            "author": "Айзек Марион"
+                          },
+                          {
+                            "id": 19275,
+                            "author": "Айла Дьюар"
+                          },
+                          {
+                            "id": 16537,
+                            "author": "Айлин Вульф"
+                          },
+                          {
+                            "id": 9121,
+                            "author": "Айлин Даймонд"
+                          },
+                          {
+                            "id": 8112,
+                            "author": "Айн Рэнд"
+                          },
+                          {
+                            "id": 8467,
+                            "author": "Айнсли Джонстон"
+                          },
+                          {
+                            "id": 19244,
+                            "author": "Айнур Сафин"
+                          },
+                          {
+                            "id": 9502,
+                            "author": "Айра Левин"
+                          },
+                          {
+                            "id": 4402,
+                            "author": "Айра Уайз"
+                          },
+                          {
+                            "id": 20369,
+                            "author": "Айра Чейлефф"
+                          },
+                          {
+                            "id": 18682,
+                            "author": "Айрат Севийорум"
+                          },
+                          {
+                            "id": 2874,
+                            "author": "Айрин Лакс"
+                          },
+                          {
+                            "id": 25237,
+                            "author": "Айрин Мур"
+                          },
+                          {
+                            "id": 13054,
+                            "author": "Айрис Апфель"
+                          },
+                          {
+                            "id": 8683,
+                            "author": "Айрис Денбери"
+                          },
+                          {
+                            "id": 17946,
+                            "author": "Айрис Джануэй"
+                          },
+                          {
+                            "id": 153,
+                            "author": "Айрис Джоансен"
+                          },
+                          {
+                            "id": 24956,
+                            "author": "Айрис Дюбуа"
+                          },
+                          {
+                            "id": 895,
+                            "author": "Айрис Мердок"
+                          },
+                          {
+                            "id": 3910,
+                            "author": "Айрис Оллби"
+                          },
+                          {
+                            "id": 28508,
+                            "author": "Айрис Фэрли"
+                          },
+                          {
+                            "id": 22146,
+                            "author": "Айрон Розенберг"
+                          },
+                          {
+                            "id": 28952,
+                            "author": "Айрэ"
+                          },
+                          {
+                            "id": 17955,
+                            "author": "Айседора Дункан"
+                          },
+                          {
+                            "id": 6981,
+                            "author": "Айя Сафина"
+                          },
+                          {
+                            "id": 2683,
+                            "author": "Айя Субботина"
+                          },
+                          {
+                            "id": 6937,
+                            "author": "Акаш Кариа"
+                          },
+                          {
+                            "id": 25192,
+                            "author": "Аква Тофана"
+                          },
+                          {
+                            "id": 4495,
+                            "author": "Акилле Кампаниле"
+                          },
+                          {
+                            "id": 21943,
+                            "author": "Акин Онгор"
+                          },
+                          {
+                            "id": 10768,
+                            "author": "Акиф Пиринчи"
+                          },
+                          {
+                            "id": 19816,
+                            "author": "Аксель Сандемусе"
+                          },
+                          {
+                            "id": 50,
+                            "author": "Аксель Сандр"
+                          },
+                          {
+                            "id": 17030,
+                            "author": "Аксель Хаке"
+                          },
+                          {
+                            "id": 13728,
+                            "author": "Аксель Хистор"
+                          },
+                          {
+                            "id": 6984,
+                            "author": "Акси Старк"
+                          },
+                          {
+                            "id": 29164,
+                            "author": "Акулина Вольских"
+                          },
+                          {
+                            "id": 14724,
+                            "author": "Акулина Парфенова"
+                          },
+                          {
+                            "id": 28909,
+                            "author": "Ал Коруд"
+                          },
+                          {
+                            "id": 3428,
+                            "author": "Ал Кудряшов"
+                          },
+                          {
+                            "id": 7064,
+                            "author": "Ал. Алтаев"
+                          },
+                          {
+                            "id": 1051,
+                            "author": "Алайна Салах"
+                          },
+                          {
+                            "id": 5937,
+                            "author": "Алан Александр Милн"
+                          },
+                          {
+                            "id": 9812,
+                            "author": "Алан Араменко"
+                          },
+                          {
+                            "id": 15118,
+                            "author": "Алан Батлер"
+                          },
+                          {
+                            "id": 21078,
+                            "author": "Алан Бейкер"
+                          },
+                          {
+                            "id": 19282,
+                            "author": "Алан Беннет"
+                          },
+                          {
+                            "id": 15920,
+                            "author": "Алан Бёрдик"
+                          },
+                          {
+                            "id": 4620,
+                            "author": "Алан Брэдли"
+                          },
+                          {
+                            "id": 12390,
+                            "author": "Алан Вейсман"
+                          },
+                          {
+                            "id": 6779,
+                            "author": "Алан Гарнер"
+                          },
+                          {
+                            "id": 15383,
+                            "author": "Алан Глинн"
+                          },
+                          {
+                            "id": 15275,
+                            "author": "Алан Голд"
+                          }
+                        ],
+                        "first_page_url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=1",
+                        "from": 1,
+                        "last_page": 13,
+                        "last_page_url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=13",
+                        "links": [
+                          {
+                            "url": null,
+                            "label": "&laquo; Previous",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=1",
+                            "label": "1",
+                            "active": true
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=2",
+                            "label": "2",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=3",
+                            "label": "3",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=4",
+                            "label": "4",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=5",
+                            "label": "5",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=6",
+                            "label": "6",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=7",
+                            "label": "7",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=8",
+                            "label": "8",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=9",
+                            "label": "9",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=10",
+                            "label": "10",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=11",
+                            "label": "11",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=12",
+                            "label": "12",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=13",
+                            "label": "13",
+                            "active": false
+                          },
+                          {
+                            "url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=2",
+                            "label": "Next &raquo;",
+                            "active": false
+                          }
+                        ],
+                        "next_page_url": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0?page=2",
+                        "path": "https://loveread.webnauts.pro/api/authors/letter/%D0%B0",
+                        "per_page": 300,
+                        "prev_page_url": null,
+                        "to": 300,
+                        "total": 3900
                       }
                     }
                   }
