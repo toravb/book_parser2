@@ -318,7 +318,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
-    public function hotDailyUpdates()
+    public function hotDailyUpdates(): \Illuminate\Support\Collection
     {
         return $this
             ->select(['id', 'title', 'created_at'])
@@ -327,7 +327,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
                 $query->select('author');
             }])
             ->orderBy('created_at', 'desc')
-            ->get()->groupBy(function (Book $book) {
+            ->get()
+            ->groupBy(function (Book $book) {
                 return Carbon::parse($book->created_at)->format('d-m-Y');
             });
     }
