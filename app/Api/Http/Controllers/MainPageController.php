@@ -10,6 +10,7 @@ use App\Models\AudioBook;
 use App\Models\Book;
 use App\Models\BookReview;
 use App\Models\Compilation;
+use App\Models\Genre;
 
 class MainPageController extends Controller
 {
@@ -28,7 +29,7 @@ class MainPageController extends Controller
         BookFilter                $bookFilter
     ): \Illuminate\Http\JsonResponse
     {
-        $genres = $categoryController->show();
+        $genres = Genre::orderBy('name')->limit(13)->get();
 
         $newBooksCompilation = $compilation->searchByType(self::MAIN_PAGE_COMPILATION_TYPE);
 

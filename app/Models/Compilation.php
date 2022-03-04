@@ -104,7 +104,7 @@ class Compilation extends Model implements SearchModelInterface
         return $compilations;
     }
 
-    public function searchByType(int $type)
+    public function searchByType(int $type): Compilation|null
     {
         return $this
             ->select(['id', 'title'])
@@ -121,7 +121,6 @@ class Compilation extends Model implements SearchModelInterface
             }])
             ->where('type', $type)
             ->first();
-
     }
 
     public function toSearchArray(): array
