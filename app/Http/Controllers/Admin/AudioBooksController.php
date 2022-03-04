@@ -12,4 +12,14 @@ class AudioBooksController extends Controller
         $audioBooks = $audioBook->getForAdmin()->get();
         return view('admin.audio.index', ['audioBooks' => $audioBooks]);
     }
+
+    public function create()
+    {
+        return view('admin.audio.create');
+    }
+
+    public function edit()
+    {
+
+    }
 }

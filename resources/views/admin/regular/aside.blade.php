@@ -36,8 +36,8 @@
         </ul>
     </li>
 
-    <li class="nav-item">
-        <a href="#" class="nav-link">
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.audio_book.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.*')])>
             <i class="nav-icon fas fa-headphones"></i>
             <p>
                 Работа с аудиокнигами
@@ -46,32 +46,32 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.audio_book.index')}}" class="nav-link">
+                <a href="{{route('admin.audio_book.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.index')])>
                     <p>Администрирование</p>
                 </a>
             </li>
 {{--            <li class="nav-item">--}}
-{{--                <a href="" class="nav-link">--}}
+{{--                <a href="{{route('admin.audio_book.create')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.create')])>--}}
 {{--                    <p>Добавление книги</p>--}}
 {{--                </a>--}}
 {{--            </li>--}}
-            {{--
-            <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                    <p>SEO настройки</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
-                    <p>Добавление в категории</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                    <p>Статистика</p>
-                </a>
-            </li>
-    --}}
+{{--            --}}{{----}}
+{{--            <li class="nav-item">--}}
+{{--                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">--}}
+{{--                    <p>SEO настройки</p>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item">--}}
+{{--                <a href="pages/layout/boxed.html" class="nav-link">--}}
+{{--                    <p>Добавление в категории</p>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item">--}}
+{{--                <a href="pages/layout/fixed-sidebar.html" class="nav-link">--}}
+{{--                    <p>Статистика</p>--}}
+{{--                </a>--}}
+{{--            </li>--}}
+{{--    --}}
         </ul>
     </li>
     <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.category.*')])>

@@ -12,10 +12,11 @@
     <!-- Main content -->
     <div class="content">
         <form
-            action="{{route('admin.book.store')}}"
+            action="{{route('admin.audio_book.store')}}"
             method="post"
             enctype="multipart/form-data"
-            class="card">
+            class="card"
+        id="audio-book">
             @csrf
 
             <div class="card-body">
@@ -58,19 +59,12 @@
                                 </label>
                             </div>
 
-{{--                            <div class="form-check">--}}
-{{--                                <label class="form-check-label">--}}
-{{--                                    <input class="form-check-input" type="checkbox" value="">--}}
-{{--                                    Default checkbox--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
-                        </div>
-
-                        <div class="form-group">
-                            <label class="w-100">
-                                Файл книги
-                                <input type="file" name="book-file" class="form-control-file" id="book-file">
-                            </label>
+                            {{--                            <div class="form-check">--}}
+                            {{--                                <label class="form-check-label">--}}
+                            {{--                                    <input class="form-check-input" type="checkbox" value="">--}}
+                            {{--                                    Default checkbox--}}
+                            {{--                                </label>--}}
+                            {{--                            </div>--}}
                         </div>
 
                         <div class="form-group mb-0">
@@ -79,6 +73,7 @@
                                 <input type="file" name="cover-image" class="form-control-file" id="cover-image">
                             </label>
                         </div>
+
                     </div>
                     <!--genres checkbox-->
                     <div class="col-12 col-md-6">
@@ -91,6 +86,35 @@
                 <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </form>
+        <div class="form-group">
+            <form action="{{route('admin.audio_book.store')}}" method="POST"
+                  class="dropzone" id="audio-book" enctype="multipart/form-data">
+                <label class="w-100">
+                    Файл книги
+{{--                    <input type="file" name="book-file" class="form-control-file" id="audio-file">--}}
+                </label>
+            </form>
+            <script type="text/javascript">
+                Dropzone.options.audioBook =
+                    {
+                        maxFilesize: 10,
+                        renameFile: function (file) {
+                            var dt = new Date();
+                            var time = dt.getTime();
+                            return time + file.name;
+                        },
+                        acceptedFiles: ".jpeg,.jpg,.png,.gif",
+                        addRemoveLinks: true,
+                        timeout: 60000,
+                        success: function (file, response) {
+                            console.log(response);
+                        },
+                        error: function (file, response) {
+                            return false;
+                        }
+                    };
+            </script>
+        </div>
     </div>
 
 @endsection
