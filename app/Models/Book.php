@@ -12,8 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\JoinClause;
-use phpDocumentor\Reflection\Types\Boolean;
 
 class Book extends Model implements BookInterface, SearchModelInterface
 {
@@ -203,6 +201,12 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->belongsToMany(User::class, 'book_user');
     }
 
+    public function userList(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(BookUser::class)
+            ->where('user_id', auth('api')->id());
+    }
+
     public function compilations(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphToMany(Compilation::class,
@@ -390,7 +394,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
     public function storeBooksByAdmin(string $title, string $text, int $status, string $link)
     {
-       $book = $this->create([
+        $book = $this->create([
             'title' => $title,
             'text' => $text,
             'active' => $status,
@@ -398,6 +402,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'params' => '{}'
         ]);
 
-       return $book->id;
+        return $book->id;
     }
 }

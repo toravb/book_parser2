@@ -39,7 +39,7 @@
                             required
                             rows="5"
                             name="description"
-                            @class(['form-control', 'is-invalid' => $errors->has('title')])
+                            @class(['form-control', 'is-invalid' => $errors->has('description')])
                             placeholder="Краткое описание книги"></textarea>
 
                         <x-error name="description"></x-error>
