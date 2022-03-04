@@ -167,7 +167,7 @@ class BookController extends Controller
     public function showByLetter(GetByLetterRequest $request, Book $books): \Illuminate\Http\JsonResponse
     {
         $books = $books->select(['id', 'title'])
-            ->where('title', 'like', $request->letter . '%')->get();
+            ->where('title', 'like', $request->letter . '%')->paginate(300);
 
         return ApiAnswerService::successfulAnswerWithData($books);
     }

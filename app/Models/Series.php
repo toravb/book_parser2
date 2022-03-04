@@ -35,7 +35,7 @@ class Series extends Model implements SearchModelInterface
         $this->save();
     }
 
-    public function books()
+    public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Book::class, 'series_id', 'id');
     }
@@ -44,8 +44,8 @@ class Series extends Model implements SearchModelInterface
     {
         return $this->with(['books' => function ($query) {
             return $query->select('id', 'year_id', 'series_id', 'title', 'link', 'text')
-                ->with(['year', 'genres', 'authors'])
-                ->withCount(['rates', 'bookLikes', 'сomments'])
+                ->with(['year', 'genres', 'authors', 'image', 'userList'])
+                ->withCount(['rates', 'bookLikes', 'comments', 'views'])
                 ->withAvg('rates as rates_avg', 'rates.rating');
         }])->withCount('books');
     }

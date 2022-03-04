@@ -12,7 +12,6 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\JoinClause;
 
 class Book extends Model implements BookInterface, SearchModelInterface
 {
@@ -37,7 +36,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
         'link',
         'params',
         'text',
-        'donor_id'
+        'donor_id',
+        'active'
     ];
 
     protected $hidden = ['pivot'];
@@ -77,17 +77,22 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->belongsTo(Year::class, 'year_id', 'id');
     }
 
-    public function series()
+    public function series(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Series::class, 'series_id', 'id');
     }
 
-    public function pageLinks()
+    public function genres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Genre::class);
+    }
+
+    public function pageLinks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(PageLink::class, 'book_id', 'id');
     }
 
-    public function authors()
+    public function authors(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(
             Author::class,
@@ -123,7 +128,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->hasOne(Image::class)->whereNull('page_id');
     }
 
-    public function images()
+    public function images(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
         return $this->hasManyThrough(
             Page::class,
@@ -135,52 +140,47 @@ class Book extends Model implements BookInterface, SearchModelInterface
         );
     }
 
-    public function bookGenres()
+    public function bookGenres(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Genre::class);
     }
 
-    public function rates()
+    public function rates(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class, 'rates');
     }
 
-    public function bookComments()
-    {
-        return $this->hasMany(BookComment::class);
-    }
-
-    public function bookLikes()
+    public function bookLikes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(BookLike::class);
     }
 
-    public function reviews()
+    public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(BookReview::class);
     }
 
-    public function latestReview()
+    public function latestReview(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Review::class)->latest();
     }
 
-    public function latestQuote()
+    public function latestQuote(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Quote::class)->latest();
     }
 
-    public function quotes()
+    public function quotes(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Quote::class);
     }
 
-    public function bookStatuses()
+    public function bookStatuses(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(BookUser::class);
     }
 
-    public function readers()
+    public function readers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->bookStatuses()->where('status', QueryFilter::SORT_BY_READERS_COUNT);
     }
@@ -191,17 +191,23 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $query->orderBy('rates_avg', 'desc');
     }
 
-    public function anchors()
+    public function anchors(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(BookAnchor::class, 'book_id', 'id');
     }
 
-    public function users()
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class, 'book_user');
     }
 
-    public function compilations()
+    public function userList(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(BookUser::class)
+            ->where('user_id', auth('api')->id());
+    }
+
+    public function compilations(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphToMany(Compilation::class,
             'compilationable',
@@ -217,22 +223,22 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->morphMany(View::class, 'viewable');
     }
 
-    public function bookmarks()
+    public function bookmarks(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Bookmark::class);
     }
 
-    public function bookCompilation()
+    public function bookCompilation(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne(BookCompilation::class, 'bookCompilationable');
     }
 
-    public function comments()
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(BookComment::class);
     }
 
-    public function userRecommends()
+    public function userRecommends(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(UsersRecommendation::class);
     }
@@ -242,7 +248,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->with([
             'authors',
             'image',
-            'bookGenres'
+            'bookGenres',
+            'userList',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount(['rates', 'views'])
@@ -250,7 +257,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     }
 
 
-    public function currentReading($request)
+    public function currentReading($request): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|\LaravelIdea\Helper\App\Models\_IH_Book_C|\LaravelIdea\Helper\App\Models\_IH_Book_QB|null
     {
         $number = $request->pageNumber ? $request->pageNumber : 1;
         return $this->with([
@@ -272,7 +279,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
         $filter->apply($builder);
     }
 
-    public function singleBook($bookId)
+    public function singleBook($bookId): Model|Builder|Book|\LaravelIdea\Helper\App\Models\_IH_Book_QB
     {
         return $this->with([
             'authors',
@@ -290,7 +297,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->firstOrFail();
     }
 
-    public function likes()
+    public function likes(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(Like::class, 'likeable');
     }
@@ -300,7 +307,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->hasMany(Chapter::class);
     }
 
-    public function notifications()
+    public function notifications(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
         return $this->morphMany(Notification::class, 'notificationable');
     }
@@ -316,7 +323,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
-    public function hotDailyUpdates()
+    public function hotDailyUpdates(): \Illuminate\Support\Collection
     {
         return $this
             ->select(['id', 'title', 'created_at'])
@@ -325,7 +332,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
                 $query->select('author');
             }])
             ->orderBy('created_at', 'desc')
-            ->get()->groupBy(function (Book $book) {
+            ->get()
+            ->groupBy(function (Book $book) {
                 return Carbon::parse($book->created_at)->format('d-m-Y');
             });
     }
@@ -358,6 +366,23 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->join('years', 'years.id', '=', 'books.year_id');
     }
 
+    public function getBooksForAdminPanel()
+    {
+        return $this
+            ->select(['books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'bookGenres:name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ]);
+    }
+
+    public function updateBook($fields)
+    {
+        return $this->fill($fields)->update();
+    }
+
     public function baseSearchQuery(): Builder
     {
         return $this->getBook();
@@ -367,5 +392,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this->getKey();
     }
-}
 
+    public function storeBooksByAdmin(string $title, string $text, int $status, string $link)
+    {
+        $book = $this->create([
+            'title' => $title,
+            'text' => $text,
+            'active' => $status,
+            'link' => $link,
+            'params' => '{}'
+        ]);
+
+        return $book->id;
+    }
+}

@@ -14,3 +14,9 @@ yarn-error.log
 /.idea
 /.vscode
 .env.bak
+/public/admin/dist
+/public/admin/plugins
+/public/admin/dist
+/public/admin/plugins
+..env.swp
+.rnd
