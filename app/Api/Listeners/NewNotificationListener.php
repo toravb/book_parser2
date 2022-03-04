@@ -28,7 +28,6 @@ class NewNotificationListener
         $notificationableHandlers = $this->types->getNotificationHandleObjects();
         $notificationHandlerClass = $notificationableHandlers[$event->type];
 
-//        dd($event);
         if ($event->type === NewNotificationEvent::LIKED_COMMENT) {
             $notificationHandler = new $notificationHandlerClass(
                 $event->userId,
