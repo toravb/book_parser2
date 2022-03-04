@@ -248,7 +248,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->with([
             'authors',
             'image',
-            'bookGenres'
+            'bookGenres',
+            'userList',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount(['rates', 'views'])
