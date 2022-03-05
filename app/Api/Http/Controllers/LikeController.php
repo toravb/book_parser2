@@ -83,6 +83,7 @@ class LikeController extends Controller
     {
         $userId = Auth::id();
         $field = $this->getFieldName($request->type);
+
         $record = $this->likeTypes[$request->type]
             ::updateOrInsert([
                 'user_id' => $userId,

@@ -31,4 +31,19 @@ class BookComment extends Model
     {
         return $this->morphMany(Notification::class, 'notificationable');
     }
+
+    public static function getNotificationComment(int $commentId)
+    {
+        return self::with([
+            'books' => function ($query) {
+                return $query->select('id', 'title');
+            }
+        ])
+            ->findOrFail($commentId);
+    }
+
+    public function getBookObject()
+    {
+        return $this->books;
+    }
 }
