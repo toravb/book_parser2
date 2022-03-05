@@ -26,7 +26,13 @@
                                     {{ $author->id }}
                                 </td>
                                 <td>
-                                    {{$author->avatar}}
+                                    @if($author->avatar)
+                                        <img
+                                            src="{{Storage::url($author->avatar)}}"
+                                            alt=""
+                                            class="img-thumbnail"
+                                        >
+                                    @endif
                                 </td>
                                 <td>
                                     {{$author->author}}
