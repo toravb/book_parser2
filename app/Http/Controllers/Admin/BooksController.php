@@ -10,9 +10,9 @@ use App\Models\Image;
 
 class BooksController extends Controller
 {
-    public function index(Book $book)
+    public function index(Book $books)
     {
-        $books = $book->getBooksForAdminPanel()->paginate(10);
+        $books = $books->dataForAdminPanel()->paginate(25);
 
         return view('admin.books.index', compact('books'));
     }
@@ -22,12 +22,11 @@ class BooksController extends Controller
         return view('admin.books.create');
     }
 
-    public function edit($book)
+    public function edit(Book $book)
     {
-        $book = (new Book())->getBooksForAdminPanel()->findOrFail($book);
+        $book = $book->dataForAdminPanel()->findOrFail($book);
 
         echo 'переработать редактирование книги.';
-        dd($book);
         return view('admin.books.edit', compact('book'));
     }
 

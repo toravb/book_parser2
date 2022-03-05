@@ -8,6 +8,7 @@ use App\Api\Interfaces\BookInterface;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Models\Notification;
 use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\Admin\StoreBookRequest;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -66,10 +67,19 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $book;
     }
 
-    public function edit($fields)
+    public function saveFromRequest(StoreBookRequest $request)
     {
-        $this->fill($fields);
-        $this->save();
+    }
+
+    public function scopeDataForAdminPanel($q)
+    {
+        return $q->select(['books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'bookGenres:name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ]);
     }
 
     public function year(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -364,18 +374,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
             ->join('years', 'years.id', '=', 'books.year_id');
-    }
-
-    public function getBooksForAdminPanel()
-    {
-        return $this
-            ->select(['books.id', 'title', 'active', 'year_id'])
-            ->with([
-                'bookGenres:name',
-                'authors:author',
-                'image:book_id,link',
-                'year:id,year'
-            ]);
     }
 
     public function updateBook($fields)

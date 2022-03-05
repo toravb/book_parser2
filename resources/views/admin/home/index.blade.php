@@ -1,8 +1,7 @@
-@extends('layouts.admin_layout')
+<x-layouts.admin-layout>
 
-@section('title', 'Главная')
+    <x-slot name="title">Главная</x-slot>
 
-@section('content')
     <!-- Content Header (Page header) -->
 {{--    <div class="content-header">--}}
 {{--        <div class="container-fluid">--}}
@@ -624,4 +623,4 @@
 {{--        </div><!-- /.container-fluid -->--}}
 {{--    </section>--}}
 {{--    <!-- /.content -->--}}
-@endsection
+</x-layouts.admin-layout>

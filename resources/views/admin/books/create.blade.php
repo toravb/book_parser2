@@ -1,12 +1,6 @@
-@extends('layouts.admin_layout')
+<x-layouts.admin-layout>
 
-@section('title', 'Добавить книгу')
-
-@section('content')
-    <!-- Content header (Page header) -->
-    <x-header>
-        Добавление книги
-    </x-header>
+    <x-slot name="title">Добавление книги</x-slot>
 
     <!-- /.content header -->
     <!-- Main content -->
@@ -15,7 +9,8 @@
             action="{{route('admin.books.store')}}"
             method="post"
             enctype="multipart/form-data"
-            class="card">
+            class="card"
+        >
 
             @csrf
 
@@ -34,13 +29,40 @@
                     </label>
 
                     <label class="col-12 d-block">
+                        Автор книги
+                        <select
+                            data-action="select2"
+                            data-ajax="{{route('admin.authors.index')}}"
+                            name="author_id"
+                            @class(['form-control', 'is-invalid' => $errors->has('author_id')])
+                        >
+                            <option>1</option>
+                            <option>2</option>
+                            <option>3</option>
+                        </select>
+
+                        <x-error name="author_id"></x-error>
+                    </label>
+
+                    <label class="col-12">
+                        Обложка
+                        <input
+                            required
+                            type="file"
+                            name="cover-image"
+                            class="form-control-file">
+
+                        <x-error name="book-file"></x-error>
+                    </label>
+
+                    <label class="col-12 d-block">
                         Описание
                         <textarea
                             required
                             rows="5"
                             name="description"
                             @class(['form-control', 'is-invalid' => $errors->has('description')])
-                            placeholder="Краткое описание книги"></textarea>
+                            ></textarea>
 
                         <x-error name="description"></x-error>
                     </label>
@@ -81,19 +103,6 @@
                             </label>
 
                         </div>
-
-                        <div class="form-group mb-0">
-                            <label class="w-100">
-                                Обложка
-                                <input
-                                    required
-                                    type="file"
-                                    name="cover-image"
-                                    class="form-control-file">
-
-                                <x-error name="book-file"></x-error>
-                            </label>
-                        </div>
                     </div>
 
                     <!--genres checkbox-->
@@ -109,4 +118,4 @@
         </form>
     </div>
 
-@endsection
+</x-layouts.admin-layout>

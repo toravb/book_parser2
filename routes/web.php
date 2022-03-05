@@ -2,8 +2,10 @@
 
 use App\Api\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\Admin\AudioBooksController;
+use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Audio\AdminController;
 use App\Http\Controllers\Parser\Admin\DashboardController;
@@ -51,15 +53,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         });
 
         /*
-         * Categories
+         * Genres
          */
-        Route::group(['prefix' => 'categories', 'as' => 'category.'], function () {
-            Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::resource('genres', GenresController::class)->except(['show']);
 
-            Route::put('/', [CategoryController::class, 'update'])->name('update');
-        });
-
+        /*
+         * Authors
+         */
+        Route::resource('authors', AuthorsController::class)->except(['show']);
     });
 
     /*

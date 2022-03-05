@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\StoreAuthorRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -38,6 +39,17 @@ class Author extends Model implements SearchModelInterface
         $this->save();
     }
 
+    public function saveFromRequest(StoreAuthorRequest $request)
+    {
+        $this->author = $request->author;
+        if($request->avatar) {
+            if($this->avatar) \Storage::delete($this->avatar);
+
+            $this->avatar = \Storage::put('authors', $request->avatar);
+        }
+        $this->about = $request->about;
+        $this->save();
+    }
 
     public function books()
     {

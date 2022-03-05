@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Админ-панель - @yield('title')</title>
+    <title>{{config('app.name')}} @if($title??false)- {{$title}}@endif</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
@@ -14,37 +14,31 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/min/dropzone.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/dropzone.js"></script>
 
-{{--    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">--}}
-{{--    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>--}}
-{{--    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>--}}
-
-
     <link rel="stylesheet" href="{{mix('css/admin.css')}}">
 
     <script src="{{mix('js/admin.js')}}" defer></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
-<div class="wrapper">
+<!-- Modals and notifications -->
 
+@if(session()->has('success'))
+<x-toast-notification :title="session()->get('success')"></x-toast-notification>
+@endif
+
+@if($errors->any())
+    <x-toast-notification
+        icon="error"
+        timer="4000"
+        title="Ошибка при отправке формы"
+    ></x-toast-notification>
+@endif
+
+
+<!-- Page data -->
+<div class="wrapper">
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            </li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <form action="{{route('logout')}}" method="POST">
-                    @csrf
-                    <button type="submit" class="nav-link btn">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    </button>
-                </form>
-            </li>
-        </ul>
+        @include('admin.regular.navbar')
     </nav>
     <!-- /.navbar -->
     <!-- Main Sidebar Container -->
@@ -68,25 +62,25 @@
 
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-        @yield('content-header')
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-12 col-sm-6">
+                        <h1 class="m-0">{{$title ?? ''}}</h1>
+                    </div>
+
+                    @if($actions??false)
+                        <div class="col d-flex justify-content-end">
+                            {{$actions}}
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
 
         <section class="content">
             <div class="container-fluid">
-                @if ($errors->any())
-                    <div class="alert-default-info">
-                        <div class="container-fluid">
-                            <div class="alert-danger">
-                                <ul>
-                                    @foreach ($errors->all() as $error)
-                                        <li>{{ $error }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
-                @yield('content')
+                {{$slot}}
             </div>
         </section>
     </div>

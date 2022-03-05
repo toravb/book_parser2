@@ -2,17 +2,19 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Models\Genre;
+use Illuminate\Validation\Rule;
 
-class UpdateGenreRequest extends FormRequest
+class UpdateGenreRequest extends StoreGenreRequest
 {
     public function rules(): array
     {
-        return [
-            //TODO: Прописать валидацию на проверку наличия ID в БД, после рефокторинга таблиц с жанрами
-            'id' => ['required', 'integer'],
-            'genre' => ['required', 'string', 'unique:book_genres,name' ]
+        $rules = [
+            'id' => ['required', 'int', Rule::exists(Genre::class)],
+            'name' => ['required', 'string', Rule::unique(Genre::class)->ignore($this->id)]
         ];
+
+        return array_merge(parent::rules(), $rules);
     }
 
     public function authorize(): bool
