@@ -66,13 +66,6 @@
                                     Скрыта
                                 </label>
                             </div>
-
-                            {{--                            <div class="form-check">--}}
-                            {{--                                <label class="form-check-label">--}}
-                            {{--                                    <input class="form-check-input" type="checkbox" value="">--}}
-                            {{--                                    Default checkbox--}}
-                            {{--                                </label>--}}
-                            {{--                            </div>--}}
                         </div>
 
                         <div class="form-group mb-0">

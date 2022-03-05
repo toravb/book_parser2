@@ -28,14 +28,17 @@ class AudioBooksController extends Controller
 
     public function store(AudioBook $audioBook, Image $cover)
     {
+        echo 'Нужно добавить сохранение аудиофайлов книги, жанры, серия, год';
         dd(request()->all());
         $background = $request->file('cover-image')->store('AudioBookCoverImages');
-        $bookFile = $request->file('audio-file')->store('AudioBooks');
+//        $audioFile = $request->file('audio-file')->store('AudioBooks');
         $audioBookId = $audioBook->storeAudioBooksByAdmin(
+            $request->status,
             $request->title,
             $request->description,
-            $request->status,
-            $bookFile,
+//            $request->genre_id,
+//            $request->series->id,
+//            $request->year_id,
         );
 
         $cover->storeAudioBookCoverByAdmin($audioBookId, $background);

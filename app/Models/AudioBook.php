@@ -321,14 +321,22 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ]);
     }
 
-    public function storeAudioBooksByAdmin(string $title, string $description, int $status, string $link)
+    public function storeAudioBooksByAdmin(
+        int $status,
+        string $title,
+        string $description,
+//        int $genre,
+//        int $series,
+//        int $yearId
+    )
     {
         $book = $this->create([
+            'active' => $status,
             'title' => $title,
             'description' => $description,
-            'active' => $status,
-            'link' => $link,
-            'params' => '{}'
+            'genre_id' => $genre,
+            'series_id' => $series,
+            'year_id' => $yearId
         ]);
 
         return $book->id;

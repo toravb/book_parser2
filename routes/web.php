@@ -46,10 +46,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
          */
         Route::resource('audio_book', AudioBooksController::class)->except(['show']);
 
-//        Route::group(['prefix' => 'audio_book', 'as' => 'audio_book.'], function () {
-//            Route::get('/', [AudioBooksController::class, 'index'])->name('index');
-//        });
-
         /*
          * Categories
          */
