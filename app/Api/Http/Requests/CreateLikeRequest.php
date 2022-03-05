@@ -34,7 +34,6 @@ class CreateLikeRequest extends FormRequest
      */
     public function rules()
     {
-
         if (is_string($this->type) and $this->type !== '' and $this->type !== null) {
             if (array_search($this->type, $this->types) !== false) {
                 return [
