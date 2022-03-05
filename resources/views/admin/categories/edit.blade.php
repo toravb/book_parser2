@@ -8,12 +8,11 @@
     <x-header>
         Редактирование категории
     </x-header>
-    <x-error-alerts/>
     <!-- /.content header -->
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <form action="{{route('admin.category.update')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('admin.categories.update', $category->id)}}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card-body">
@@ -22,12 +21,12 @@
                             <div class="col-1 p-0">
                                 <label for="genreInput">ID</label>
                                 <input type="text" name="id" class="form-control" id="genreInput"
-                                       value="{{$category['id']}}" readonly>
+                                       value="{{$category->id}}" readonly>
                             </div>
                             <div class="col-4 p-0">
                                 <label for="genreInput">Жанр</label>
                                 <input type="text" name="genre" class="form-control" id="genreInput"
-                                       value="{{$category['name']}}">
+                                       value="{{$category->name}}">
                             </div>
                         </div>
                     </div>

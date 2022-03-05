@@ -74,8 +74,8 @@
 {{--    --}}
         </ul>
     </li>
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.category.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.category.*')])>
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.categories.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.categories.*')])>
             <i class="nav-icon fas fa-list"></i>
             <p>
                 Категории/разделы
@@ -84,8 +84,8 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.category.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.category.index')])>
-                    <p>Редактирование/Удаление</p>
+                <a href="{{route('admin.categories.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.categories.index')])>
+                    <p>Администрирование</p>
                 </a>
             </li>
             {{--

@@ -8,11 +8,23 @@ use App\Models\Genre;
 
 class CategoryController extends Controller
 {
+    public function create()
+    {
+        return view('admin.categories.create');
+    }
+
+    public function store(Genre $genre)
+    {
+        $genre->firstOrCreate(['name' => request()->name]);
+
+        return redirect(route('admin.categories.index'));
+    }
+
     public function index(Genre $category)
     {
         $categories = $category->index();
 
-        return view('admin.categories.index', ['categories' => $categories]);
+        return view('admin.categories.index', compact('categories'));
     }
 
     public function edit ($category)
@@ -21,14 +33,19 @@ class CategoryController extends Controller
         //TODO: заменить полсе переопределение (объединение) таблицы жанров
         $category = (new Genre())->findOrFail($category);
 
-        return view('admin.categories.edit', ['category' => $category]);
+        return view('admin.categories.edit', compact('category'));
     }
 
     public function update(UpdateGenreRequest $request, Genre $genre)
     {
 //        dd($request);
        $genre->storeUpdates($request->id ,$request->genre);
-       return redirect(route('admin.category.index'));
+       return redirect(route('admin.categories.index'));
+    }
+
+    public function destroy($genre)
+    {
+        dd(1);
     }
 
 }

@@ -49,12 +49,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         /*
          * Categories
          */
-        Route::group(['prefix' => 'categories', 'as' => 'category.'], function () {
-            Route::get('/', [CategoryController::class, 'index'])->name('index');
-            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+        Route::resource('categories', CategoryController::class)->except(['show']);
 
-            Route::put('/', [CategoryController::class, 'update'])->name('update');
-        });
+//        Route::group(['prefix' => 'categories', 'as' => 'category.'], function () {
+//            Route::get('/', [CategoryController::class, 'index'])->name('index');
+//            Route::get('/{category}/edit', [CategoryController::class, 'edit'])->name('edit');
+//
+//            Route::put('/', [CategoryController::class, 'update'])->name('update');
+//        });
 
     });
 
