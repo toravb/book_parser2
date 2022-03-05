@@ -27,12 +27,7 @@ class CommentsNotifications implements NotificationInterface
     )
     {
 
-        $this->comment = $this->notificationableTypes[$this->commentedType]::with([
-            'books' => function ($query) {
-                return $query->select('id', 'title');
-            }
-        ])
-            ->findOrFail($this->commentId);
+        $this->comment = $this->notificationableTypes[$this->commentedType]::getNotificationComment($this->commentId);
 
 
         $this->sender = User::select('id', 'avatar', 'name')->findOrFail($this->senderUserId);
@@ -51,7 +46,7 @@ class CommentsNotifications implements NotificationInterface
                     if ($settings->commented) {
                         $notificationUserModel = new NotificationUser();
                         $notificationUserModel->createRelation($receiver->id, $this->notificationId, NewAnswerOnCommentNotificationEvent::TYPE);
-                        NewAnswerOnCommentNotificationEvent::dispatch([$receiver->id], $this->sender, $this->comment->books, $this->createdAt, $this->comment->content);
+                        NewAnswerOnCommentNotificationEvent::dispatch([$receiver->id], $this->sender, $this->comment->getBookObject(), $this->createdAt, $this->comment->content);
                     }
                 }
             }
@@ -76,7 +71,7 @@ class CommentsNotifications implements NotificationInterface
                     ];
                 }
                 NotificationUser::insert($userNotifications);
-                NewAnswerOnCommentInBranchEvent::dispatch($notificationList, $this->sender, $this->comment->books, $this->createdAt, $this->comment->content);
+                NewAnswerOnCommentInBranchEvent::dispatch($notificationList, $this->sender, $this->comment->getBookObject(), $this->createdAt, $this->comment->content);
             }
         }
 

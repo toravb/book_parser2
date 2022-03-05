@@ -30,7 +30,9 @@ class CommentController extends Controller
                     'content' => $request->text,
                     'parent_comment_id' => $request->parent_comment_id
                 ]);
-        NewNotificationEvent::dispatch(NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED, $request->type,  $record->id, $userId);
+        if ($request->parent_comment_id !== null) {
+            NewNotificationEvent::dispatch(NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED, $request->type, $record->id, $userId);
+        }
 
         return ApiAnswerService::successfulAnswerWithData($record);
     }
