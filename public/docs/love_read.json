@@ -16941,7 +16941,7 @@
     },
     "/websockets/notifications/likes": {
       "get": {
-        "summary": "Format of liked notification",
+        "summary": "Format of liked notification new_comment_like",
         "tags": [
           "Websockets"
         ],
@@ -16951,14 +16951,217 @@
             "content": {
               "application/json": {
                 "schema": {
+                  "description": "",
                   "type": "object",
-                  "properties": {}
+                  "x-examples": {
+                    "example-1": {
+                      "sender": {
+                        "id": 10,
+                        "avatar": "/avatar/img.img",
+                        "name": "Name"
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Book",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 15:37:50",
+                      "to": [
+                        5
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "sender": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "avatar",
+                        "name"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "minLength": 1,
+                          "default": null
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "default": null
+                        }
+                      }
+                    },
+                    "book": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "title",
+                        "type"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "to": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "required": [
+                    "sender",
+                    "book",
+                    "createdAt",
+                    "to"
+                  ]
+                },
+                "examples": {
+                  "new_comment_like": {
+                    "value": {
+                      "sender": {
+                        "id": 10,
+                        "avatar": "/avatar/img.img",
+                        "name": "Name"
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Book",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 15:37:50"
+                    }
+                  }
                 }
               }
             }
           }
         },
         "operationId": "get-websockets-notifications-likes"
+      }
+    },
+    "/websockets/notifications/comments": {
+      "get": {
+        "summary": "Format of message for new_answer_on_comment and new_answer_in_branch",
+        "tags": [
+          "Websockets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "sender": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "avatar": {},
+                        "name": {}
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    },
+                    "book": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "type"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "sender",
+                    "book",
+                    "createdAt",
+                    "text"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "sender": {
+                        "id": 6,
+                        "avatar": null,
+                        "name": null
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Books",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 16:11:09",
+                      "text": "Answer on comment from userID = 5"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "sender": {
+                        "id": 6,
+                        "avatar": null,
+                        "name": null
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Books",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 16:11:09",
+                      "text": "Answer on comment from userID = 5"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-websockets-notifications-comments"
       }
     }
   },
