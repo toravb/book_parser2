@@ -16938,6 +16938,28 @@
           }
         ]
       }
+    },
+    "/websockets/notifications/likes": {
+      "get": {
+        "summary": "Format of liked notification",
+        "tags": [
+          "Websockets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-websockets-notifications-likes"
+      }
     }
   },
   "components": {
