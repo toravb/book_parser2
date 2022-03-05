@@ -10,38 +10,38 @@
 
 <script type="module">
 
-    let user = {
-        email: 'anton4@gmail.com',
-        password: '123456789'
-    };
-
-    let response = await fetch('https://loveread.webnauts.pw/api/register', {
-        method: 'POST',
-        headers: {
-            'Sec-Fetch-Mode': 'cors',
-            'Accept' : 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(user)
-    });
-
-    let result = await response.json();
-    console.log(result)
-
-    // import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
-    // const options = {
-    //     // autoConnect: false,
-    //     auth: {
-    //         token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMjdiNjVlZTgxZmFhMjc0ZDM3MTU3NDRiOWYwN2MyNmU3MjYzNjY5Y2ZjNDg0YTcxMWFiM2IyOWE4YjE3ODM0YTFmNGU4OWVhMTZlOWI1ZWYiLCJpYXQiOjE2NDQ4NjUzMDMuMjIwNTY4LCJuYmYiOjE2NDQ4NjUzMDMuMjIwNTc4LCJleHAiOjE2NzY0MDEzMDMuMTg0OTU5LCJzdWIiOiIyNyIsInNjb3BlcyI6W119.ctW4cgY0AfXLiLctfZo2gAhNmc-Az0_h0QYYK0GPc5_NgFkUm_w7N0Vpv0VoGULYSXHb4OnFJ87Qirs02Iq8EqQcp4HwhTlwTIxsMdBku2Y1n-e7SAwnWd3ChG0tzO-WtLMJUsHkTpiU2JFmP71X8WI879Gc0-BCsB3THHtWTlfWPnVx51PWhR138XvA1DbbPVYobJFwfvammZJ14WidVZ-qMTFcSHf0-B-LYD3Ewp9OFqJ-oyivgIFwfgKk7xHqh-bAP0x3NISCbi65a7i0WcwnHgMJjMXOw0_z1JN7DpII-POi45gGQEbWkTUxKLazks1xh_Msi8CDEelPtg0iGAF9eOEm2pe8K2rOlituCuMPjFYEQaywcoNBRj4yJjIoblDXUbIjMMjo9mzUkIXwAJp3ffJmFG60O0bmGNQ8WgoKTZtxuG1y3aLomKec8L6ME9WHul_6Qkp_TIjyj9So0QErFD6bYtw0_O3Nxb6rKYtPhoXGmqt4NctVfqK59xdMGA3cOm7Sycq_cb4wO-H1K4MRqSDvrCNbMpxr7VGReK6TpFBU5918kx-Og_W-DM865SEyd5gnUFK0OqG-Mhpq9HtA94c-9AZrEOy0dIxBj50hON-c6m7StCjKX1jWHkTEEXAxjtB96TmpAtrSLkMTXUgo0tkEuhSLZ46puPdLSBY',
+    // let user = {
+    //     email: 'anton4@gmail.com',
+    //     password: '123456789'
+    // };
+    //
+    // let response = await fetch('https://loveread.webnauts.pw/api/register', {
+    //     method: 'POST',
+    //     headers: {
+    //         'Sec-Fetch-Mode': 'cors',
+    //         'Accept' : 'application/json',
+    //         'Content-Type': 'application/json'
     //     },
-    // }
-    // const address = "https://notifications.loveread.staj.fun/notifications";
-    // // const socket = io({  auth: {    token: "abcd"  }});
-    // const socket = io(address, options);
-    // socket.on("connect", () => {
-    //     console.log('Connected')
-    //     console.log(socket.id)
+    //     body: JSON.stringify(user)
     // });
+    //
+    // let result = await response.json();
+    // console.log(result)
+
+    import { io } from "https://cdn.socket.io/4.3.2/socket.io.esm.min.js";
+    const options = {
+        // autoConnect: false,
+        auth: {
+            token: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiMDIxMGZiMjQ0ODEyYzcwMzUzNjk5NTJiYjU1NzY5MTIwMWMyYzkxOWU3OWY3MTE4ZWJlYzAxZjY4YmY0MDFiMzdmMjA3MDk1ZDdmOTIxNWQiLCJpYXQiOjE2NDY0OTM4MDYuNTAxMzEyLCJuYmYiOjE2NDY0OTM4MDYuNTAxMzE1LCJleHAiOjE2NzgwMjk4MDYuNDk0Mzc5LCJzdWIiOiIxMCIsInNjb3BlcyI6W119.k9ZnEU9NnOQ5yUzAO9T1pfK2pecaj6SzrbPsbF3bAcLCPfmPdIIKVKLd_r5dOl8QIW_W2Z5Al6yUuPFmKmriwU-RtFg82YWGEfEK_31X_Cweac6JpCkl1sdHFYykPzRHWyOjMONLk1gW2zel1u2Zcw6bOxIx7jTi30IcKg-qVOdPJ5GXyMBDbznEWpx_FxBwQd9JYtOGpIu2sjGX2yfoUMXHoIJOadjg0u9ZJ5cS1NybV9BhIb5bX_4Porg6oxNdACdzrol6FI9gWt0JVykgrMXl44y89QobD4t3qEtkTXDhg26Io-K7Sgq_3fVoH5IWeKt9TOtoiIqdq4p74WYnVBvhOsoWS-qY4qKNw1HFKKguEorUhpPPXnLmY3YqHg70PBCAS9m7Q2AS6Ku1wSsQk2QcTtf6lo4XG_3Nnwffs-rQyY0SwzNTOlVwEPfn8QTXb48IhZHXMFcRXNNWi_D_DxzJYcm96g8KFMLoDomC20gWx0mo3w8_nGXw-oMehjA9JxJz6EpP0Zhuq-yIG5-lUupe1gledx9vf0hVQ2KlB_0Tfxt7KVC1JxR7wW85WlFu9rMQuNl2gXzcmGJ2QdEJA521-spwHga63rrMDGR2t_f9qUP5MsxmsFpwLLtYUGthdly91e1Gj7VpueUQorUs0FSBzxAdEKyF8mAfBzDOBAo',
+        },
+    }
+    const address = "https://notifications.loveread.webnauts.pro/notifications";
+    // const socket = io({  auth: {    token: "abcd"  }});
+    const socket = io(address, options);
+    socket.on("connect", () => {
+        console.log('Connected')
+        console.log(socket.id)
+    });
 
 </script>
 <script>
