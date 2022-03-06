@@ -66,6 +66,12 @@ Route::get('/home', [MainPageController::class, 'home']);
 
 Route::get('/novelties', [BookController::class, 'novelties']);
 
+/**
+ * Profile social networks
+ */
+Route::get('/profile/auth/{provider}', [SocialNetworksController::class, 'redirectToGoogle']);
+Route::get('/profile/auth/{provider}/callback', [SocialNetworksController::class, 'handleGoogleCallback']);
+
 Route::middleware('auth:api')->group(function () {
 
     /*
@@ -74,8 +80,8 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'profile'], function () {
 
         //Social networks
-        Route::get('/auth/{provider}', [SocialNetworksController::class, 'redirectToGoogle']);
-        Route::get('/auth/{provider}/callback', [SocialNetworksController::class, 'handleGoogleCallback']);
+        Route::get('/temp_token', [SocialNetworksController::class, 'getTempToken']);
+
 
         Route::get('/', [ProfileController::class, 'profile']);
 

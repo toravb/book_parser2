@@ -2,10 +2,12 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Services\ApiAnswerService;
 use App\AuthApi\Http\Requests\SocialProvidersRequest;
 use App\AuthApi\Models\IdSocialNetwork;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Services\GenerateUniqueTokenService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -16,13 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SocialNetworksController extends Controller
 {
-    public function redirectToGoogle(SocialProvidersRequest $request)
+    public function getTempToken()
     {
         $userId = Auth::id();
-        $hash = base64_encode(Hash::make($userId));
-        config([
-            "services.$request->provider.redirect" => url("/api/auth/$request->provider/callback")
-        ]);
+        $hash =  GenerateUniqueTokenService::createTokenWithUserId($userId);
         IdSocialNetwork::updateOrCreate(
             [
                 'user_id' => $userId
@@ -30,6 +29,16 @@ class SocialNetworksController extends Controller
             [
                 'temp_token' => $hash
             ]);
+        return ApiAnswerService::successfulAnswerWithData($hash);
+    }
+
+
+    public function redirectToGoogle(SocialProvidersRequest $request)
+    {
+        $hash = $request->input('hash');
+        config([
+            "services.$request->provider.redirect" => url("/api/auth/$request->provider/callback")
+        ]);
 
         return Socialite::driver($request->provider)
             ->stateless()
@@ -73,11 +82,11 @@ class SocialNetworksController extends Controller
             $socialIdUser = $idSocialNetwork->where('temp_token', $hash)->first();
             $findUser = User::where('email', $email)->first();
 
-            if($socialIdUser->user_id === $findUser->id) {
+            if ($socialIdUser) {
                 $idSocialNetwork->updateOrCreateNetworks($column, $findUser->id, $socialId);
                 return redirect(url(config('app.front_url')));
             } else {
-                return redirect(url(config('app.front_url')) . '/login?error=Something went wrong');
+                return redirect(url(config('app.front_url')) . '/login?error=You did not went from your account');
             }
         } catch (Exception $e) {
             Log::error($e);

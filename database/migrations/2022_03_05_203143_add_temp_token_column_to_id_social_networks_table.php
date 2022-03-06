@@ -14,7 +14,7 @@ class AddTempTokenColumnToIdSocialNetworksTable extends Migration
     public function up()
     {
         Schema::table('id_social_networks', function (Blueprint $table) {
-            $table->string('temp_token')->nullable();
+            $table->string('temp_token')->nullable()->unique();
         });
     }
 
