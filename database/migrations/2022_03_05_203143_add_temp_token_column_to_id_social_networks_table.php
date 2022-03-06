@@ -14,7 +14,8 @@ class AddTempTokenColumnToIdSocialNetworksTable extends Migration
     public function up()
     {
         Schema::table('id_social_networks', function (Blueprint $table) {
-            $table->string('temp_token')->nullable()->unique();
+            $table->string('temp_token')->nullable()->unique()->after('odnoklassniki_id');
+            $table->timestamp('token_valid_until')->nullable()->after('temp_token');
         });
     }
 
@@ -27,6 +28,7 @@ class AddTempTokenColumnToIdSocialNetworksTable extends Migration
     {
         Schema::table('id_social_networks', function (Blueprint $table) {
             $table->dropColumn('temp_token');
+            $table->dropColumn('token_valid_until');
         });
     }
 }
