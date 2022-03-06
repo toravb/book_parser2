@@ -1,7 +1,7 @@
 require('./bootstrap')
 window.$ = window.jQuery = require('jquery')
 require('admin-lte/dist/js/adminlte')
-require('select2');
+require('select2/dist/js/select2.min');
 import Swal from 'sweetalert2'
 
 
@@ -28,13 +28,44 @@ $(document).ready(function () {
         let options = {}
 
         if ($(el).data('ajax')) {
+            const key = $(el).data('key')
+            const textField = $(el).data('text-field')
+            const pagination = $(el).data('pagination')
+
             options.ajax = {
                 url: $(el).data('ajax'),
                 data: (params) => {
                     return {
                         search: params.term ?? '',
+                        page: params.page || 1
                     }
-                }
+                },
+                processResults: (data) => {
+                    let dataArray = [],
+                        results = [],
+                        morePages = false
+
+                    if (!pagination) {
+                        dataArray = data.data
+                    } else {
+                        dataArray = data.data.data
+                        morePages = data.data.current_page !== data.data.last_page
+                    }
+
+                    results = dataArray.map(element => {
+                        return {
+                            id: element[key] ?? '',
+                            text: element[textField] ?? ''
+                        }
+                    })
+
+                    return {
+                        results: results,
+                        pagination: {
+                            more: morePages,
+                        }
+                    };
+                },
             }
         }
 

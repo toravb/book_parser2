@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\YearsController;
 use App\Http\Controllers\Audio\AdminController;
 use App\Http\Controllers\Parser\Admin\DashboardController;
 use App\Http\Controllers\Parser\Admin\PageController;
@@ -44,13 +45,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         Route::resource('books', BooksController::class)->except(['show']);
 
         /*
+         * Books Authors
+         */
+        Route::resource('authors', AuthorsController::class)->except(['show']);
+
+        /*
          * Audio books
          */
-        Route::resource('audio_book', AudioBooksController::class)->except(['show']);
-
-        Route::group(['prefix' => 'audio_book', 'as' => 'audio_book.'], function () {
-            Route::get('/', [AudioBooksController::class, 'index'])->name('index');
-        });
+        Route::resource('audio-books', AudioBooksController::class)->except(['show']);
 
         /*
          * Genres
@@ -58,9 +60,9 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         Route::resource('genres', GenresController::class)->except(['show']);
 
         /*
-         * Authors
+         * Years
          */
-        Route::resource('authors', AuthorsController::class)->except(['show']);
+        Route::resource('years', YearsController::class)->except(['show', 'create']);
     });
 
     /*

@@ -13,13 +13,13 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>ID</th>
+                            <th style="width: 100px;">ID</th>
                             <th>Активна?</th>
                             <th>Название</th>
-                            <th>Жанры</th>
+                            <th>Категории</th>
                             <th>Автор</th>
                             <th>Год</th>
-                            <th></th>
+                            <th style="width: 100px;"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -36,7 +36,10 @@
                                 </td>
                                 <td>
                                     @foreach($book->genres??[] as $genre)
-                                        {{$genre->name}} <br>
+                                        <a href="{{route('admin.genres.edit', $genre)}}">{{$genre->name}}</a>
+                                        @if(!$loop->last)
+                                            <br>
+                                        @endif
                                     @endforeach
                                 </td>
                                 <td>

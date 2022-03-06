@@ -2,8 +2,8 @@
     data-accordion="false">
     <!-- Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library -->
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.books.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.books.*')])>
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.books.*', 'admin.authors.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.books.*', 'admin.authors.*')])>
             <i class="nav-icon fas fa-book"></i>
             <p>
                 Книги
@@ -16,11 +16,20 @@
                     <p>Администрирование</p>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="{{route('admin.authors.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.authors.*')])>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Авторы
+                    </p>
+                </a>
+            </li>
         </ul>
     </li>
 
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.audio_book.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.*')])>
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.audio-books.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.audio-books.*')])>
             <i class="nav-icon fas fa-headphones"></i>
             <p>
                 Аудио книги
@@ -29,7 +38,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.audio_book.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.index')])>
+                <a href="{{route('admin.audio-books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio-books.index')])>
                     <p>Администрирование</p>
                 </a>
             </li>
@@ -53,12 +62,10 @@
         </ul>
     </li>
 
-    <li @class(['nav-item'])>
-        <a href="{{route('admin.authors.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.authors.*')])>
-            <i class="nav-icon fas fa-book"></i>
-            <p>
-                Авторы
-            </p>
+    <li class="nav-item">
+        <a href="{{route('admin.years.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.years.*')])>
+            <i class="nav-icon fa-solid fa-calendar"></i>
+            <p>Года издания</p>
         </a>
     </li>
 

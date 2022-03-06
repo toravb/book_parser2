@@ -2,20 +2,24 @@
 
 namespace App\Http\Requests\Admin;
 
+use App\Models\Author;
+use App\Models\Genre;
+use App\Models\Year;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreBookRequest extends FormRequest
 {
     public function rules(): array
     {
-        (int)$this->request->get('status');
-
         return [
-            'title' => ['required', 'string', 'min:8',],
-            'description' => ['required', 'string', 'max:10240'],
-            'cover-image' => ['required', 'file', 'max:3072',],
-            'book-file' => ['required', 'file', 'max:10072'],
-            'status' => ['required', 'digits_between:0,1'],
+            'title' => ['required', 'string'],
+            'author_id' => ['required', 'int', Rule::exists(Author::class, 'id')],
+            'year_id' => ['required', 'int', Rule::exists(Year::class, 'id')],
+            'text' => ['nullable', 'string', 'max:10240'],
+            'genres_id' => ['array'],
+            'genres_id.*' => ['required', 'int', Rule::exists(Genre::class, 'id')],
+            'active' => ['required', 'boolean'],
         ];
     }
 

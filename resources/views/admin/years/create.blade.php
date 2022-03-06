@@ -1,18 +1,18 @@
 <x-layouts.admin-layout>
 
-    <x-slot name="title">Редактировать книгу "{{$book->title}}"</x-slot>
+    <x-slot name="title">Добавление книги</x-slot>
 
+    <!-- /.content header -->
+    <!-- Main content -->
     <div class="content">
         <form
-            action="{{route('admin.books.update', $book)}}"
+            action="{{route('admin.books.store')}}"
             method="post"
             enctype="multipart/form-data"
             class="card"
         >
 
             @csrf
-            @method('PUT')
-            <input type="hidden" name="id" value="{{$book->id}}">
 
             <div class="card-body">
                 <label class="col-12 d-block">
@@ -21,7 +21,7 @@
                         required
                         type="text"
                         name="title"
-                        value="{{$book->title}}"
+                        value="{{old('title')}}"
                         @class(['form-control', 'is-invalid' => $errors->has('title')])
                         placeholder="Название книги">
 
@@ -31,13 +31,10 @@
                 <label class="col-12 d-block">
                     Автор книги
                     <x-select2
-                        required
                         :route="route('admin.authors.index')"
                         text-field="author"
                         name="author_id"
-                    >
-                        <option value="{{$book->author?->id}}" selected>{{$book->author?->author}}</option>
-                    </x-select2>
+                    ></x-select2>
 
                     <x-error name="author_id"></x-error>
                 </label>
@@ -45,13 +42,10 @@
                 <label class="col-12 d-block">
                     Год издания
                     <x-select2
-                        required
-                        :route="route('admin.years.index')"
-                        text-field="year"
-                        name="year_id"
-                    >
-                        <option value="{{$book->year?->id}}" selected>{{$book->year?->year}}</option>
-                    </x-select2>
+                        :route="route('admin.authors.index')"
+                        text-field="author"
+                        name="author_id"
+                    ></x-select2>
 
                     <x-error name="author_id"></x-error>
                 </label>
@@ -62,14 +56,14 @@
                         rows="5"
                         name="text"
                         @class(['form-control', 'is-invalid' => $errors->has('text')])
-                    >{{$book->description}}</textarea>
+                    >{{old('text')}}</textarea>
 
                     <x-error name="description"></x-error>
                 </label>
 
                 <label class="col-12 d-block">
-                    Категории книги
-                    <x-genres-checkbox :selected-genres-id="$book->genres->pluck('id')->toArray()"></x-genres-checkbox>
+                    Жанры книги
+                    <x-genres-checkbox></x-genres-checkbox>
                 </label>
 
                 <div class="row">
@@ -81,28 +75,14 @@
 
                             <div class="form-check">
                                 <label class="d-block col-12 form-check-label">
-                                    <input
-                                        type="radio"
-                                        name="active"
-                                        value="1"
-                                        @if($book->active)
-                                        checked
-                                        @endif
-                                        class="form-check-input">
+                                    <input type="radio" name="active" value="1" class="form-check-input">
                                     Активна
                                 </label>
                             </div>
 
                             <div class="form-check">
                                 <label class="d-block col-12 form-check-label">
-                                    <input
-                                        type="radio"
-                                        name="active"
-                                        value="0"
-                                        @if(!$book->active)
-                                        checked
-                                        @endif
-                                        class="form-check-input">
+                                    <input type="radio" name="active" value="0" checked class="form-check-input">
                                     Скрыта
                                 </label>
                             </div>
@@ -112,7 +92,7 @@
             </div>
 
             <div class="card-footer">
-                <button type="submit" class="btn btn-success">Сохранить</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
             </div>
         </form>
     </div>
