@@ -15,7 +15,8 @@ class AudioImage extends Model
         'doParse'
     ];
 
-    public static function create($fields){
+    public static function create($fields)
+    {
         $image = new static();
         $image->fill($fields);
         $image->save();
@@ -30,5 +31,14 @@ class AudioImage extends Model
             'book_id',
             'id',
         );
+    }
+
+    public function storeAudioBookCoverByAdmin(int $bookId, string $link)
+    {
+        $this->create([
+            'link' => $link,
+            'book_id' => $bookId,
+            'doParse' => 1
+        ]);
     }
 }
