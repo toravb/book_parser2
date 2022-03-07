@@ -7433,78 +7433,61 @@
                 "schema": {
                   "description": "",
                   "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 9,
+                          "rate_avg": 3.125,
+                          "rates_count": 4,
+                          "type": "audioBooks"
+                        }
+                      ]
+                    }
+                  },
                   "properties": {
                     "status": {
                       "type": "string",
                       "minLength": 1
                     },
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "user_id": {
-                          "type": "number"
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "book_id"
+                          },
+                          "rate_avg": {
+                            "type": "number"
+                          },
+                          "rates_count": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          }
                         },
-                        "book_id": {
-                          "type": "number"
-                        },
-                        "rating": {
-                          "type": "number"
-                        },
-                        "updated_at": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "created_at": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "user_id",
-                        "book_id",
-                        "rating",
-                        "updated_at",
-                        "created_at",
-                        "id"
-                      ]
+                        "required": [
+                          "id",
+                          "rate_avg",
+                          "rates_count",
+                          "type"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "user_id": 55,
-                        "book_id": 3,
-                        "rating": 4,
-                        "updated_at": "2022-01-10T10:00:45.000000Z",
-                        "created_at": "2022-01-10T10:00:45.000000Z",
-                        "id": 1
-                      }
-                    }
-                  }
+                  ]
                 },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "status": "string",
-                      "data": {
-                        "user_id": 0,
-                        "book_id": 0,
-                        "rating": 0,
-                        "updated_at": "string",
-                        "created_at": "string",
-                        "id": 0
-                      }
-                    }
-                  }
-                }
+                "examples": {}
               }
             }
           },
@@ -7710,78 +7693,61 @@
                 "schema": {
                   "description": "",
                   "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 9,
+                          "rate_avg": 3.125,
+                          "rates_count": 4,
+                          "type": "audioBooks"
+                        }
+                      ]
+                    }
+                  },
                   "properties": {
                     "status": {
                       "type": "string",
                       "minLength": 1
                     },
                     "data": {
-                      "type": "object",
-                      "properties": {
-                        "user_id": {
-                          "type": "number"
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number",
+                            "description": "audio_book_id"
+                          },
+                          "rate_avg": {
+                            "type": "number"
+                          },
+                          "rates_count": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          }
                         },
-                        "audio_book_id": {
-                          "type": "number"
-                        },
-                        "rating": {
-                          "type": "number"
-                        },
-                        "updated_at": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "created_at": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "id": {
-                          "type": "number"
-                        }
-                      },
-                      "required": [
-                        "user_id",
-                        "audio_book_id",
-                        "rating",
-                        "updated_at",
-                        "created_at",
-                        "id"
-                      ]
+                        "required": [
+                          "id",
+                          "rate_avg",
+                          "rates_count",
+                          "type"
+                        ]
+                      }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "user_id": 56,
-                        "audio_book_id": 1,
-                        "rating": 2.5,
-                        "updated_at": "2022-01-29T13:16:12.000000Z",
-                        "created_at": "2022-01-29T13:16:12.000000Z",
-                        "id": 25
-                      }
-                    }
-                  }
+                  ]
                 },
-                "examples": {
-                  "example-1": {
-                    "value": {
-                      "status": "string",
-                      "data": {
-                        "user_id": 0,
-                        "audio_book_id": 0,
-                        "rating": 0,
-                        "updated_at": "string",
-                        "created_at": "string",
-                        "id": 0
-                      }
-                    }
-                  }
-                }
+                "examples": {}
               }
             }
           },
