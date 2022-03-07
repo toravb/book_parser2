@@ -1,12 +1,6 @@
-@extends('layouts.admin_layout')
+<x-layouts.admin-layout>
 
-@section('title', 'Добавить книгу')
-
-@section('content')
-    <!-- Content header (Page header) -->
-    <x-header>
-        Добавление книги
-    </x-header>
+    <x-slot name="title">Добавление книги</x-slot>
 
     <!-- /.content header -->
     <!-- Main content -->
@@ -15,36 +9,65 @@
             action="{{route('admin.books.store')}}"
             method="post"
             enctype="multipart/form-data"
-            class="card">
+            class="card"
+        >
 
             @csrf
 
             <div class="card-body">
-                <div class="row mb-3 pb-3 border-bottom">
-                    <label class="col-12 d-block">
-                        Название книги
-                        <input
-                            required
-                            type="text"
-                            name="title"
-                            @class(['form-control', 'is-invalid' => $errors->has('title')])
-                            placeholder="Название книги">
+                <label class="col-12 d-block">
+                    Название книги
+                    <input
+                        required
+                        type="text"
+                        name="title"
+                        value="{{old('title')}}"
+                        @class(['form-control', 'is-invalid' => $errors->has('title')])
+                        placeholder="Название книги">
 
-                        <x-error name="title"></x-error>
-                    </label>
+                    <x-error name="title"></x-error>
+                </label>
 
-                    <label class="col-12 d-block">
-                        Описание
-                        <textarea
-                            required
-                            rows="5"
-                            name="description"
-                            @class(['form-control', 'is-invalid' => $errors->has('description')])
-                            placeholder="Краткое описание книги"></textarea>
+                <label class="col-12 d-block">
+                    Автор книги
+                    <x-select2
+                        required
+                        :route="route('admin.authors.index')"
+                        text-field="author"
+                        name="author_id"
+                    ></x-select2>
 
-                        <x-error name="description"></x-error>
-                    </label>
-                </div>
+                    <x-error name="author_id"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
+                    Год издания
+                    <x-select2
+                        required
+                        :route="route('admin.years.index')"
+                        text-field="year"
+                        name="year_id"
+                    >
+                    </x-select2>
+
+                    <x-error name="author_id"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
+                    Описание
+                    <textarea
+                        rows="5"
+                        name="text"
+                        @class(['form-control', 'is-invalid' => $errors->has('text')])
+                    >{{old('text')}}</textarea>
+
+                    <x-error name="description"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
+                    Жанры книги
+                    <x-genres-checkbox></x-genres-checkbox>
+                </label>
 
                 <div class="row">
                     <div class="col-12 col-md-6">
@@ -55,50 +78,18 @@
 
                             <div class="form-check">
                                 <label class="d-block col-12 form-check-label">
-                                    <input type="radio" name="status" value="1" class="form-check-input">
+                                    <input type="radio" name="active" value="1" class="form-check-input">
                                     Активна
                                 </label>
                             </div>
 
                             <div class="form-check">
                                 <label class="d-block col-12 form-check-label">
-                                    <input type="radio" name="status" value="0" checked class="form-check-input">
+                                    <input type="radio" name="active" value="0" checked class="form-check-input">
                                     Скрыта
                                 </label>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="w-100">
-                                Файл книги
-                                <input
-                                    required
-                                    type="file"
-                                    name="book-file"
-                                    class="form-control-file">
-
-                                <x-error name="book-file"></x-error>
-                            </label>
-
-                        </div>
-
-                        <div class="form-group mb-0">
-                            <label class="w-100">
-                                Обложка
-                                <input
-                                    required
-                                    type="file"
-                                    name="cover-image"
-                                    class="form-control-file">
-
-                                <x-error name="book-file"></x-error>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!--genres checkbox-->
-                    <div class="col-12 col-md-6">
-                        <x-genres/>
                     </div>
                 </div>
             </div>
@@ -109,4 +100,4 @@
         </form>
     </div>
 
-@endsection
+</x-layouts.admin-layout>

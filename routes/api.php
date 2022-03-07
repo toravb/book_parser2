@@ -18,6 +18,7 @@ use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
+use App\Api\Http\Controllers\SocialNetworksController;
 use App\Api\Http\Controllers\UserAuthorsController;
 use App\Api\Http\Controllers\UserController;
 use App\Api\Http\Controllers\UsersRecommendationsController;
@@ -65,12 +66,23 @@ Route::get('/home', [MainPageController::class, 'home']);
 
 Route::get('/novelties', [BookController::class, 'novelties']);
 
+/**
+ * Profile social networks
+ */
+Route::get('/profile/auth/{provider}', [SocialNetworksController::class, 'redirectToGoogle']);
+Route::get('/profile/auth/{provider}/callback', [SocialNetworksController::class, 'handleGoogleCallback']);
+
 Route::middleware('auth:api')->group(function () {
 
     /*
      * User and profile
      */
     Route::group(['prefix' => 'profile'], function () {
+
+        //Social networks
+        Route::get('/temp_token', [SocialNetworksController::class, 'getTempToken']);
+
+
         Route::get('/', [ProfileController::class, 'profile']);
 
         Route::post('/', [ProfileController::class, 'update']);

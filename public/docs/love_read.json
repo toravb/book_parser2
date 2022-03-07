@@ -17163,6 +17163,124 @@
         },
         "operationId": "get-websockets-notifications-comments"
       }
+    },
+    "/profile/temp_token": {
+      "get": {
+        "summary": "Get temp token for begining binding social network",
+        "tags": [
+          "User profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": "281646588227b3e02477de98a73a7bdaacddb4aa73a2"
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Temp token"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": "281646588227b3e02477de98a73a7bdaacddb4aa73a2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-profile-temp_token",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": []
+      },
+      "parameters": []
+    },
+    "/profile/auth/{provider}": {
+      "get": {
+        "summary": "Redirect user to social network",
+        "tags": [
+          "User profile"
+        ],
+        "responses": {
+          "302": {
+            "description": "Found"
+          }
+        },
+        "operationId": "get-profile-auth",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Token, that was get by calling /profile/temp_token",
+            "name": "hash"
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "provider",
+          "in": "path",
+          "required": true,
+          "description": "Can be odnoklassniki, yandex, vkontakte, google"
+        }
+      ]
     }
   },
   "components": {

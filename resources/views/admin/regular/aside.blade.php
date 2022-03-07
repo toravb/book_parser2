@@ -2,107 +2,75 @@
     data-accordion="false">
     <!-- Add icons to the links using the .nav-icon class
          with font-awesome or any other icon font library -->
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.books.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.books.*')])>
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.books.*', 'admin.authors.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.books.*', 'admin.authors.*')])>
             <i class="nav-icon fas fa-book"></i>
             <p>
-                Работа с книгами
+                Книги
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.books.index')])>
+                <a href="{{route('admin.books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.books.*')])>
                     <p>Администрирование</p>
                 </a>
             </li>
-            {{--
+
             <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                    <p>SEO настройки</p>
+                <a href="{{route('admin.authors.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.authors.*')])>
+                    <i class="nav-icon fas fa-users"></i>
+                    <p>
+                        Авторы
+                    </p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
-                    <p>Добавление в категории</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                    <p>Статистика</p>
-                </a>
-            </li>
-            --}}
         </ul>
     </li>
 
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.audio_book.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.*')])>
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.audio-books.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.audio-books.*')])>
             <i class="nav-icon fas fa-headphones"></i>
             <p>
-                Работа с аудиокнигами
+                Аудио книги
                 <i class="fas fa-angle-left right"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.audio_book.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.index')])>
+                <a href="{{route('admin.audio-books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio-books.index')])>
                     <p>Администрирование</p>
                 </a>
             </li>
-{{--            <li class="nav-item">--}}
-{{--                <a href="{{route('admin.audio_book.create')}}" @class(['nav-link', 'active' => request()->route()->named('admin.audio_book.create')])>--}}
-{{--                    <p>Добавление книги</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--            --}}{{----}}
-{{--            <li class="nav-item">--}}
-{{--                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">--}}
-{{--                    <p>SEO настройки</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--            <li class="nav-item">--}}
-{{--                <a href="pages/layout/boxed.html" class="nav-link">--}}
-{{--                    <p>Добавление в категории</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--            <li class="nav-item">--}}
-{{--                <a href="pages/layout/fixed-sidebar.html" class="nav-link">--}}
-{{--                    <p>Статистика</p>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--    --}}
         </ul>
     </li>
-    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.categories.*')])>
-        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.categories.*')])>
+
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.genres.*')])>
+        <a href="javascript:void(0)" @class(['nav-link', 'active' => request()->route()->named('admin.genres.*')])>
             <i class="nav-icon fas fa-list"></i>
             <p>
-                Категории/разделы
+                Категории
                 <i class="right fas fa-angle-left"></i>
             </p>
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.categories.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.categories.index')])>
+                <a href="{{route('admin.genres.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.genres.*')])>
                     <p>Администрирование</p>
                 </a>
             </li>
-            {{--
-            <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
-                    <p>Администрирование</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/charts/flot.html" class="nav-link">
-                    <p>SEO настройки</p>
-                </a>
-            </li>
-            --}}
         </ul>
     </li>
+
+    <li class="nav-item">
+        <a href="{{route('admin.years.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.years.*')])>
+            <i class="nav-icon fa-solid fa-calendar"></i>
+            <p>Года издания</p>
+        </a>
+    </li>
+
     {{--
+    TODO: end up admin actions
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-table"></i>
