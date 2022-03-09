@@ -58,11 +58,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->getRawOriginal('type') ?? 'books';
     }
 
-    public function getAuthorAttribute(): ?Author
-    {
-        return $this->authors[0] ?? null;
-    }
-
     public static function create($fields)
     {
         $book = new static();
@@ -84,7 +79,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
         $this->save();
 
-        $this->authors()->sync($request->author_id);
+        $this->authors()->sync($request->authors_ids);
         $this->genres()->sync($request->genres_id);
     }
 

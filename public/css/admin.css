@@ -6530,6 +6530,7 @@ button.bg-dark:focus {
   position: fixed !important;
 }
 .position-sticky {
+  position: -webkit-sticky !important;
   position: sticky !important;
 }
 .fixed-top {
@@ -6546,8 +6547,9 @@ button.bg-dark:focus {
   left: 0;
   z-index: 1030;
 }
-@supports (position: sticky) {
+@supports ((position: -webkit-sticky) or (position: sticky)) {
   .sticky-top {
+    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -25594,6 +25596,7 @@ html.maximized-card {
   background-color: #fff;
   border-bottom: 0;
   box-shadow: inset 0 1px 0 #dee2e6, inset 0 -1px 0 #dee2e6;
+  position: -webkit-sticky;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -42319,5 +42322,16 @@ select.is-valid ~ .select2-container--bootstrap4 .select2-selection,form.was-val
 label.required:before {
     content: "*";
     color: var(--danger);
+}
+.select2-container--bootstrap4 .select2-selection--multiple .select2-selection__choice__remove {
+    float: left;
+    padding-right: 3px;
+    padding-left: 3px;
+    margin-right: 1px;
+    margin-left: 3px;
+    font-weight: 700;
+    color: #bdc6d0;
+    border:none;
+    background: none;
 }
 

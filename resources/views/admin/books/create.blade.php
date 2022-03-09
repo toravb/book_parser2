@@ -23,7 +23,8 @@
                         name="title"
                         value="{{old('title')}}"
                         @class(['form-control', 'is-invalid' => $errors->has('title')])
-                        placeholder="Название книги">
+                        placeholder="Название книги"
+                    >
 
                     <x-error name="title"></x-error>
                 </label>
@@ -32,12 +33,13 @@
                     Автор книги
                     <x-select2
                         required
+                        multiple
                         :route="route('admin.authors.index')"
                         text-field="author"
-                        name="author_id"
+                        name="authors_ids[]"
                     ></x-select2>
 
-                    <x-error name="author_id"></x-error>
+                    <x-error name="authors_ids"></x-error>
                 </label>
 
                 <label class="col-12 d-block">

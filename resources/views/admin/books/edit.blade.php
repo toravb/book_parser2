@@ -32,14 +32,17 @@
                     Автор книги
                     <x-select2
                         required
+                        multiple
                         :route="route('admin.authors.index')"
                         text-field="author"
-                        name="author_id"
+                        name="authors_ids[]"
                     >
-                        <option value="{{$book->author?->id}}" selected>{{$book->author?->author}}</option>
+                        @foreach($book->authors as $author)
+                        <option value="{{$author->id}}" selected>{{$author->author}}</option>
+                        @endforeach
                     </x-select2>
 
-                    <x-error name="author_id"></x-error>
+                    <x-error name="authors_ids"></x-error>
                 </label>
 
                 <label class="col-12 d-block">

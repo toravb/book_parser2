@@ -14,7 +14,8 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string'],
-            'author_id' => ['required', 'int', Rule::exists(Author::class, 'id')],
+            'authors_ids' => ['required', 'array'],
+            'authors_ids.*' => ['required', 'int', Rule::exists(Author::class, 'id')],
             'year_id' => ['required', 'int', Rule::exists(Year::class, 'id')],
             'text' => ['nullable', 'string', 'max:10240'],
             'genres_id' => ['array'],
