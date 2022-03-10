@@ -25,7 +25,14 @@ class BooksController extends Controller
 
     public function edit($book, Book $books)
     {
-        $book = $books->dataForAdminPanel()->findOrFail($book);
+        $book = $books->dataForAdminPanel()
+            ->addSelect([
+                'meta_description',
+                'meta_keywords',
+                'alias_url',
+                'text',
+            ])
+            ->findOrFail($book);
 
         return view('admin.books.edit', compact('book'));
     }

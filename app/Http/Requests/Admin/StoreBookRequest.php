@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Admin;
 
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Year;
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,6 +21,9 @@ class StoreBookRequest extends FormRequest
             'genres_id' => ['array'],
             'genres_id.*' => ['required', 'int', Rule::exists(Genre::class, 'id')],
             'active' => ['required', 'boolean'],
+            'meta_description' => ['nullable', 'string', 'max:255'],
+            'meta_keywords' => ['nullable', 'string', 'max:255'],
+            'alias_url' => ['nullable', 'string', 'max:255', Rule::unique(Book::class)],
         ];
     }
 

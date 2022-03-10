@@ -78,6 +78,9 @@ class Book extends Model implements BookInterface, SearchModelInterface
         $this->text = $request->text ?? '';
         $this->active = (bool)$request->active;
         $this->year_id = $request->year_id;
+        $this->meta_description = $request->meta_description;
+        $this->meta_keywords = $request->meta_keywords;
+        $this->alias_url = $request->alias_url ?? \Str::slug($request->title);
 
         $this->link = '';
         $this->params = '{}';
@@ -90,13 +93,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
     public function scopeDataForAdminPanel($q)
     {
-        return $q->select(['books.id', 'title', 'active', 'year_id'])
-            ->with([
-                'genres:id,name',
-                'authors:id,author',
-                'image:id,book_id,link',
-                'year:id,year'
-            ]);
+        return $q->select([
+            'books.id',
+            'title',
+            'active',
+            'year_id',
+        ])->with([
+            'genres:id,name',
+            'authors:id,author',
+            'image:id,book_id,link',
+            'year:id,year'
+        ]);
     }
 
     public function year(): \Illuminate\Database\Eloquent\Relations\BelongsTo

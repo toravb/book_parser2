@@ -62,7 +62,7 @@
                         rows="5"
                         name="text"
                         @class(['form-control', 'is-invalid' => $errors->has('text')])
-                    >{{$book->description}}</textarea>
+                    >{{$book->text}}</textarea>
 
                     <x-error name="description"></x-error>
                 </label>
@@ -72,43 +72,78 @@
                     <x-genres-checkbox :selected-genres-id="$book->genres->pluck('id')->toArray()"></x-genres-checkbox>
                 </label>
 
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <!-- status select -->
-                        <div class="form-group">
-                            <label>Статус активности</label>
-                            <x-error name="status"></x-error>
+                <div class="form-group col-12 col-md-6">
+                    <label>Статус активности</label>
+                    <x-error name="status"></x-error>
 
-                            <div class="form-check">
-                                <label class="d-block col-12 form-check-label">
-                                    <input
-                                        type="radio"
-                                        name="active"
-                                        value="1"
-                                        @if($book->active)
-                                        checked
-                                        @endif
-                                        class="form-check-input">
-                                    Активна
-                                </label>
-                            </div>
+                    <div class="form-check">
+                        <label class="d-block col-12 form-check-label">
+                            <input
+                                type="radio"
+                                name="active"
+                                value="1"
+                                @if($book->active)
+                                checked
+                                @endif
+                                class="form-check-input">
+                            Активна
+                        </label>
+                    </div>
 
-                            <div class="form-check">
-                                <label class="d-block col-12 form-check-label">
-                                    <input
-                                        type="radio"
-                                        name="active"
-                                        value="0"
-                                        @if(!$book->active)
-                                        checked
-                                        @endif
-                                        class="form-check-input">
-                                    Скрыта
-                                </label>
-                            </div>
-                        </div>
+                    <div class="form-check">
+                        <label class="d-block col-12 form-check-label">
+                            <input
+                                type="radio"
+                                name="active"
+                                value="0"
+                                @if(!$book->active)
+                                checked
+                                @endif
+                                class="form-check-input">
+                            Скрыта
+                        </label>
                     </div>
                 </div>
+
+                <hr>
+
+                <p><b>SEO настройки</b></p>
+
+                <label class="col-12 d-block">
+                    Meta-description
+                    <input
+                        type="text"
+                        name="meta_description"
+                        value="{{$book->meta_description}}"
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_description')])
+                    >
+
+                    <x-error name="meta_description"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
+                    Meta-keywords
+                    <input
+                        type="text"
+                        name="meta_keywords"
+                        value="{{$book->meta_keywords}}"
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_keywords')])
+                    >
+
+                    <x-error name="meta_keywords"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
+                    Alias
+                    <input
+                        type="text"
+                        name="alias_url"
+                        value="{{$book->alias_url}}"
+                        @class(['form-control', 'is-invalid' => $errors->has('alias_url')])
+                    >
+
+                    <x-error name="alias_url"></x-error>
+                </label>
             </div>
 
             <div class="card-footer">
