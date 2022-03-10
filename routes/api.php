@@ -116,7 +116,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/users/user_id', [UserController::class, 'getUserId']);
 
 
-
     /**
      * Likes
      */
@@ -139,6 +138,7 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'comments'], function () {
         Route::post('/', [CommentController::class, 'saveComment']);
+
     });
 
     /*
@@ -185,6 +185,14 @@ Route::group(['prefix' => 'genres'], function () {
     Route::get('/', [CategoryController::class, 'show']);
     Route::get('/books', [CategoryController::class, 'withBooksCount']);
     Route::get('/audio-books', [CategoryController::class, 'withAudioBooksCount']);
+});
+
+/**
+ * Get comments
+ */
+Route::group(['prefix' => 'comments'], function () {
+    Route::get('/books/{id}', [CommentController::class, 'getComments']);
+    Route::get('/{id}', [CommentController::class, 'getCommentsOnComment']);
 });
 
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);

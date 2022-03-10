@@ -309,16 +309,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function singleBook($bookId): Model|Builder|Book|\LaravelIdea\Helper\App\Models\_IH_Book_QB
     {
         return $this->with([
-            'authors',
-            'image',
-            'bookGenres',
+            'authors:author',
+            'image' => function ($query) {
+                return $query->whereNull('page_id')->select(['book_id', 'link']);
+            },
+            'bookGenres:name',
             'year',
-            'publishers',
-            'comments',
+            'publishers:publisher',
             'reviews',
             'quotes'])
             ->where('id', $bookId)
-            ->select('id', 'title', 'text')
+            ->select('id', 'title', 'text', 'year_id')
             ->withCount(['rates', 'bookLikes', 'comments', 'reviews', 'quotes', 'views'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();

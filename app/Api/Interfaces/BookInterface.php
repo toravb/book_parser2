@@ -2,10 +2,11 @@
 
 namespace App\Api\Interfaces;
 
-interface BookInterface {
+interface BookInterface
+{
     public function getBook();
 
     public function getBookForLetterFilter();
 
-    public function  noveltiesBooks();
+    public function noveltiesBooks();
 }

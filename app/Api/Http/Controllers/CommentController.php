@@ -4,13 +4,19 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Events\NewNotificationEvent;
 use App\Api\Http\Requests\SaveCommentRequest;
+use App\Api\Http\Requests\ShowCommentsOnCommentRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Api\Http\Requests\ShowCommentsRequest;
+use App\Models\BookComment;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
+    const COMMENTSPAGINATE = 3;
+    const COMMENTSONCOMMENTPAGINATE = 5;
+
     private array $commentTypes;
 
     public function __construct(Types $types)
@@ -42,4 +48,15 @@ class CommentController extends Controller
         return $type . '_id';
     }
 
+    public function getComments(ShowCommentsRequest $request)
+    {
+        $model = new $this->commentTypes[$request->type];
+        return ApiAnswerService::successfulAnswerWithData($model->getComments($request->id, $request->perpage));
+    }
+
+    public function getCommentsOnComment(ShowCommentsOnCommentRequest $request)
+    {
+        $model = new $this->commentTypes[$request->type];
+        return ApiAnswerService::successfulAnswerWithData($model->getCommentsOnComment($request->id, $request->perpage));
+    }
 }
