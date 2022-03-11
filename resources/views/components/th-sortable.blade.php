@@ -1,5 +1,5 @@
 @php
-    $name = 'sortBy' . ucfirst($name);
+    $name = 'sortBy' . \Str::studly($name);
     $currentSortDirection = request()->query($name);
     $sortDirection = isset($currentSortDirection) ? ($currentSortDirection === 'desc' ? 'asc' : 'desc') : 'desc';
 @endphp

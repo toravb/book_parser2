@@ -18,7 +18,7 @@ abstract class QueryFilter extends ApiQueryFilter
             if (is_callable([$this, $method]) and method_exists($this, $method)) {
                 call_user_func_array([$this, $method], (array)$value);
             } elseif (str_contains($method, $this->sortByNeedle)) {
-                $sortField = strtolower(substr($method, strlen($this->sortByNeedle)));
+                $sortField = \Str::snake(substr($method, strlen($this->sortByNeedle)));
                 $this->sortBy($sortField, $value);
             }
         }

@@ -16,4 +16,10 @@ class BookFilter extends QueryFilter
             $builder->orWhere('title', 'LIKE', "%{$search}%");
         });
     }
+
+    public function sortByYear($direction)
+    {
+        $this->builder->join('years', 'books.year_id', '=', 'years.id')
+            ->orderBy('years.year', $direction);
+    }
 }

@@ -10,30 +10,18 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <form action="" method="GET" class="form-inline justify-content-end">
-                        <input
-                            type="text"
-                            name="search"
-                            value="{{request()->query('search') ?? old('search')}}"
-                            class="form-control mb-1 mr-1"
-                            placeholder="Поиск по ID и названию"
-                        >
-
-                        <button type="submit" class="btn btn-success mb-1 mr-1">
-                            <i class="fa-solid fa-magnifying-glass"></i>
-                        </button>
-                    </form>
+                    <x-search placeholder="Поиск по ID и названию"></x-search>
                 </div>
                 <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
                             <x-th-sortable name="id">ID</x-th-sortable>
-                            <th>Активна?</th>
-                            <th>Название</th>
+                            <x-th-sortable name="active">Активна?</x-th-sortable>
+                            <x-th-sortable name="title">Название</x-th-sortable>
                             <th>Категории</th>
                             <th>Автор</th>
-                            <th>Год</th>
+                            <x-th-sortable name="year">Год</x-th-sortable>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>
