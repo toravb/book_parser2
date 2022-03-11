@@ -4,4 +4,5 @@ simplexml
 dom
 curl
 zip
+redis
 ```

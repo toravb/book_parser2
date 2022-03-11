@@ -9,7 +9,6 @@ module.exports = function (socket, nspList) {
             const nsp = socket.of(`/${el}`)
 
             nsp.use((socket, next) => {
-
                 auth(socket.handshake.auth.token).then(
                     (resp) => {
 
@@ -30,8 +29,8 @@ module.exports = function (socket, nspList) {
 
                 console.log(`Client connected to /${el}`)
                 nsp.on('disconnect', () => {
-                  console.log(nsp.adapter.rooms)
-                  console.log(`Client disconnected from /${el}`)
+                    console.log(nsp.adapter.rooms)
+                    console.log(`Client disconnected from /${el}`)
                 })
             })
             socket.nsps[el] = nsp

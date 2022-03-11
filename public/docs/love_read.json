@@ -16938,6 +16938,349 @@
           }
         ]
       }
+    },
+    "/websockets/notifications/likes": {
+      "get": {
+        "summary": "Format of liked notification new_comment_like",
+        "tags": [
+          "Websockets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "sender": {
+                        "id": 10,
+                        "avatar": "/avatar/img.img",
+                        "name": "Name"
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Book",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 15:37:50",
+                      "to": [
+                        5
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "sender": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "avatar",
+                        "name"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "minLength": 1,
+                          "default": null
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1,
+                          "default": null
+                        }
+                      }
+                    },
+                    "book": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "title",
+                        "type"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      }
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "to": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    }
+                  },
+                  "required": [
+                    "sender",
+                    "book",
+                    "createdAt",
+                    "to"
+                  ]
+                },
+                "examples": {
+                  "new_comment_like": {
+                    "value": {
+                      "sender": {
+                        "id": 10,
+                        "avatar": "/avatar/img.img",
+                        "name": "Name"
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Book",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 15:37:50"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-websockets-notifications-likes"
+      }
+    },
+    "/websockets/notifications/comments": {
+      "get": {
+        "summary": "Format of message for new_answer_on_comment and new_answer_in_branch",
+        "tags": [
+          "Websockets"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "sender": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "avatar": {},
+                        "name": {}
+                      },
+                      "required": [
+                        "id"
+                      ]
+                    },
+                    "book": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "type"
+                      ]
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "text": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "sender",
+                    "book",
+                    "createdAt",
+                    "text"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "sender": {
+                        "id": 6,
+                        "avatar": null,
+                        "name": null
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Books",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 16:11:09",
+                      "text": "Answer on comment from userID = 5"
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "sender": {
+                        "id": 6,
+                        "avatar": null,
+                        "name": null
+                      },
+                      "book": {
+                        "id": 6,
+                        "title": "Books",
+                        "type": "books"
+                      },
+                      "createdAt": "2022-03-05 16:11:09",
+                      "text": "Answer on comment from userID = 5"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-websockets-notifications-comments"
+      }
+    },
+    "/profile/temp_token": {
+      "get": {
+        "summary": "Get temp token for begining binding social network",
+        "tags": [
+          "User profile"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": "281646588227b3e02477de98a73a7bdaacddb4aa73a2"
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "string",
+                      "minLength": 1,
+                      "description": "Temp token"
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": "281646588227b3e02477de98a73a7bdaacddb4aa73a2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "message": "Unauthenticated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-profile-temp_token",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": []
+      },
+      "parameters": []
+    },
+    "/profile/auth/{provider}": {
+      "get": {
+        "summary": "Redirect user to social network",
+        "tags": [
+          "User profile"
+        ],
+        "responses": {
+          "302": {
+            "description": "Found"
+          }
+        },
+        "operationId": "get-profile-auth",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "description": "Token, that was get by calling /profile/temp_token",
+            "name": "hash"
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "provider",
+          "in": "path",
+          "required": true,
+          "description": "Can be odnoklassniki, yandex, vkontakte, google"
+        }
+      ]
     }
   },
   "components": {
