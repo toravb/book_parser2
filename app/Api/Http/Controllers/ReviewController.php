@@ -3,6 +3,7 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\DeleteReviewRequest;
+use App\Api\Http\Requests\GetReviewRequest;
 use App\Api\Http\Requests\SaveUpdateReviewRequest;
 use App\Api\Http\Requests\UserQuotesRequest;
 use App\Api\Http\Requests\UserReviewsRequest;
@@ -68,7 +69,11 @@ class ReviewController extends Controller
             }])->get();
 
         return ApiAnswerService::successfulAnswerWithData($reviews);
-
     }
 
+    public function getReviews(GetReviewRequest $request)
+    {
+        $model = new $this->reviewTypes[$request->type];
+        return ApiAnswerService::successfulAnswerWithData($model->getReviews($request->id));
+    }
 }

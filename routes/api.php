@@ -195,6 +195,12 @@ Route::group(['prefix' => 'comments'], function () {
     Route::get('/{id}', [CommentController::class, 'getCommentsOnComment']);
 });
 
+/**
+ * Get reviews
+ */
+Route::get('/books/{id}/reviews', [ReviewController::class, 'getReviews']);
+
+
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
 /**

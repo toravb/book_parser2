@@ -22,14 +22,18 @@ class TypesGenerator implements Types
         'book' => 'App\\Api\\Models\\BookLike',
         'audio_book' => 'App\\Api\\Models\\AudioBookLike',
         'book_comment' => 'App\\Api\\Models\\BookCommentLike',
-        'audio_book_comment' => 'App\\Api\\Models\\AudioBookCommentLike'
+        'audio_book_comment' => 'App\\Api\\Models\\AudioBookCommentLike',
+        'book_review' => 'App\\Models\\BookReviewLike',
+        'audio_book_review' => 'App\\Models\\AudioBookReviewLike'
     ];
 
     protected $likeModelTypes = [
         'book' => 'App\\Models\\Book',
-        'audio_book' => 'App\\Api\\Models\\AudioBook',
+        'audio_book' => 'App\\Models\\AudioBook',
         'book_comment' => 'App\\Models\\BookComment',
-        'audio_book_comment' => 'App\\Models\\AudioBookComment'
+        'audio_book_comment' => 'App\\Models\\AudioBookComment',
+        'book_review' => 'App\\Models\\BookReview',
+        'audio_book_review' => 'App\\Models\\AudioBookReview'
     ];
 
     protected $compilationsBookTypes = [

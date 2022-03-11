@@ -14,9 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    const COMMENTSPAGINATE = 3;
-    const COMMENTSONCOMMENTPAGINATE = 5;
-
     private array $commentTypes;
 
     public function __construct(Types $types)

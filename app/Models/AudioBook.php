@@ -228,7 +228,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'series',
             'year',
             'link',
-            'comments',
             'reviews',
         ])
             //TODO: после выяснения подробностей нужно добавить:
