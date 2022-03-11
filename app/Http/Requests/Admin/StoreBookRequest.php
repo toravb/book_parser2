@@ -21,6 +21,8 @@ class StoreBookRequest extends FormRequest
             'genres_id' => ['array'],
             'genres_id.*' => ['required', 'int', Rule::exists(Genre::class, 'id')],
             'active' => ['required', 'boolean'],
+            'cover_image' => ['sometimes', 'nullable', 'image'],
+            'cover_image_remove' => ['sometimes', 'nullable', 'boolean'],
         ];
     }
 

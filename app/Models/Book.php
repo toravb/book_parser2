@@ -79,6 +79,24 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
         $this->save();
 
+        if($request->cover_image_remove and $this->image) {
+            \Storage::delete($this->image->link);
+            $this->image->delete();
+        }
+
+        if ($request->cover_image) {
+            if ($this->image) {
+                $image = $this->image;
+                \Storage::delete($image->link);
+            } else {
+                $image = new Image();
+            }
+
+            $image->link = \Storage::put('books-covers', $request->cover_image);
+
+            $this->image()->save($image);
+        }
+
         $this->authors()->sync($request->authors_ids);
         $this->genres()->sync($request->genres_id);
     }
