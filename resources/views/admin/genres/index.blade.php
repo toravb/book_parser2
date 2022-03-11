@@ -10,13 +10,16 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <x-search placeholder="Поиск по ID и названию"></x-search>
+                </div>
                 <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th style="width: 150px;">ID</th>
-                            <th style="width: 70px;">Скрыта?</th>
-                            <th>Название</th>
+                            <x-th-sortable name="id" style="width: 150px;">ID</x-th-sortable>
+                            <x-th-sortable name="is_hidden" style="width: 100px;">Скрыта?</x-th-sortable>
+                            <x-th-sortable name="name">Название</x-th-sortable>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>

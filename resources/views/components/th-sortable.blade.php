@@ -4,7 +4,9 @@
     $sortDirection = isset($currentSortDirection) ? ($currentSortDirection === 'desc' ? 'asc' : 'desc') : 'desc';
 @endphp
 
-<th>
+<th
+    {{$attributes}}
+>
     <a href="?{{$name}}={{$sortDirection}}">
         @if(!isset($currentSortDirection))
             <i class="fa-solid fa-sort"></i>
