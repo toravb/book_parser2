@@ -74,8 +74,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
         $this->active = (bool)$request->active;
         $this->year_id = $request->year_id;
 
-        $this->link = '';
-        $this->params = '{}';
+        $this->links ?? $this->link = '';
+        $this->params ?? $this->params = '{}';
 
         $this->save();
 
