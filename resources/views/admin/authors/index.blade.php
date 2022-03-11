@@ -13,9 +13,9 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th style="width: 100px;">ID</th>
+                            <x-th-sortable name="id" style="width: 100px;">ID</x-th-sortable>
                             <th style="width: 250px;">Изображение</th>
-                            <th>Автор</th>
+                            <x-th-sortable name="author">Автор</x-th-sortable>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>
