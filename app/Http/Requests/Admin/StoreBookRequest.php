@@ -15,12 +15,15 @@ class StoreBookRequest extends FormRequest
     {
         return [
             'title' => ['required', 'string'],
-            'author_id' => ['required', 'int', Rule::exists(Author::class, 'id')],
+            'authors_ids' => ['required', 'array'],
+            'authors_ids.*' => ['required', 'int', Rule::exists(Author::class, 'id')],
             'year_id' => ['required', 'int', Rule::exists(Year::class, 'id')],
             'text' => ['nullable', 'string', 'max:10240'],
             'genres_id' => ['array'],
             'genres_id.*' => ['required', 'int', Rule::exists(Genre::class, 'id')],
             'active' => ['required', 'boolean'],
+            'cover_image' => ['sometimes', 'nullable', 'image'],
+            'cover_image_remove' => ['sometimes', 'nullable', 'boolean'],
             'meta_description' => ['nullable', 'string', 'max:255'],
             'meta_keywords' => ['nullable', 'string', 'max:255'],
             'alias_url' => ['nullable', 'string', 'max:255', Rule::unique(Book::class)],

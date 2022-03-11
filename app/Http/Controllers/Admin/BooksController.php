@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Admin\Filters\BookFilter;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreBookRequest;
@@ -11,9 +12,9 @@ use App\Models\Image;
 
 class BooksController extends Controller
 {
-    public function index(Book $books)
+    public function index(Book $books, BookFilter $filter)
     {
-        $books = $books->dataForAdminPanel()->paginate(25);
+        $books = $books->dataForAdminPanel()->filter($filter)->paginate(25)->withQueryString();
 
         return view('admin.books.index', compact('books'));
     }

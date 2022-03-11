@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\StoreAuthorRequest;
@@ -49,6 +50,11 @@ class Author extends Model implements SearchModelInterface
         }
         $this->about = $request->about;
         $this->save();
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
     }
 
     public function books()

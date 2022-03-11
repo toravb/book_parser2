@@ -58,11 +58,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->getRawOriginal('type') ?? 'books';
     }
 
-    public function getAuthorAttribute(): ?Author
-    {
-        return $this->authors[0] ?? null;
-    }
-
     public static function create($fields)
     {
         $book = new static();
@@ -82,12 +77,30 @@ class Book extends Model implements BookInterface, SearchModelInterface
         $this->meta_keywords = $request->meta_keywords;
         $this->alias_url = $request->alias_url ?? \Str::slug($request->title);
 
-        $this->link = '';
-        $this->params = '{}';
+        $this->links ?? $this->link = '';
+        $this->params ?? $this->params = '{}';
 
         $this->save();
 
-        $this->authors()->sync($request->author_id);
+        if($request->cover_image_remove and $this->image) {
+            \Storage::delete($this->image->link);
+            $this->image->delete();
+        }
+
+        if ($request->cover_image) {
+            if ($this->image) {
+                $image = $this->image;
+                \Storage::delete($image->link);
+            } else {
+                $image = new Image();
+            }
+
+            $image->link = \Storage::put('books-covers', $request->cover_image);
+
+            $this->image()->save($image);
+        }
+
+        $this->authors()->sync($request->authors_ids);
         $this->genres()->sync($request->genres_id);
     }
 
