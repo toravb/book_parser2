@@ -67,6 +67,18 @@
                 </label>
 
                 <label class="col-12 d-block">
+                    Обложка книги
+
+                    <input
+                        type="file"
+                        name="cover_image"
+                        class="form-control-file"
+                    >
+
+                    <x-error name="cover_image"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
                     Жанры книги
                     <x-genres-checkbox></x-genres-checkbox>
                 </label>
