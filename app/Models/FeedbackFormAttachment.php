@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 
-class FeedbackFormImage extends Model
+class FeedbackFormAttachment extends Model
 {
     public function toArray()
     {

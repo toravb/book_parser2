@@ -7,7 +7,7 @@ use App\Api\Services\ApiAnswerService;
 use App\AuthApi\Mails\FeedbackFormMail;
 use App\Http\Controllers\Controller;
 use App\Models\FeedbackForm;
-use App\Models\FeedbackFormImage;
+use App\Models\FeedbackFormAttachment;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -15,24 +15,12 @@ class FeedbackFormsController extends Controller
 {
     public function create(FeedbackFormRequest $request, FeedbackForm $form)
     {
-        $form->create($request);
+        $form->saveFromRequest($request);
 
-        $attachments = collect();
-        foreach ($request->attachments ?? [] as $file) {
-            $imageForm = new FeedbackFormImage();
-            $imageForm->feedback_form_id = $form->id;
-
-            $imageForm->create($file);
-
-            $attachments->add($imageForm);
-        }
-
-        Mail::to(config('mail.support'))->send(new FeedbackFormMail($form, $attachments));
-
+        Mail::to(config('mail.support'))->send(new FeedbackFormMail($form));
 
         return ApiAnswerService::successfulAnswerWithData([
             'form' => $form,
-            'attachments' => $attachments,
         ]);
     }
 }

@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFeedbackFormImagesTable extends Migration
+class CreateFeedbackFormAttachments extends Migration
 {
     public function up()
     {
-        Schema::create('feedback_form_images', function (Blueprint $table) {
+        Schema::create('feedback_form_attachments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('feedback_form_id')->constrained()->cascadeOnDelete();
             $table->string('file_name');
@@ -19,6 +19,6 @@ class CreateFeedbackFormImagesTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('feedback_form_images');
+        Schema::dropIfExists('feedback_form_attachments');
     }
 }

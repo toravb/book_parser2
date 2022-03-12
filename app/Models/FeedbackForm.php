@@ -16,17 +16,24 @@ class FeedbackForm extends Model
 
     public $fillable = ['name', 'email', 'subject', 'message'];
 
-    public function create(FeedbackFormRequest $request)
+    public function saveFromRequest(FeedbackFormRequest $request)
     {
         $this->email = $request->email;
         $this->name = $request->name;
         $this->subject = $request->subject;
         $this->message = $request->message;
         $this->save();
+
+        foreach ($request->attachments ?? [] as $attachment) {
+            $attachmentRow = new FeedbackFormAttachment();
+            $attachmentRow->feedback_form_id = $this->id;
+
+            $attachmentRow->create($attachment);
+        }
     }
 
-    public function images(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function attachments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(FeedbackFormImage::class);
+        return $this->hasMany(FeedbackFormAttachment::class);
     }
 }

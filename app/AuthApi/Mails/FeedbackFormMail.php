@@ -21,10 +21,10 @@ class FeedbackFormMail extends Mailable
      *
      * @return void
      */
-    public function __construct(FeedbackForm $form, Collection $formAttachments)
+    public function __construct(FeedbackForm $form)
     {
         $this->form = $form;
-        $this->formAttachments = $formAttachments;
+        $this->formAttachments = $form->attachments;
     }
 
     /**
@@ -39,7 +39,7 @@ class FeedbackFormMail extends Mailable
             ->view('emails.support_feedback');
 
         foreach ($this->formAttachments as $formAttachment) {
-            $mail->attach();
+            $mail->attachFromStorage($formAttachment->storage_path);
         }
 
         return $mail;
