@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
+use App\Api\Interfaces\SearchModelInterface;
+use App\Api\Traits\ElasticSearchTrait;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,23 +13,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class AudioBook extends Model implements BookInterface
+class AudioBook extends Model implements BookInterface, SearchModelInterface
 {
-    use HasFactory, Sluggable;
+    use HasFactory, Sluggable, ElasticSearchTrait;
 
     const WANT_LISTEN = '1';
     const LISTENING = '2';
     const HAD_LISTEN = '3';
+    const MAIN_PAGE_PAGINATE = 6;
 
     protected $fillable = [
         'title',
         'description',
         'params',
-        'genre_id',
         'series_id',
         'link_id',
         'litres'
     ];
+
+    protected $hidden = ['pivot'];
 
     public static array $availableListeningStatuses = [
         self::WANT_LISTEN,
@@ -39,11 +43,9 @@ class AudioBook extends Model implements BookInterface
         'type'
     ];
 
-    public function getTypeAttribute()
+    public function getTypeAttribute(): string
     {
-
-        return 'audioBooks';
-
+        return $this->getRawOriginal['type'] ?? 'audioBooks';
     }
 
     public function sluggable(): array
@@ -100,9 +102,9 @@ class AudioBook extends Model implements BookInterface
         );
     }
 
-    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(AudioGenre::class, 'genre_id', 'id');
+        return $this->belongsToMany(Genre::class);
     }
 
     public function series()
@@ -205,10 +207,8 @@ class AudioBook extends Model implements BookInterface
             'authors',
             'image',
             'genre',
-            'audioBookStatuses',
-
         ])
-            ->select('id', 'title', 'year_id', 'genre_id')
+            ->select('id', 'title', 'year_id')
             ->withCount('views')
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
@@ -235,15 +235,16 @@ class AudioBook extends Model implements BookInterface
             // Продолжительность файла
             // После, дописать доку
             ->where('id', $bookId)
-            ->select('id', 'title', 'description', 'year_id', 'genre_id', 'series_id', 'link_id')
+            ->select('id', 'title', 'description', 'year_id', 'series_id', 'link_id')
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
     }
+
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function($query){
+            ->with(['authors' => function ($query) {
                 return $query->select('name');
             }])
             ->select(['id', 'title'])
@@ -251,4 +252,93 @@ class AudioBook extends Model implements BookInterface
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
+    public function mainPagePaginateList()
+    {
+        $audioBookList = $this
+            ->select([
+                'id',
+                'title',
+                'link_id',
+            ])
+            ->with([
+                'authors:author',
+                'genre:id,name',
+                'image:book_id,link'
+            ])
+            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->withCount('views')
+            ->limit(20)
+            ->get();
+
+        $audioBookList->map(function ($compilation) {
+            if ($compilation->rates_avg === null) {
+                $compilation->rates_avg = 0;
+            }
+        });
+
+        return $audioBookList;
+    }
+
+    public function noveltiesBooks(): Builder
+    {
+        return $this
+            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id')
+            ->with([
+                'genre:id,name',
+                'authors:author',
+                'image:book_id,link',
+                'year:id,year'
+            ])
+            ->withCount('views')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->join('years', 'years.id', '=', 'audio_books.year_id');
+    }
+
+    public function baseSearchQuery(): Builder
+    {
+        return $this->getBook();
+    }
+
+    public function getElasticKey()
+    {
+        return $this->getKey();
+    }
+
+    public function getForAdmin()
+    {
+        return $this
+            ->select(
+                'audio_books.id',
+                'audio_books.active',
+                'audio_books.title',
+                'audio_books.year_id'
+            )
+            ->with([
+                'image:book_id,link',
+                'genre:id,name',
+                'authors:author',
+                'year:id,year'
+            ]);
+    }
+
+    public function storeAudioBooksByAdmin(
+        int $status,
+        string $title,
+        string $description,
+//        int $genre,
+//        int $series,
+//        int $yearId
+    )
+    {
+        $book = $this->create([
+            'active' => $status,
+            'title' => $title,
+            'description' => $description,
+            'genre_id' => $genre,
+            'series_id' => $series,
+            'year_id' => $yearId
+        ]);
+
+        return $book->id;
+    }
 }

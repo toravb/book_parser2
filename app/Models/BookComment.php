@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,6 +14,7 @@ class BookComment extends Model
         'user_id',
         'book_id',
         'content',
+        'parent_comment_id'
     ];
 
     public function users()
@@ -22,10 +24,26 @@ class BookComment extends Model
 
     public function books()
     {
-        return $this->belongsTo(Book::class);
+        return $this->belongsTo(Book::class, 'book_id', 'id');
     }
 
+    public function notifications()
+    {
+        return $this->morphMany(Notification::class, 'notificationable');
+    }
 
+    public static function getNotificationComment(int $commentId)
+    {
+        return self::with([
+            'books' => function ($query) {
+                return $query->select('id', 'title');
+            }
+        ])
+            ->findOrFail($commentId);
+    }
 
-
+    public function getBookObject()
+    {
+        return $this->books;
+    }
 }

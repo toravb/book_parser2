@@ -2,13 +2,18 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
+use App\Api\Interfaces\SearchModelInterface;
+use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\StoreAuthorRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 
-class Author extends Model
+class Author extends Model implements SearchModelInterface
 {
-    use HasFactory, HasRelationships;
+    use HasFactory, HasRelationships, ElasticSearchTrait;
 
     public $timestamps = false;
 
@@ -35,6 +40,22 @@ class Author extends Model
         $this->save();
     }
 
+    public function saveFromRequest(StoreAuthorRequest $request)
+    {
+        $this->author = $request->author;
+        if($request->avatar) {
+            if($this->avatar) \Storage::delete($this->avatar);
+
+            $this->avatar = \Storage::put('authors', $request->avatar);
+        }
+        $this->about = $request->about;
+        $this->save();
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
 
     public function books()
     {
@@ -204,5 +225,20 @@ class Author extends Model
             ->get();
     }
 
+    public function toSearchArray(): array
+    {
+        return [
+            'title' => $this->author
+        ];
+    }
 
+    public function baseSearchQuery(): Builder
+    {
+        return $this->select('id', 'author', 'avatar')->withCount(['books', 'audioBooks']);
+    }
+
+    public function getElasticKey()
+    {
+        return $this->getKey();
+    }
 }

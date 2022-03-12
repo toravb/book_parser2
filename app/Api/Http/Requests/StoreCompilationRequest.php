@@ -26,7 +26,7 @@ class StoreCompilationRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'=>['required', 'string', 'min:8', 'max:255',
+            'title'=>['required', 'string', 'min:8', 'max:100',
                 Rule::unique('compilations')->where(function ($query) {
                     return $query->where('created_by', Auth::id());
                 })],

@@ -9,7 +9,13 @@ class AudioAuthor extends Model
 {
     use HasFactory;
 
-    protected $table = ['authors'];
+    public $timestamps = false;
+
+    protected $table = 'authors';
+
+    protected $fillable = [
+        'author'
+    ];
 
     public static function create($fields){
         $author = new static();

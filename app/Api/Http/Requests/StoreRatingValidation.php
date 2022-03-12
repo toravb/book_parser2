@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Requests;
 
+use App\Models\Rate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
@@ -26,13 +27,13 @@ class StoreRatingValidation extends FormRequest
     public function rules()
     {
         return [
-            'book_id' => ['required', 'integer', 'exists:books,id',
-                Rule::unique('rates')->where(function ($query) {
-                return $query->where('user_id', Auth::id());
-            })],
+            'book_id' => [
+                'required',
+                'integer', '
+                exists:books,id',
+                Rule::unique(Rate::class, 'id')
+            ],
             'rating' => ['required', 'numeric', 'between:1,5'],
-
-
         ];
     }
 }

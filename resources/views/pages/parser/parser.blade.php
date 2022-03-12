@@ -23,7 +23,7 @@
         @endif
 
             <div class="form-container">
-                <form class="form-horizontal" method="post" action="{{route('parser.parse.links')}}">
+                <form class="form-horizontal" method="post" action="{{route('admin.parser.parse.links')}}">
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
@@ -61,7 +61,7 @@
             </div>
 
             <div class="form-container">
-                <form class="form-horizontal" method="post" action="{{route('parser.parse.books')}}">
+                <form class="form-horizontal" method="post" action="{{route('admin.parser.parse.books')}}">
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
@@ -105,7 +105,7 @@
             </div>
 
             <div class="form-container">
-                <form class="form-horizontal" method="post" action="{{route('parser.parse.pages')}}">
+                <form class="form-horizontal" method="post" action="{{route('admin.parser.parse.pages')}}">
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">
@@ -148,7 +148,7 @@
                 @endforeach
             </div>
             <div class="form-container">
-                <form class="form-horizontal" method="post" action="{{route('parser.parse.images')}}">
+                <form class="form-horizontal" method="post" action="{{route('admin.parser.parse.images')}}">
                     {{ csrf_field() }}
                     <div class="box-body">
                         <div class="form-group">

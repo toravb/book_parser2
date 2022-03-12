@@ -13,7 +13,7 @@
                 {{session('error')}}
             </div>
         @endif
-        <form class="form-horizontal profile" method="post" action="{{route('add.authdata')}}">
+        <form class="form-horizontal profile" method="post" action="{{route('admin.add.authdata')}}">
             {{ csrf_field() }}
             <div class="box-body">
                 <label for="inputLogin" class="col-sm-2 control-label">Данные от аккаунта fineproxy</label>
@@ -36,6 +36,6 @@
             </div>
             <!-- /.box-footer -->
         </form>
-        <a type="button" class="btn btn-block btn-outline-secondary btn-lg parse-proxy profile" href="{{route('parser.parse.proxy')}}">Парсить proxy</a>
+        <a type="button" class="btn btn-block btn-outline-secondary btn-lg parse-proxy profile" href="{{route('admin.parser.parse.proxy')}}">Парсить proxy</a>
     </div>
 @endsection

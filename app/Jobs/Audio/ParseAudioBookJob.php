@@ -13,6 +13,7 @@ use App\Models\AudioParsingStatus;
 use App\Models\AudioReader;
 use App\Models\AudioReadersToBook;
 use App\Models\AudioSeries;
+use App\Models\Genre;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -53,21 +54,34 @@ class ParseAudioBookJob implements ShouldQueue
         $readers = [];
         $genre = null;
         $series = null;
-        foreach ($data['authors'] as $author) {
-            $author_id = AudioAuthor::firstOrCreate(['name' => $author])->id;
+        foreach ($data['authors'] as $c_author) {
+            $author = AudioAuthor::query()->where('author', '=', $c_author)->first();
+            if ($author == null){
+                $author = AudioAuthor::create(['author' => $c_author]);
+            }
+            $author_id = $author->id;
             $authors[] = [
                 'author_id' => $author_id,
             ];
         }
-        foreach ($data['readers'] as $reader) {
-            $reader_id = AudioReader::firstOrCreate(['name' => $reader])->id;
+        foreach ($data['readers'] as $c_reader) {
+            $reader = AudioReader::query()->where('name', '=', $c_reader)->first();
+            if ($reader == null){
+                $reader = AudioReader::create(['name' => $c_reader]);
+            }
+            $reader_id = $reader->id;
             $readers[] = [
                 'reader_id' => $reader_id,
             ];
         }
-        $genre = AudioGenre::firstOrCreate(['name' => $data['genre']])->id;
+        $genre = Genre::firstOrCreate(['name' => $data['genre']]);
+        $genre = $genre->id;
         if ($data['series']) {
-            $series = AudioSeries::firstOrCreate(['name' => $data['series']])->id;
+            $series = AudioSeries::query()->where('name', '=', $data['series'])->first();
+            if ($series == null){
+                $series = AudioSeries::create(['name' => $data['series']]);
+            }
+            $series = $series->id;
         }
         if ($book == null) {
             $book = $url->book()->create([
@@ -134,7 +148,7 @@ class ParseAudioBookJob implements ShouldQueue
                         return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
                     }, $link['title']);
                 }
-                $audio = $book->audiobook()->where(['index' => $index])->first();
+                $audio = $book->audiobook()->where('index', '=', $index)->first();
                 if ($audio == null){
                     $book->audiobook()->create([
                         'link' => str_replace('\\', '', $link['url']),

@@ -11,13 +11,13 @@ class NewNotificationEvent
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     const LIKED_COMMENT = 'liked_comment';
-    const ANSWER_ON_COMMENT = 'answer_on_comment';
-    const ALSO_COMMENTED = 'also_commented';
+    const ANSWER_ON_COMMENT_AND_ALSO_COMMENTED = 'answer_on_comment_and_also_commented';
+
     public string $type;
     public int $notificationableId;
     public int $userId;
 
-    public function __construct(string $type, int $notificationableId, int $userId)
+    public function __construct(string $type, public string $notificationableType, int $notificationableId, int $userId)
     {
         $this->type = $type;
         $this->notificationableId = $notificationableId;

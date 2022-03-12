@@ -14,18 +14,23 @@ use App\Api\Http\Controllers\CompilationController;
 use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\FeedbackFormsController;
 use App\Api\Http\Controllers\LikeController;
+use App\Api\Http\Controllers\MainPageController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
+use App\Api\Http\Controllers\SocialNetworksController;
 use App\Api\Http\Controllers\UserAuthorsController;
+use App\Api\Http\Controllers\UserController;
 use App\Api\Http\Controllers\UsersRecommendationsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
+use App\Api\Http\Controllers\NotificationController;
+use App\Api\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -56,7 +61,18 @@ Route::group(['middleware' => 'guest'], function () {
 /*
  * -------
  */
+/**
+ * Main Page
+ */
+Route::get('/home', [MainPageController::class, 'home']);
 
+Route::get('/novelties', [BookController::class, 'novelties']);
+
+/**
+ * Profile social networks
+ */
+Route::get('/profile/auth/{provider}', [SocialNetworksController::class, 'redirectToGoogle']);
+Route::get('/profile/auth/{provider}/callback', [SocialNetworksController::class, 'handleGoogleCallback']);
 
 Route::middleware('auth:api')->group(function () {
 
@@ -64,6 +80,11 @@ Route::middleware('auth:api')->group(function () {
      * User and profile
      */
     Route::group(['prefix' => 'profile'], function () {
+
+        //Social networks
+        Route::get('/temp_token', [SocialNetworksController::class, 'getTempToken']);
+
+
         Route::get('/', [ProfileController::class, 'profile']);
 
         Route::post('/', [ProfileController::class, 'update']);
@@ -94,6 +115,9 @@ Route::middleware('auth:api')->group(function () {
      * -----------
      */
 
+    Route::get('/users/user_id', [UserController::class, 'getUserId']);
+
+
 
     /**
      * Likes
@@ -116,7 +140,7 @@ Route::middleware('auth:api')->group(function () {
      * Comments
      */
     Route::group(['prefix' => 'comments'], function () {
-        Route::put('/', [CommentController::class, 'saveChangeComment']);
+        Route::post('/', [CommentController::class, 'saveComment']);
     });
 
     /*
@@ -147,6 +171,12 @@ Route::middleware('auth:api')->group(function () {
     Route::group(['prefix' => 'bookmarks'], function () {
         Route::post('/', [BookmarksController::class, 'create']);
         Route::delete('/{bookmark}', [BookmarksController::class, 'destroy']);
+    });
+    /**
+     * Notifications
+     */
+    Route::group(['prefix' => 'notifications'], function () {
+        Route::get('/', [NotificationController::class, 'get']);
     });
 });
 
@@ -259,3 +289,8 @@ Route::group(['prefix' => 'audio-books'], function () {
  */
 Route::post('/support', [FeedbackFormsController::class, 'create']);
 Route::post('/claim', [ClaimFormsController::class, 'create']);
+
+/**
+ * Search
+ */
+Route::get('/search', [SearchController::class, 'search']);

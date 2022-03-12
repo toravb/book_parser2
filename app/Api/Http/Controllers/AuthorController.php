@@ -14,7 +14,7 @@ class AuthorController extends Controller
     public function showByLetter(GetByLetterRequest $request, Author $authors): \Illuminate\Http\JsonResponse
     {
         $authors = $authors->select(['id', 'author'])
-            ->where('author', 'like', $request->letter . '%')->get();
+            ->where('author', 'like', $request->letter . '%')->paginate(300);
 
         return ApiAnswerService::successfulAnswerWithData($authors);
     }

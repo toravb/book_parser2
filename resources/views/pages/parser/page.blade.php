@@ -32,7 +32,7 @@
                     <tr>
 
                         <td><img src="{{$path}}" alt=""></td>
-                        <td><a href="{{route('books.item', ['id' => $book->id])}}">{{$book->title}}</a></td>
+                        <td><a href="{{route('admin.books.item', ['id' => $book->id])}}">{{$book->title}}</a></td>
                         <td>
                             @if($book->series)
                                 {{$book->series->series}}

@@ -28,6 +28,17 @@ class ApiAnswerService
         ], $status);
     }
 
+    public static function redirect(string $route): \Illuminate\Http\JsonResponse
+    {
+        return \response()->json([
+            'status' => 'success',
+            'data' => [
+                'action' => 'redirect',
+                'route' => $route
+            ]
+        ], 200);
+    }
+
     public static function errorAnswer($message, $status = null): \Illuminate\Http\JsonResponse
     {
         if ($status === null) {

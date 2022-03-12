@@ -8,12 +8,19 @@ interface Types
 
     public function getLikeTypes(): array;
 
+    public function getLikeModelTypes(): array;
+
     public function getBookTypes(): array;
 
     public function getNotificationTypes(): array;
+
+    public function getNotificationHandleObjects(): array;
 
     public function getReviewTypes(): array;
 
     public function getRecommendTypes(): array;
 
+    public function getSearchableTypes(): array;
+
+    public function getSearchableRepositories(): array;
 }

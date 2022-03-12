@@ -17,7 +17,7 @@ class Rate extends Model
         'rating'
     ];
 
-    public function store(int $userId, int $bookId, float $rating)
+    public function store($userId, $bookId, $rating)
     {
         $this->user_id = $userId;
         $this->book_id = $bookId;
@@ -25,7 +25,7 @@ class Rate extends Model
         $this->save();
     }
 
-    public function storeAudioBookRating(int $userId, int $audioBookId, float $rating)
+    public function storeAudioBookRating($userId, $audioBookId, $rating)
     {
         $this->user_id = $userId;
         $this->audio_book_id = $audioBookId;
