@@ -2,19 +2,20 @@
 
 namespace App\AuthApi\Mails;
 
+use App\Models\ClaimForm;
 use App\Models\FeedbackForm;
 
 
 class ClaimFormMail extends \Illuminate\Mail\Mailable
 {
-    public FeedbackForm $form;
+    public ClaimForm $form;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(FeedbackForm $form)
+    public function __construct(ClaimForm $form)
     {
         $this->form = $form;
     }

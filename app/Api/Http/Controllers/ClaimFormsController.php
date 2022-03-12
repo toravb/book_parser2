@@ -12,11 +12,11 @@ use Illuminate\Support\Facades\Mail;
 
 class ClaimFormsController extends Controller
 {
-    public function create(ClaimFormRequest $request, ClaimForm $form)
+    public function store(ClaimFormRequest $request, ClaimForm $form)
     {
         $form->create($request);
 
-       // Mail::to(config('mail.support'))->send(new ClaimFormMail($form));
+        Mail::to(config('mail.support'))->send(new ClaimFormMail($form));
 
         return ApiAnswerService::successfulAnswerWithData($form);
     }

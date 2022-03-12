@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Mail;
 
 class FeedbackFormsController extends Controller
 {
-    public function create(FeedbackFormRequest $request, FeedbackForm $form)
+    public function store(FeedbackFormRequest $request, FeedbackForm $form)
     {
         $form->saveFromRequest($request);
 

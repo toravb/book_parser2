@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Api\Http\Requests\ClaimFormRequest;
-use App\Api\Http\Requests\FeedbackFormRequest;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,8 +10,16 @@ class ClaimForm extends Model
 {
     use HasFactory;
 
-    public $fillable = [ 'subject', 'link_source', 'link_content', 'name', 'email',
-        'agreement', 'copyright_holder', 'interaction'];
+    public $fillable = [
+        'subject',
+        'link_source',
+        'link_content',
+        'name',
+        'email',
+        'agreement',
+        'copyright_holder',
+        'interaction'
+    ];
 
     public function create(ClaimFormRequest $request)
     {
@@ -26,5 +33,4 @@ class ClaimForm extends Model
         $this->interaction = $request->interaction;
         $this->save();
     }
-
 }

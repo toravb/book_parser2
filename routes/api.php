@@ -287,8 +287,8 @@ Route::group(['prefix' => 'audio-books'], function () {
 /*
  * -------
  */
-Route::post('/support', [FeedbackFormsController::class, 'create']);
-Route::post('/claim', [ClaimFormsController::class, 'create']);
+Route::post('/support', [FeedbackFormsController::class, 'store']);
+Route::post('/claim', [ClaimFormsController::class, 'store']);
 
 /**
  * Search
