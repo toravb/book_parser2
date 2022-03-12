@@ -6378,7 +6378,7 @@
             }
           }
         },
-        "operationId": "get-books-id-chapters"
+        "operationId": "get-books-book-bookmarks"
       }
     },
     "/books/{id}/read": {
@@ -10937,7 +10937,7 @@
             }
           }
         },
-        "operationId": "get-compilations-id",
+        "operationId": "get-compilations-by-user",
         "tags": [
           "Compilations"
         ]
@@ -15628,6 +15628,423 @@
       },
       "parameters": []
     },
+    "/support": {
+      "post": {
+        "summary": "Create feedback form",
+        "operationId": "post-support",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "form": {
+                          "type": "object",
+                          "properties": {
+                            "email": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "name": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "subject": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "message": {},
+                            "updated_at": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "created_at": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "id": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "email",
+                            "name",
+                            "subject",
+                            "updated_at",
+                            "created_at",
+                            "id"
+                          ]
+                        },
+                        "attachments": {
+                          "type": "array",
+                          "minItems": 1,
+                          "items": {
+                            "required": [
+                              "feedback_form_id",
+                              "file_name",
+                              "storage_path",
+                              "updated_at",
+                              "created_at",
+                              "id"
+                            ],
+                            "properties": {
+                              "feedback_form_id": {
+                                "type": "number"
+                              },
+                              "file_name": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "storage_path": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "id": {
+                                "type": "number"
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "required": [
+                        "form",
+                        "attachments"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "form": {
+                          "email": "test@mail.com",
+                          "name": "test",
+                          "subject": "theme",
+                          "message": null,
+                          "updated_at": "2022-02-15T13:11:18.000000Z",
+                          "created_at": "2022-02-15T13:11:18.000000Z",
+                          "id": 22
+                        },
+                        "attachments": [
+                          {
+                            "feedback_form_id": 22,
+                            "file_name": "0dfea143ecec4dc4001d586001256c2e.jpg",
+                            "storage_path": "http://bookparse/storage/support-feedback-attachments/XT1DQ1mxCtapZOWXZAn7JirJ7KmPvMlRLXUXIR5U.jpg",
+                            "updated_at": "2022-02-15T13:11:18.000000Z",
+                            "created_at": "2022-02-15T13:11:18.000000Z",
+                            "id": 9
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "form": {
+                          "email": "test@mail.com",
+                          "name": "test",
+                          "subject": "theme",
+                          "message": null,
+                          "updated_at": "2022-02-15T13:11:18.000000Z",
+                          "created_at": "2022-02-15T13:11:18.000000Z",
+                          "id": 22
+                        },
+                        "attachments": [
+                          {
+                            "feedback_form_id": 22,
+                            "file_name": "0dfea143ecec4dc4001d586001256c2e.jpg",
+                            "storage_path": "http://bookparse/storage/support-feedback-attachments/XT1DQ1mxCtapZOWXZAn7JirJ7KmPvMlRLXUXIR5U.jpg",
+                            "updated_at": "2022-02-15T13:11:18.000000Z",
+                            "created_at": "2022-02-15T13:11:18.000000Z",
+                            "id": 9
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "subject": {
+                    "type": "string"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "attachments": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
+                },
+                "required": [
+                  "subject",
+                  "name",
+                  "email",
+                  "message"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    },
+    "/claim": {
+      "post": {
+        "summary": "Create claim form",
+        "operationId": "post-claim",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "subject": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "link_source": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "link_content": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "name": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "email": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "agreement": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "copyright_holder": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "interaction": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "id": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "subject",
+                        "link_source",
+                        "link_content",
+                        "name",
+                        "email",
+                        "agreement",
+                        "copyright_holder",
+                        "interaction",
+                        "updated_at",
+                        "created_at",
+                        "id"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "subject": "theme",
+                        "link_source": "qwer",
+                        "link_content": "qwer",
+                        "name": "test",
+                        "email": "test@mail.com",
+                        "agreement": "1",
+                        "copyright_holder": "1",
+                        "interaction": "1",
+                        "updated_at": "2022-02-16T12:05:23.000000Z",
+                        "created_at": "2022-02-16T12:05:23.000000Z",
+                        "id": 1
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "subject": "theme",
+                        "link_source": "qwer",
+                        "link_content": "qwer",
+                        "name": "test",
+                        "email": "test@mail.com",
+                        "agreement": "1",
+                        "copyright_holder": "1",
+                        "interaction": "1",
+                        "updated_at": "2022-02-16T12:05:23.000000Z",
+                        "created_at": "2022-02-16T12:05:23.000000Z",
+                        "id": 1
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)"
+          }
+        },
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "subject": "theme",
+                    "link_source": "qwer",
+                    "link_content": "qwer",
+                    "name": "test",
+                    "email": "test@mail.com",
+                    "agreement": "1",
+                    "copyright_holder": "1",
+                    "interaction": "1",
+                    "updated_at": "2022-02-16T12:05:23.000000Z",
+                    "created_at": "2022-02-16T12:05:23.000000Z",
+                    "id": 1
+                  }
+                },
+                "properties": {
+                  "subject": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "link_source": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "link_content": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "email": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "agreement": {
+                    "type": "boolean"
+                  },
+                  "copyright_holder": {
+                    "type": "boolean"
+                  },
+                  "interaction": {
+                    "type": "boolean"
+                  },
+                  "updated_at": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "created_at": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "subject",
+                  "link_source",
+                  "name",
+                  "link_content",
+                  "email",
+                  "agreement",
+                  "copyright_holder",
+                  "interaction",
+                  "updated_at",
+                  "created_at"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "parameters": []
+    },
     "/bookmarks/{id}": {
       "parameters": [
         {
@@ -15682,7 +16099,7 @@
         ]
       }
     },
-    "search": {
+    "/search": {
       "get": {
         "summary": "Search pages",
         "tags": [],
@@ -18439,6 +18856,9 @@
     },
     {
       "name": "Compilations"
+    },
+    {
+      "name": "Feedback Forms"
     },
     {
       "name": "Genres"
