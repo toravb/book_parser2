@@ -190,17 +190,17 @@ Route::group(['prefix' => 'genres'], function () {
 });
 
 /**
- * Get comments
+ * Get comments by type
  */
 Route::group(['prefix' => 'comments'], function () {
-    Route::get('/books/{id}', [CommentController::class, 'getComments']);
+    Route::get('/{type}/{id}', [CommentController::class, 'getComments']);
     Route::get('/{id}', [CommentController::class, 'getCommentsOnComment']);
 });
 
 /**
- * Get reviews
+ * Get reviews by model type
  */
-Route::get('/books/{id}/reviews', [ReviewController::class, 'getReviews']);
+Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);
 
 
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);

@@ -47,10 +47,10 @@ class AudioBookComment extends Model implements CommentInterface
         return $this->audioBook;
     }
 
-    public function getComments(int $bookId, int $paginate)
+    public function getComments(int $typeId, int $paginate)
     {
         return $this
-            ->where('audio_book_id', $bookId)
+            ->where('audio_book_id', $typeId)
             ->whereNull('parent_comment_id')
             ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,avatar,nickname')

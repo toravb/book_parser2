@@ -4889,13 +4889,11 @@
         }
       ]
     },
-    "/books/{id}/reviews": {
+    "/{type}/{id}/reviews": {
       "get": {
-        "summary": "Show book reviews",
+        "summary": "Show reviews by type",
         "tags": [
-          "Book",
-          "Comments",
-          "Audio Books"
+          "Reviews"
         ],
         "responses": {
           "200": {
@@ -5222,20 +5220,7 @@
           }
         },
         "operationId": "get-books-id-reviews",
-        "parameters": [
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "book",
-                "audio_book"
-              ]
-            },
-            "in": "query",
-            "name": "type",
-            "required": true
-          }
-        ],
+        "parameters": [],
         "description": ""
       },
       "parameters": [
@@ -5247,16 +5232,26 @@
           "in": "path",
           "required": true,
           "description": "type id"
+        },
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "book",
+              "audio_book"
+            ]
+          },
+          "name": "type",
+          "in": "path",
+          "required": true
         }
       ]
     },
-    "/comments/books/{id}": {
+    "/comments/{type}/{id}": {
       "get": {
-        "summary": "Show book comments",
+        "summary": "Show comments by model type",
         "tags": [
-          "Book",
-          "Comments",
-          "Audio Books"
+          "Comments"
         ],
         "responses": {
           "200": {
@@ -5544,18 +5539,6 @@
         "parameters": [
           {
             "schema": {
-              "type": "string",
-              "enum": [
-                "book",
-                "audio_book"
-              ]
-            },
-            "in": "query",
-            "name": "type",
-            "required": true
-          },
-          {
-            "schema": {
               "type": "integer",
               "minimum": 1,
               "maximum": 10,
@@ -5589,16 +5572,28 @@
           "in": "path",
           "required": true,
           "description": "type id"
+        },
+        {
+          "schema": {
+            "type": "string",
+            "enum": [
+              "book",
+              "audio_book",
+              "book_review",
+              "audio_review"
+            ]
+          },
+          "name": "type",
+          "in": "path",
+          "required": true
         }
       ]
     },
     "/comments/{id}": {
       "get": {
-        "summary": "Show book comments on comments",
+        "summary": "Show comments on comments by model type",
         "tags": [
-          "Book",
-          "Comments",
-          "Audio Books"
+          "Comments"
         ],
         "responses": {
           "200": {
@@ -5889,7 +5884,9 @@
               "type": "string",
               "enum": [
                 "book",
-                "audio_book"
+                "audio_book",
+                "book_review",
+                "audio_review"
               ]
             },
             "in": "query",

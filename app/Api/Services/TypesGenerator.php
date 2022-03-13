@@ -10,12 +10,16 @@ class TypesGenerator implements Types
 {
     protected $commentTypes = [
         'book' => 'App\\Models\\BookComment',
-        'audio_book' => 'App\\Models\\AudioBookComment'
+        'audio_book' => 'App\\Models\\AudioBookComment',
+        'book_review' => 'App\\Models\\BookReviewComment',
+        'audio_review' => 'App\\Models\\AudioBookReviewComment',
     ];
 
     protected $commentModelTypes = [
         'book' => 'App\\Models\\Book',
-        'audio_book' => 'App\\Models\\AudioBook'
+        'audio_book' => 'App\\Models\\AudioBook',
+        'book_review' => 'App\\Models\\BookReview',
+        'audio_review' => 'App\\Models\\AudioBookReview',
     ];
 
     protected $likeTypes = [
