@@ -336,7 +336,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'bookGenres:name',
             'year',
             'publishers:publisher',
-            'reviews',
             'quotes'])
             ->where('id', $bookId)
             ->select('id', 'title', 'text', 'year_id')
