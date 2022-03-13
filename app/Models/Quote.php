@@ -8,6 +8,9 @@ use App\Api\Http\Requests\ShowQuotesRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Quote extends Model
 {
@@ -16,6 +19,17 @@ class Quote extends Model
     const SHOW_BY_BOOK_AND_AUTHOR = '1';
     const SHOW_BY_BOOK = '2';
     const SHOW_BY_AUTHOR = '3';
+    const QUOTES_PER_PAGE = 3;
+
+    protected $appends = [
+        'type'
+    ];
+
+    public function getTypeAttribute(): string
+    {
+        return $this->getRawOriginal['type'] ?? 'quotes';
+    }
+
 
     public function user()
     {
@@ -25,6 +39,17 @@ class Quote extends Model
     public function book()
     {
         return $this->belongsTo(Book::class);
+    }
+
+    public function views(): HasMany
+    {
+        return $this->hasMany(View::class, 'viewable_id', 'id')
+            ->where('viewable_type', $this->getTypeAttribute());
+    }
+
+    public function likes(): HasMany
+    {
+        return $this->hasMany(QuoteLike::class);
     }
 
     public function store(int $userId, SaveQuotesRequest $request)
@@ -65,6 +90,16 @@ class Quote extends Model
         return $this->where('user_id', $userId)
             ->where('id', $quoteId)
             ->delete();
+    }
+
+    public function getQuotesForBookPage(int $bookId)
+    {
+        return $this
+            ->select('id', 'user_id', 'book_id', 'content', 'updated_at')
+            ->where('book_id', $bookId)
+            ->with('user:id,avatar,nickname')
+            ->withCount('likes','views')
+            ->paginate(self::QUOTES_PER_PAGE);
     }
 
 }

@@ -233,6 +233,9 @@ Route::group(['prefix' => 'books'], function () {
     Route::get('/{book}/chapters', [ChaptersController::class, 'showBookChapters']);
     Route::get('/{id}/read', [BookController::class, 'readBook']);
 
+    //Get quotes
+    Route::get('/{id}/quotes', [QuoteController::class, 'getQuotesForBookPage']);
+
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/{book}/bookmarks', [BookController::class, 'getBookmarks']);
 

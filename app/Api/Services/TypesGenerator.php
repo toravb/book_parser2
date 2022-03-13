@@ -28,7 +28,8 @@ class TypesGenerator implements Types
         'book_comment' => 'App\\Api\\Models\\BookCommentLike',
         'audio_book_comment' => 'App\\Api\\Models\\AudioBookCommentLike',
         'book_review' => 'App\\Models\\BookReviewLike',
-        'audio_book_review' => 'App\\Models\\AudioBookReviewLike'
+        'audio_book_review' => 'App\\Models\\AudioBookReviewLike',
+        'quote' => 'App\\Models\\QuoteLike'
     ];
 
     protected $likeModelTypes = [
@@ -37,7 +38,8 @@ class TypesGenerator implements Types
         'book_comment' => 'App\\Models\\BookComment',
         'audio_book_comment' => 'App\\Models\\AudioBookComment',
         'book_review' => 'App\\Models\\BookReview',
-        'audio_book_review' => 'App\\Models\\AudioBookReview'
+        'audio_book_review' => 'App\\Models\\AudioBookReview',
+        'quote' => 'App\\Models\\Quote'
     ];
 
     protected $compilationsBookTypes = [
@@ -84,7 +86,8 @@ class TypesGenerator implements Types
         QueryFilter::TYPE_BOOK => 'App\Models\Book',
         QueryFilter::TYPE_AUDIO_BOOK => 'App\Models\AudioBook',
         'compilation' => 'App\\Models\\Compilation',
-        'review' => 'App\\Models\\BookReview'
+        'review' => 'App\\Models\\BookReview',
+        'quotes' => 'App\\Models\\Quotes'
     ];
 
     protected array $searchableTypes = [

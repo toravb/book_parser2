@@ -82,7 +82,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
         $this->save();
 
-        if($request->cover_image_remove and $this->image) {
+        if ($request->cover_image_remove and $this->image) {
             \Storage::delete($this->image->link);
             $this->image->delete();
         }
@@ -335,8 +335,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             },
             'bookGenres:name',
             'year',
-            'publishers:publisher',
-            'quotes'])
+            'publishers:publisher'])
             ->where('id', $bookId)
             ->select('id', 'title', 'text', 'year_id')
             ->withCount(['rates', 'bookLikes', 'comments', 'reviews', 'quotes', 'views'])
