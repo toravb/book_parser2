@@ -6,7 +6,7 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
-use Cviebrock\EloquentSluggable\Sluggable;
+use App\Http\Requests\StoreAudioBookRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
 {
-    use HasFactory, Sluggable, ElasticSearchTrait;
+    use HasFactory, ElasticSearchTrait;
 
     const WANT_LISTEN = '1';
     const LISTENING = '2';
@@ -48,15 +48,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->getRawOriginal['type'] ?? 'audioBooks';
     }
 
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
-    }
-
     public static function create($fields)
     {
         $book = new static();
@@ -64,6 +55,22 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         $book->save();
 
         return $book;
+    }
+
+    public function saveFromRequest(StoreAudioBookRequest $request)
+    {
+        $this->title = $request->title;
+        $this->description = $request->description;
+        $this->year_id = $request->year_id;
+        $this->genre_id = $request->genre_id;
+        $this->meta_description = $request->meta_description;
+        $this->meta_keywords = $request->meta_keywords;
+        $this->alias_url = $request->alias_url ?? \Str::slug($request->title);
+        $this->active = $request->active;
+
+        $this->save();
+
+        $this->authors()->sync($request->authors_ids);
     }
 
     public function images()
@@ -102,9 +109,9 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         );
     }
 
-    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Genre::class);
+        return $this->belongsTo(Genre::class);
     }
 
     public function series()
@@ -116,16 +123,9 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         );
     }
 
-    public function authors()
+    public function authors(): BelongsToMany
     {
-        return $this->hasManyThrough(
-            Author::class,
-            AuthorsToAudioBook::class,
-            'book_id',
-            'id',
-            'id',
-            'author_id'
-        );
+        return $this->belongsToMany(Author::class, AuthorsToAudioBook::class, 'book_id');
     }
 
     public function actors()
@@ -311,12 +311,12 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
                 'audio_books.id',
                 'audio_books.active',
                 'audio_books.title',
-                'audio_books.year_id'
+                'audio_books.year_id',
+                'audio_books.genre_id'
             )
             ->with([
-                'image:book_id,link',
                 'genre:id,name',
-                'authors:author',
+                'authors:id,author',
                 'year:id,year'
             ]);
     }

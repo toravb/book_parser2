@@ -5,7 +5,7 @@
     @endif
     data-key="{{$key??'id'}}"
     data-text-field="{{$textField}}"
-    data-pagination="{{$pagination ?? true}}"
+    data-pagination="{{$pagination ?? $route ?? false}}"
     name="{{$name}}"
     style="width: 100%;"
     @class(['form-control', 'is-invalid' => $errors->has($name)])

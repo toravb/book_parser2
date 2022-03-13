@@ -1,40 +1,45 @@
 <x-layouts.admin-layout>
 
-    <x-slot name="title">Добавление книги</x-slot>
+    <x-slot name="title">Редактировать аудио книгу "{{$audioBook->title}}"</x-slot>
 
     <form
-        action="{{route('admin.books.store')}}"
+        action="{{route('admin.audio-books.update', $audioBook)}}"
         method="post"
         enctype="multipart/form-data"
         class="card"
     >
 
         @csrf
+        @method('PUT')
+        <input type="hidden" name="id" value="{{$audioBook->id}}">
 
         <div class="card-body">
             <label class="col-12 d-block">
-                Название книги
+                Название аудио книги
                 <input
                     required
                     type="text"
                     name="title"
-                    value="{{old('title')}}"
+                    value="{{$audioBook->title}}"
                     @class(['form-control', 'is-invalid' => $errors->has('title')])
-                    placeholder="Название книги"
                 >
 
                 <x-error name="title"></x-error>
             </label>
 
             <label class="col-12 d-block">
-                Автор книги
+                Автор аудио книги
                 <x-select2
                     required
                     multiple
                     :route="route('admin.authors.index')"
                     text-field="author"
                     name="authors_ids[]"
-                ></x-select2>
+                >
+                    @foreach($audioBook->authors as $author)
+                        <option value="{{$author->id}}" selected>{{$author->author}}</option>
+                    @endforeach
+                </x-select2>
 
                 <x-error name="authors_ids"></x-error>
             </label>
@@ -47,6 +52,7 @@
                     text-field="year"
                     name="year_id"
                 >
+                    <option value="{{$audioBook->year->id}}" selected>{{$audioBook->year->year}}</option>
                 </x-select2>
 
                 <x-error name="author_id"></x-error>
@@ -56,28 +62,26 @@
                 Описание
                 <textarea
                     rows="5"
-                    name="text"
-                        @class(['form-control', 'is-invalid' => $errors->has('text')])
-                    >{{old('text')}}</textarea>
+                    name="description"
+                        @class(['form-control', 'is-invalid' => $errors->has('description')])
+                    >{{$audioBook->description}}</textarea>
 
-                <x-error name="text"></x-error>
+                <x-error name="description"></x-error>
             </label>
 
             <label class="col-12 d-block">
-                Обложка книги
+                Жанр аудио книги
 
-                <input
-                    type="file"
-                    name="cover_image"
-                    class="form-control-file"
+                <x-select2
+                    required
+                    :route="route('admin.genres.index')"
+                    text-field="name"
+                    name="genre_id"
                 >
+                    <option value="{{$audioBook->genre->id}}" selected>{{$audioBook->genre->name}}</option>
+                </x-select2>
 
-                <x-error name="cover_image"></x-error>
-            </label>
-
-            <label class="col-12 d-block">
-                Жанры книги
-                <x-genres-checkbox></x-genres-checkbox>
+                <x-error name="genre_id"></x-error>
             </label>
 
             <div class="form-group col-12 col-md-6">
@@ -86,14 +90,14 @@
 
                 <div class="form-check">
                     <label class="d-block col-12 form-check-label">
-                        <input type="radio" name="active" value="1" class="form-check-input">
+                        <input type="radio" name="active" value="1" @if($audioBook->active)checked @endif class="form-check-input">
                         Активна
                     </label>
                 </div>
 
                 <div class="form-check">
                     <label class="d-block col-12 form-check-label">
-                        <input type="radio" name="active" value="0" checked class="form-check-input">
+                        <input type="radio" name="active" value="0" @if(!$audioBook->active)checked @endif class="form-check-input">
                         Скрыта
                     </label>
                 </div>
@@ -108,7 +112,7 @@
                 <input
                     type="text"
                     name="meta_description"
-                    value="{{old('meta_description')}}"
+                    value="{{$audioBook->meta_description}}"
                     @class(['form-control', 'is-invalid' => $errors->has('meta_description')])
                 >
 
@@ -120,7 +124,7 @@
                 <input
                     type="text"
                     name="meta_keywords"
-                    value="{{old('meta_keywords')}}"
+                    value="{{$audioBook->meta_keywords}}"
                     @class(['form-control', 'is-invalid' => $errors->has('meta_keywords')])
                 >
 
@@ -132,7 +136,7 @@
                 <input
                     type="text"
                     name="alias_url"
-                    value="{{old('alias_url')}}"
+                    value="{{$audioBook->alias_url}}"
                     @class(['form-control', 'is-invalid' => $errors->has('alias_url')])
                 >
 
@@ -141,7 +145,7 @@
         </div>
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-success">Добавить</button>
+            <button type="submit" class="btn btn-success">Сохранить</button>
         </div>
     </form>
 

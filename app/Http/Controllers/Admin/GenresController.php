@@ -15,6 +15,10 @@ class GenresController extends Controller
     {
         $genres = $genres->filter($filter)->paginate(25)->withQueryString();
 
+        if (request()->ajax()) {
+            return ApiAnswerService::successfulAnswerWithData($genres);
+        }
+
         return view('admin.genres.index', compact('genres'));
     }
 
