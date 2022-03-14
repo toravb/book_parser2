@@ -1,17 +1,13 @@
-@extends('layouts.admin_layout')
+<x-layouts.admin-layout>
 
-@section('content')
+    <x-slot name="title">Список всех аудио книг</x-slot>
 
-    <!-- Content header (Page header) -->
-    <x-header>
-        Список всех книг
+    <x-slot name="actions">
+        <a class="btn btn-success bg-gradient-success" href="{{route('admin.audio-books.create')}}">
+            <i class="fa fa-plus"></i> Добавить книгу
+        </a>
+    </x-slot>
 
-        <x-slot name="actions">
-            <a class="btn btn-success bg-gradient-success" href="{{route('admin.audio_book.create')}}">
-                <i class="fa fa-plus"></i> Добавить книгу
-            </a>
-        </x-slot>
-    </x-header>
     <!-- /.content header -->
     <div class="row">
         <div class="col-12">
@@ -20,13 +16,14 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th>id</th>
-                            <th>Активна?</th>
+                            <x-th-sortable name="id">ID</x-th-sortable>
+                            <x-th-sortable name="active">Активна?</x-th-sortable>
                             <th>Обложка</th>
-                            <th>Название</th>
+                            <x-th-sortable name="title">Название</x-th-sortable>
                             <th>Жанр</th>
                             <th>Автор</th>
-                            <th>Год</th>
+                            <x-th-sortable name="year">Год</x-th-sortable>
+                            <th style="width: 100px;"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -45,22 +42,24 @@
                                     {!!$audioBook->title!!}
                                 </td>
                                 <td>
-                                    @foreach($audioBook->genre??[] as $genres)
-                                        {{$genres->name}}<br>
-                                    @endforeach
+                                    {{$audioBook->genre?->name}}
                                 </td>
                                 <td>
-                                    @foreach($audioBook->authors??[] as $bookAuthor)
-                                        {{$bookAuthor->author}} <br>
+                                    @foreach($audioBook->authors??[] as $author)
+                                        {{$author->author}} <br>
                                     @endforeach
                                 </td>
                                 <td>
                                     {{$audioBook->year?->year}}
                                 </td>
-                                <td class="text-right">
-                                    <x-button-edit :route="route('admin.audio_book.edit', $audioBook)"></x-button-edit>
+                                <td>
+                                    <div class="d-flex">
+                                        <x-button-edit
+                                            :route="route('admin.audio-books.edit', $audioBook)"></x-button-edit>
 
-                                    <x-button-delete :route="route('admin.audio_book.destroy', $audioBook )"></x-button-delete>
+                                        <x-button-delete
+                                            :route="route('admin.audio-books.destroy', $audioBook )"></x-button-delete>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -72,4 +71,4 @@
             </div>
         </div>
     </div>
-@endsection
+</x-layouts.admin-layout>

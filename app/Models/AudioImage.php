@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 
 class AudioImage extends Model
 {
@@ -15,6 +16,20 @@ class AudioImage extends Model
         'doParse'
     ];
 
+    public function deleteImageFile()
+    {
+        if($this->link) {
+            \Storage::delete($this->link);
+        }
+    }
+
+    public function delete()
+    {
+        $this->deleteImageFile();
+
+        parent::delete();
+    }
+
     public static function create($fields)
     {
         $image = new static();
@@ -24,6 +39,11 @@ class AudioImage extends Model
         return $image;
     }
 
+    public function saveFromUploadedFile(UploadedFile $image)
+    {
+        $this->link = \Storage::put('audio-books-covers', $image);
+    }
+
     public function book()
     {
         return $this->belongsTo(
@@ -31,14 +51,5 @@ class AudioImage extends Model
             'book_id',
             'id',
         );
-    }
-
-    public function storeAudioBookCoverByAdmin(int $bookId, string $link)
-    {
-        $this->create([
-            'link' => $link,
-            'book_id' => $bookId,
-            'doParse' => 1
-        ]);
     }
 }

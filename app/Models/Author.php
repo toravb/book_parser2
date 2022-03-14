@@ -76,7 +76,8 @@ class Author extends Model implements SearchModelInterface
             'book_id',
             'id',
             'id',
-            'audiobooks');
+            'audiobooks'
+        );
     }
 
     public function series(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep

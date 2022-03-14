@@ -6,7 +6,7 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
-use Cviebrock\EloquentSluggable\Sluggable;
+use App\Http\Requests\StoreAudioBookRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,13 +15,17 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
 {
-    use HasFactory, Sluggable, ElasticSearchTrait;
+    use HasFactory, ElasticSearchTrait;
 
     const WANT_LISTEN = '1';
     const LISTENING = '2';
     const HAD_LISTEN = '3';
     const MAIN_PAGE_PAGINATE = 6;
-
+    public static array $availableListeningStatuses = [
+        self::WANT_LISTEN,
+        self::LISTENING,
+        self::HAD_LISTEN
+    ];
     protected $fillable = [
         'title',
         'description',
@@ -30,15 +34,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         'link_id',
         'litres'
     ];
-
     protected $hidden = ['pivot'];
-
-    public static array $availableListeningStatuses = [
-        self::WANT_LISTEN,
-        self::LISTENING,
-        self::HAD_LISTEN
-    ];
-
     protected $appends = [
         'type'
     ];
@@ -48,22 +44,42 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->getRawOriginal['type'] ?? 'audioBooks';
     }
 
-    public function sluggable(): array
+    public function saveFromRequest(StoreAudioBookRequest $request)
     {
-        return [
-            'slug' => [
-                'source' => 'title'
-            ]
-        ];
+        $this->title = $request->title;
+        $this->description = $request->description;
+        $this->year_id = $request->year_id;
+        $this->genre_id = $request->genre_id;
+        $this->meta_description = $request->meta_description;
+        $this->meta_keywords = $request->meta_keywords;
+        $this->alias_url = $request->alias_url ?? \Str::slug($request->title);
+        $this->active = $request->active;
+
+        if ($request->cover_image_remove and $this->image) {
+            $this->image->delete();
+        }
+
+        if ($request->cover_image) {
+            if ($this->image) {
+                $image = $this->image;
+                $image->deleteImageFile();
+            } else {
+                $image = new AudioImage();
+            }
+
+            $image->saveFromUploadedFile($request->cover_image);
+
+            $this->image()->save($image);
+        }
+
+        $this->save();
+
+        $this->authors()->sync($request->authors_ids);
     }
 
-    public static function create($fields)
+    public function authors(): BelongsToMany
     {
-        $book = new static();
-        $book->fill($fields);
-        $book->save();
-
-        return $book;
+        return $this->belongsToMany(Author::class, AuthorsToAudioBook::class, 'book_id');
     }
 
     public function images()
@@ -102,9 +118,9 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         );
     }
 
-    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function genre(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Genre::class);
+        return $this->belongsTo(Genre::class);
     }
 
     public function series()
@@ -113,18 +129,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             AudioSeries::class,
             'series_id',
             'id'
-        );
-    }
-
-    public function authors()
-    {
-        return $this->hasManyThrough(
-            Author::class,
-            AuthorsToAudioBook::class,
-            'book_id',
-            'id',
-            'id',
-            'author_id'
         );
     }
 
@@ -199,18 +203,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function usersRecommend()
     {
         return $this->hasMany(UsersRecommendation::class);
-    }
-
-    public function getBook(): Builder
-    {
-        return $this->with([
-            'authors',
-            'image',
-            'genre',
-        ])
-            ->select('id', 'title', 'year_id')
-            ->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)
@@ -297,6 +289,18 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->getBook();
     }
 
+    public function getBook(): Builder
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'genre',
+        ])
+            ->select('id', 'title', 'year_id')
+            ->withCount('views')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
     public function getElasticKey()
     {
         return $this->getKey();
@@ -309,18 +313,18 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
                 'audio_books.id',
                 'audio_books.active',
                 'audio_books.title',
-                'audio_books.year_id'
+                'audio_books.year_id',
+                'audio_books.genre_id'
             )
             ->with([
-                'image:book_id,link',
                 'genre:id,name',
-                'authors:author',
+                'authors:id,author',
                 'year:id,year'
             ]);
     }
 
     public function storeAudioBooksByAdmin(
-        int $status,
+        int    $status,
         string $title,
         string $description,
 //        int $genre,
@@ -338,5 +342,14 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         ]);
 
         return $book->id;
+    }
+
+    public static function create($fields)
+    {
+        $book = new static();
+        $book->fill($fields);
+        $book->save();
+
+        return $book;
     }
 }

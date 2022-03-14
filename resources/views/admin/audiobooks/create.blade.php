@@ -1,9 +1,9 @@
 <x-layouts.admin-layout>
 
-    <x-slot name="title">Добавление книги</x-slot>
+    <x-slot name="title">Добавить аудио книгу</x-slot>
 
     <form
-        action="{{route('admin.books.store')}}"
+        action="{{route('admin.audio-books.store')}}"
         method="post"
         enctype="multipart/form-data"
         class="card"
@@ -13,21 +13,20 @@
 
         <div class="card-body">
             <label class="col-12 d-block">
-                Название книги
+                Название аудио книги
                 <input
                     required
                     type="text"
                     name="title"
                     value="{{old('title')}}"
                     @class(['form-control', 'is-invalid' => $errors->has('title')])
-                    placeholder="Название книги"
                 >
 
                 <x-error name="title"></x-error>
             </label>
 
             <label class="col-12 d-block">
-                Автор книги
+                Автор аудио книги
                 <x-select2
                     required
                     multiple
@@ -56,28 +55,37 @@
                 Описание
                 <textarea
                     rows="5"
-                    name="text"
-                        @class(['form-control', 'is-invalid' => $errors->has('text')])
-                    >{{old('text')}}</textarea>
+                    name="description"
+                        @class(['form-control', 'is-invalid' => $errors->has('description')])
+                    >{{old('description')}}</textarea>
 
-                <x-error name="text"></x-error>
+                <x-error name="description"></x-error>
             </label>
 
             <label class="col-12 d-block">
-                Обложка книги
+                Жанр аудио книги
+
+                <x-select2
+                    required
+                    :route="route('admin.genres.index')"
+                    text-field="name"
+                    name="genre_id"
+                ></x-select2>
+
+                <x-error name="genre_id"></x-error>
+            </label>
+
+            <label class="col-12 d-block">
+                Обложка
 
                 <input
                     type="file"
+                    accept="image/*"
                     name="cover_image"
                     class="form-control-file"
                 >
 
                 <x-error name="cover_image"></x-error>
-            </label>
-
-            <label class="col-12 d-block">
-                Жанры книги
-                <x-genres-checkbox></x-genres-checkbox>
             </label>
 
             <div class="form-group col-12 col-md-6">

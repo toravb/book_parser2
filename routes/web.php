@@ -40,14 +40,14 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         Route::get('/', [HomeController::class, 'index'])->name('index');
 
         /*
+         * Authors
+         */
+        Route::resource('authors', AuthorsController::class)->except(['show']);
+
+        /*
          * Books
          */
         Route::resource('books', BooksController::class)->except(['show']);
-
-        /*
-         * Books Authors
-         */
-        Route::resource('authors', AuthorsController::class)->except(['show']);
 
         /*
          * Audio books
