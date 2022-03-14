@@ -99,7 +99,7 @@
 
             @if($audioBook->image)
                 <div class="col-12 col-sm-6 col-md-4">
-                    <a href="{{Storage::url($audioBook->image->link)}}">
+                    <a href="{{Storage::url($audioBook->image->link)}}" target="_blank">
                         <img
                             src="{{Storage::url($audioBook->image->link)}}"
                             alt=""

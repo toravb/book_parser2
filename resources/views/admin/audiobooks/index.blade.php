@@ -18,7 +18,7 @@
                         <tr>
                             <x-th-sortable name="id">ID</x-th-sortable>
                             <x-th-sortable name="active">Активна?</x-th-sortable>
-                            <th>Обложка</th>
+                            <th style="max-width: 250px">Обложка</th>
                             <x-th-sortable name="title">Название</x-th-sortable>
                             <th>Жанр</th>
                             <th>Автор</th>
@@ -36,7 +36,12 @@
                                     {{$audioBook->active ? 'Да' : 'Нет'}}
                                 </td>
                                 <td>
-                                    {{$audioBook->image?->link}}
+                                    @if($audioBook->image)
+                                        <a href="{{Storage::url($audioBook->image->link)}}" target="_blank">
+                                            <img src="{{Storage::url($audioBook->image->link)}}" alt=""
+                                                 class="img-thumbnail">
+                                        </a>
+                                    @endif
                                 </td>
                                 <td>
                                     {!!$audioBook->title!!}
