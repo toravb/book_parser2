@@ -20,6 +20,8 @@ class StoreAudioBookRequest extends FormRequest
             'authors_ids.*' => ['required', 'int', Rule::exists(Author::class, 'id')],
             'year_id' => ['required', 'int', Rule::exists(Year::class, 'id')],
             'genre_id' => ['required', 'int', Rule::exists(Genre::class, 'id')],
+            'cover_image' => ['nullable', 'image'],
+            'cover_image_remove' => ['sometimes', 'nullable', 'boolean'],
             'active' => ['required', 'boolean'],
             'meta_description' => ['nullable', 'string', 'max:191'],
             'meta_keywords' => ['nullable', 'string', 'max:191'],

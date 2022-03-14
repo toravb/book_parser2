@@ -21,7 +21,11 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     const LISTENING = '2';
     const HAD_LISTEN = '3';
     const MAIN_PAGE_PAGINATE = 6;
-
+    public static array $availableListeningStatuses = [
+        self::WANT_LISTEN,
+        self::LISTENING,
+        self::HAD_LISTEN
+    ];
     protected $fillable = [
         'title',
         'description',
@@ -30,15 +34,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         'link_id',
         'litres'
     ];
-
     protected $hidden = ['pivot'];
-
-    public static array $availableListeningStatuses = [
-        self::WANT_LISTEN,
-        self::LISTENING,
-        self::HAD_LISTEN
-    ];
-
     protected $appends = [
         'type'
     ];
@@ -46,15 +42,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function getTypeAttribute(): string
     {
         return $this->getRawOriginal['type'] ?? 'audioBooks';
-    }
-
-    public static function create($fields)
-    {
-        $book = new static();
-        $book->fill($fields);
-        $book->save();
-
-        return $book;
     }
 
     public function saveFromRequest(StoreAudioBookRequest $request)
@@ -68,9 +55,31 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         $this->alias_url = $request->alias_url ?? \Str::slug($request->title);
         $this->active = $request->active;
 
+        if ($request->cover_image_remove and $this->image) {
+            $this->image->delete();
+        }
+
+        if ($request->cover_image) {
+            if ($this->image) {
+                $image = $this->image;
+                $image->deleteImageFile();
+            } else {
+                $image = new AudioImage();
+            }
+
+            $image->saveFromUploadedFile($request->cover_image);
+
+            $this->image()->save($image);
+        }
+
         $this->save();
 
         $this->authors()->sync($request->authors_ids);
+    }
+
+    public function authors(): BelongsToMany
+    {
+        return $this->belongsToMany(Author::class, AuthorsToAudioBook::class, 'book_id');
     }
 
     public function images()
@@ -121,11 +130,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'series_id',
             'id'
         );
-    }
-
-    public function authors(): BelongsToMany
-    {
-        return $this->belongsToMany(Author::class, AuthorsToAudioBook::class, 'book_id');
     }
 
     public function actors()
@@ -199,18 +203,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function usersRecommend()
     {
         return $this->hasMany(UsersRecommendation::class);
-    }
-
-    public function getBook(): Builder
-    {
-        return $this->with([
-            'authors',
-            'image',
-            'genre',
-        ])
-            ->select('id', 'title', 'year_id')
-            ->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
     public function scopeFilter(Builder $builder, QueryFilter $filter)
@@ -299,6 +291,18 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->getBook();
     }
 
+    public function getBook(): Builder
+    {
+        return $this->with([
+            'authors',
+            'image',
+            'genre',
+        ])
+            ->select('id', 'title', 'year_id')
+            ->withCount('views')
+            ->withAvg('rates as rates_avg', 'rates.rating');
+    }
+
     public function getElasticKey()
     {
         return $this->getKey();
@@ -322,7 +326,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     }
 
     public function storeAudioBooksByAdmin(
-        int $status,
+        int    $status,
         string $title,
         string $description,
 //        int $genre,
@@ -340,5 +344,14 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         ]);
 
         return $book->id;
+    }
+
+    public static function create($fields)
+    {
+        $book = new static();
+        $book->fill($fields);
+        $book->save();
+
+        return $book;
     }
 }

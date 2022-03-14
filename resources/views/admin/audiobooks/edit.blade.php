@@ -84,6 +84,39 @@
                 <x-error name="genre_id"></x-error>
             </label>
 
+            <label class="col-12 d-block">
+                Обложка
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    name="cover_image"
+                    class="form-control-file"
+                >
+
+                <x-error name="cover_image"></x-error>
+            </label>
+
+            @if($audioBook->image)
+                <div class="col-12 col-sm-6 col-md-4">
+                    <a href="{{Storage::url($audioBook->image->link)}}">
+                        <img
+                            src="{{Storage::url($audioBook->image->link)}}"
+                            alt=""
+                            class="img-thumbnail"
+                        >
+                    </a>
+                </div>
+
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="cover_image_remove" value="1">
+
+                        Удалить обложку?
+                    </label>
+                </div>
+            @endif
+
             <div class="form-group col-12 col-md-6">
                 <label>Статус активности</label>
                 <x-error name="active"></x-error>

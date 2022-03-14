@@ -75,6 +75,19 @@
                 <x-error name="genre_id"></x-error>
             </label>
 
+            <label class="col-12 d-block">
+                Обложка
+
+                <input
+                    type="file"
+                    accept="image/*"
+                    name="cover_image"
+                    class="form-control-file"
+                >
+
+                <x-error name="cover_image"></x-error>
+            </label>
+
             <div class="form-group col-12 col-md-6">
                 <label>Статус активности</label>
                 <x-error name="active"></x-error>
