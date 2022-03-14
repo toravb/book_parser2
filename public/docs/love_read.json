@@ -10271,6 +10271,55 @@
             "description": "values: books, audioBooks"
           }
         ]
+      },
+      "post": {
+        "summary": "Save compilation",
+        "operationId": "post-compilations",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "image": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "File max size 10240"
+                  },
+                  "title": {
+                    "type": "string",
+                    "maxLength": 100,
+                    "minLength": 8
+                  },
+                  "description": {
+                    "type": "string",
+                    "maxLength": 10000
+                  }
+                },
+                "required": [
+                  "image",
+                  "title",
+                  "description"
+                ]
+              }
+            }
+          },
+          "description": ""
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "tags": [
+          "Compilations"
+        ],
+        "x-internal": false
       }
     },
     "/compilations/{id}": {
