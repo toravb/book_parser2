@@ -100,12 +100,6 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
 
     });
 
-    Route::group(['as' => 'profile.', 'prefix' => 'profile'], function () {
-        Route::get('/', [ProfileController::class, 'index'])->name('change');
-
-        Route::post('/', [ProfileController::class, 'change'])->name('change.data');
-    });
-
     Route::post('/add/auth', [ProxySettingsController::class, 'addAuthData'])->name('add.authdata');
 
     Route::group(['as' => 'audio.', 'prefix' => 'audio'], function () {
@@ -133,13 +127,8 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
             Route::get('/{book}', [AdminController::class, 'booksItem'])->name('show');
         });
     });
-
-    Route::group(['as' => 'books.', 'prefix' => 'books'], function () {
-        Route::get('/', [PageController::class, 'books'])->name('show');
-        Route::get('/{id}', [PageController::class, 'booksPages'])->name('item');
-    });
-
 });
+
 Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
 Route::view('/wss', 'wss');
 

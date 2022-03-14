@@ -12,17 +12,20 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <x-search placeholder="Поиск по ID и названию"></x-search>
+                </div>
                 <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <x-th-sortable name="id">ID</x-th-sortable>
-                            <x-th-sortable name="active">Активна?</x-th-sortable>
-                            <th style="max-width: 250px">Обложка</th>
+                            <x-th-sortable name="id" style="width: 100px;">ID</x-th-sortable>
+                            <x-th-sortable name="active" style="width: 125px;">Активна?</x-th-sortable>
+                            <th style="width: 250px">Обложка</th>
                             <x-th-sortable name="title">Название</x-th-sortable>
                             <th>Жанр</th>
                             <th>Автор</th>
-                            <x-th-sortable name="year">Год</x-th-sortable>
+                            <x-th-sortable name="year" style="width: 100px;">Год</x-th-sortable>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>

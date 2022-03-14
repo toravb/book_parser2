@@ -9,6 +9,9 @@
     <div class="row">
         <div class="col-12">
             <div class="card">
+                <div class="card-header">
+                    <x-search placeholder="Поиск по ID и автору"></x-search>
+                </div>
                 <div class="card-body table-responsive">
                     <table class="table">
                         <thead>
