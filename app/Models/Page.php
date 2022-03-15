@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
+use App\Http\Requests\Admin\StorePageRequest;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -26,9 +29,23 @@ class Page extends Model
         return $page;
     }
 
+    public function saveFromRequest(StorePageRequest $request)
+    {
+        $this->book_id = $request->book_id;
+        $this->content = $request->get('content');
+        $this->page_number = $request->page_number;
+
+        $this->save();
+    }
+
     public function edit($fields){
         $this->fill($fields);
         $this->save();
+    }
+
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
     }
 
     public function book()

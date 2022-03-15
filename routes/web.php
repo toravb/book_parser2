@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\YearsController;
 use App\Http\Controllers\Audio\AdminController;
 use App\Http\Controllers\Parser\Admin\DashboardController;
@@ -48,6 +49,11 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
          * Books
          */
         Route::resource('books', BooksController::class)->except(['show']);
+
+        /*
+         * Page
+         */
+        Route::resource('books.pages', PagesController::class)->except(['show'])->scoped();
 
         /*
          * Audio books
