@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Api\Http\Controllers\CommentController;
 use App\Api\Interfaces\CommentInterface;
 use App\Api\Models\BookCommentLike;
-use App\Api\Models\CommentLike;
 use App\Api\Models\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class BookComment extends Model implements CommentInterface
 {
@@ -21,22 +22,22 @@ class BookComment extends Model implements CommentInterface
         'parent_comment_id'
     ];
 
-    public function users()
+    public function users(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function books()
+    public function books(): BelongsTo
     {
         return $this->belongsTo(Book::class, 'book_id', 'id');
     }
 
-    public function notifications()
+    public function notifications(): MorphMany
     {
         return $this->morphMany(Notification::class, 'notificationable');
     }
 
-    public function likes()
+    public function likes(): HasMany
     {
         return $this->hasMany(BookCommentLike::class);
     }

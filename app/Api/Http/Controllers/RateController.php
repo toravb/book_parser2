@@ -14,9 +14,7 @@ class RateController extends Controller
 {
     public function store(StoreRatingValidation $request, Rate $rating)
     {
-        $user = Auth::user();
-
-        $rating->store($user->id, $request->book_id, $request->rating);
+        $rating->store(\auth()->id(), $request->book_id, $request->rating);
 
         return ApiAnswerService::successfulAnswerWithData($rating->returnedRate($request->book_id));
     }

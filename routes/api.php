@@ -140,7 +140,6 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'comments'], function () {
         Route::post('/', [CommentController::class, 'saveComment']);
-
     });
 
     /*

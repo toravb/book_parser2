@@ -19,7 +19,7 @@ class AudioBookReview extends Model implements ReviewInterface
         'content'
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
@@ -29,7 +29,7 @@ class AudioBookReview extends Model implements ReviewInterface
         return $this->belongsTo(AudioBook::class);
     }
 
-    public function reviewTypes()
+    public function reviewTypes(): BelongsTo
     {
         return $this->belongsTo(ReviewType::class, 'review_type_id', 'id');
     }

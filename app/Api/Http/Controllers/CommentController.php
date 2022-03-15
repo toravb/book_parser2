@@ -5,11 +5,10 @@ namespace App\Api\Http\Controllers;
 use App\Api\Events\NewNotificationEvent;
 use App\Api\Http\Requests\SaveCommentRequest;
 use App\Api\Http\Requests\ShowCommentsOnCommentRequest;
+use App\Api\Http\Requests\ShowCommentsRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Api\Http\Requests\ShowCommentsRequest;
-use App\Models\BookComment;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller

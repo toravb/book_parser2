@@ -53,7 +53,10 @@ class QuoteController extends Controller
     /**
      * Display the specified resource.
      *
+     * @param $id
+     * @param GetIdRequest $request
      * @param \App\Models\Quote $quote
+     * @param View $view
      * @return \Illuminate\Http\JsonResponse
      */
     public function show($id, GetIdRequest $request, Quote $quote, View $view)
@@ -61,7 +64,6 @@ class QuoteController extends Controller
         $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $quote->getTypeAttribute());
         $quoteInBook = $quote->showInBook($request);
         return ApiAnswerService::successfulAnswerWithData($quoteInBook);
-
     }
 
     /**
@@ -91,6 +93,7 @@ class QuoteController extends Controller
      * Remove the specified resource from storage.
      *
      * @param \App\Models\Quote $quote
+     * @param DeleteQuoteRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Quote $quote, DeleteQuoteRequest $request)
@@ -112,7 +115,7 @@ class QuoteController extends Controller
 
     }
 
-    public function getQuotesForBookPage (GetQuotesForBookRequest $request, Quote $quote)
+    public function getQuotesForBookPage(GetQuotesForBookRequest $request, Quote $quote)
     {
         return ApiAnswerService::successfulAnswerWithData($quote->getQuotesForBookPage($request->id));
     }

@@ -19,6 +19,8 @@ class SaveCommentRequest extends FormRequest
         $this->models = $types->getCommentModelTypes();
         $this->types = array_keys($types->getCommentTypes());
         $this->modelOfComment = $types->getCommentTypes();
+
+        parent::__construct();
     }
 
     public function rules(): array

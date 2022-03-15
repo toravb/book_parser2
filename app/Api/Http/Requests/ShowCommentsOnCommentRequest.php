@@ -17,6 +17,8 @@ class ShowCommentsOnCommentRequest extends FormRequest
     {
         $this->types = array_keys($types->getCommentTypes());
         $this->models = $types->getCommentTypes();
+
+        parent::__construct();
     }
 
     public function rules(): array

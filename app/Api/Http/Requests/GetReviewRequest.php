@@ -17,6 +17,8 @@ class GetReviewRequest extends FormRequest
     {
         $this->models = $types->getReviewModelTypes();
         $this->types = array_keys($types->getReviewTypes());
+
+        parent::__construct();
     }
 
     public function rules(): array

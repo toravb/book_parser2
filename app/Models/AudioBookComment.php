@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Api\Interfaces\CommentInterface;
 use App\Api\Models\AudioBookCommentLike;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 class AudioBookComment extends Model implements CommentInterface
 {
@@ -17,21 +16,6 @@ class AudioBookComment extends Model implements CommentInterface
         'parent_comment_id'
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function audioBook()
-    {
-        return $this->belongsTo(AudioBook::class);
-    }
-
-    public function likes()
-    {
-        return $this->hasMany(AudioBookCommentLike::class);
-    }
-
     public static function getNotificationComment(int $commentId)
     {
         return self::with([
@@ -40,6 +24,21 @@ class AudioBookComment extends Model implements CommentInterface
             }
         ])
             ->findOrFail($commentId);
+    }
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function audioBook(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(AudioBook::class);
+    }
+
+    public function likes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AudioBookCommentLike::class);
     }
 
     public function getBookObject()
