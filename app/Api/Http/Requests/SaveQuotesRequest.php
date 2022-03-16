@@ -25,12 +25,17 @@ class SaveQuotesRequest extends FormRequest
     public function rules()
     {
         return [
-            'bookId' => ['required', 'integer', 'exists:books,id'],
-            'pageId' => ['required', 'integer',
-                Rule::exists('pages', 'page_number')->where('book_id', $this->bookId)],
+            'book_id' => ['required', 'integer', 'exists:books,id'],
+            'page_id' => ['required', 'integer',
+                Rule::exists('pages', 'page_number')->where('book_id', $this->book_id)],
             'text' => ['required', 'string', 'max:300'],
             'color' => ['sometimes', 'string', 'max:10'],
-            'position' => ['required', 'integer', 'min:0'],
+            'start_key' => ['required', 'string', 'max:190'],
+            'start_text_index' => ['required', 'integer'],
+            'start_offset' => ['required', 'integer'],
+            'end_key' => ['required', 'string', 'max:190'],
+            'end_text_index' => ['required', 'integer'],
+            'end_offset' => ['required', 'integer'],
         ];
     }
 }

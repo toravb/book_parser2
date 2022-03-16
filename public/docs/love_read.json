@@ -11759,53 +11759,66 @@
         "tags": [
           "Quotes"
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "bookId",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "pageId",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "text",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string"
-            },
-            "in": "query",
-            "name": "color"
-          },
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "position",
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [
           {
             "Authorization": []
           }
         ],
-        "description": ""
+        "description": "",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "book_id": {
+                    "type": "integer"
+                  },
+                  "page_id": {
+                    "type": "integer"
+                  },
+                  "text": {
+                    "type": "string"
+                  },
+                  "color": {
+                    "type": "string"
+                  },
+                  "start_key": {
+                    "type": "string"
+                  },
+                  "start_text_index": {
+                    "type": "integer"
+                  },
+                  "start_offset": {
+                    "type": "integer"
+                  },
+                  "end_key": {
+                    "type": "string"
+                  },
+                  "end_text_index": {
+                    "type": "integer"
+                  },
+                  "end_offset": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "book_id",
+                  "page_id",
+                  "text",
+                  "start_key",
+                  "start_text_index",
+                  "start_offset",
+                  "end_key",
+                  "end_text_index",
+                  "end_offset"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
       },
       "get": {
         "summary": "Show quotes",
