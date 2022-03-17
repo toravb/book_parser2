@@ -5682,6 +5682,9 @@
                                   "id": {
                                     "type": "number"
                                   },
+                                  "name": {
+                                    "type": "string"
+                                  },
                                   "avatar": {
                                     "type": "string"
                                   },
@@ -5692,6 +5695,7 @@
                                 },
                                 "required": [
                                   "id",
+                                  "name",
                                   "nickname"
                                 ]
                               }
@@ -6024,6 +6028,9 @@
                                   "id": {
                                     "type": "number"
                                   },
+                                  "name": {
+                                    "type": "string"
+                                  },
                                   "avatar": {
                                     "type": "string"
                                   },
@@ -6034,6 +6041,7 @@
                                 },
                                 "required": [
                                   "id",
+                                  "name",
                                   "nickname"
                                 ]
                               }
@@ -12575,12 +12583,43 @@
                       "book",
                       "audio_book"
                     ]
+                  },
+                  "user": {
+                    "type": "object",
+                    "enum": [
+                      "book",
+                      "audio_book"
+                    ],
+                    "required": [
+                      "id",
+                      "name",
+                      "avatar",
+                      "nickname"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": [
+                          "string",
+                          "number"
+                        ]
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "avatar": {
+                        "type": "string"
+                      },
+                      "nickname": {
+                        "type": "string"
+                      }
+                    }
                   }
                 },
                 "required": [
                   "id",
                   "text",
-                  "type"
+                  "type",
+                  "user"
                 ]
               },
               "examples": {

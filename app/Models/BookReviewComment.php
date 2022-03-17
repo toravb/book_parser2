@@ -30,7 +30,7 @@ class BookReviewComment extends Model implements CommentInterface
             ->where('book_review_id', $typeId)
             ->whereNull('parent_comment_id')
             ->select('id', 'book_review_id', 'user_id', 'content', 'updated_at')
-            ->with('users:id,avatar,nickname')
+            ->with('users:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }
@@ -39,7 +39,7 @@ class BookReviewComment extends Model implements CommentInterface
     {
         return $this->where('parent_comment_id', $commentId)
             ->select('id', 'book_review_id', 'user_id', 'content', 'updated_at')
-            ->with('users:id,avatar,nickname')
+            ->with('users:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }
