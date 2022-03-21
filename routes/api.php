@@ -118,7 +118,6 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/users/user_id', [UserController::class, 'getUserId']);
 
 
-
     /**
      * Likes
      */
@@ -189,6 +188,20 @@ Route::group(['prefix' => 'genres'], function () {
     Route::get('/audio-books', [CategoryController::class, 'withAudioBooksCount']);
 });
 
+/**
+ * Get comments by type
+ */
+Route::group(['prefix' => 'comments'], function () {
+    Route::get('/{type}/{id}', [CommentController::class, 'getComments']);
+    Route::get('/{id}', [CommentController::class, 'getCommentsOnComment']);
+});
+
+/**
+ * Get reviews by model type
+ */
+Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);
+
+
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
 /**
@@ -218,6 +231,9 @@ Route::group(['prefix' => 'books'], function () {
     Route::get('/{id}', [BookController::class, 'showSingle']);
     Route::get('/{book}/chapters', [ChaptersController::class, 'showBookChapters']);
     Route::get('/{id}/read', [BookController::class, 'readBook']);
+
+    //Get quotes
+    Route::get('/{id}/quotes', [QuoteController::class, 'getQuotesForBookPage']);
 
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('/{book}/bookmarks', [BookController::class, 'getBookmarks']);

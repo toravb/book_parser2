@@ -3,13 +3,16 @@
 namespace App\Models;
 
 use App\Api\Http\Controllers\MainPageController;
+use App\Api\Interfaces\ReviewInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class BookReview extends Model
+class BookReview extends Model implements ReviewInterface
 {
+    const PERPAGE = 3;
+
     use HasFactory;
 
     protected $fillable = [
@@ -45,14 +48,14 @@ class BookReview extends Model
         return $this->belongsTo(Book::class);
     }
 
-    public function likes()
+    public function likes(): MorphMany
     {
         return $this->morphMany(Like::class, 'likeable', 'like_type', 'like_id');
     }
 
     public function reviewTypes()
     {
-        return $this->belongsTo(ReviewType::class);
+        return $this->belongsTo(ReviewType::class, 'review_type_id', 'id');
     }
 
     public function views(): MorphMany
@@ -89,5 +92,17 @@ class BookReview extends Model
             ->orderBy('created_at')
             ->limit(20)
             ->get();
+    }
+
+    public function getReviews(int $id)
+    {
+        return $this
+            ->with([
+                'user:id,avatar,nickname',
+                'reviewTypes'
+            ])
+            ->where('book_id', $id)
+            ->withCount(['likes', 'comments'])
+            ->paginate(self::PERPAGE);
     }
 }

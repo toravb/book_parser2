@@ -4,6 +4,8 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Events\NewNotificationEvent;
 use App\Api\Http\Requests\SaveCommentRequest;
+use App\Api\Http\Requests\ShowCommentsOnCommentRequest;
+use App\Api\Http\Requests\ShowCommentsRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
@@ -42,4 +44,15 @@ class CommentController extends Controller
         return $type . '_id';
     }
 
+    public function getComments(ShowCommentsRequest $request)
+    {
+        $model = new $this->commentTypes[$request->type];
+        return ApiAnswerService::successfulAnswerWithData($model->getComments($request->id, $request->perpage));
+    }
+
+    public function getCommentsOnComment(ShowCommentsOnCommentRequest $request)
+    {
+        $model = new $this->commentTypes[$request->type];
+        return ApiAnswerService::successfulAnswerWithData($model->getCommentsOnComment($request->id, $request->perpage));
+    }
 }

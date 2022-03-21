@@ -173,6 +173,11 @@ class User extends Authenticatable
         return $this->hasMany(BookReview::class);
     }
 
+    public function audioReviews()
+    {
+        return $this->hasMany(AudioBookReview::class);
+    }
+
     public function notifications()
     {
         return $this->belongsToMany(Notification::class);
