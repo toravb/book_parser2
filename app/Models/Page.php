@@ -67,4 +67,30 @@ class Page extends Model
     {
         return $this->hasOne(Chapter::class);
     }
+
+    public static function processContentSrc(string $content): string
+    {
+        $lastMatchPos = 0;
+        while (((bool)preg_match('/(src=[\"\']\.{2}\/)/', $content, $matches, PREG_OFFSET_CAPTURE, $lastMatchPos)) !== false) {
+            [$matched, $lastMatchPos] = $matches[0];
+            $lastMatchPos += strlen($matched) - 3;
+
+            preg_match('/[\"\']/', $content, $closingQuoteMatch, PREG_OFFSET_CAPTURE, $lastMatchPos);
+            [, $closingQuotePos] = $closingQuoteMatch[0];
+
+            $srcPositions = [
+                $lastMatchPos,
+                $closingQuotePos - $lastMatchPos,
+            ];
+            $src = substr($content, $srcPositions[0], $srcPositions[1]);
+            $newSrc = str_replace('../', '', $src);
+            if ($newSrc[0] !== '/') $newSrc = "/{$newSrc}";
+
+            $content = substr_replace($content, $newSrc, $srcPositions[0], strlen($src));
+
+            $lastMatchPos -= (strlen($src) - strlen($newSrc));
+        }
+
+        return $content;
+    }
 }

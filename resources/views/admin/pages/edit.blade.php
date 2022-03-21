@@ -10,17 +10,18 @@
     >
 
         @csrf
+        @method('PUT')
         <input type="hidden" name="book_id" value="{{$book->id}}">
+        <input type="hidden" name="page_id" value="{{$page->id}}">
 
         <div class="card-body">
             <label class="col-12 d-block">
                 Содержание страницы
-                <textarea
-                    required
+                <x-rich-text-editor
+                    required="true"
                     name="content"
-                    rows="10"
-                    @class(['form-control', 'is-invalid' => $errors->has('content')])
-                ></textarea>
+                    :upload-route="route('admin.pages.image-store')"
+                >{{$page->content}}</x-rich-text-editor>
 
                 <x-error name="content"></x-error>
             </label>
@@ -31,6 +32,7 @@
                     required
                     type="number"
                     min="0"
+                    value="{{$page->page_number}}"
                     name="page_number"
                     @class(['form-control', 'is-invalid' => $errors->has('page_number')])
                 >
@@ -40,7 +42,7 @@
         </div>
 
         <div class="card-footer">
-            <button type="submit" class="btn btn-success">Добавить</button>
+            <button type="submit" class="btn btn-success">Сохранить</button>
         </div>
     </form>
 

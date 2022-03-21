@@ -20,7 +20,7 @@
                         <tr>
                             <x-th-sortable name="id" style="width: 100px;">ID</x-th-sortable>
                             <x-th-sortable name="page_number" style="width: 280px;">Порядковый номер страницы</x-th-sortable>
-                            <x-th-sortable name="content">Контент</x-th-sortable>
+                            <th>Контент</th>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>
@@ -34,7 +34,7 @@
                                     {{ $page->page_number }}
                                 </td>
                                 <td>
-                                    {!! $page->content !!}
+                                    <x-button-preview-page-content :page="$page"/>
                                 </td>
                                 <td>
                                     <div class="d-flex">

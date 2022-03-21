@@ -6,6 +6,7 @@ use App\Models\Book;
 use App\Models\Page;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class StorePageRequest extends FormRequest
 {
@@ -26,12 +27,23 @@ class StorePageRequest extends FormRequest
     public function messages()
     {
         return [
-          'page_number.unique' => 'Страница с таким порядковы номером для этой книги уже существует'
+            'page_number.unique' => 'Страница с таким порядковы номером для этой книги уже существует'
         ];
     }
 
     public function authorize(): bool
     {
         return true;
+    }
+
+    public function withValidator(Validator $validator)
+    {
+        $validator->after(function (Validator $validator) {
+            if ($validator->failed()) return;
+
+            $this->merge([
+                'content' => Page::processContentSrc($this->get('content'))
+            ]);
+        });
     }
 }
