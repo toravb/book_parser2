@@ -57,6 +57,8 @@
                                     <div class="d-flex">
                                         <x-button-edit :route="route('admin.books.edit', $book)"></x-button-edit>
 
+                                        <x-button-book-pages :book="$book"/>
+
                                         <x-button-delete :route="route('admin.books.destroy', $book)"></x-button-delete>
                                     </div>
                                 </td>

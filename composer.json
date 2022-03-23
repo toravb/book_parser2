@@ -24,7 +24,8 @@
         "socialiteproviders/vkontakte": "^4.2",
         "socialiteproviders/yandex": "^4.1",
         "socialiteproviders/zoho": "^4.1",
-        "staudenmeir/eloquent-has-many-deep": "^1.7"
+        "staudenmeir/eloquent-has-many-deep": "^1.7",
+      "ext-dom": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
