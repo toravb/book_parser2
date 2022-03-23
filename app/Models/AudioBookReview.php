@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Api\Interfaces\ReviewInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class AudioBookReview extends Model
+class AudioBookReview extends Model implements ReviewInterface
 
 {
     protected $fillable = [
@@ -18,14 +19,19 @@ class AudioBookReview extends Model
         'content'
     ];
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function audioBook(): BelongsTo
     {
         return $this->belongsTo(AudioBook::class);
     }
 
-    public function reviewTypes()
+    public function reviewTypes(): BelongsTo
     {
-        return $this->belongsTo(ReviewType::class);
+        return $this->belongsTo(ReviewType::class, 'review_type_id', 'id');
     }
 
     public function views(): MorphMany
@@ -36,5 +42,22 @@ class AudioBookReview extends Model
     public function comments(): hasMany
     {
         return $this->hasMany(AudioBookReviewComment::class);
+    }
+
+    public function likes(): MorphMany
+    {
+        return $this->morphMany(Like::class, 'likeable', 'like_type', 'like_id');
+    }
+
+    public function getReviews(int $id)
+    {
+        return $this
+            ->with([
+                'user:id,avatar,nickname',
+                'reviewTypes'
+            ])
+            ->where('audio_book_id', $id)
+            ->withCount(['likes', 'comments'])
+            ->paginate(BookReview::PERPAGE);
     }
 }

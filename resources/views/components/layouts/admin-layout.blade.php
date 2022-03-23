@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_token" content="{{csrf_token()}}">
     <title>{{config('app.name')}} @if($title??false)- {{$title}}@endif</title>
 
     <!-- Google Font: Source Sans Pro -->
@@ -15,6 +16,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.0/dropzone.js"></script>
 
     <link rel="stylesheet" href="{{mix('css/admin.css')}}">
+
+    <script src="https://cdn.tiny.cloud/1/igg9k7wuvfmznxcxg0rdfjpz233fea3x2soialmkztple8wp/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script src="{{mix('js/admin.js')}}" defer></script>
 </head>

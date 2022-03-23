@@ -14,6 +14,10 @@
             @method('PUT')
             <input type="hidden" name="id" value="{{$book->id}}">
 
+            <div class="card-header">
+                <x-button-book-pages :book="$book" :short="false"/>
+            </div>
+
             <div class="card-body">
                 <label class="col-12 d-block">
                     Название книги
@@ -32,14 +36,17 @@
                     Автор книги
                     <x-select2
                         required
+                        multiple
                         :route="route('admin.authors.index')"
                         text-field="author"
-                        name="author_id"
+                        name="authors_ids[]"
                     >
-                        <option value="{{$book->author?->id}}" selected>{{$book->author?->author}}</option>
+                        @foreach($book->authors as $author)
+                            <option value="{{$author->id}}" selected>{{$author->author}}</option>
+                        @endforeach
                     </x-select2>
 
-                    <x-error name="author_id"></x-error>
+                    <x-error name="authors_ids"></x-error>
                 </label>
 
                 <label class="col-12 d-block">
@@ -66,6 +73,49 @@
 
                     <x-error name="description"></x-error>
                 </label>
+
+                <label class="col-12 d-block">
+                    Обложка книги
+
+                    <input
+                        type="file"
+                        name="cover_image"
+                        class="form-control-file"
+                    >
+
+                    <x-error name="cover_image"></x-error>
+                </label>
+
+                @if($book->image)
+                    <div class="form-group">
+                        <div class="col-12 col-sm-6 col-md-4 mb-2">
+                            <a
+                                target="_blank"
+                                href="{{Storage::url($book->image->link)}}"
+                            >
+                                <img
+                                    src="{{Storage::url($book->image->link)}}"
+                                    alt=""
+                                    class="img-thumbnail"
+                                >
+                            </a>
+                        </div>
+
+                        <div class="form-check">
+                            <label class="col-12 form-check-label">
+                                <input
+                                    type="checkbox"
+                                    name="cover_image_remove"
+                                    value="1"
+                                    class="form-check-input"
+                                >
+                                Удалить обложку?
+
+                                <x-error name="cover_image_remove"></x-error>
+                            </label>
+                        </div>
+                    </div>
+                @endif
 
                 <label class="col-12 d-block">
                     Категории книги

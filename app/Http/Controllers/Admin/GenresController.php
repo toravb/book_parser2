@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Admin\Filters\GenresFilter;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreGenreRequest;
@@ -10,9 +11,13 @@ use App\Models\Genre;
 
 class GenresController extends Controller
 {
-    public function index(Genre $genres)
+    public function index(Genre $genres, GenresFilter $filter)
     {
-        $genres = $genres->paginate(25);
+        $genres = $genres->filter($filter)->paginate(25)->withQueryString();
+
+        if (request()->ajax()) {
+            return ApiAnswerService::successfulAnswerWithData($genres);
+        }
 
         return view('admin.genres.index', compact('genres'));
     }

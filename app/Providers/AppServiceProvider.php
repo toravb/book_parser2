@@ -43,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
 
         $typesGenerator = new TypesGenerator();
         Relation::enforceMorphMap($typesGenerator->getViewsTypes());
+        Relation::enforceMorphMap($typesGenerator->getReviewTypes());
 
         Queue::looping(function (Looping $event) {
             if ($event->queue == 'audio_parse_authors') {

@@ -2,6 +2,7 @@
     <button
         type="button"
         class="btn btn-outline-danger"
+        title="Удалить"
         data-action="delete-confirm"
         data-icon="warning"
         data-title="{{$title ?? 'Вы уверены что хотите удалить эту запись?'}}"

@@ -48,4 +48,22 @@ class Rate extends Model
     {
         return $this->belongsTo(AudioBook::class);
     }
+
+    public function returnedRate(int $id)
+    {
+        return (new Book())->select('id')
+            ->where('id', $id)
+            ->withAvg('rates as rate_avg', 'rates.rating')
+            ->withCount('rates')
+            ->get();
+    }
+
+    public function returnedAudioRate(int $id)
+    {
+        return (new AudioBook())->select('id')
+            ->where('id', $id)
+            ->withAvg('rates as rate_avg', 'rates.rating')
+            ->withCount('rates')
+            ->get();
+    }
 }

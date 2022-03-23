@@ -20,6 +20,80 @@ const select2Options = {
 
 
 $(document).ready(function () {
+    const richTextEditorSelector = 'textarea.rich-editor'
+    $(richTextEditorSelector).each((index, el) => {
+        let options = {}
+
+        const uploadRoute = $(el).data('upload-route')
+
+        if (uploadRoute) {
+            options = {
+                ...options,
+                images_upload_url: uploadRoute,
+                automatic_uploads: true,
+            }
+        }
+
+        tinymce.init({
+            target: el,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste imagetools wordcount'
+            ],
+            toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+            file_picker_types: 'image',
+            images_upload_handler: function (blobInfo, success, failure) {
+                let xhr, formData;
+                xhr = new XMLHttpRequest();
+                xhr.withCredentials = true;
+                xhr.open('POST', uploadRoute);
+                xhr.setRequestHeader("X-CSRF-Token", $('meta[name="_token"]').attr('content'));
+                xhr.onload = function () {
+                    let json;
+                    if (xhr.status !== 200) {
+                        failure('HTTP Error: ' + xhr.status);
+                        return;
+                    }
+                    json = JSON.parse(xhr.responseText);
+
+                    if (!json || typeof json.location != 'string') {
+                        failure('Invalid JSON: ' + xhr.responseText);
+                        return;
+                    }
+                    success(json.location);
+                };
+                formData = new FormData();
+                formData.append('file', blobInfo.blob(), blobInfo.filename());
+                xhr.send(formData);
+            },
+            setup(editor) {
+                editor.on("keydown", function (e) {
+                    /*
+                    Dont enable feature! Causing deleting image before saving.
+                    TODO Potential fix: store files to remove to array and delete on saving/updating action.
+
+                    if ((e.keyCode == 8 || e.keyCode == 46) && tinymce.activeEditor.selection) {
+                        let selectedNode = tinymce.activeEditor.selection.getNode();
+                        if (selectedNode && selectedNode.nodeName == 'IMG') {
+                            let imageSrc = selectedNode.src;
+
+
+                            axios.delete('/admin-panel/file-remove', {
+                                params: {
+                                    file_path: imageSrc,
+                                }
+                            })
+                        }
+
+                    }
+                     */
+                });
+            },
+            ...options,
+        });
+    })
+
     $(':required').each((index, el) => {
         $(el).closest('label').addClass('required')
     })
@@ -121,6 +195,20 @@ $(document).ready(function () {
 
                 responseActionProceed(result.value)
             }
+        })
+    })
+
+    $('[data-action="page-preview"]').click((event) => {
+        const el = event.currentTarget
+        const route = $(el).data('route')
+
+        axios.get(route).then(r => {
+            const pageData = r.data.data.page
+
+            Swal.fire({
+                html: pageData.content,
+                width: '90%'
+            })
         })
     })
 })

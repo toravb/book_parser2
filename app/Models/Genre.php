@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Http\Requests\StoreGenreRequest;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +23,11 @@ class Genre extends Model
         $this->save();
     }
 
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
+
     public function books(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Book::class);
@@ -29,5 +36,10 @@ class Genre extends Model
     public function audioBooks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(AudioBook::class);
+    }
+
+    public function banners(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Banner::class);
     }
 }

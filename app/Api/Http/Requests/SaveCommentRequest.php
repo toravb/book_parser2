@@ -19,6 +19,8 @@ class SaveCommentRequest extends FormRequest
         $this->models = $types->getCommentModelTypes();
         $this->types = array_keys($types->getCommentTypes());
         $this->modelOfComment = $types->getCommentTypes();
+
+        parent::__construct();
     }
 
     public function rules(): array
@@ -27,7 +29,7 @@ class SaveCommentRequest extends FormRequest
         return [
             'type' => ['required', 'string', Rule::in($this->types)],
             'id' => ['required', 'integer', Rule::exists($this->models[$this->type] ?? null . '_id')],
-            'parent_comment_id' => ['sometimes', 'nullable', 'integer',  Rule::exists($this->modelOfComment[$this->type], 'id' )],
+            'parent_comment_id' => ['sometimes', 'nullable', 'integer',  Rule::exists($this->modelOfComment[$this->type] ?? null, 'id' )],
             'text' => ['required', 'string', 'max:65500' ]
         ];
     }

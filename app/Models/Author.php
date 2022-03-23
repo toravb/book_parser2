@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\StoreAuthorRequest;
@@ -51,6 +52,11 @@ class Author extends Model implements SearchModelInterface
         $this->save();
     }
 
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
+
     public function books()
     {
         return $this->belongsToMany(Book::class,
@@ -70,7 +76,8 @@ class Author extends Model implements SearchModelInterface
             'book_id',
             'id',
             'id',
-            'audiobooks');
+            'audiobooks'
+        );
     }
 
     public function series(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep

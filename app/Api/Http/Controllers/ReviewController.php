@@ -3,13 +3,13 @@
 namespace App\Api\Http\Controllers;
 
 use App\Api\Http\Requests\DeleteReviewRequest;
+use App\Api\Http\Requests\GetReviewRequest;
 use App\Api\Http\Requests\SaveUpdateReviewRequest;
-use App\Api\Http\Requests\UserQuotesRequest;
-use App\Api\Http\Requests\UserReviewsRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\ReviewType;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
@@ -17,12 +17,17 @@ class ReviewController extends Controller
 
     private array $reviewTypes;
 
+    private function getFieldName($type)
+    {
+        return $type . '_id';
+    }
+
     public function __construct(Types $types)
     {
         $this->reviewTypes = $types->getReviewTypes();
     }
 
-    public function saveUpdateReview(SaveUpdateReviewRequest $request): \Illuminate\Http\JsonResponse
+    public function saveUpdateReview(SaveUpdateReviewRequest $request): JsonResponse
     {
         $userId = Auth::id();
         $field = $this->getFieldName($request->type);
@@ -38,11 +43,6 @@ class ReviewController extends Controller
                     'content' => $request->text,
                 ]);
         return ApiAnswerService::successfulAnswerWithData($record);
-    }
-
-    private function getFieldName($type)
-    {
-        return $type . '_id';
     }
 
     public function index()
@@ -68,7 +68,11 @@ class ReviewController extends Controller
             }])->get();
 
         return ApiAnswerService::successfulAnswerWithData($reviews);
-
     }
 
+    public function getReviews(GetReviewRequest $request)
+    {
+        $model = new $this->reviewTypes[$request->type];
+        return ApiAnswerService::successfulAnswerWithData($model->getReviews($request->id));
+    }
 }

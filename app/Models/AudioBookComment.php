@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use App\Api\Interfaces\CommentInterface;
+use App\Api\Models\AudioBookCommentLike;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
-class AudioBookComment extends Model
+class AudioBookComment extends Model implements CommentInterface
 {
 
     protected $fillable = [
@@ -14,16 +15,6 @@ class AudioBookComment extends Model
         'content',
         'parent_comment_id'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function audioBook()
-    {
-        return $this->belongsTo(AudioBook::class);
-    }
 
     public static function getNotificationComment(int $commentId)
     {
@@ -35,8 +26,43 @@ class AudioBookComment extends Model
             ->findOrFail($commentId);
     }
 
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function audioBook(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(AudioBook::class);
+    }
+
+    public function likes(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AudioBookCommentLike::class);
+    }
+
     public function getBookObject()
     {
         return $this->audioBook;
+    }
+
+    public function getComments(int $typeId, int $paginate)
+    {
+        return $this
+            ->where('audio_book_id', $typeId)
+            ->whereNull('parent_comment_id')
+            ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
+            ->with('user:id,avatar,nickname')
+            ->withCount('likes')
+            ->paginate($paginate);
+    }
+
+    public function getCommentsOnComment(int $commentId, int $paginate)
+    {
+        return $this->where('parent_comment_id', $commentId)
+            ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
+            ->with('user:id,avatar,nickname')
+            ->withCount('likes')
+            ->paginate($paginate);
     }
 }
