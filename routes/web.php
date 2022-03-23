@@ -5,8 +5,10 @@ use App\Http\Controllers\Admin\AudioBooksController;
 use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\YearsController;
 use App\Http\Controllers\Audio\AdminController;
 use App\Http\Controllers\Parser\Admin\DashboardController;
@@ -32,42 +34,49 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
+Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth'], function () {
+    Route::delete('/file-remove', [FileController::class, 'destroy'])->name('file-remove');
+
     /*
      * New admin panel
      */
-    Route::group(['prefix' => 'admin-panel'], function () {
-        Route::get('/', [HomeController::class, 'index'])->name('index');
+    Route::get('/', [HomeController::class, 'index'])->name('index');
 
-        /*
-         * Authors
-         */
-        Route::resource('authors', AuthorsController::class)->except(['show']);
+    /*
+     * Authors
+     */
+    Route::resource('authors', AuthorsController::class)->except(['show']);
 
-        /*
-         * Books
-         */
-        Route::resource('books', BooksController::class)->except(['show']);
+    /*
+     * Books
+     */
+    Route::resource('books', BooksController::class)->except(['show']);
 
-        /*
-         * Audio books
-         */
-        Route::resource('audio-books', AudioBooksController::class)->except(['show']);
+    /*
+     * Page
+     */
+    Route::resource('books.pages', PagesController::class)->except(['show'])->scoped();
+    Route::post('/pages-image-store', [PagesController::class, 'storeImage'])->name('pages.image-store');
 
-        /*
-         * Genres
-         */
-        Route::resource('genres', GenresController::class)->except(['show']);
+    /*
+     * Audio books
+     */
+    Route::resource('audio-books', AudioBooksController::class)->except(['show']);
 
-        /*
-         * Years
-         */
-        Route::resource('years', YearsController::class)->except(['show', 'create']);
-    });
+    /*
+     * Genres
+     */
+    Route::resource('genres', GenresController::class)->except(['show']);
+
+    /*
+     * Years
+     */
+    Route::resource('years', YearsController::class)->except(['show', 'create']);
+
 
     /*
      * Old admin panel
-     */
+
     Route::group(['as' => 'parser.', 'prefix' => 'parser'], function () {
         Route::get('/', [ParserController::class, 'index']);
         Route::get('/pages', [PageController::class, 'index'])->name('pages');
@@ -138,7 +147,7 @@ Route::group(['as' => 'admin.', 'middleware' => 'auth'], function () {
         Route::get('/', [PageController::class, 'books'])->name('show');
         Route::get('/{id}', [PageController::class, 'booksPages'])->name('item');
     });
-
+    */
 });
 Route::get('/api/documentation', [StaticPagesController::class, 'documentation']);
 Route::view('/wss', 'wss');

@@ -14,6 +14,10 @@
             @method('PUT')
             <input type="hidden" name="id" value="{{$book->id}}">
 
+            <div class="card-header">
+                <x-button-book-pages :book="$book" :short="false"/>
+            </div>
+
             <div class="card-body">
                 <label class="col-12 d-block">
                     Название книги
