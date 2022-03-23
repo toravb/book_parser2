@@ -123,8 +123,9 @@
             </li>
         </ul>
     </li>
-    <li class="nav-item">
-        <a href="#" class="nav-link">
+    --}}
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.banners.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.banners.*')])>
             <i class="nav-icon fas fa-band-aid"></i>
             <p>
                 Банеры
@@ -133,17 +134,13 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
+                <a href="{{route('admin.banners.index')}}" @class(['nax-link', 'active' => request()->route()->named('admin.banners.*')])>
                     <p>Администрирование</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                    <p>Статистика</p>
                 </a>
             </li>
         </ul>
     </li>
+    {{--
     <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-comments"></i>
