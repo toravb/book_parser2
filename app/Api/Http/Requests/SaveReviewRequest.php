@@ -4,9 +4,10 @@ namespace App\Api\Http\Requests;
 
 use App\Api\Interfaces\Types;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
-class SaveUpdateReviewRequest extends FormRequest
+class SaveReviewRequest extends FormRequest
 {
     protected $types = [];
     protected $models = [];
@@ -38,10 +39,27 @@ class SaveUpdateReviewRequest extends FormRequest
     {
         return [
             'type' => ['required', 'string', Rule::in($this->types)],
-            'id' => ['required', 'integer', Rule::exists($this->models[$this->type]??null . '_id')],
+            'id' => [
+                'required',
+                'integer',
+                Rule::exists($this->models[$this->type] ?? null . '_id'),
+                Rule::unique($this->type . '_reviews', $this->type . '_id')
+                    ->where(function ($query) {
+                        return $query->where('user_id', Auth::id());
+                    })
+            ],
             'review_type' => ['required', 'integer', 'exists:review_types,id'],
             'title' => ['required', 'string', 'max:150'],
             'text' => ['required', 'string']
         ];
     }
+
+    public function messages()
+    {
+        return [
+          'id.exists' => 'Книга не найдена',
+          'id.unique' => 'Вы уже рецензировали данное произведение'
+        ];
+    }
 }
+

@@ -130,8 +130,9 @@ Route::middleware('auth:api')->group(function () {
      * Reviews
      */
     Route::group(['prefix' => 'reviews'], function () {
+        Route::post('/', [ReviewController::class, 'store']);
+        Route::put('/', [ReviewController::class, 'updateReview']);
         Route::get('/list', [ReviewController::class, 'showUserReviews']);
-        Route::put('/', [ReviewController::class, 'saveUpdateReview']);
         Route::delete('/', [ReviewController::class, 'delete']);
     });
 

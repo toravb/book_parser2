@@ -337,7 +337,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function singleBook($bookId): Model|Builder|Book|_IH_Book_QB
     {
         return $this->with([
-            'authors:author',
+            'authors:id,author',
             'image:book_id,link',
             'bookGenres:name',
             'year',
