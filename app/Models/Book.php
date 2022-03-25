@@ -378,7 +378,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function hotDailyUpdates(): Collection
     {
         return $this
-            ->select(['id', 'title', 'created_at'])
+            ->select(['id', 'title', 'active', 'created_at'])
+            ->where('active', true)
             ->where('created_at', '>', Carbon::now()->subDays(MainPageController::PERIOD_FOR_HOT_DAILY_UPDATES))
             ->with(['authors' => function ($query) {
                 $query->select('author');
@@ -393,7 +394,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function getBooksForMainPageFilter(): Builder
     {
         return $this
-            ->select(['id', 'title'])
+            ->select(['id', 'title', 'active'])
+            ->where('active', true)
             ->with([
                 'genres:name',
                 'authors:author',
