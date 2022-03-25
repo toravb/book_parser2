@@ -3,19 +3,13 @@
 use App\Api\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\Admin\AudioBooksController;
 use App\Http\Controllers\Admin\AuthorsController;
+use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\BooksController;
-use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\YearsController;
-use App\Http\Controllers\Audio\AdminController;
-use App\Http\Controllers\Parser\Admin\DashboardController;
-use App\Http\Controllers\Parser\Admin\PageController;
-use App\Http\Controllers\Parser\Admin\ParserController;
-use App\Http\Controllers\Parser\Admin\ProfileController;
-use App\Http\Controllers\Parser\Admin\ProxySettingsController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -72,6 +66,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      * Years
      */
     Route::resource('years', YearsController::class)->except(['show', 'create']);
+
+    /*
+     * Banners
+     */
+    Route::resource('banners', BannersController::class)->except(['show']);
 
 
     /*

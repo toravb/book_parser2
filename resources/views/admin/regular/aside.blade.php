@@ -69,6 +69,23 @@
         </a>
     </li>
 
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.banners.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.banners.*')])>
+            <i class="nav-icon fas fa-band-aid"></i>
+            <p>
+                Банеры
+                <i class="fas fa-angle-left right"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{route('admin.banners.index')}}" @class(['nax-link', 'active' => request()->route()->named('admin.banners.*')])>
+                    <p>Администрирование</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     {{--
     TODO: end up admin actions
     <li class="nav-item">
@@ -119,27 +136,6 @@
             <li class="nav-item">
                 <a href="pages/forms/editors.html" class="nav-link">
                     <p>Рецензии</p>
-                </a>
-            </li>
-        </ul>
-    </li>
-    <li class="nav-item">
-        <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-band-aid"></i>
-            <p>
-                Банеры
-                <i class="fas fa-angle-left right"></i>
-            </p>
-        </a>
-        <ul class="nav nav-treeview">
-            <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                    <p>Администрирование</p>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                    <p>Статистика</p>
                 </a>
             </li>
         </ul>
