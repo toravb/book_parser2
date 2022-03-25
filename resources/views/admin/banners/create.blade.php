@@ -27,14 +27,14 @@
             </label>
 
             <label class="col-12 d-block">
-                Банерная ссылка
+                Баннерная ссылка
                 <input
                     required
                     type="text"
                     name="link"
                     value="{{old('link')}}"
                     @class(['form-control', 'is-invalid' => $errors->has('link')])
-                    placeholder="Банерная ссылка"
+                    placeholder="Баннерная ссылка"
                 >
 
                 <x-error name="link"></x-error>
@@ -107,4 +107,3 @@
     </form>
 
 </x-layouts.admin-layout>
-<?php

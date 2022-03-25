@@ -7,7 +7,6 @@ use App\Api\Services\ApiAnswerService;
 use App\Http\Requests\Admin\StoreBannerRequest;
 use App\Http\Requests\Admin\UpdateBannerRequest;
 use App\Models\Banner;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
 class BannersController extends Controller
@@ -17,7 +16,7 @@ class BannersController extends Controller
         $banners = $banners->dataForAdminPanel()
             ->filter($filter)
             ->paginate(5)->withQueryString();
-//        dd($banners);
+
         return view('admin.banners.index', compact('banners'));
     }
 
@@ -33,11 +32,6 @@ class BannersController extends Controller
         return redirect()->route('admin.banners.edit', $banner)->with('success', 'Баннер успешно создан!');
     }
 
-    public function show(Banner $banner)
-    {
-        //
-    }
-
     public function edit($banner, Banner $banners)
     {
         $banner = $banners->dataForAdminPanel()->findOrFail($banner);
@@ -47,19 +41,15 @@ class BannersController extends Controller
 
     public function update(UpdateBannerRequest $request, Banner $banner)
     {
-        if ($request->image_remove and $banner->image) {
-            \Storage::delete($banner->image);
-            $banner->image = null;
-        }
-
         $banner->saveFromRequest($request);
 
-        return redirect()->route('admin.banners.edit', $banner)->with('success', 'Баннер обновлена!');
+        return redirect()->route('admin.banners.edit', $banner)->with('success', 'Баннер обновлен!');
     }
 
     public function destroy(Banner $banner)
     {
         $banner->delete();
-         return ApiAnswerService::redirect(route('admin.banners.index'));
+
+        return ApiAnswerService::redirect(route('admin.banners.index'));
     }
 }

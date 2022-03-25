@@ -20,7 +20,6 @@ class StoreBannerRequest extends FormRequest
             'content' => ['nullable', 'string'],
             'genres_id' => ['array'],
             'genres_id.*' => ['required', 'int', Rule::exists(Genre::class, 'id')]
-
         ];
     }
 

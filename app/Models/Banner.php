@@ -23,7 +23,7 @@ class Banner extends Model
         $filter->apply($builder);
     }
 
-    public function dataForAdminPanel(): Model|Builder|Book|_IH_Book_QB
+    public function dataForAdminPanel(): Builder
     {
         return $this->with('genres');
     }
@@ -32,6 +32,11 @@ class Banner extends Model
     {
         $this->is_active = (bool)$request->is_active;
         $this->name = $request->name;
+
+        if ($request->image_remove and $this->image) {
+            \Storage::delete($this->image);
+            $this->image = null;
+        }
 
         if ($request->image) {
             if ($this->image) \Storage::delete($this->image);
