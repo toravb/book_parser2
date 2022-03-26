@@ -20,6 +20,11 @@ class AudioBookController extends Controller
     {
         $audioBook = $book->showAudioBookDetails($id);
         $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());
+
+        if ($audioBook->rates_avg === null) {
+            $audioBook->rates_avg = 0;
+        }
+
         return ApiAnswerService::successfulAnswerWithData($audioBook);
     }
 

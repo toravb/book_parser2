@@ -367,9 +367,9 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function ($query) {
-                return $query->select('author');
-            }])
+            ->with([
+                'authors:id,author'
+            ])
             ->select(['id', 'title'])
             ->withCount('rates')
             ->withAvg('rates as rates_avg', 'rates.rating');

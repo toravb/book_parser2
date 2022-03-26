@@ -44,11 +44,9 @@ class BookController extends Controller
 
         $perPage = $request->showType === QueryFilter::SHOW_TYPE_BLOCK ? QueryFilter::PER_PAGE_BLOCKS : $perPageList;
 
-
         $model = $bookFactory->createInstance($request->type);
         $books = $model->getBook()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
             ->paginate($perPage);
-
 
         $collection = $books->getCollection();
         foreach ($collection as &$book) {
@@ -211,6 +209,12 @@ class BookController extends Controller
         $model = $bookFactory->createInstance($request->type);
         $books = $model->getBookForLetterFilter()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
             ->get();
+        foreach ($books as &$book) {
+            if ($book->rates_avg == null) {
+                $book->rates_avg = 0;
+            }
+        }
+
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
