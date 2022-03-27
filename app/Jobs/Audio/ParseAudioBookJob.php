@@ -21,22 +21,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 
 class ParseAudioBookJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $g_link;
-    protected $g_status;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(AudioBooksLink $link, AudioParsingStatus $status)
+    public function __construct(AudioBooksLink $link)
     {
         $this->g_link = $link;
-        $this->g_status = $status;
     }
 
     /**
@@ -46,7 +45,6 @@ class ParseAudioBookJob implements ShouldQueue
      */
     public function handle()
     {
-        $status = $this->getStatus();
         $url = $this->getLink();
         $data = AudioParserController::parse($url->link);
         $book = $url->book()->first();
@@ -84,23 +82,45 @@ class ParseAudioBookJob implements ShouldQueue
             $series = $series->id;
         }
         if ($book == null) {
-            $book = $url->book()->create([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'params' => json_encode($data['params']),
-                'genre_id' => $genre,
-                'series_id' => $series,
-                'litres' => $data['litres'],
-            ]);
+            $book = new AudioBook();
+            $book->title = $data['title'];
+            $book->description = $data['description'];
+            $book->params = json_encode($data['params']);
+            $book->genre_id = $genre;
+            $book->series_id = $series;
+            $book->litres = $data['litres'];
+            $book->link_id = $url->id;
+            $book->save();
         }else{
-            $book->update([
-                'title' => $data['title'],
-                'description' => $data['description'],
-                'params' => json_encode($data['params']),
-                'genre_id' => $genre,
-                'series_id' => $series,
-                'litres' => $data['litres'],
-            ]);
+            $book->title = $data['title'];
+            $book->description = $data['description'];
+            $book->params = json_encode($data['params']);
+            $book->genre_id = $genre;
+            $book->series_id = $series;
+            $book->litres = $data['litres'];
+            $book->save();
+        }
+        if (isset($data['Поджанры'])){
+            foreach ($data['Поджанры'] as $sub_genre){
+                $genre = Genre::query()->where('name', '=', $sub_genre)->first();
+                if (!$genre){
+                    $genre = new Genre();
+                    $genre->fill([
+                        'name' => $sub_genre,
+                    ]);
+                    $genre->save();
+                }
+                $audio_pivot = DB::table('audio_book_genre')
+                    ->where('audio_book_id', '=', $book->id)
+                    ->where('genre_id', '=', $genre->id)
+                    ->first();
+                if (!$audio_pivot){
+                    DB::table('audio_book_genre')->insert([
+                        'audio_book_id' => $book->id,
+                        'genre_id' => $genre->id,
+                    ]);
+                }
+            }
         }
         foreach ($authors as $author){
             $author['book_id'] = $book->id;
@@ -169,7 +189,6 @@ class ParseAudioBookJob implements ShouldQueue
                 continue;
             }
         }
-        $status->increment('min_count');
         $url->doParse = 0;
         $url->save();
     }
@@ -184,10 +203,5 @@ class ParseAudioBookJob implements ShouldQueue
         $link = $this->getLink();
         $link->doParse = 2;
         $link->save();
-    }
-
-    public function getStatus()
-    {
-        return $this->g_status;
     }
 }
