@@ -37,4 +37,9 @@ class Genre extends Model
     {
         return $this->belongsToMany(AudioBook::class);
     }
+
+    public function banners(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Banner::class);
+    }
 }
