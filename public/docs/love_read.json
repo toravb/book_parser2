@@ -13853,6 +13853,236 @@
           {
             "Authorization": []
           }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "author_id": "4"
+                  }
+                },
+                "properties": {
+                  "author_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "author_id"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "User favorite authors",
+        "operationId": "get-profile-lists-authors",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "current_page": 1,
+                        "data": [
+                          {
+                            "id": 3,
+                            "author": "Фомин",
+                            "avatar": "1111",
+                            "books_count": 1,
+                            "audio_books_count": 1,
+                            "total_books_count": 2
+                          }
+                        ],
+                        "first_page_url": "http://book-parser2/api/profile/lists/authors?page=1",
+                        "from": 1,
+                        "last_page": 1,
+                        "last_page_url": "http://book-parser2/api/profile/lists/authors?page=1",
+                        "links": [
+                          {
+                            "url": null,
+                            "label": "&laquo; Назад",
+                            "active": false
+                          },
+                          {
+                            "url": "http://book-parser2/api/profile/lists/authors?page=1",
+                            "label": "1",
+                            "active": true
+                          },
+                          {
+                            "url": null,
+                            "label": "Вперёд &raquo;",
+                            "active": false
+                          }
+                        ],
+                        "next_page_url": null,
+                        "path": "http://book-parser2/api/profile/lists/authors",
+                        "per_page": 12,
+                        "prev_page_url": null,
+                        "to": 1,
+                        "total": 1
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "current_page",
+                        "data",
+                        "first_page_url",
+                        "from",
+                        "last_page",
+                        "last_page_url",
+                        "links",
+                        "path",
+                        "per_page",
+                        "to",
+                        "total"
+                      ],
+                      "properties": {
+                        "current_page": {
+                          "type": "number"
+                        },
+                        "data": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "author": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "avatar": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "books_count": {
+                                "type": "number"
+                              },
+                              "audio_books_count": {
+                                "type": "number"
+                              },
+                              "total_books_count": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "author",
+                              "avatar",
+                              "books_count",
+                              "audio_books_count",
+                              "total_books_count"
+                            ]
+                          }
+                        },
+                        "first_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "from": {
+                          "type": "number"
+                        },
+                        "last_page": {
+                          "type": "number"
+                        },
+                        "last_page_url": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "links": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "url": {
+                                "type": "string"
+                              },
+                              "label": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "boolean"
+                              }
+                            },
+                            "required": [
+                              "label",
+                              "active"
+                            ]
+                          }
+                        },
+                        "next_page_url": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "per_page": {
+                          "type": "number"
+                        },
+                        "prev_page_url": {
+                          "type": "string"
+                        },
+                        "to": {
+                          "type": "number"
+                        },
+                        "total": {
+                          "type": "number"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "letter",
+            "description": "search by first letters"
+          }
+        ],
+        "tags": [
+          "Authors",
+          "Lists"
         ]
       }
     },

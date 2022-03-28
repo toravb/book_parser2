@@ -14,13 +14,22 @@ use Illuminate\Support\Facades\Auth;
 
 class UserAuthorsController extends Controller
 {
+    const FAVORITE_AUTHORS_QUANTITY = 12;
+
     public function list(GetUserAuthorsRequest $request)
     {
         $authors = \auth()->user()->authors()
-            ->when($request->letter!==null, function ($query) use ($request){
-                    $query->where('author', 'like', '%' . $request->letter . '%');
-                })->get();
+            ->when($request->letter !== null, function ($query) use ($request) {
+                $query->where('author', 'like', $request->letter . '%');
+            })
+            ->select('id', 'author', 'avatar')
+            ->withCount('books', 'audioBooks')
+//            ->get();
+            ->paginate(self::FAVORITE_AUTHORS_QUANTITY);
 
+        $authors->map(function ($query) {
+            $query->total_books_count = $query->books_count + $query->audio_books_count;
+        });
 
         return ApiAnswerService::successfulAnswerWithData($authors);
     }
