@@ -100,8 +100,8 @@ class ParseAudioBookJob implements ShouldQueue
             $book->litres = $data['litres'];
             $book->save();
         }
-        if (isset($data['Поджанры'])){
-            foreach ($data['Поджанры'] as $sub_genre){
+        if (isset($data['params']['Поджанры'])){
+            foreach ($data['params']['Поджанры'] as $sub_genre){
                 $genre = Genre::query()->where('name', '=', $sub_genre)->first();
                 if (!$genre){
                     $genre = new Genre();
