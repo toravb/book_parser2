@@ -409,8 +409,9 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this
             ->select('books.id', 'books.title', 'books.year_id')
+            ->where('active', true)
             ->with([
-                'genres:name',
+                'genres:id,name',
                 'authors:author',
                 'image:book_id,link',
                 'year:id,year'

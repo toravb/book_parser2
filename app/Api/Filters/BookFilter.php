@@ -80,7 +80,7 @@ class BookFilter extends QueryFilter
     public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
         if ($sortBy === QueryFilter::SORT_BY_DATE) {
-            return $this->builder->latest();
+            return $this->builder->orderBy('books.created_at', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_READERS_COUNT) {
@@ -101,6 +101,10 @@ class BookFilter extends QueryFilter
             return $this->builder->orderBy('rates_avg', 'desc');
         }
 
+        if ($sortBy === QueryFilter::SORT_BY_ALPHABET) {
+            return $this->builder->orderBy('title', 'asc');
+        }
+
         return $this->builder;
     }
 
@@ -109,5 +113,14 @@ class BookFilter extends QueryFilter
         return $this->builder->whereHas('bookGenres', function ($query) use ($findByCategory) {
             $query->where('id', $findByCategory);
         });
+    }
+
+    public function status(string $status)
+    {
+        if (in_array($status, Book::$availableReadingStatuses)) {
+            return $this->builder->where('status', $status);
+        }
+
+        return $this->builder;
     }
 }

@@ -22,31 +22,12 @@ class BookmarksController extends Controller
         //
     }
 
-    public function create(BookmarkRequest $request,  Bookmark $bookmark): \Illuminate\Http\JsonResponse
+    public function create(BookmarkRequest $request, Bookmark $bookmark): \Illuminate\Http\JsonResponse
     {
         $bookmark = $bookmark->addGetBookmark($request);
+        $bookmark->page = $bookmark->page()->select('id', 'book_id', 'page_number')->get();
 
         return ApiAnswerService::successfulAnswerWithData($bookmark);
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function show(Bookmark $bookmark)
-    {
-        //
-    }
-
-    public function edit(Bookmark $bookmark)
-    {
-        //
-    }
-
-    public function update(Request $request, Bookmark $bookmark)
-    {
-        //
     }
 
     public function destroy(Bookmark $bookmark): \Illuminate\Http\JsonResponse

@@ -42,13 +42,13 @@ class ReadingSettings extends Model
                 'user_id' => $userId
             ],
             [
-                'is_two_columns' => $request->isTwoColumns,
-                'font_size' => $request->fontSize,
-                'screen_brightness' => $request->screenBrightness,
-                'font_name' => $request->fontName,
-                'field_size' => $request->fieldSize,
-                'row_height' => $request->rowHeight,
-                'is_center_alignment' => $request->isCenterAlignment,
+                'is_two_columns' => $request->is_two_columns,
+                'font_size' => $request->font_size,
+                'screen_brightness' => $request->screen_brightness,
+                'font_name' => $request->font_name,
+                'field_size' => $request->field_size,
+                'row_height' => $request->row_height,
+                'is_center_alignment' => $request->is_center_alignment,
             ]
         );
     }

@@ -24,6 +24,7 @@ class UserAuthorsController extends Controller
             })
             ->select('id', 'author', 'avatar')
             ->withCount('books', 'audioBooks')
+            //TODO: вывод лишних полей при пагинации
 //            ->get();
             ->paginate(self::FAVORITE_AUTHORS_QUANTITY);
 

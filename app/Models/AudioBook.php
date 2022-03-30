@@ -273,10 +273,10 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function noveltiesBooks(): Builder
     {
         return $this
-            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id')
+            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id', 'genre_id')
             ->with([
                 'genre:id,name',
-                'authors:author',
+                'authors:id,author',
                 'image:book_id,link',
                 'year:id,year'
             ])

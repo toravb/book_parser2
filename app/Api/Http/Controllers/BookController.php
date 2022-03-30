@@ -21,6 +21,7 @@ use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\ShowBooksInUsersListRequest;
 use App\Models\AudioBook;
 use App\Models\Author;
 use App\Models\Book;
@@ -37,6 +38,7 @@ use Symfony\Component\HttpFoundation\Response;
 class BookController extends Controller
 {
     const NOVELTIES_PAGINATE = 32;
+    const MY_BOOK_LIST_QUANTITY = 12;
 
     public function show(GetBooksRequest $request, BookFilter $bookFilter, AudioBookFilter $audioBookFilter, BookFactory $bookFactory)
     {
@@ -190,17 +192,29 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($bookmarks);
     }
 
-    public function showUserBooks(Request $request, BookFilter $bookFilter): \Illuminate\Http\JsonResponse
+    public function showUserBooks(ShowBooksInUsersListRequest $request, BookFilter $bookFilter): \Illuminate\Http\JsonResponse
     {
+        $columns = ['id', 'title'];
+
         $books = \auth()->user()
             ->bookStatuses()
             ->filter($bookFilter)
-            ->select('id', 'title')
-            ->with(['authors', 'image', 'bookGenres'])
+            ->addSelect('status')
+            ->with([
+                'authors:id,author',
+                'image:book_id,link',
+                'bookGenres:name',
+            ])
             ->withCount('views')
             ->withAvg('rates as rates_avg', 'rates.rating')
-            ->get();
-        $books->books_count = $books->count();
+            ->paginate(self::MY_BOOK_LIST_QUANTITY, $columns);
+
+        $books->map(function ($book) {
+            if ($book->rates_avg === null) {
+                $book->rates_avg = 0;
+            }
+        });
+
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
