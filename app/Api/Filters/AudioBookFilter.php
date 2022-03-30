@@ -2,6 +2,7 @@
 
 namespace App\Api\Filters;
 
+use App\Models\AudioBook;
 use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -77,7 +78,7 @@ class AudioBookFilter extends QueryFilter
     public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
         if ($sortBy === QueryFilter::SORT_BY_DATE) {
-            return $this->builder->latest();
+            return $this->builder->orderBy('audio_books.created_at', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_LISTENERS) {
@@ -100,6 +101,10 @@ class AudioBookFilter extends QueryFilter
             return $this->builder->orderBy('rates_avg', 'desc');
         }
 
+        if ($sortBy === QueryFilter::SORT_BY_ALPHABET) {
+            return $this->builder->orderBy('title', 'asc');
+        }
+
         return $this->builder;
     }
 
@@ -108,5 +113,14 @@ class AudioBookFilter extends QueryFilter
         return $this->builder->whereHas('genre', function ($query) use ($findByCategory) {
             $query->where('id', $findByCategory);
         });
+    }
+
+    public function status($status)
+    {
+        if (in_array($status, AudioBook::$availableListeningStatuses)) {
+            return $this->builder->where('status', $status);
+        }
+
+        return $this->builder;
     }
 }

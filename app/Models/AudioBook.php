@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Api\Filters\AudioBookFilter;
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\ShowAudioBooksUserHasRequest;
 use App\Http\Requests\StoreAudioBookRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

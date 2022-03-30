@@ -100,6 +100,7 @@ Route::middleware('auth:api')->group(function () {
             });
 
             Route::group(['prefix' => 'audio-books'], function () {
+                Route::get('/', [AudioBookController::class, 'ShowUserAudioBooks']);
                 Route::put('/', [AudioBookController::class, 'changeCreateStatus']);
                 Route::delete('/', [AudioBookController::class, 'deleteAudioBookFromUsersList']);
             });

@@ -199,6 +199,7 @@ class BookController extends Controller
         $books = \auth()->user()
             ->bookStatuses()
             ->filter($bookFilter)
+            ->where('active', true)
             ->addSelect('status')
             ->with([
                 'authors:id,author',
