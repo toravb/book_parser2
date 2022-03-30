@@ -9,12 +9,20 @@ class ChangeLinkToNulableAtPages extends Migration
     public function up()
     {
         Schema::table('pages', function (Blueprint $table) {
-            $table->string('link')->nullable(true)->change();
+            $table->dropColumn('link');
+        });
+
+        Schema::table('pages', function (Blueprint $table) {
+            $table->string('link')->nullable(true);
         });
     }
 
     public function down()
     {
+        Schema::table('pages', function (Blueprint $table) {
+            $table->dropColumn('link');
+        });
+
         Schema::table('pages', function (Blueprint $table) {
             $table->string('link')->nullable(false)->change();
         });
