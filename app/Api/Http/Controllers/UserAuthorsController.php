@@ -18,14 +18,14 @@ class UserAuthorsController extends Controller
 
     public function list(GetUserAuthorsRequest $request)
     {
+        $columns = ['id', 'author', 'avatar'];
+
         $authors = \auth()->user()->authors()
             ->when($request->letter !== null, function ($query) use ($request) {
                 $query->where('author', 'like', $request->letter . '%');
             })
-            ->select('id', 'author', 'avatar')
             ->withCount('books', 'audioBooks')
-//            ->get();
-            ->paginate(self::FAVORITE_AUTHORS_QUANTITY);
+            ->paginate(self::FAVORITE_AUTHORS_QUANTITY, $columns);
 
         $authors->map(function ($query) {
             $query->total_books_count = $query->books_count + $query->audio_books_count;

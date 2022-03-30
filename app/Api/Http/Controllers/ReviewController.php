@@ -11,7 +11,6 @@ use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\ReviewType;
 use App\Models\User;
-use http\Message;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -34,18 +33,17 @@ class ReviewController extends Controller
     {
         $userId = Auth::id();
         $field = $this->getFieldName($request->type);
-        $record = $this->reviewTypes[$request->type]
-            ::where(
-                [
-                    'user_id' => $userId,
-                    $field => $request->id
-                ])->firstOrFail();
-        $record->update(
-            [
-                'review_type_id' => $request->review_type,
-                'title' => $request->title,
-                'content' => $request->text,
-            ]);
+
+        $record = $this->reviewTypes[$request->type]::where([
+            'user_id' => $userId,
+            $field => $request->id
+        ])->firstOrFail();
+
+        $record->update([
+            'review_type_id' => $request->review_type,
+            'title' => $request->title,
+            'content' => $request->text,
+        ]);
 
         $record->user = $users->select('id', 'name', 'avatar', 'nickname')->findOrFail($userId);
 
