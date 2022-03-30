@@ -25,14 +25,13 @@ class CommentController extends Controller
     {
         $field = $this->getFieldName($request->type);
         $userId = Auth::id();
-        $record = $this->commentTypes[$request->type]
-            ::create(
-                [
-                    'user_id' => $userId,
-                    $field => $request->id,
-                    'content' => $request->text,
-                    'parent_comment_id' => $request->parent_comment_id
-                ]);
+        $record = $this->commentTypes[$request->type]::create([
+            'user_id' => $userId,
+            $field => $request->id,
+            'content' => $request->text,
+            'parent_comment_id' => $request->parent_comment_id
+        ]);
+
         if ($request->parent_comment_id !== null) {
             NewNotificationEvent::dispatch(NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED, $request->type, $record->id, $userId);
         }

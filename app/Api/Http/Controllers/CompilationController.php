@@ -72,7 +72,9 @@ class CompilationController extends Controller
         $compilation = Compilation::select('id', 'title', 'background', 'description', 'type')
             ->withCount(['books', 'audioBooks'])
             ->findOrfail($request->id);
+
         $books = $compilationService->showCompilationDetails($request->id);
+
         $compilation->generalBooksCount = $compilation->books_count + $compilation->audio_books_count;
 
         $view->addView(\auth('api')->user()?->id, $request->ip(), $compilation->id, $compilation->getTypeAttribute());
