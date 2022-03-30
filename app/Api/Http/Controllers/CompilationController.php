@@ -69,25 +69,27 @@ class CompilationController extends Controller
 
     public function showCompilationDetails(GetIdRequest $request, CompilationService $compilationService, View $view)
     {
-
         $compilation = Compilation::select('id', 'title', 'background', 'description', 'type')
             ->withCount(['books', 'audioBooks'])
             ->findOrfail($request->id);
+
         $books = $compilationService->showCompilationDetails($request->id);
+
         $compilation->generalBooksCount = $compilation->books_count + $compilation->audio_books_count;
 
         $view->addView(\auth('api')->user()?->id, $request->ip(), $compilation->id, $compilation->getTypeAttribute());
 
         return ApiAnswerService::successfulAnswerWithData(['compilation' => $compilation, 'books' => $books]);
-
     }
 
     public function showUserCompilations(UserCompilationsRequest $request, CompilationFilter $compilationFilter): \Illuminate\Http\JsonResponse
     {
-
         $compilation = Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
 
-        return ApiAnswerService::successfulAnswerWithData($compilation);
+        $compilation->map(function ($query) {
+            $query->total_count = $query->books_count + $query->audio_books_count;
+        });
 
+        return ApiAnswerService::successfulAnswerWithData($compilation);
     }
 }

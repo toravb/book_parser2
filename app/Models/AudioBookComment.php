@@ -52,7 +52,7 @@ class AudioBookComment extends Model implements CommentInterface
             ->where('audio_book_id', $typeId)
             ->whereNull('parent_comment_id')
             ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
-            ->with('user:id,avatar,nickname')
+            ->with('users:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }
@@ -61,7 +61,7 @@ class AudioBookComment extends Model implements CommentInterface
     {
         return $this->where('parent_comment_id', $commentId)
             ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
-            ->with('user:id,avatar,nickname')
+            ->with('users:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }

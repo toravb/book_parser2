@@ -9,6 +9,7 @@ use App\Api\Http\Requests\ShowCommentsRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
@@ -20,21 +21,22 @@ class CommentController extends Controller
         $this->commentTypes = $types->getCommentTypes();
     }
 
-    public function saveComment(SaveCommentRequest $request)
+    public function saveComment(SaveCommentRequest $request, User $users)
     {
         $field = $this->getFieldName($request->type);
         $userId = Auth::id();
-        $record = $this->commentTypes[$request->type]
-            ::create(
-                [
-                    'user_id' => $userId,
-                    $field => $request->id,
-                    'content' => $request->text,
-                    'parent_comment_id' => $request->parent_comment_id
-                ]);
+        $record = $this->commentTypes[$request->type]::create([
+            'user_id' => $userId,
+            $field => $request->id,
+            'content' => $request->text,
+            'parent_comment_id' => $request->parent_comment_id
+        ]);
+
         if ($request->parent_comment_id !== null) {
             NewNotificationEvent::dispatch(NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED, $request->type, $record->id, $userId);
         }
+
+        $record->user = $users->select('id', 'name', 'avatar', 'nickname')->findOrFail($userId);
 
         return ApiAnswerService::successfulAnswerWithData($record);
     }

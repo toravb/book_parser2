@@ -55,11 +55,17 @@ class Quote extends Model
     public function store(int $userId, SaveQuotesRequest $request)
     {
         $this->user_id = $userId;
-        $this->book_id = $request->bookId;
-        $this->page_id = $request->pageId;
-        $this->content = $request->text;
+        $this->book_id = $request->book_id;
+        $this->page_id = $request->page_id;
+        $this->text = $request->text;
         $this->color = $request->color;
-        $this->position = $request->position;
+        $this->start_key = $request->start_key;
+        $this->start_text_index = $request->start_text_index;
+        $this->start_offset = $request->start_offset;
+        $this->end_key = $request->end_key;
+        $this->end_text_index = $request->end_text_index;
+        $this->end_offset = $request->end_offset;
+
         $this->save();
     }
 

@@ -337,7 +337,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function singleBook($bookId): Model|Builder|Book|_IH_Book_QB
     {
         return $this->with([
-            'authors:author',
+            'authors:id,author',
             'image:book_id,link',
             'bookGenres:name',
             'year',
@@ -367,9 +367,9 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function ($query) {
-                return $query->select('author');
-            }])
+            ->with([
+                'authors:id,author'
+            ])
             ->select(['id', 'title'])
             ->withCount('rates')
             ->withAvg('rates as rates_avg', 'rates.rating');
@@ -378,7 +378,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function hotDailyUpdates(): Collection
     {
         return $this
-            ->select(['id', 'title', 'created_at'])
+            ->select(['id', 'title', 'active', 'created_at'])
+            ->where('active', true)
             ->where('created_at', '>', Carbon::now()->subDays(MainPageController::PERIOD_FOR_HOT_DAILY_UPDATES))
             ->with(['authors' => function ($query) {
                 $query->select('author');
@@ -393,7 +394,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function getBooksForMainPageFilter(): Builder
     {
         return $this
-            ->select(['id', 'title'])
+            ->select(['id', 'title', 'active'])
+            ->where('active', true)
             ->with([
                 'genres:name',
                 'authors:author',

@@ -73,14 +73,13 @@ class CompilationFilter extends QueryFilter
 
     public function compType(string $compType)
     {
-
-        return $this->builder->when($compType === Compilation::COMPILATION_USER, function ($query) {
-            $query->whereNull('type');
-        })
-            ->when($compType === Compilation::COMPILATION_ADMIN, function ($query) {
+        return $this->builder
+            ->select('id', 'title', 'background')
+            ->when($compType === Compilation::COMPILATION_USER, function ($query) {
+                $query->where('created_by', \auth()->id());
+            })->when($compType === Compilation::COMPILATION_ADMIN, function ($query) {
                 $query->orWhereNotNull('type');
-            });
-
+            })->withCount(['books', 'audioBooks']);
     }
 
     public function letter(string $letter)

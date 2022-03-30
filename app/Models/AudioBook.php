@@ -225,7 +225,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             // Продолжительность файла
             // После, дописать доку
             ->where('id', $bookId)
-            ->select('id', 'title', 'description', 'year_id', 'series_id', 'link_id')
+            ->select('id', 'title', 'description', 'year_id', 'series_id', 'link_id', 'genre_id')
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
@@ -249,6 +249,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
                 'id',
                 'title',
                 'link_id',
+                'genre_id'
             ])
             ->with([
                 'authors:author',
