@@ -101,7 +101,7 @@ class Quote extends Model
     public function getQuotesForBookPage(int $bookId)
     {
         return $this
-            ->select('id', 'user_id', 'book_id', 'content', 'updated_at')
+            ->select('id', 'user_id', 'book_id', 'text', 'updated_at')
             ->where('book_id', $bookId)
             ->with('user:id,avatar,nickname')
             ->withCount('likes','views')

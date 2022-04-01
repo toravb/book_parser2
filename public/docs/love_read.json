@@ -12046,7 +12046,6 @@
                 },
                 "required": [
                   "book_id",
-                  "page_id",
                   "text",
                   "start_key",
                   "start_text_index",
