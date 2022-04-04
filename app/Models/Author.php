@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\SearchModelInterface;
+use App\Api\Services\ApiAnswerService;
 use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\StoreAuthorRequest;
 use Illuminate\Database\Eloquent\Builder;
@@ -43,8 +44,8 @@ class Author extends Model implements SearchModelInterface
     public function saveFromRequest(StoreAuthorRequest $request)
     {
         $this->author = $request->author;
-        if($request->avatar) {
-            if($this->avatar) \Storage::delete($this->avatar);
+        if ($request->avatar) {
+            if ($this->avatar) \Storage::delete($this->avatar);
 
             $this->avatar = \Storage::put('authors', $request->avatar);
         }
@@ -134,54 +135,17 @@ class Author extends Model implements SearchModelInterface
         return $this->belongsToMany(User::class, 'user_author');
     }
 
-    public function quotes(int $author_id): Author|null
+    public function quotes(int $author_id)
     {
-        $authorWithBooks = self::select(['id', 'author'])
-            ->withCount('authorQuotes')
-            ->with(['books' => function ($query) {
-                $query->select(['books.id', 'title', 'link'])
-                    ->withCount(['views', 'rates'])
-                    ->whereHas('quotes')
-                    ->with(['latestQuote' => function ($query) {
-                        $query->select(['id', 'user_id', 'book_id', 'content', 'created_at'])
-                            ->with(['user' => function ($query) {
-                                $query->select(['id', 'nickname', 'avatar', 'created_at']);
-                            }]);
-                    }]);
-            }])
-            ->find($author_id);
-
-        return $authorWithBooks;
+        return $this->select(['id', 'author'])
+            ->withCount('authorQuotes')->find($author_id);
     }
 
-    public function reviews(int $author_id): Author|null
+    //TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рицензия не выводиться
+    public function reviewAuthorCount(int $authorId)
     {
-        $authorWithBooks = self::select(['authors.id', 'author'])
-            ->withCount('authorReviews')
-            ->with(['books' => function ($query) {
-                $query->select(['books.id', 'title', 'link'])
-                    ->withCount(['views', 'rates'])
-                    ->whereHas('reviews')
-                    ->with(['latestReview' => function ($query) {
-                        $query->select([
-                            'reviews.user_id',
-                            'reviews.book_id',
-                            'reviews.content',
-                            'reviews.created_at',
-                            'rates.rating as review_rating',
-                            'rates.book_id',
-                            'rates.user_id',
-                        ]);
-                        $query->with(['user']);
-                        $query->leftJoin('rates', function ($join) {
-                            $join->on('rates.book_id', '=', 'reviews.book_id');
-                            $join->on('rates.user_id', '=', 'reviews.user_id');
-                        });
-                    }]);
-            }])
-            ->find($author_id);
-
-        return $authorWithBooks;
+        return $this->select('id', 'author')
+            ->withCount('authorReviews')->find($authorId);
     }
 
     public function showOtherBooks($authorId)

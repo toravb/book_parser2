@@ -6,6 +6,7 @@ use App\Api\Http\Requests\AuthorPageRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Compilation;
 use App\Models\Review;
 
@@ -73,15 +74,16 @@ class AuthorPageController extends Controller
         return ApiAnswerService::successfulAnswerWithData($series);
     }
 
-    public function showQuotes(Author $author): \Illuminate\Http\JsonResponse
+    public function showQuotes(Author $author, Book $book): \Illuminate\Http\JsonResponse
     {
-        $quotes = $author->quotes($author->id);
-        return ApiAnswerService::successfulAnswerWithData($quotes);
+        $author = $author->quotes($author->id);
+        $book = $book->latestBookQuoteWithUser($author->id);
+        return ApiAnswerService::successfulAnswerWithData([$author, $book]);
     }
 
-    public function showReviews(Author $author): \Illuminate\Http\JsonResponse
+    public function showReviews(Author $author, Book $book): \Illuminate\Http\JsonResponse
     {
-        $reviews = $author->reviews($author->id);
-        return ApiAnswerService::successfulAnswerWithData($reviews);
-    }
+        $author = $author->reviewAuthorCount($author->id);
+        $book = $book->latestBookReviewWithUser($author->id);
+        return ApiAnswerService::successfulAnswerWithData([$author, $book]);    }
 }

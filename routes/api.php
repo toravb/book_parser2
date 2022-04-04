@@ -198,12 +198,6 @@ Route::group(['prefix' => 'comments'], function () {
     Route::get('/{id}', [CommentController::class, 'getCommentsOnComment']);
 });
 
-/**
- * Get reviews by model type
- */
-Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);
-
-
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
 /**
@@ -312,3 +306,8 @@ Route::post('/claim', [ClaimFormsController::class, 'store']);
  * Search
  */
 Route::get('/search', [SearchController::class, 'search']);
+
+/**
+ * Get reviews by model type
+ */
+Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);

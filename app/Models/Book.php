@@ -218,7 +218,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
     public function latestReview(): HasOne
     {
-        return $this->hasOne(Review::class)->latest();
+        return $this->hasOne(BookReview::class)->latest();
     }
 
     public function latestQuote(): HasOne
@@ -447,5 +447,53 @@ class Book extends Model implements BookInterface, SearchModelInterface
         ]);
 
         return $book->id;
+    }
+
+    public function latestBookQuoteWithUser(int $authorId)
+    {
+
+        return $this->select(['books.id', 'title'])
+            ->with(['authors' => function ($query) use ($authorId) {
+                $query->where('authors.id', $authorId)->select('author');
+            }])
+            ->withCount(['views', 'rates'])
+            ->whereHas('quotes')
+            ->with('image:book_id,link')
+            ->with(['latestQuote' => function ($query) {
+                $query->select(['id', 'user_id', 'book_id', 'text', 'created_at'])
+                    ->with(['user' => function ($query) {
+                        $query->select(['id', 'name', 'avatar']);
+                    }]);
+            }])->paginate(8);
+    }
+
+    public function latestBookReviewWithUser(int $authorId)
+    {
+
+        return $this->select(['books.id', 'title'])
+            ->whereHas('reviews')
+            ->with(['authors' => function ($query) use ($authorId) {
+                $query->where('authors.id', $authorId)->select('author');
+            }])
+            ->withCount(['views', 'rates'])
+            ->with('image:book_id,link')
+            ->with([
+                'image:book_id,link',
+                'latestReview' => function ($query) {
+                    $query->select('book_reviews.id',
+                        'book_reviews.user_id',
+                        'book_reviews.book_id',
+                        'content',
+                        'book_reviews.created_at',
+                        'rates.user_id',
+                        'rates.book_id',
+                        'rates.rating as user_book_rate',
+                    )
+                        ->with('user:id,name,avatar')
+                        ->leftJoin('rates', function ($join) {
+                            $join->on('rates.book_id', '=', 'book_reviews.book_id');
+                            $join->on('rates.user_id', '=', 'book_reviews.user_id');
+                        });
+                }])->paginate(8);
     }
 }
