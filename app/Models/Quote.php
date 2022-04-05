@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
@@ -16,9 +17,9 @@ class Quote extends Model
 {
     use HasFactory;
 
-    const SHOW_BY_BOOK_AND_AUTHOR = '1';
-    const SHOW_BY_BOOK = '2';
-    const SHOW_BY_AUTHOR = '3';
+    const SHOW_ALL = '1';
+    const GROUP_BY_BOOK = '2';
+    const GROUP_BY_AUTHOR = '3';
     const QUOTES_PER_PAGE = 3;
 
     protected $appends = [
@@ -30,6 +31,10 @@ class Quote extends Model
         return $this->getRawOriginal['type'] ?? 'quotes';
     }
 
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
 
     public function user()
     {
@@ -104,8 +109,22 @@ class Quote extends Model
             ->select('id', 'user_id', 'book_id', 'text', 'updated_at')
             ->where('book_id', $bookId)
             ->with('user:id,avatar,nickname')
-            ->withCount('likes','views')
+            ->withCount('likes', 'views')
             ->paginate(self::QUOTES_PER_PAGE);
     }
 
+    public function showUserQuotes(int $userId): Builder
+    {
+        return $this->where('user_id', $userId)
+            ->select('quotes.id', 'quotes.book_id', 'user_id', 'quotes.text')
+            ->with(['book' => function ($query) {
+                $query->select('books.id', 'title')
+                    ->withCount('rates')
+                    ->withAvg('rates as rates_avg', 'rates.rating')
+                    ->with(['image:book_id,link',
+                        'authors' => function ($query) {
+                            $query->select('authors.id', 'author');
+                        }]);
+            }])->withCount('likes');
+    }
 }

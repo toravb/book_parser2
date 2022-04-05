@@ -11,40 +11,10 @@ use Illuminate\Http\Request;
 
 class ChaptersController extends Controller
 {
-    public function index()
-    {
-        //
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
     public function showBookChapters(Book $book): \Illuminate\Http\JsonResponse
     {
         $chapters = $book->chapters;
 
         return ApiAnswerService::successfulAnswerWithData($chapters);
-    }
-
-    public function edit(Chapter $chapter)
-    {
-        //
-    }
-
-    public function update(Request $request, Chapter $chapter)
-    {
-        //
-    }
-
-    public function destroy(Chapter $chapter)
-    {
-        //
     }
 }

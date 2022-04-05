@@ -31,15 +31,13 @@ class CategoryController extends Controller
         );
     }
 
-    // todo: rewrite
-    public function withBooksCount(): \Illuminate\Http\JsonResponse
+    public function withBooksCount(Genre $genre): \Illuminate\Http\JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData([]);
+        return ApiAnswerService::successfulAnswerWithData($genre->booksCount());
     }
 
-    // todo: rewrite
-    public function withAudioBooksCount(): \Illuminate\Http\JsonResponse
+    public function withAudioBooksCount(Genre $genre): \Illuminate\Http\JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData([]);
+        return ApiAnswerService::successfulAnswerWithData($genre->audioBooksCount());
     }
 }

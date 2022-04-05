@@ -2,6 +2,7 @@
 
 namespace App\Api\Http\Controllers;
 
+use App\Api\Filters\QuoteFilter;
 use App\Api\Http\Requests\DeleteQuoteRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
@@ -103,16 +104,16 @@ class QuoteController extends Controller
         return ApiAnswerService::successfulAnswerWithData($rowsAffected);
     }
 
-    // TODO: user quotes - уточнить
-    public function showUserQuotes(UserQuotesRequest $request)
+    public function showUserQuotes(UserQuotesRequest $request, Quote $quotes, QuoteFilter $quoteFilter)
     {
-        $quotes = \auth()->user()->quotes()
-            ->with(['book' => function ($query) {
-                $query->with(['authors']);
-            }])->get();
+        $userQuotes = $quotes->showUserQuotes(\auth()->id())->filter($quoteFilter)->get();
 
-        return ApiAnswerService::successfulAnswerWithData($quotes);
-
+        $userQuotes->map(function ($query) {
+            if ($query->book['rates_avg'] === null) {
+                $query->book['rates_avg'] = 0;
+            }
+        });
+        return ApiAnswerService::successfulAnswerWithData($userQuotes);
     }
 
     public function getQuotesForBookPage(GetQuotesForBookRequest $request, Quote $quote)

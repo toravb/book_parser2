@@ -14752,6 +14752,196 @@
         ]
       }
     },
+    "/profile/lists/quotes": {
+      "parameters": [],
+      "get": {
+        "summary": "Show user quotes",
+        "operationId": "get-profile-lists-quotes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "required": [
+                          "id",
+                          "book_id",
+                          "user_id",
+                          "text",
+                          "likes_count",
+                          "type"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "book_id": {
+                            "type": "number"
+                          },
+                          "user_id": {
+                            "type": "number"
+                          },
+                          "text": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "likes_count": {
+                            "type": "number"
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "book": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "rates_count": {
+                                "type": "number"
+                              },
+                              "rates_avg": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "image": {
+                                "type": "object",
+                                "properties": {
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "link": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "book_id",
+                                  "link"
+                                ]
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "required": [
+                                    "id",
+                                    "author"
+                                  ],
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "title",
+                              "rates_count",
+                              "rates_avg",
+                              "type",
+                              "image",
+                              "authors"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 1,
+                          "book_id": 1,
+                          "user_id": 12,
+                          "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt",
+                          "likes_count": 1,
+                          "type": "quotes",
+                          "book": {
+                            "id": 1,
+                            "title": "3333333",
+                            "rates_count": 0,
+                            "rates_avg": 0,
+                            "type": "books",
+                            "image": {
+                              "book_id": 1,
+                              "link": "1111111111"
+                            },
+                            "authors": [
+                              {
+                                "id": 1,
+                                "author": "Писюнков"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1",
+                "2",
+                "3"
+              ]
+            },
+            "in": "query",
+            "name": "groupBy",
+            "description": "1 - SHOW_ALL; 2 - GROUP_BY_BOOK; 3 - GROUP_BY_AUTHOR;",
+            "required": true
+          }
+        ],
+        "tags": [
+          "Quotes"
+        ]
+      }
+    },
     "/compilations/books/delete": {
       "delete": {
         "summary": "Delete book from compilation",
@@ -15567,7 +15757,7 @@
         "summary": "Show reviews from author books",
         "tags": [
           "Authors",
-          "Quotes"
+          "Reviews"
         ],
         "responses": {
           "200": {

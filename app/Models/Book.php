@@ -316,7 +316,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         $number = $request->pageNumber ? $request->pageNumber : 1;
         return $this->with([
-            'authors',
+            'authors:id,author',
             'pages' => function ($query) use ($number) {
                 return $query->where('page_number', $number);
             }
@@ -466,6 +466,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
                     }]);
             }])->paginate(8);
     }
+    //TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рецензия не выводиться
 
     public function latestBookReviewWithUser(int $authorId)
     {

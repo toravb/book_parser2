@@ -110,6 +110,8 @@ Route::middleware('auth:api')->group(function () {
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
             });
+
+            Route::get('/quotes', [QuoteController::class, 'showUserQuotes']);
         });
     });
     /*
@@ -149,7 +151,6 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'quotes'], function () {
         Route::get('/', [QuoteController::class, 'index']);
-        Route::get('/list', [QuoteController::class, 'showUserQuotes']);
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);
@@ -252,8 +253,10 @@ Route::group(['prefix' => 'books'], function () {
 Route::group(['prefix' => 'compilations'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/', [CompilationController::class, 'store']);
-        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
         Route::post('/books', [BookController::class, 'saveBookToCompilation']);
+
+        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
+
         Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
     });
 

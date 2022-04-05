@@ -141,7 +141,6 @@ class Author extends Model implements SearchModelInterface
             ->withCount('authorQuotes')->find($author_id);
     }
 
-    //TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рицензия не выводиться
     public function reviewAuthorCount(int $authorId)
     {
         return $this->select('id', 'author')

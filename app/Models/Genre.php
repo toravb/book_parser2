@@ -42,4 +42,18 @@ class Genre extends Model
     {
         return $this->belongsToMany(Banner::class);
     }
+
+    public function booksCount()
+    {
+        return $this->select('id', 'name')
+            ->withCount('books')
+            ->get();
+    }
+
+    public function audioBooksCount()
+    {
+        return $this->select('id', 'name')
+            ->withCount('audioBooks')
+            ->get();
+    }
 }
