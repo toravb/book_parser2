@@ -9,11 +9,6 @@ use Illuminate\Http\Request;
 
 class AudioBookFilter extends QueryFilter
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
         if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
@@ -82,9 +77,7 @@ class AudioBookFilter extends QueryFilter
         }
 
         if ($sortBy === QueryFilter::SORT_BY_LISTENERS) {
-            return $this->builder->whereHas('audioBookStatuses', function ($query) {
-                $query->listening();
-            })
+            return $this->builder
                 ->withCount('audioBookStatuses as listenerCount')
                 ->orderBy('listenerCount', 'desc');
         }
