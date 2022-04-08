@@ -68,7 +68,6 @@ class BookReview extends Model implements ReviewInterface
         return $this->hasMany(BookReviewComment::class);
     }
 
-
     public function latestReviewBookUser()
     {
         return $this

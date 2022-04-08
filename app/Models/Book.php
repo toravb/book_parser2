@@ -470,7 +470,6 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
     public function latestBookReviewWithUser(int $authorId)
     {
-
         return $this->select(['books.id', 'title'])
             ->whereHas('reviews')
             ->with(['authors' => function ($query) use ($authorId) {

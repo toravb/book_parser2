@@ -6272,13 +6272,19 @@
                     "example-1": {
                       "status": "success",
                       "data": {
-                        "user_id": 56,
-                        "book_id": 1,
-                        "content": "text comment",
+                        "user_id": 12,
+                        "audio_book_review_id": "2",
+                        "content": "11112233211w",
                         "parent_comment_id": null,
-                        "updated_at": "2022-02-23T10:38:21.000000Z",
-                        "created_at": "2022-02-23T10:38:21.000000Z",
-                        "id": 2
+                        "updated_at": "2022-04-08T09:59:26.000000Z",
+                        "created_at": "2022-04-08T09:59:26.000000Z",
+                        "id": 11,
+                        "user": {
+                          "id": 12,
+                          "name": null,
+                          "avatar": null,
+                          "nickname": null
+                        }
                       }
                     }
                   },
@@ -6291,25 +6297,26 @@
                       "type": "object",
                       "required": [
                         "user_id",
-                        "book_id",
+                        "audio_book_review_id",
                         "content",
                         "updated_at",
                         "created_at",
-                        "id"
+                        "id",
+                        "user"
                       ],
                       "properties": {
                         "user_id": {
                           "type": "number"
                         },
-                        "book_id": {
-                          "type": "number"
+                        "audio_book_review_id": {
+                          "type": "string",
+                          "minLength": 1
                         },
                         "content": {
                           "type": "string",
                           "minLength": 1
                         },
                         "parent_comment_id": {
-                          "type": "number",
                           "nullable": true
                         },
                         "updated_at": {
@@ -6322,6 +6329,26 @@
                         },
                         "id": {
                           "type": "number"
+                        },
+                        "user": {
+                          "type": "object",
+                          "required": [
+                            "id"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            },
+                            "nickname": {
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     }
@@ -6359,6 +6386,26 @@
                         "id": 3
                       }
                     }
+                  },
+                  "new comment audiobook review": {
+                    "value": {
+                      "status": "string",
+                      "data": {
+                        "user_id": 56,
+                        "audio_book_review_id": "string",
+                        "content": "string",
+                        "parent_comment_id": null,
+                        "updated_at": "string",
+                        "created_at": "string",
+                        "id": 0,
+                        "user": {
+                          "id": 0,
+                          "name": "string",
+                          "avatar": "string",
+                          "nickname": "string"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -6393,45 +6440,16 @@
                     "type": "string",
                     "enum": [
                       "book",
-                      "audio_book"
+                      "audio_book",
+                      "book_review",
+                      "audio_book_review"
                     ]
-                  },
-                  "user": {
-                    "type": "object",
-                    "enum": [
-                      "book",
-                      "audio_book"
-                    ],
-                    "required": [
-                      "id",
-                      "name",
-                      "avatar",
-                      "nickname"
-                    ],
-                    "properties": {
-                      "id": {
-                        "type": [
-                          "string",
-                          "number"
-                        ]
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "avatar": {
-                        "type": "string"
-                      },
-                      "nickname": {
-                        "type": "string"
-                      }
-                    }
                   }
                 },
                 "required": [
                   "id",
                   "text",
-                  "type",
-                  "user"
+                  "type"
                 ]
               },
               "examples": {
