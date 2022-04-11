@@ -2,17 +2,13 @@
 
 namespace App\Api\Filters;
 
+use App\Models\AudioBook;
 use App\Models\Book;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AudioBookFilter extends QueryFilter
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
         if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
@@ -77,13 +73,11 @@ class AudioBookFilter extends QueryFilter
     public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
         if ($sortBy === QueryFilter::SORT_BY_DATE) {
-            return $this->builder->latest();
+            return $this->builder->orderBy('audio_books.created_at', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_LISTENERS) {
-            return $this->builder->whereHas('audioBookStatuses', function ($query) {
-                $query->listening();
-            })
+            return $this->builder
                 ->withCount('audioBookStatuses as listenerCount')
                 ->orderBy('listenerCount', 'desc');
         }
@@ -100,6 +94,10 @@ class AudioBookFilter extends QueryFilter
             return $this->builder->orderBy('rates_avg', 'desc');
         }
 
+        if ($sortBy === QueryFilter::SORT_BY_ALPHABET) {
+            return $this->builder->orderBy('title', 'asc');
+        }
+
         return $this->builder;
     }
 
@@ -108,5 +106,14 @@ class AudioBookFilter extends QueryFilter
         return $this->builder->whereHas('genre', function ($query) use ($findByCategory) {
             $query->where('id', $findByCategory);
         });
+    }
+
+    public function status($status)
+    {
+        if (in_array($status, AudioBook::$availableListeningStatuses)) {
+            return $this->builder->where('status', $status);
+        }
+
+        return $this->builder;
     }
 }

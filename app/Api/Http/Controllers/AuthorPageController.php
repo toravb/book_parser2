@@ -6,65 +6,50 @@ use App\Api\Http\Requests\AuthorPageRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Author;
+use App\Models\Book;
 use App\Models\Compilation;
-use App\Models\Review;
+use Illuminate\Http\JsonResponse;
 
 
 class AuthorPageController extends Controller
 {
-    public function show(AuthorPageRequest $request): \Illuminate\Http\JsonResponse
+    public function show(AuthorPageRequest $request): JsonResponse
     {
-        $authorWithSeries = Author::with([
-            'books' => function ($query) {
-                return $query->with([
-                    'image' => function ($query) {
-                        return $query->where('page_id', null)->select('book_id','link');
-                    },
-                ])
-                    ->whereNull('series_id');
-            },
-            'audioBooks',
-            'series' => function ($query) {
-                $query->with(['books' => function ($query) {
-                    return $query->with([
-                        'image' => function ($query) {
-                            return $query->where('page_id', null)->select('book_id','link');
-                        },
-                    ])->with('rates');
-                }]);
-            },
-            'similarAuthors' => function ($query) use ($request) {
-                return $query->with('authors');
-            }
-        ])
+        $authorWithSeries = Author::query()
+            ->with([
+                'books' => function ($query) {
+                    return $query
+                        ->with(['image'])
+                        ->whereNull('series_id');
+                },
+                'audioBooks',
+                'series',
+                'series.books.image',
+                'series.books.rates',
+                'similarAuthors.authors'
+            ])
             ->withCount(['authorReviews', 'authorQuotes', 'books'])
             ->find($request->id);
 
+        // TODO: посмотреть корректно ли отрабатывает подсчёт (для автора)
         $authorWithSeries->compilation = Compilation::withCount('books')->get();
 
         return ApiAnswerService::successfulAnswerWithData($authorWithSeries);
     }
 
-    public function showSeries(AuthorPageRequest $request): \Illuminate\Http\JsonResponse
+    public function showSeries(AuthorPageRequest $request): JsonResponse
     {
-        $series = Author::with([
-            'books' => function ($query) use ($request) {
-                return $query->with([
-                    'image' => function ($query) {
-                        return $query->where('page_id', null)->select('book_id','link');
-                    },
-                ])->where('series_id', $request->series_id);
-            },
-            'series' => function ($query) {
-                $query->with(['books' => function ($query) {
-                    return $query->with([
-                        'image' => function ($query) {
-                            return $query->where('page_id', null)->select('book_id','link');
-                        },
-                    ])->with('rates');
-                }]);
-            },
-        ])
+        $series = Author::query()
+            ->with([
+                'books' => function ($query) use ($request) {
+                    return $query
+                        ->with(['image'])
+                        ->where('series_id', $request->series_id);
+                },
+                'series',
+                'series.books.image',
+                'series.books.rates',
+            ])
             ->withCount(['authorReviews', 'authorQuotes', 'books'])
             ->find($request->id);
 
@@ -73,15 +58,21 @@ class AuthorPageController extends Controller
         return ApiAnswerService::successfulAnswerWithData($series);
     }
 
-    public function showQuotes(Author $author): \Illuminate\Http\JsonResponse
+    public function showQuotes($authorId, $bookId): JsonResponse
     {
-        $quotes = $author->quotes($author->id);
-        return ApiAnswerService::successfulAnswerWithData($quotes);
+        $author = Author::withQuotesCount($authorId);
+        $books = Book::where('id', $bookId)
+            ->latestBookQuoteWithUser($authorId);
+
+        return ApiAnswerService::successfulAnswerWithData([$author, $books]);
     }
 
-    public function showReviews(Author $author): \Illuminate\Http\JsonResponse
+    public function showReviews($authorId, $bookId): JsonResponse
     {
-        $reviews = $author->reviews($author->id);
-        return ApiAnswerService::successfulAnswerWithData($reviews);
+        $author = Author::reviewAuthorCount($authorId);
+        $books = Book::where('id', $bookId)
+            ->latestBookReviewWithUser($authorId);
+
+        return ApiAnswerService::successfulAnswerWithData([$author, $books]);
     }
 }

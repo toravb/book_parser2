@@ -21,6 +21,7 @@ abstract class QueryFilter
     const TYPE_BOOK = 'books';
     const TYPE_AUDIO_BOOK = 'audioBooks';
     const TYPE_ALL = 'all';
+    const SORT_BY_ALPHABET = '6';
     /**
      * @var Request
      */

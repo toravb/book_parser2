@@ -4,10 +4,11 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Http\Requests\StoreGenreRequest;
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Collection;
 
 class Genre extends Model
 {
@@ -28,18 +29,32 @@ class Genre extends Model
         $filter->apply($builder);
     }
 
-    public function books(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class);
     }
 
-    public function audioBooks(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function audioBooks(): BelongsToMany
     {
         return $this->belongsToMany(AudioBook::class);
     }
 
-    public function banners(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function banners(): BelongsToMany
     {
         return $this->belongsToMany(Banner::class);
+    }
+
+    public function booksCount(): array|Collection
+    {
+        return $this->select('id', 'name')
+            ->withCount('books')
+            ->get();
+    }
+
+    public function audioBooksCount(): array|Collection
+    {
+        return $this->select('id', 'name')
+            ->withCount('audioBooks')
+            ->get();
     }
 }

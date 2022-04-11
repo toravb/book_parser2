@@ -28,7 +28,7 @@ class Bookmark extends Model
         return $this->belongsTo(Page::class);
     }
 
-    public static function addGetBookmark(BookmarkRequest $request): Bookmark
+    public function addGetBookmark(BookmarkRequest $request): Bookmark
     {
         return Bookmark::firstOrCreate([
             'book_id' => $request->book_id,

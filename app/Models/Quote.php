@@ -2,23 +2,23 @@
 
 namespace App\Models;
 
+use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Quote extends Model
 {
     use HasFactory;
 
-    const SHOW_BY_BOOK_AND_AUTHOR = '1';
-    const SHOW_BY_BOOK = '2';
-    const SHOW_BY_AUTHOR = '3';
+    const SHOW_ALL = '1';
+    const GROUP_BY_BOOK = '2';
+    const GROUP_BY_AUTHOR = '3';
     const QUOTES_PER_PAGE = 3;
 
     protected $appends = [
@@ -30,6 +30,10 @@ class Quote extends Model
         return $this->getRawOriginal['type'] ?? 'quotes';
     }
 
+    public function scopeFilter(Builder $builder, QueryFilter $filter)
+    {
+        $filter->apply($builder);
+    }
 
     public function user()
     {
@@ -98,14 +102,38 @@ class Quote extends Model
             ->delete();
     }
 
-    public function getQuotesForBookPage(int $bookId)
+    /**
+     * @param int $bookId
+     * @return LengthAwarePaginator
+     */
+    public function getQuotesForBookPage(int $bookId): LengthAwarePaginator
     {
         return $this
-            ->select('id', 'user_id', 'book_id', 'content', 'updated_at')
+            ->select('id', 'user_id', 'book_id', 'text', 'updated_at')
             ->where('book_id', $bookId)
             ->with('user:id,avatar,nickname')
-            ->withCount('likes','views')
+            ->withCount('likes', 'views')
             ->paginate(self::QUOTES_PER_PAGE);
     }
 
+    /**
+     * @param int $userId
+     * @return Builder
+     */
+    public function showUserQuotes(int $userId): Builder
+    {
+        return $this->where('user_id', $userId)
+            ->select('quotes.id', 'quotes.book_id', 'user_id', 'quotes.text')
+            ->with(['book' => function ($query) {
+                $query->select('books.id', 'title')
+                    ->withCount('rates')
+                    ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+                    ->with([
+                        'image:book_id,link',
+                        'authors' => function ($query) {
+                            $query->select('authors.id', 'author');
+                        }
+                    ]);
+            }])->withCount('likes');
+    }
 }

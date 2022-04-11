@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Api\Filters\AudioBookFilter;
 use App\Api\Filters\QueryFilter;
 use App\Api\Interfaces\BookInterface;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\ShowAudioBooksUserHasRequest;
 use App\Http\Requests\StoreAudioBookRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -273,10 +275,10 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function noveltiesBooks(): Builder
     {
         return $this
-            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id')
+            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id', 'genre_id')
             ->with([
                 'genre:id,name',
-                'authors:author',
+                'authors:id,author',
                 'image:book_id,link',
                 'year:id,year'
             ])

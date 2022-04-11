@@ -8,11 +8,6 @@ use Illuminate\Http\Request;
 
 class BookFilter extends QueryFilter
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function showType(string $viewTypeList): \Illuminate\Database\Eloquent\Builder
     {
         if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
@@ -80,17 +75,19 @@ class BookFilter extends QueryFilter
     public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
     {
         if ($sortBy === QueryFilter::SORT_BY_DATE) {
-            return $this->builder->latest();
+            return $this->builder->orderBy('books.created_at', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_READERS_COUNT) {
-            return $this->builder->whereHas('readers')
+            return $this->builder
                 ->withCount('readers as readersCount')
                 ->orderBy('readersCount', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_RATING_LAST_YEAR) {
-            return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
+            return $this->builder
+                ->orderBy('rates_avg', 'desc')
+                ->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
         }
 
         if ($sortBy === QueryFilter::SORT_BY_REVIEWS) {
@@ -101,6 +98,10 @@ class BookFilter extends QueryFilter
             return $this->builder->orderBy('rates_avg', 'desc');
         }
 
+        if ($sortBy === QueryFilter::SORT_BY_ALPHABET) {
+            return $this->builder->orderBy('title', 'asc');
+        }
+
         return $this->builder;
     }
 
@@ -109,5 +110,14 @@ class BookFilter extends QueryFilter
         return $this->builder->whereHas('bookGenres', function ($query) use ($findByCategory) {
             $query->where('id', $findByCategory);
         });
+    }
+
+    public function status(string $status)
+    {
+        if (in_array($status, Book::$availableReadingStatuses)) {
+            return $this->builder->where('status', $status);
+        }
+
+        return $this->builder;
     }
 }

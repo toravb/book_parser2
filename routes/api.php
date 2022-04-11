@@ -15,11 +15,13 @@ use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\FeedbackFormsController;
 use App\Api\Http\Controllers\LikeController;
 use App\Api\Http\Controllers\MainPageController;
+use App\Api\Http\Controllers\NotificationController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
+use App\Api\Http\Controllers\SearchController;
 use App\Api\Http\Controllers\SocialNetworksController;
 use App\Api\Http\Controllers\UserAuthorsController;
 use App\Api\Http\Controllers\UserController;
@@ -29,8 +31,6 @@ use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
-use App\Api\Http\Controllers\NotificationController;
-use App\Api\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -100,6 +100,7 @@ Route::middleware('auth:api')->group(function () {
             });
 
             Route::group(['prefix' => 'audio-books'], function () {
+                Route::get('/', [AudioBookController::class, 'ShowUserAudioBooks']);
                 Route::put('/', [AudioBookController::class, 'changeCreateStatus']);
                 Route::delete('/', [AudioBookController::class, 'deleteAudioBookFromUsersList']);
             });
@@ -109,6 +110,8 @@ Route::middleware('auth:api')->group(function () {
                 Route::post('/', [UserAuthorsController::class, 'store']);
                 Route::delete('/', [UserAuthorsController::class, 'destroy']);
             });
+
+            Route::get('/quotes', [QuoteController::class, 'showUserQuotes']);
         });
     });
     /*
@@ -148,7 +151,6 @@ Route::middleware('auth:api')->group(function () {
      */
     Route::group(['prefix' => 'quotes'], function () {
         Route::get('/', [QuoteController::class, 'index']);
-        Route::get('/list', [QuoteController::class, 'showUserQuotes']);
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);
@@ -196,12 +198,6 @@ Route::group(['prefix' => 'comments'], function () {
     Route::get('/{type}/{id}', [CommentController::class, 'getComments']);
     Route::get('/{id}', [CommentController::class, 'getCommentsOnComment']);
 });
-
-/**
- * Get reviews by model type
- */
-Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);
-
 
 Route::get('/selections', [CategoryController::class, 'showSelectionType']);
 
@@ -257,8 +253,10 @@ Route::group(['prefix' => 'books'], function () {
 Route::group(['prefix' => 'compilations'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::post('/', [CompilationController::class, 'store']);
-        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
         Route::post('/books', [BookController::class, 'saveBookToCompilation']);
+
+        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
+
         Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
     });
 
@@ -311,3 +309,8 @@ Route::post('/claim', [ClaimFormsController::class, 'store']);
  * Search
  */
 Route::get('/search', [SearchController::class, 'search']);
+
+/**
+ * Get reviews by model type
+ */
+Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);
