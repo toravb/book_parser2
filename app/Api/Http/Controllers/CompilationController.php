@@ -13,6 +13,7 @@ use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Compilation;
+use App\Models\User;
 use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 
@@ -87,9 +88,28 @@ class CompilationController extends Controller
         $compilation = Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
 
         $compilation->map(function ($query) {
-            $query->total_count = $query->books_count + $query->audio_books_count;
+            $query->total_books_count = $query->books_count + $query->audio_books_count;
         });
 
         return ApiAnswerService::successfulAnswerWithData($compilation);
+    }
+
+    public function counter(User $user)
+    {
+        $counter = $user
+            ->select('id as user_id')
+            ->withCount(
+                'bookStatuses as books_count',
+                'audioBookStatuses as audio_books_count',
+                'compilationUsers as compilations_count',
+                'quotes',
+                'authors',
+                'reviews as book_reviews_count',
+                'audioReviews',
+            )->findOrFail(\auth()->id());
+
+        $counter->total_reviews_count = $counter->book_reviews_count + $counter->audio_reviews_count;
+
+        return ApiAnswerService::successfulAnswerWithData($counter);
     }
 }

@@ -18,6 +18,7 @@ class Compilation extends Model implements SearchModelInterface
 
     const SORT_BY_DATE = '1';
     const SORT_BY_ALPHABET = '2';
+    const SORT_BY_VIEWS = '3';
     const COMPILATION_USER = '1';
     const COMPILATION_ADMIN = '2';
     const COMPILATION_ALL = '3';

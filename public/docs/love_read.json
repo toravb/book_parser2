@@ -6681,29 +6681,32 @@
             "Authorization": []
           }
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "id",
-            "required": true,
-            "description": "book id or audiobook id"
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "book_comment",
-                "audio_book_comment"
-              ]
-            },
-            "in": "query",
-            "name": "type",
-            "required": true
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "book_comment",
+                      "audio_book_comment"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "type"
+                ]
+              }
+            }
           }
-        ]
+        }
       }
     },
     "/books/{id}/chapters": {
@@ -10715,7 +10718,7 @@
             },
             "in": "query",
             "name": "selectionCategory",
-            "description": "As ID from path \"/selections\" (1 - тематические, 2 - регулярные))"
+            "description": "As ID from path \"/selections\" (1 - тематические, 2 - регулярные)) if null - show all"
           },
           {
             "schema": {
@@ -11180,13 +11183,14 @@
               "type": "number",
               "enum": [
                 1,
-                2
+                2,
+                3
               ]
             },
             "in": "query",
-            "name": "sotBy",
+            "name": "sortBy",
             "required": true,
-            "description": "1 - sort by date; 2 - sort by alphabet"
+            "description": "1 - sort by date; 2 - sort by alphabet; 3 - sort by popularity (sorted by views))"
           },
           {
             "schema": {
@@ -14950,13 +14954,116 @@
               ]
             },
             "in": "query",
-            "name": "groupBy",
+            "name": "sortBy",
             "description": "1 - SHOW_ALL; 2 - GROUP_BY_BOOK; 3 - GROUP_BY_AUTHOR;",
             "required": true
           }
         ],
         "tags": [
           "Quotes"
+        ]
+      }
+    },
+    "/profile/lists/counter": {
+      "parameters": [],
+      "get": {
+        "summary": "Show user quotes",
+        "operationId": "get-profile-lists-counter",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 12,
+                        "books_count": 1,
+                        "audio_books_count": 1,
+                        "compilations_count": 2,
+                        "quotes_count": 4,
+                        "authors_count": 0,
+                        "book_reviews_count": 1,
+                        "audio_reviews_count": 1,
+                        "total_reviews_count": 2,
+                        "avatar": null
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "books_count",
+                        "audio_books_count",
+                        "compilations_count",
+                        "quotes_count",
+                        "authors_count",
+                        "book_reviews_count",
+                        "audio_reviews_count",
+                        "total_reviews_count"
+                      ],
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "books_count": {
+                          "type": "number"
+                        },
+                        "audio_books_count": {
+                          "type": "number"
+                        },
+                        "compilations_count": {
+                          "type": "number"
+                        },
+                        "quotes_count": {
+                          "type": "number"
+                        },
+                        "authors_count": {
+                          "type": "number"
+                        },
+                        "book_reviews_count": {
+                          "type": "number"
+                        },
+                        "audio_reviews_count": {
+                          "type": "number"
+                        },
+                        "total_reviews_count": {
+                          "type": "number"
+                        },
+                        "avatar": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [],
+        "tags": [
+          "Lists",
+          "User profile"
         ]
       }
     },

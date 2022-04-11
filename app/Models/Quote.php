@@ -18,8 +18,8 @@ class Quote extends Model
     use HasFactory;
 
     const SHOW_ALL = '1';
-    const GROUP_BY_BOOK = '2';
-    const GROUP_BY_AUTHOR = '3';
+    const SORT_BY_BOOK_TITLE = '2';
+    const SORT_BY_AUTHOR = '3';
     const QUOTES_PER_PAGE = 3;
 
     protected $appends = [
