@@ -11,6 +11,7 @@ use App\Http\Requests\ShowAudioBooksUserHasRequest;
 use App\Models\AudioBook;
 use App\Models\AudioBookUser;
 use App\Models\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,14 +38,14 @@ class AudioBookController extends Controller
 
     }
 
-    public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): \Illuminate\Http\JsonResponse
+    public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): JsonResponse
     {
         $audioBookUser->createChangeStatus(\auth()->id(), $request->audio_book_id, $request->status);
 
         return ApiAnswerService::successfulAnswerWithData($audioBookUser);
     }
 
-    public function deleteAudioBookFromUsersList(DeleteAudioBookFromUsersListRequest $request, AudioBookUser $audioBookUser): \Illuminate\Http\JsonResponse
+    public function deleteAudioBookFromUsersList(DeleteAudioBookFromUsersListRequest $request, AudioBookUser $audioBookUser): JsonResponse
     {
         $user = Auth::user();
 
@@ -61,9 +62,9 @@ class AudioBookController extends Controller
 
     public function showUserAudioBooks(ShowAudioBooksUserHasRequest $request, AudioBookFilter $filter)
     {
-        $columns = ['id', 'title', 'genre_id'];
+        $user = Auth::user();
 
-        $audiobooks = \auth()->user()
+        $audiobooks = $user
             ->audioBookStatuses()
             ->where('active', true)
             ->addSelect('status')
@@ -72,15 +73,12 @@ class AudioBookController extends Controller
                 'image:book_id,link',
                 'genre:id,name',
             ])->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
             ->filter($filter)
-            ->paginate(self::AUDIOBOOK_USER_QUANTITY, $columns);
-
-        $audiobooks->map(function ($audiobook) {
-            if ($audiobook->rates_avg === null) {
-                $audiobook->rates_avg = 0;
-            }
-        });
+            ->paginate(
+                self::AUDIOBOOK_USER_QUANTITY,
+                ['id', 'title', 'genre_id']
+            );
 
         return ApiAnswerService::successfulAnswerWithData($audiobooks);
     }
