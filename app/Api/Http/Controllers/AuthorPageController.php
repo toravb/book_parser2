@@ -9,17 +9,18 @@ use App\Models\Author;
 use App\Models\Book;
 use App\Models\Compilation;
 use App\Models\Review;
+use Illuminate\Http\JsonResponse;
 
 
 class AuthorPageController extends Controller
 {
-    public function show(AuthorPageRequest $request): \Illuminate\Http\JsonResponse
+    public function show(AuthorPageRequest $request): JsonResponse
     {
         $authorWithSeries = Author::with([
             'books' => function ($query) {
                 return $query->with([
                     'image' => function ($query) {
-                        return $query->where('page_id', null)->select('book_id','link');
+                        return $query->where('page_id', null)->select('book_id', 'link');
                     },
                 ])
                     ->whereNull('series_id');
@@ -29,7 +30,7 @@ class AuthorPageController extends Controller
                 $query->with(['books' => function ($query) {
                     return $query->with([
                         'image' => function ($query) {
-                            return $query->where('page_id', null)->select('book_id','link');
+                            return $query->where('page_id', null)->select('book_id', 'link');
                         },
                     ])->with('rates');
                 }]);
@@ -46,13 +47,13 @@ class AuthorPageController extends Controller
         return ApiAnswerService::successfulAnswerWithData($authorWithSeries);
     }
 
-    public function showSeries(AuthorPageRequest $request): \Illuminate\Http\JsonResponse
+    public function showSeries(AuthorPageRequest $request): JsonResponse
     {
         $series = Author::with([
             'books' => function ($query) use ($request) {
                 return $query->with([
                     'image' => function ($query) {
-                        return $query->where('page_id', null)->select('book_id','link');
+                        return $query->where('page_id', null)->select('book_id', 'link');
                     },
                 ])->where('series_id', $request->series_id);
             },
@@ -60,7 +61,7 @@ class AuthorPageController extends Controller
                 $query->with(['books' => function ($query) {
                     return $query->with([
                         'image' => function ($query) {
-                            return $query->where('page_id', null)->select('book_id','link');
+                            return $query->where('page_id', null)->select('book_id', 'link');
                         },
                     ])->with('rates');
                 }]);
@@ -74,16 +75,21 @@ class AuthorPageController extends Controller
         return ApiAnswerService::successfulAnswerWithData($series);
     }
 
-    public function showQuotes(Author $author, Book $book): \Illuminate\Http\JsonResponse
+    public function showQuotes($authorId, $bookId): JsonResponse
     {
-        $author = $author->quotes($author->id);
-        $book = $book->latestBookQuoteWithUser($author->id);
-        return ApiAnswerService::successfulAnswerWithData([$author, $book]);
+        $author = Author::withQuotesCount($authorId);
+        $books = Book::where('id', $bookId)
+            ->latestBookQuoteWithUser($authorId);
+
+        return ApiAnswerService::successfulAnswerWithData([$author, $books]);
     }
 
-    public function showReviews(Author $author, Book $book): \Illuminate\Http\JsonResponse
+    public function showReviews($authorId, $bookId): JsonResponse
     {
-        $author = $author->reviewAuthorCount($author->id);
-        $book = $book->latestBookReviewWithUser($author->id);
-        return ApiAnswerService::successfulAnswerWithData([$author, $book]);    }
+        $author = Author::reviewAuthorCount($authorId);
+        $books = Book::where('id', $bookId)
+            ->latestBookReviewWithUser($authorId);
+
+        return ApiAnswerService::successfulAnswerWithData([$author, $books]);
+    }
 }

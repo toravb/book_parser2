@@ -13,12 +13,15 @@ class ShowAudioBooksUserHasRequest extends FormRequest
     {
         return [
             'status' => ['sometimes', 'nullable', 'integer', Rule::in(AudioBook::$availableListeningStatuses)],
-            'sortBy' => ['required', 'integer',
+            'sortBy' => [
+                'required',
+                'integer',
                 Rule::in([
                     QueryFilter::SORT_BY_DATE,
                     QueryFilter::BESTSELLERS,
                     QueryFilter::SORT_BY_ALPHABET
-                ])]
+                ]),
+            ]
         ];
     }
 

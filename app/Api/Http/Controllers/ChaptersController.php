@@ -2,16 +2,14 @@
 
 namespace App\Api\Http\Controllers;
 
-use App\Api\Http\Requests\ChapterRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
-use App\Models\Chapter;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class ChaptersController extends Controller
 {
-    public function showBookChapters(Book $book): \Illuminate\Http\JsonResponse
+    public function showBookChapters(Book $book): JsonResponse
     {
         $chapters = $book->chapters;
 

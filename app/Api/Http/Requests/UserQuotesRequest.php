@@ -27,11 +27,14 @@ class UserQuotesRequest extends FormRequest
     {
         return [
 
-            'groupBy' => ['required', 'integer',
-                Rule::in(
+            'groupBy' => [
+                'required',
+                'integer',
+                Rule::in([
                     Quote::SHOW_ALL,
                     Quote::GROUP_BY_BOOK,
-                    Quote::GROUP_BY_AUTHOR)
+                    Quote::GROUP_BY_AUTHOR,
+                ])
             ],
         ];
 

@@ -10,6 +10,7 @@ use App\Api\Models\Notification;
 use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\Admin\StoreBookRequest;
 use Carbon\Carbon;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -312,7 +313,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     }
 
 
-    public function currentReading($request): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|\LaravelIdea\Helper\App\Models\_IH_Book_C|\LaravelIdea\Helper\App\Models\_IH_Book_QB|null
+    public function currentReading($request): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|_IH_Book_C|_IH_Book_QB|null
     {
         $number = $request->pageNumber ? $request->pageNumber : 1;
         return $this->with([
@@ -405,7 +406,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->withCount('views');
     }
 
-    public function noveltiesBooks()
+    public function noveltiesBooks(): Builder
     {
         return $this
             ->select('books.id', 'books.title', 'books.year_id')
@@ -421,7 +422,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->join('years', 'years.id', '=', 'books.year_id');
     }
 
-    public function updateBook($fields)
+    public function updateBook($fields): bool
     {
         return $this->fill($fields)->update();
     }
@@ -449,52 +450,48 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $book->id;
     }
 
-    public function latestBookQuoteWithUser(int $authorId)
+    public function latestBookQuoteWithUser(int $bookId): LengthAwarePaginator
     {
-
         return $this->select(['books.id', 'title'])
-            ->with(['authors' => function ($query) use ($authorId) {
-                $query->where('authors.id', $authorId)->select('author');
-            }])
             ->withCount(['views', 'rates'])
             ->whereHas('quotes')
-            ->with('image:book_id,link')
-            ->with(['latestQuote' => function ($query) {
-                $query->select(['id', 'user_id', 'book_id', 'text', 'created_at'])
-                    ->with(['user' => function ($query) {
-                        $query->select(['id', 'name', 'avatar']);
-                    }]);
-            }])->paginate(8);
+            ->with([
+                'authors:id,author',
+                'image:book_id,link',
+                'latestQuote:id,user_id,book_id,text,created_at',
+                'latestQuote.user:id,name,avatar',
+            ])
+            ->paginate(8);
     }
-    //TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рецензия не выводиться
 
-    public function latestBookReviewWithUser(int $authorId)
+    // TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рецензия не выводиться - проблема в join
+    public function latestBookReviewWithUser(int $bookId): LengthAwarePaginator
     {
-
         return $this->select(['books.id', 'title'])
             ->whereHas('reviews')
-            ->with(['authors' => function ($query) use ($authorId) {
-                $query->where('authors.id', $authorId)->select('author');
-            }])
             ->withCount(['views', 'rates'])
-            ->with('image:book_id,link')
             ->with([
+                'authors:id,author',
                 'image:book_id,link',
                 'latestReview' => function ($query) {
-                    $query->select('book_reviews.id',
-                        'book_reviews.user_id',
-                        'book_reviews.book_id',
-                        'content',
-                        'book_reviews.created_at',
-                        'rates.user_id',
-                        'rates.book_id',
-                        'rates.rating as user_book_rate',
-                    )
+                    $query
+                        ->select(
+                            'book_reviews.id',
+                            'book_reviews.user_id',
+                            'book_reviews.book_id',
+                            'content',
+                            'book_reviews.created_at',
+                            'rates.user_id',
+                            'rates.book_id',
+                            'rates.rating as user_book_rate',
+                        )
                         ->with('user:id,name,avatar')
                         ->leftJoin('rates', function ($join) {
                             $join->on('rates.book_id', '=', 'book_reviews.book_id');
                             $join->on('rates.user_id', '=', 'book_reviews.user_id');
                         });
-                }])->paginate(8);
+                }
+            ])
+            ->paginate(8);
     }
 }

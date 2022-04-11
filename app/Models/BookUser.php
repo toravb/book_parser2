@@ -2,8 +2,6 @@
 
 namespace App\Models;
 
-use App\Api\Filters\QueryFilter;
-use App\Api\Http\Controllers\BookController;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

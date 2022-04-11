@@ -14,8 +14,11 @@ class ReadingSettingsRequest extends FormRequest
             'is_two_columns' => ['required', 'boolean'],
             'font_size' => ['required', 'integer', 'between:0,10'],
             'screen_brightness' => ['required', 'integer', 'between:0,10'],
-            'font_name' => ['required', 'string',
-                Rule::in(ReadingSettings::$fonts)],
+            'font_name' => [
+                'required',
+                'string',
+                Rule::in(ReadingSettings::$fonts)
+            ],
             'field_size' => ['required', 'integer', 'between:0,10'],
             'row_height' => ['required', 'integer', 'between:0,10'],
             'is_center_alignment' => ['required', 'boolean']

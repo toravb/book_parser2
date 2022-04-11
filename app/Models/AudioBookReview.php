@@ -58,6 +58,6 @@ class AudioBookReview extends Model implements ReviewInterface
             ])
             ->where('audio_book_id', $id)
             ->withCount(['likes', 'comments'])
-            ->paginate(BookReview::PERPAGE);
+            ->paginate(BookReview::PER_PAGE);
     }
 }

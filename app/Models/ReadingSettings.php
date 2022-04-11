@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Api\Http\Requests\ReadingSettingsRequest;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ReadingSettings extends Model
 {
@@ -29,7 +30,7 @@ class ReadingSettings extends Model
         'is_center_alignment'
     ];
 
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
