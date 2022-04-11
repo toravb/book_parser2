@@ -9,7 +9,7 @@ class AddReviewTypeIdTitleBookReviewsTable extends Migration
     public function up()
     {
         Schema::table('book_reviews', function (Blueprint $table) {
-            $table->foreignId('review_type_id')->after('book_id')->default(1)->constrained();
+            $table->foreignId('review_type_id')->after('book_id')->constrained();
             $table->string('title', 150)->after('review_type_id');
         });
     }
