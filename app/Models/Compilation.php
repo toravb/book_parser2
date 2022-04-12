@@ -24,11 +24,18 @@ class Compilation extends Model implements SearchModelInterface
     const COMPILATION_ALL = '3';
     const COMPILATION_PER_PAGE = 20;
 
+    public function toArray()
+    {
+        if ($this->background and \Storage::exists($this->background)) {
+            $this->background = \Storage::url($this->background);
+        }
+
+        return parent::toArray();
+    }
+
     public function getTypeAttribute(): string
     {
-
         return 'compilation';
-
     }
 
     public function users()

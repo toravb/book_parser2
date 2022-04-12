@@ -23,7 +23,6 @@ class CompilationController extends Controller
     const COMPILAION_BLOCK_QUANTITY = 24;
     const COMPILAION_USERS_QUANTITY = 9;
 
-
     public function store(StoreCompilationRequest $request, CompilationService $compilation)
     {
         $user = Auth::user();
