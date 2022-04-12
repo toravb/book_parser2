@@ -156,6 +156,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);
+        Route::put('/', [QuoteController::class, 'update']);
+
         Route::delete('/', [QuoteController::class, 'destroy']);
     });
 

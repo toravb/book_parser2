@@ -7,14 +7,16 @@ use App\Api\Http\Requests\DeleteQuoteRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use App\Api\Http\Requests\UpdateQuoteRequest;
 use App\Api\Http\Requests\UserQuotesRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\GetQuotesForBookRequest;
 use App\Models\Quote;
 use App\Models\View;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuoteController extends Controller
 {
@@ -68,26 +70,23 @@ class QuoteController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Models\Quote $quote
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Quote $quote)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Quote $quote
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Quote $quote)
+    public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
+
     {
-        //
+        $quoteForUpdate = $quote->findOrFail($request->id);
+
+        if ($quoteForUpdate?->user_id === \auth()->id()) {
+            $quoteForUpdate->store(\auth()->id(), $request);
+            return ApiAnswerService::successfulAnswerWithData($quoteForUpdate);
+        }
+
+        return ApiAnswerService::errorAnswer('Нет прав для редактирования', Response::HTTP_FORBIDDEN);
     }
 
     /**
