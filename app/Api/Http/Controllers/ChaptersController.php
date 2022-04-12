@@ -13,8 +13,6 @@ class ChaptersController extends Controller
 {
     public function showBookChapters(Book $book): \Illuminate\Http\JsonResponse
     {
-        $chapters = $book->chapters;
-
-        return ApiAnswerService::successfulAnswerWithData($chapters);
+        return ApiAnswerService::successfulAnswerWithData($book->chapters);
     }
 }
