@@ -10229,6 +10229,163 @@
         "description": ""
       }
     },
+    "/audio-books/{audiobook}/chapters": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer"
+          },
+          "name": "audiobook",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Audio book chapters",
+        "operationId": "get-audio-books-audiobook-chapters",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "required": [
+                          "id",
+                          "title",
+                          "type"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "chapters": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "minItems": 1,
+                            "items": {
+                              "required": [
+                                "id",
+                                "book_id",
+                                "title",
+                                "index",
+                                "link"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "book_id": {
+                                  "type": "number"
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "index": {
+                                  "type": "number"
+                                },
+                                "link": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "extension": {},
+                                "file_size": {}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 3,
+                          "title": "avsavfdvf",
+                          "type": "audioBooks",
+                          "chapters": [
+                            {
+                              "id": 1,
+                              "book_id": 3,
+                              "title": "311111",
+                              "index": 1,
+                              "link": "wfweargvwerb",
+                              "extension": null,
+                              "file_size": null
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Not Found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Audio Books"
+        ],
+        "description": ""
+      }
+    },
     "/selections": {
       "get": {
         "summary": "Get selections type",

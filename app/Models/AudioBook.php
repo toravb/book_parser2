@@ -10,9 +10,11 @@ use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\ShowAudioBooksUserHasRequest;
 use App\Http\Requests\StoreAudioBookRequest;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
@@ -111,7 +113,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         );
     }
 
-    public function audiobooks()
+    public function audiobooks(): HasMany
     {
         return $this->hasMany(
             AudioAudiobook::class,
@@ -210,6 +212,15 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function scopeFilter(Builder $builder, QueryFilter $filter)
     {
         $filter->apply($builder);
+    }
+
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(
+            AudioAudiobook::class,
+            'book_id',
+            'id'
+        );
     }
 
     public function showAudioBookDetails($bookId)
@@ -354,5 +365,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         $book->save();
 
         return $book;
+    }
+
+    public function audioBookChapters(int $id): Collection
+    {
+        return $this->where('id', $id)
+            ->select('id', 'title')
+            ->with('chapters:id,book_id,title,index,link,extension,file_size')
+            ->get();
     }
 }
