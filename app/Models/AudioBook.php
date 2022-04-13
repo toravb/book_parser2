@@ -371,7 +371,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     {
         return $this->where('id', $id)
             ->select('id', 'title')
-            ->with('chapters:id,book_id,title,index,link,extension,file_size')
+            ->with('chapters:id,book_id,title,index,extension,file_size')
             ->get();
     }
 }
