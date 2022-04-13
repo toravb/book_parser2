@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PagesController;
+use App\Http\Controllers\Admin\ReviewTypesController;
 use App\Http\Controllers\Admin\YearsController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,6 +62,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      * Genres
      */
     Route::resource('genres', GenresController::class)->except(['show']);
+
+    /*
+     * Review types
+     */
+    Route::resource('review-types', ReviewTypesController::class)->except(['show']);
 
     /*
      * Years
