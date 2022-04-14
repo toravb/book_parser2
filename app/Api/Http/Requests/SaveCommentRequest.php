@@ -25,7 +25,6 @@ class SaveCommentRequest extends FormRequest
 
     public function rules(): array
     {
-//        dd($this->modelOfComment[$this->type]);
         return [
             'type' => ['required', 'string', Rule::in($this->types)],
             'id' => ['required', 'integer', Rule::exists($this->models[$this->type] ?? null . '_id')],

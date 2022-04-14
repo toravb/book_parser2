@@ -25,10 +25,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     const LISTENING = '2';
     const HAD_LISTEN = '3';
     const MAIN_PAGE_PAGINATE = 6;
+    const ALL = '0';
+
     public static array $availableListeningStatuses = [
         self::WANT_LISTEN,
         self::LISTENING,
-        self::HAD_LISTEN
+        self::HAD_LISTEN,
+        self::ALL
     ];
     protected $fillable = [
         'title',

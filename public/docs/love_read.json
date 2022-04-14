@@ -13876,16 +13876,25 @@
           "Lists",
           "Book"
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "book_id",
-            "required": true
-          }
-        ]
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "book_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "book_id"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
       },
       "put": {
         "summary": "Change book status in users list",
@@ -13896,29 +13905,7 @@
           }
         },
         "description": "",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "book_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "enum": [
-                1,
-                2,
-                3
-              ]
-            },
-            "in": "query",
-            "name": "status",
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [
           {
             "Authorization": []
@@ -13927,7 +13914,34 @@
         "tags": [
           "Lists",
           "Book"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "book_id": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "number",
+                    "enum": [
+                      1,
+                      2,
+                      3
+                    ],
+                    "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ; "
+                  }
+                },
+                "required": [
+                  "book_id",
+                  "status"
+                ]
+              }
+            }
+          }
+        }
       },
       "parameters": [],
       "get": {
@@ -14241,13 +14255,15 @@
               "enum": [
                 1,
                 2,
-                3
+                3,
+                0
               ],
               "example": 1
             },
             "in": "query",
             "name": "status",
-            "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ;"
+            "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ; 0 - ALL",
+            "required": true
           }
         ],
         "description": "",
@@ -14338,16 +14354,24 @@
           "Lists",
           "Audio Books"
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "audio_book_id",
-            "required": true
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio_book_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "audio_book_id"
+                ]
+              }
+            }
           }
-        ]
+        }
       },
       "put": {
         "summary": "Set / Change audio book status in users list",
@@ -14483,30 +14507,7 @@
           }
         },
         "description": "",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "audio_book_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "enum": [
-                1,
-                2,
-                3
-              ]
-            },
-            "in": "query",
-            "name": "status",
-            "required": true,
-            "description": "1 want listen, 2 listening, 3 listened"
-          }
-        ],
+        "parameters": [],
         "security": [
           {
             "Authorization": []
@@ -14515,7 +14516,70 @@
         "tags": [
           "Lists",
           "Audio Books"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio_book_id": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "number",
+                    "description": "WANT_LISTEN = '1'; LISTENING = '2'; HAD_LISTEN = '3';",
+                    "enum": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "required": [
+                  "audio_book_id",
+                  "status"
+                ]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio_book_id": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "number",
+                    "description": "WANT_LISTEN = '1'; LISTENING = '2'; HAD_LISTEN = '3';",
+                    "enum": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "required": [
+                  "audio_book_id",
+                  "status"
+                ]
+              }
+            },
+            "text/html": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": ""
+        }
       },
       "parameters": [],
       "get": {
@@ -14850,12 +14914,14 @@
               "enum": [
                 1,
                 2,
-                3
+                3,
+                0
               ]
             },
             "in": "query",
             "name": "status",
-            "description": "1 - WANT_LISTEN; 2 - LISTENING; 3 - HAD_LISTEN"
+            "description": "1 - WANT_LISTEN; 2 - LISTENING; 3 - HAD_LISTEN; 0 - ALL",
+            "required": true
           }
         ]
       }

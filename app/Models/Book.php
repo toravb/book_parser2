@@ -42,10 +42,14 @@ class Book extends Model implements BookInterface, SearchModelInterface
     const WANT_READ = '1';
     const READING = '2';
     const HAD_READ = '3';
+    const ALL = '0';
+
     public static array $availableReadingStatuses = [
         self::WANT_READ,
         self::READING,
-        self::HAD_READ
+        self::HAD_READ,
+        self::ALL
+
     ];
     protected $fillable = [
         'title',
@@ -466,6 +470,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
                     }]);
             }])->paginate(8);
     }
+
     //TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рецензия не выводиться
 
     public function latestBookReviewWithUser(int $authorId)
