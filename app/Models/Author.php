@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
+use App\Api\Http\Requests\AuthorPageRequest;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Services\ApiAnswerService;
 use App\Api\Traits\ElasticSearchTrait;
@@ -15,6 +16,8 @@ use Staudenmeir\EloquentHasManyDeep\HasRelationships;
 class Author extends Model implements SearchModelInterface
 {
     use HasFactory, HasRelationships, ElasticSearchTrait;
+
+    const NON_AUTHOR_COMPILATION_QUANTITY = 3;
 
     public $timestamps = false;
 
@@ -119,10 +122,14 @@ class Author extends Model implements SearchModelInterface
 
     public function similarAuthors()
     {
-        return $this->hasMany(
+        return $this->hasManyThrough(
+            Author::class,
             SimilarAuthors::class,
             'author_id_from',
-            'id');
+            'id',
+            'id',
+            'author_id_to'
+        );
     }
 
     public function audioAuthor()
@@ -130,7 +137,7 @@ class Author extends Model implements SearchModelInterface
         return $this->belongsTo(AudioAuthor::class);
     }
 
-    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function users()
     {
         return $this->belongsToMany(User::class, 'user_author');
     }
@@ -204,5 +211,68 @@ class Author extends Model implements SearchModelInterface
     public function getElasticKey()
     {
         return $this->getKey();
+    }
+
+    public function authorPage()
+    {
+        $authorPageData = $this
+            ->with([
+                'series' => function ($query) {
+                    $query->with([
+                        'books' => function ($query) {
+                            return $query
+                                ->select('id', 'title', 'series_id', 'active')
+                                ->where('active', true)
+                                ->withCount('views')
+                                ->withAggregate('rates as rate_avg', 'Coalesce(Avg(rates.rating), 0)');
+                        },
+                        'books.genres:name',
+                        'books.authors:author',
+                        'books.image:book_id,link']);
+                },
+                'books' => function ($query) {
+                    return $query
+                        ->select('books.id', 'books.title', 'books.active', 'books.series_id')
+                        ->where('books.active', true)
+                        ->with([
+                            'genres:name',
+                            'authors:author',
+                            'image:book_id,link'
+                        ])
+                        ->withCount('views')
+                        ->withAggregate('rates as rate_avg', 'Coalesce(Avg(rates.rating), 0)')
+                        ->whereNull('series_id');
+                },
+                'audioBooks' => function ($query) {
+                    return $query
+                        ->select('audio_books.id', 'audio_books.active', 'audio_books.title', 'genre_id')
+                        ->where('active', true)
+                        ->with([
+                            'genre:id,name',
+                            'authors:author',
+                            'image:book_id,link'
+                        ])
+                        ->withCount('views')
+                        ->withAggregate('rates as rate_avg', 'Coalesce(Avg(rates.rating), 0)');
+                },
+            ])
+            ->withCount(['authorReviews', 'authorQuotes', 'books', 'audioBooks'])
+            ->find($this->id);
+
+        $authorPageData->total_books = $authorPageData->books_count + $authorPageData->audio_books_count;
+
+        $authorPageData->non_author_compilation =
+            Compilation::select('id', 'title', 'background')
+                ->withCount('books')
+                ->paginate(self::NON_AUTHOR_COMPILATION_QUANTITY, [], 'non-author-compilation');
+
+        $authorPageData->similar_authors =
+            $authorPageData->similarAuthors()->select('id', 'author', 'avatar')
+                ->withCount('books')
+                ->paginate(self::NON_AUTHOR_COMPILATION_QUANTITY, [], 'similar-authors');
+
+        $authorPageData->in_favorite = $authorPageData->users()->exists();
+
+        return $authorPageData;
     }
 }

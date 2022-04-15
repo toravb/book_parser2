@@ -278,7 +278,6 @@ Route::group(['prefix' => 'compilations'], function () {
  * Authors
  */
 Route::group(['prefix' => 'authors'], function () {
-    Route::get('/page', [AuthorPageController::class, 'show']);
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
     Route::get('/filter', [AuthorController::class, 'filterByLetter']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
@@ -286,6 +285,7 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/{author}/reviews', [AuthorPageController::class, 'showReviews']);
     Route::get('/{id}/books', [AuthorController::class, 'showOtherBooks']);
     Route::get('/{id}/audio-books', [AuthorController::class, 'showOtherAudioBooks']);
+    Route::get('/{author}', [AuthorPageController::class, 'show']);
 });
 /*
  * --------
