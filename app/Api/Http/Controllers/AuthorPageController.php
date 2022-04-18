@@ -8,13 +8,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Author;
 use App\Models\Book;
 use App\Models\Compilation;
-use App\Models\Review;
 use Illuminate\Http\JsonResponse;
 
 
 class AuthorPageController extends Controller
 {
-    public function show(AuthorPageRequest $request): JsonResponse
+    public function show(Author $author): JsonResponse
     {
         return ApiAnswerService::successfulAnswerWithData($author->authorPage());
     }

@@ -34,7 +34,7 @@ class AudioBookController extends Controller
 
     public function chapters(AudioBook $audiobook): JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($audiobook->audioBookChapters($audiobook->id));
+        return ApiAnswerService::successfulAnswerWithData($audiobook->audioBookChapters());
     }
 
     public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): JsonResponse

@@ -18,6 +18,7 @@ class AudioBookReviewComment extends Model implements CommentInterface
         'content',
         'parent_comment_id'
     ];
+
     public function bookReview(): BelongsTo
     {
         return $this->belongsTo(AudioBookReview::class);
@@ -39,12 +40,12 @@ class AudioBookReviewComment extends Model implements CommentInterface
 
     public static function getNotificationComment(int $commentId)
     {
-        return self::with([
-            'bookReview' => function ($query) {
-                return $query->select('id', 'title');
-            }
-        ])
-            ->findOrFail($commentId);
+        return self::query()
+            ->with([
+                'bookReview' => function ($query) {
+                    return $query->select('id', 'title');
+                }
+            ])->findOrFail($commentId);
     }
 
     public function getComments(int $typeId, int $paginate)

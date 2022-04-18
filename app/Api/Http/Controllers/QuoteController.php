@@ -15,6 +15,7 @@ use App\Http\Requests\GetQuotesForBookRequest;
 use App\Models\Quote;
 use App\Models\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -63,21 +64,13 @@ class QuoteController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Quote $quote
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Quote $quote
+     * @return JsonResponse
      */
     public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
-
     {
-        $quoteForUpdate = $quote->findOrFail($request->id);
-
-        if ($quoteForUpdate?->user_id === \auth()->id()) {
-            $quoteForUpdate->store(\auth()->id(), $request);
-            return ApiAnswerService::successfulAnswerWithData($quoteForUpdate);
-        }
-
-        return ApiAnswerService::errorAnswer('Нет прав для редактирования', Response::HTTP_FORBIDDEN);
+        return $quote->updateQuote($request);
     }
 
     /**
@@ -87,7 +80,7 @@ class QuoteController extends Controller
      * @param DeleteQuoteRequest $request
      * @return JsonResponse
      */
-    public function destroy(Quote $quote, DeleteQuoteRequest $request)
+    public function destroy(Quote $quote, DeleteQuoteRequest $request): JsonResponse
     {
         $rowsAffected = $quote->deleteQuote(Auth::id(), $request->quoteId);
 

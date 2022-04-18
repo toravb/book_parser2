@@ -113,7 +113,7 @@ Route::middleware('auth:api')->group(function () {
 
             Route::get('/quotes', [QuoteController::class, 'showUserQuotes']);
 
-            Route::get('/counter', [CompilationController::class, 'counter']);
+            Route::get('/counter', [CompilationController::class, 'countTypesInUserLists']);
         });
     });
     /*

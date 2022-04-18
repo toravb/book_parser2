@@ -9,7 +9,8 @@
             action="{{route('admin.review-types.store')}}"
             method="post"
             enctype="multipart/form-data"
-            class="card">
+            class="card"
+        >
 
             @csrf
 

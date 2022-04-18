@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
-use App\Api\Http\Requests\AuthorPageRequest;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\StoreAuthorRequest;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
@@ -125,7 +123,7 @@ class Author extends Model implements SearchModelInterface
         );
     }
 
-    public function similarAuthors(): HasMany
+    public function similarAuthors(): HasManyThrough
     {
         return $this->hasManyThrough(
             Author::class,
@@ -218,7 +216,7 @@ class Author extends Model implements SearchModelInterface
         return $this->getKey();
     }
 
-    public function authorPage()
+    public function authorPage(): ?Author
     {
         $authorPageData = $this
             ->with([
@@ -233,7 +231,8 @@ class Author extends Model implements SearchModelInterface
                         },
                         'books.genres:name',
                         'books.authors:author',
-                        'books.image:book_id,link']);
+                        'books.image:book_id,link'
+                    ]);
                 },
                 'books' => function ($query) {
                     return $query
@@ -271,10 +270,11 @@ class Author extends Model implements SearchModelInterface
                 ->withCount('books')
                 ->paginate(self::NON_AUTHOR_COMPILATION_QUANTITY, [], 'non-author-compilation');
 
-        $authorPageData->similar_authors =
-            $authorPageData->similarAuthors()->select('id', 'author', 'avatar')
-                ->withCount('books')
-                ->paginate(self::NON_AUTHOR_COMPILATION_QUANTITY, [], 'similar-authors');
+        $authorPageData->similar_authors = $authorPageData
+            ->similarAuthors()
+            ->select('id', 'author', 'avatar')
+            ->withCount('books')
+            ->paginate(self::NON_AUTHOR_COMPILATION_QUANTITY, [], 'similar-authors');
 
         $authorPageData->in_favorite = $authorPageData->users()->exists();
 
