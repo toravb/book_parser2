@@ -14,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 
 class AuthorPageController extends Controller
 {
-    public function show(Author $author): \Illuminate\Http\JsonResponse
+    public function show(AuthorPageRequest $request): JsonResponse
     {
         return ApiAnswerService::successfulAnswerWithData($author->authorPage());
     }
