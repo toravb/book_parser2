@@ -284,7 +284,9 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ])
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-            ->join('years', 'years.id', '=', 'audio_books.year_id');
+            ->when($this->avg('audio_books.year_id') > 0, function ($q){
+                $q->join('years', 'years.id', '=', 'audio_books.year_id');
+            });
     }
 
     public function baseSearchQuery(): Builder
