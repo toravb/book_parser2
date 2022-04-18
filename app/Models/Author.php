@@ -5,13 +5,18 @@ namespace App\Models;
 use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\AuthorPageRequest;
 use App\Api\Interfaces\SearchModelInterface;
-use App\Api\Services\ApiAnswerService;
 use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\StoreAuthorRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Staudenmeir\EloquentHasManyDeep\HasManyDeep;
 use Staudenmeir\EloquentHasManyDeep\HasRelationships;
+use Storage;
 
 class Author extends Model implements SearchModelInterface
 {
@@ -29,7 +34,7 @@ class Author extends Model implements SearchModelInterface
 
     protected $hidden = ['pivot'];
 
-    public static function create($fields)
+    public static function create($fields): Author
     {
         $author = new static();
         $author->fill($fields);
@@ -48,9 +53,9 @@ class Author extends Model implements SearchModelInterface
     {
         $this->author = $request->author;
         if ($request->avatar) {
-            if ($this->avatar) \Storage::delete($this->avatar);
+            if ($this->avatar) Storage::delete($this->avatar);
 
-            $this->avatar = \Storage::put('authors', $request->avatar);
+            $this->avatar = Storage::put('authors', $request->avatar);
         }
         $this->about = $request->about;
         $this->save();
@@ -61,7 +66,7 @@ class Author extends Model implements SearchModelInterface
         $filter->apply($builder);
     }
 
-    public function books()
+    public function books(): BelongsToMany
     {
         return $this->belongsToMany(Book::class,
             AuthorToBook::class,
@@ -72,7 +77,7 @@ class Author extends Model implements SearchModelInterface
             'books');
     }
 
-    public function audioBooks()
+    public function audioBooks(): BelongsToMany
     {
         return $this->belongsToMany(AudioBook::class,
             AuthorsToAudioBook::class,
@@ -84,7 +89,7 @@ class Author extends Model implements SearchModelInterface
         );
     }
 
-    public function series(): \Staudenmeir\EloquentHasManyDeep\HasManyDeep
+    public function series(): HasManyDeep
     {
         return $this->hasManyDeep(Series::class, [AuthorToBook::class],
             [
@@ -96,7 +101,7 @@ class Author extends Model implements SearchModelInterface
     }
 
 
-    public function authorReviews(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    public function authorReviews(): HasManyThrough
     {
         return $this->hasManyThrough(
             BookReview::class,
@@ -108,7 +113,7 @@ class Author extends Model implements SearchModelInterface
         );
     }
 
-    public function authorQuotes()
+    public function authorQuotes(): HasManyThrough
     {
         return $this->hasManyThrough(
             Quote::class,
@@ -120,7 +125,7 @@ class Author extends Model implements SearchModelInterface
         );
     }
 
-    public function similarAuthors()
+    public function similarAuthors(): HasMany
     {
         return $this->hasManyThrough(
             Author::class,
@@ -132,29 +137,29 @@ class Author extends Model implements SearchModelInterface
         );
     }
 
-    public function audioAuthor()
+    public function audioAuthor(): BelongsTo
     {
         return $this->belongsTo(AudioAuthor::class);
     }
 
-    public function users()
+    public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'user_author');
     }
 
-    public function quotes(int $author_id)
+    public function withQuotesCount(int $author_id): ?Author
     {
         return $this->select(['id', 'author'])
             ->withCount('authorQuotes')->find($author_id);
     }
 
-    public function reviewAuthorCount(int $authorId)
+    public function reviewAuthorCount(int $authorId): ?Author
     {
         return $this->select('id', 'author')
             ->withCount('authorReviews')->find($authorId);
     }
 
-    public function showOtherBooks($authorId)
+    public function showOtherBooks($authorId): ?Author
     {
         return $this->select('id')
             ->with([

@@ -37,14 +37,14 @@ class AudioBookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($audiobook->audioBookChapters($audiobook->id));
     }
 
-    public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): \Illuminate\Http\JsonResponse
+    public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): JsonResponse
     {
         $audioBookUser->createChangeStatus(\auth()->id(), $request->audio_book_id, $request->status);
 
         return ApiAnswerService::successfulAnswerWithData($audioBookUser);
     }
 
-    public function deleteAudioBookFromUsersList(DeleteAudioBookFromUsersListRequest $request, AudioBookUser $audioBookUser): \Illuminate\Http\JsonResponse
+    public function deleteAudioBookFromUsersList(DeleteAudioBookFromUsersListRequest $request, AudioBookUser $audioBookUser): JsonResponse
     {
         $user = Auth::user();
 
@@ -61,9 +61,9 @@ class AudioBookController extends Controller
 
     public function showUserAudioBooks(ShowAudioBooksUserHasRequest $request, AudioBookFilter $filter)
     {
-        $columns = ['id', 'title', 'genre_id'];
+        $user = Auth::user();
 
-        $audiobooks = \auth()->user()
+        $audiobooks = $user
             ->audioBookStatuses()
             ->where('active', true)
             ->addSelect('status')
@@ -72,9 +72,12 @@ class AudioBookController extends Controller
                 'image:book_id,link',
                 'genre:id,name',
             ])->withCount('views')
-            ->withAggregate('rates as rates_avg', 'Coalesce( Avg(rates.rating), 0 )')
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
             ->filter($filter)
-            ->paginate(self::AUDIOBOOK_USER_QUANTITY, $columns);
+            ->paginate(
+                self::AUDIOBOOK_USER_QUANTITY,
+                ['id', 'title', 'genre_id']
+            );
 
         return ApiAnswerService::successfulAnswerWithData($audiobooks);
     }

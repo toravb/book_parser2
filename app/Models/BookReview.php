@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class BookReview extends Model implements ReviewInterface
 {
-    const PERPAGE = 3;
+    const PER_PAGE = 3;
 
     use HasFactory;
 
@@ -102,6 +102,6 @@ class BookReview extends Model implements ReviewInterface
             ])
             ->where('book_id', $id)
             ->withCount(['likes', 'comments'])
-            ->paginate(self::PERPAGE);
+            ->paginate(self::PER_PAGE);
     }
 }

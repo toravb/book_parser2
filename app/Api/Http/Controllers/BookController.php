@@ -11,26 +11,21 @@ use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Http\Requests\DeleteBookFromCompilationRequest;
 use App\Api\Http\Requests\DeleteBookFromUsersListRequst;
 use App\Api\Http\Requests\GetBooksRequest;
-use App\Api\Http\Requests\GetUserAuthorsRequest;
-use App\Api\Http\Requests\GetUserBooksRequest;
 use App\Api\Http\Requests\GetByLetterRequest;
 use App\Api\Http\Requests\NoveltiesRequest;
 use App\Api\Http\Requests\SaveBookToCompilationRequest;
 use App\Api\Http\Requests\ShowBooksFilterByLetterRequest;
-use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-
 use App\Http\Requests\ShowBooksInUsersListRequest;
 use App\Models\AudioBook;
-use App\Models\Author;
 use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
 use App\Models\View;
-
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -148,7 +143,7 @@ class BookController extends Controller
         return ApiAnswerService::errorAnswer("У Вас нет прав на изменение этой подборки", Response::HTTP_FORBIDDEN);
     }
 
-    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser): \Illuminate\Http\JsonResponse
+    public function changeBookStatus(ChangeBookStatusRequest $request, BookUser $bookUser): JsonResponse
     {
         $user = Auth::user()->id;
 
@@ -157,14 +152,14 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($bookUser);
     }
 
-    public function readBook(CurrentReadingRequest $request, Book $book): \Illuminate\Http\JsonResponse
+    public function readBook(CurrentReadingRequest $request, Book $book): JsonResponse
     {
         $currentReading = $book->currentReading($request);
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
 
-    public function showByLetter(GetByLetterRequest $request, Book $books): \Illuminate\Http\JsonResponse
+    public function showByLetter(GetByLetterRequest $request, Book $books): JsonResponse
     {
         $books = $books->select(['id', 'title'])
             ->where('title', 'like', $request->letter . '%')->paginate(300);
@@ -172,7 +167,7 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function getBookmarks(Book $book): \Illuminate\Http\JsonResponse
+    public function getBookmarks(Book $book): JsonResponse
     {
         $bookmarks = $book->bookmarks()->with(['page' => function ($q) {
             $q->select('id', 'page_number');
@@ -192,10 +187,8 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($bookmarks);
     }
 
-    public function showUserBooks(ShowBooksInUsersListRequest $request, BookFilter $bookFilter): \Illuminate\Http\JsonResponse
+    public function showUserBooks(ShowBooksInUsersListRequest $request, BookFilter $bookFilter): JsonResponse
     {
-        $columns = ['id', 'title'];
-
         $books = \auth()->user()
             ->bookStatuses()
             ->filter($bookFilter)
@@ -207,14 +200,11 @@ class BookController extends Controller
                 'bookGenres:name',
             ])
             ->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating')
-            ->paginate(self::MY_BOOK_LIST_QUANTITY, $columns);
-
-        $books->map(function ($book) {
-            if ($book->rates_avg === null) {
-                $book->rates_avg = 0;
-            }
-        });
+            ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+            ->paginate(
+                self::MY_BOOK_LIST_QUANTITY,
+                ['id', 'title']
+            );
 
         return ApiAnswerService::successfulAnswerWithData($books);
     }

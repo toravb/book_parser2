@@ -26,8 +26,11 @@ class SaveQuotesRequest extends FormRequest
     {
         return [
             'book_id' => ['required', 'integer', 'exists:books,id'],
-            'page_id' => ['sometimes', 'integer',
-                Rule::exists('pages', 'id')->where('book_id', $this->book_id)],
+            'page_id' => [
+                'sometimes',
+                'integer',
+                Rule::exists('pages', 'id')->where('book_id', $this->book_id)
+            ],
             'text' => ['required', 'string', 'max:300'],
             'color' => ['sometimes', 'string', 'max:10'],
             'start_key' => ['required', 'string', 'max:190'],

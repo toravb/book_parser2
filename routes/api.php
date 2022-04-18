@@ -15,11 +15,13 @@ use App\Api\Http\Controllers\CompilationLoadingController;
 use App\Api\Http\Controllers\FeedbackFormsController;
 use App\Api\Http\Controllers\LikeController;
 use App\Api\Http\Controllers\MainPageController;
+use App\Api\Http\Controllers\NotificationController;
 use App\Api\Http\Controllers\PasswordController;
 use App\Api\Http\Controllers\ProfileController;
 use App\Api\Http\Controllers\QuoteController;
 use App\Api\Http\Controllers\RateController;
 use App\Api\Http\Controllers\ReviewController;
+use App\Api\Http\Controllers\SearchController;
 use App\Api\Http\Controllers\SocialNetworksController;
 use App\Api\Http\Controllers\UserAuthorsController;
 use App\Api\Http\Controllers\UserController;
@@ -29,8 +31,6 @@ use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
-use App\Api\Http\Controllers\NotificationController;
-use App\Api\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
 
 /*

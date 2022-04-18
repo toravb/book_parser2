@@ -4,9 +4,9 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
-use App\Models\AudioGenre;
 use App\Models\CompilationType;
 use App\Models\Genre;
+use Illuminate\Http\JsonResponse;
 
 
 class CategoryController extends Controller
@@ -16,12 +16,12 @@ class CategoryController extends Controller
         return ApiAnswerService::successfulAnswerWithData(Genre::orderBy('name')->get());
     }
 
-    public function showAudioBookGenres(): \Illuminate\Http\JsonResponse
+    public function showAudioBookGenres(): JsonResponse
     {
         return ApiAnswerService::successfulAnswerWithData(Genre::orderBy('name')->get());
     }
 
-    public function showSelectionType(): \Illuminate\Http\JsonResponse
+    public function showSelectionType(): JsonResponse
     {
         $selectionType = CompilationType::get();
         return response()->json([
@@ -31,12 +31,12 @@ class CategoryController extends Controller
         );
     }
 
-    public function withBooksCount(Genre $genre): \Illuminate\Http\JsonResponse
+    public function withBooksCount(Genre $genre): JsonResponse
     {
         return ApiAnswerService::successfulAnswerWithData($genre->booksCount());
     }
 
-    public function withAudioBooksCount(Genre $genre): \Illuminate\Http\JsonResponse
+    public function withAudioBooksCount(Genre $genre): JsonResponse
     {
         return ApiAnswerService::successfulAnswerWithData($genre->audioBooksCount());
     }

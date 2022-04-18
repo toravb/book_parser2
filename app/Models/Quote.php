@@ -6,13 +6,12 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use App\Api\Http\Requests\UpdateQuoteRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Quote extends Model
 {
@@ -104,7 +103,11 @@ class Quote extends Model
             ->delete();
     }
 
-    public function getQuotesForBookPage(int $bookId)
+    /**
+     * @param int $bookId
+     * @return LengthAwarePaginator
+     */
+    public function getQuotesForBookPage(int $bookId): LengthAwarePaginator
     {
         return $this
             ->select('id', 'user_id', 'book_id', 'text', 'updated_at')
@@ -114,6 +117,10 @@ class Quote extends Model
             ->paginate(self::QUOTES_PER_PAGE);
     }
 
+    /**
+     * @param int $userId
+     * @return Builder
+     */
     public function showUserQuotes(int $userId): Builder
     {
         return $this->where('user_id', $userId)
@@ -121,11 +128,13 @@ class Quote extends Model
             ->with(['book' => function ($query) {
                 $query->select('books.id', 'title')
                     ->withCount('rates')
-                    ->withAvg('rates as rates_avg', 'rates.rating')
-                    ->with(['image:book_id,link',
+                    ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+                    ->with([
+                        'image:book_id,link',
                         'authors' => function ($query) {
                             $query->select('authors.id', 'author');
-                        }]);
+                        }
+                    ]);
             }])->withCount('likes');
     }
 }

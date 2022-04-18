@@ -23,7 +23,7 @@ class QuoteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index(ShowQuotesRequest $request, Quote $quotes)
     {
@@ -32,20 +32,11 @@ class QuoteController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @param SaveQuotesRequest $request
+     * @param Quote $quote
+     * @return JsonResponse
      */
     public function store(SaveQuotesRequest $request, Quote $quote)
     {
@@ -58,9 +49,9 @@ class QuoteController extends Controller
      *
      * @param $id
      * @param GetIdRequest $request
-     * @param \App\Models\Quote $quote
+     * @param Quote $quote
      * @param View $view
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function show($id, GetIdRequest $request, Quote $quote, View $view)
     {
@@ -92,9 +83,9 @@ class QuoteController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Quote $quote
+     * @param Quote $quote
      * @param DeleteQuoteRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function destroy(Quote $quote, DeleteQuoteRequest $request)
     {
@@ -107,11 +98,6 @@ class QuoteController extends Controller
     {
         $userQuotes = $quotes->showUserQuotes(\auth()->id())->filter($quoteFilter)->get();
 
-        $userQuotes->map(function ($query) {
-            if ($query->book['rates_avg'] === null) {
-                $query->book['rates_avg'] = 0;
-            }
-        });
         return ApiAnswerService::successfulAnswerWithData($userQuotes);
     }
 
