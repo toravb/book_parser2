@@ -112,6 +112,8 @@ Route::middleware('auth:api')->group(function () {
             });
 
             Route::get('/quotes', [QuoteController::class, 'showUserQuotes']);
+
+            Route::get('/counter', [CompilationController::class, 'countTypesInUserLists']);
         });
     });
     /*
@@ -154,6 +156,8 @@ Route::middleware('auth:api')->group(function () {
         Route::get('/{id}', [QuoteController::class, 'show']);
 
         Route::post('/', [QuoteController::class, 'store']);
+        Route::put('/', [QuoteController::class, 'update']);
+
         Route::delete('/', [QuoteController::class, 'destroy']);
     });
 
@@ -274,7 +278,6 @@ Route::group(['prefix' => 'compilations'], function () {
  * Authors
  */
 Route::group(['prefix' => 'authors'], function () {
-    Route::get('/page', [AuthorPageController::class, 'show']);
     Route::get('/series/{id}', [AuthorSeriesController::class, 'showSeries']);
     Route::get('/filter', [AuthorController::class, 'filterByLetter']);
     Route::get('/letter/{letter}', [AuthorController::class, 'showByLetter']);
@@ -282,6 +285,7 @@ Route::group(['prefix' => 'authors'], function () {
     Route::get('/{author}/reviews', [AuthorPageController::class, 'showReviews']);
     Route::get('/{id}/books', [AuthorController::class, 'showOtherBooks']);
     Route::get('/{id}/audio-books', [AuthorController::class, 'showOtherAudioBooks']);
+    Route::get('/{author}', [AuthorPageController::class, 'show']);
 });
 /*
  * --------
@@ -293,7 +297,7 @@ Route::group(['prefix' => 'authors'], function () {
 Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
     Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
-    Route::get('/{id}/listen', [AudioBookController::class, 'listeningMode']);
+    Route::get('/{audiobook}/chapters', [AudioBookController::class, 'chapters']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);

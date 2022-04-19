@@ -3,12 +3,22 @@
 namespace App\Models;
 
 use App\Api\Interfaces\CommentInterface;
+use App\Api\Models\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBookReviewComment extends Model implements CommentInterface
 {
+
+    protected $fillable = [
+        'user_id',
+        'audio_book_review_id',
+        'content',
+        'parent_comment_id'
+    ];
+
     public function bookReview(): BelongsTo
     {
         return $this->belongsTo(AudioBookReview::class);
@@ -28,13 +38,23 @@ class AudioBookReviewComment extends Model implements CommentInterface
         );
     }
 
+    public static function getNotificationComment(int $commentId)
+    {
+        return self::query()
+            ->with([
+                'bookReview' => function ($query) {
+                    return $query->select('id', 'title');
+                }
+            ])->findOrFail($commentId);
+    }
+
     public function getComments(int $typeId, int $paginate)
     {
         return $this
             ->where('audio_book_review_id', $typeId)
             ->whereNull('parent_comment_id')
             ->select('id', 'audio_book_review_id', 'user_id', 'content', 'updated_at')
-            ->with('users:id,name,avatar,nickname')
+            ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }
@@ -43,7 +63,7 @@ class AudioBookReviewComment extends Model implements CommentInterface
     {
         return $this->where('parent_comment_id', $commentId)
             ->select('id', 'audio_book_review_id', 'user_id', 'content', 'updated_at')
-            ->with('users:id,name,avatar,nickname')
+            ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }

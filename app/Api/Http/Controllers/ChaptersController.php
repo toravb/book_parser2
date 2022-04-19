@@ -11,8 +11,6 @@ class ChaptersController extends Controller
 {
     public function showBookChapters(Book $book): JsonResponse
     {
-        $chapters = $book->chapters;
-
-        return ApiAnswerService::successfulAnswerWithData($chapters);
+        return ApiAnswerService::successfulAnswerWithData($book->chapters);
     }
 }

@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 
 class CompilationFilter extends QueryFilter
 {
-    public function __construct(Request $request)
-    {
-        $this->request = $request;
-    }
-
     public function showType(string $showType)
     {
         if ($showType === 'list') {
@@ -66,6 +61,10 @@ class CompilationFilter extends QueryFilter
 
         if ($sortBy === Compilation::SORT_BY_ALPHABET) {
             return $this->builder->orderBy('title');
+        }
+
+        if ($sortBy === Compilation::SORT_BY_VIEWS){
+            return $this->builder->withCount('views')->orderBy('views_count', 'desc');
         }
 
         return $this->builder;

@@ -138,9 +138,9 @@ class User extends Authenticatable
         return $this->hasMany(Compilation::class);
     }
 
-    public function compilationUsers()
+    public function compilationUsers(): HasMany
     {
-        return $this->belongsToMany(Compilation::class);
+        return $this->hasMany(Compilation::class, 'created_by', 'id');
     }
 
     public function readingSettings()
@@ -186,5 +186,24 @@ class User extends Authenticatable
     public function unreadNotifications()
     {
         return $this->notifications()->wherePivot('read', NotificationUser::UNREAD_NOTIFICATION);
+    }
+
+    public function countTypesInLists(): User
+    {
+        $counter = $this
+            ->select('id as user_id')
+            ->withCount(
+                'bookStatuses as books_count',
+                'audioBookStatuses as audio_books_count',
+                'compilationUsers as compilations_count',
+                'quotes',
+                'authors',
+                'reviews as book_reviews_count',
+                'audioReviews',
+            )->findOrFail(\auth()->id());
+
+        $counter->total_reviews_count = $counter->book_reviews_count + $counter->audio_reviews_count;
+
+        return $counter;
     }
 }

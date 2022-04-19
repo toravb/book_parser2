@@ -6272,13 +6272,19 @@
                     "example-1": {
                       "status": "success",
                       "data": {
-                        "user_id": 56,
-                        "book_id": 1,
-                        "content": "text comment",
+                        "user_id": 12,
+                        "audio_book_review_id": "2",
+                        "content": "11112233211w",
                         "parent_comment_id": null,
-                        "updated_at": "2022-02-23T10:38:21.000000Z",
-                        "created_at": "2022-02-23T10:38:21.000000Z",
-                        "id": 2
+                        "updated_at": "2022-04-08T09:59:26.000000Z",
+                        "created_at": "2022-04-08T09:59:26.000000Z",
+                        "id": 11,
+                        "user": {
+                          "id": 12,
+                          "name": null,
+                          "avatar": null,
+                          "nickname": null
+                        }
                       }
                     }
                   },
@@ -6291,25 +6297,26 @@
                       "type": "object",
                       "required": [
                         "user_id",
-                        "book_id",
+                        "audio_book_review_id",
                         "content",
                         "updated_at",
                         "created_at",
-                        "id"
+                        "id",
+                        "user"
                       ],
                       "properties": {
                         "user_id": {
                           "type": "number"
                         },
-                        "book_id": {
-                          "type": "number"
+                        "audio_book_review_id": {
+                          "type": "string",
+                          "minLength": 1
                         },
                         "content": {
                           "type": "string",
                           "minLength": 1
                         },
                         "parent_comment_id": {
-                          "type": "number",
                           "nullable": true
                         },
                         "updated_at": {
@@ -6322,6 +6329,26 @@
                         },
                         "id": {
                           "type": "number"
+                        },
+                        "user": {
+                          "type": "object",
+                          "required": [
+                            "id"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "avatar": {
+                              "type": "string"
+                            },
+                            "nickname": {
+                              "type": "string"
+                            }
+                          }
                         }
                       }
                     }
@@ -6359,6 +6386,26 @@
                         "id": 3
                       }
                     }
+                  },
+                  "new comment audiobook review": {
+                    "value": {
+                      "status": "string",
+                      "data": {
+                        "user_id": 56,
+                        "audio_book_review_id": "string",
+                        "content": "string",
+                        "parent_comment_id": null,
+                        "updated_at": "string",
+                        "created_at": "string",
+                        "id": 0,
+                        "user": {
+                          "id": 0,
+                          "name": "string",
+                          "avatar": "string",
+                          "nickname": "string"
+                        }
+                      }
+                    }
                   }
                 }
               }
@@ -6393,45 +6440,16 @@
                     "type": "string",
                     "enum": [
                       "book",
-                      "audio_book"
+                      "audio_book",
+                      "book_review",
+                      "audio_book_review"
                     ]
-                  },
-                  "user": {
-                    "type": "object",
-                    "enum": [
-                      "book",
-                      "audio_book"
-                    ],
-                    "required": [
-                      "id",
-                      "name",
-                      "avatar",
-                      "nickname"
-                    ],
-                    "properties": {
-                      "id": {
-                        "type": [
-                          "string",
-                          "number"
-                        ]
-                      },
-                      "name": {
-                        "type": "string"
-                      },
-                      "avatar": {
-                        "type": "string"
-                      },
-                      "nickname": {
-                        "type": "string"
-                      }
-                    }
                   }
                 },
                 "required": [
                   "id",
                   "text",
-                  "type",
-                  "user"
+                  "type"
                 ]
               },
               "examples": {
@@ -6663,29 +6681,32 @@
             "Authorization": []
           }
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "id",
-            "required": true,
-            "description": "book id or audiobook id"
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "book_comment",
-                "audio_book_comment"
-              ]
-            },
-            "in": "query",
-            "name": "type",
-            "required": true
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "integer"
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "book_comment",
+                      "audio_book_comment"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "type"
+                ]
+              }
+            }
           }
-        ]
+        }
       }
     },
     "/books/{id}/chapters": {
@@ -10208,6 +10229,163 @@
         "description": ""
       }
     },
+    "/audio-books/{audiobook}/chapters": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer"
+          },
+          "name": "audiobook",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Audio book chapters",
+        "operationId": "get-audio-books-audiobook-chapters",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "array",
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "items": {
+                        "required": [
+                          "id",
+                          "title",
+                          "type"
+                        ],
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "chapters": {
+                            "type": "array",
+                            "uniqueItems": true,
+                            "minItems": 1,
+                            "items": {
+                              "required": [
+                                "id",
+                                "book_id",
+                                "title",
+                                "index",
+                                "link"
+                              ],
+                              "properties": {
+                                "id": {
+                                  "type": "number"
+                                },
+                                "book_id": {
+                                  "type": "number"
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "index": {
+                                  "type": "number"
+                                },
+                                "link": {
+                                  "type": "string",
+                                  "minLength": 1
+                                },
+                                "extension": {},
+                                "file_size": {}
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 3,
+                          "title": "avsavfdvf",
+                          "type": "audioBooks",
+                          "chapters": [
+                            {
+                              "id": 1,
+                              "book_id": 3,
+                              "title": "311111",
+                              "index": 1,
+                              "link": "wfweargvwerb",
+                              "extension": null,
+                              "file_size": null
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Not Found!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Audio Books"
+        ],
+        "description": ""
+      }
+    },
     "/selections": {
       "get": {
         "summary": "Get selections type",
@@ -10697,7 +10875,7 @@
             },
             "in": "query",
             "name": "selectionCategory",
-            "description": "As ID from path \"/selections\" (1 - тематические, 2 - регулярные))"
+            "description": "As ID from path \"/selections\" (1 - тематические, 2 - регулярные)) if null - show all"
           },
           {
             "schema": {
@@ -11162,13 +11340,14 @@
               "type": "number",
               "enum": [
                 1,
-                2
+                2,
+                3
               ]
             },
             "in": "query",
-            "name": "sotBy",
+            "name": "sortBy",
             "required": true,
-            "description": "1 - sort by date; 2 - sort by alphabet"
+            "description": "1 - sort by date; 2 - sort by alphabet; 3 - sort by popularity (sorted by views))"
           },
           {
             "schema": {
@@ -12061,7 +12240,7 @@
         }
       },
       "get": {
-        "summary": "Show quotes",
+        "summary": "Update quotes",
         "operationId": "get-quotes",
         "responses": {
           "200": {
@@ -12238,6 +12417,251 @@
         "tags": [
           "Quotes"
         ]
+      },
+      "put": {
+        "summary": "",
+        "operationId": "put-quotes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "book_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "page_id": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "text": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "color": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "start_key": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "start_text_index": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "start_offset": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "end_key": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "end_text_index": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "end_offset": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "created_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "updated_at": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "type": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "user_id",
+                        "book_id",
+                        "page_id",
+                        "text",
+                        "color",
+                        "start_key",
+                        "start_text_index",
+                        "start_offset",
+                        "end_key",
+                        "end_text_index",
+                        "end_offset",
+                        "created_at",
+                        "updated_at",
+                        "type"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 7,
+                        "user_id": 12,
+                        "book_id": "1",
+                        "page_id": "1",
+                        "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt",
+                        "color": "brown",
+                        "start_key": "2",
+                        "start_text_index": "5",
+                        "start_offset": "3",
+                        "end_key": "6",
+                        "end_text_index": "7",
+                        "end_offset": "5",
+                        "created_at": "2022-04-11T20:48:02.000000Z",
+                        "updated_at": "2022-04-11T21:26:36.000000Z",
+                        "type": "quotes"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "message": {
+                      "type": "string",
+                      "minLength": 1
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "message"
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "error",
+                      "message": "Нет прав для редактирования"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Quotes"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "number"
+                  },
+                  "book_id": {
+                    "type": "number"
+                  },
+                  "page_id": {
+                    "type": "number"
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "color": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "start_key": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "start_text_index": {
+                    "type": "number"
+                  },
+                  "start_offset": {
+                    "type": "number"
+                  },
+                  "end_key": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "end_text_index": {
+                    "type": "number"
+                  },
+                  "end_offset": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "id",
+                  "book_id",
+                  "page_id",
+                  "text",
+                  "color",
+                  "start_key",
+                  "start_text_index",
+                  "start_offset",
+                  "end_key",
+                  "end_text_index",
+                  "end_offset"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "id": 0,
+                    "book_id": 0,
+                    "page_id": 0,
+                    "text": "string",
+                    "color": "string",
+                    "start_key": "string",
+                    "start_text_index": 0,
+                    "start_offset": 0,
+                    "end_key": "string",
+                    "end_text_index": 0,
+                    "end_offset": 0
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/quotes/{id}": {
@@ -13452,16 +13876,25 @@
           "Lists",
           "Book"
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "book_id",
-            "required": true
-          }
-        ]
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "book_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "book_id"
+                ]
+              }
+            }
+          },
+          "description": ""
+        }
       },
       "put": {
         "summary": "Change book status in users list",
@@ -13472,29 +13905,7 @@
           }
         },
         "description": "",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "book_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "enum": [
-                1,
-                2,
-                3
-              ]
-            },
-            "in": "query",
-            "name": "status",
-            "required": true
-          }
-        ],
+        "parameters": [],
         "security": [
           {
             "Authorization": []
@@ -13503,7 +13914,34 @@
         "tags": [
           "Lists",
           "Book"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "book_id": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "number",
+                    "enum": [
+                      1,
+                      2,
+                      3
+                    ],
+                    "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ; "
+                  }
+                },
+                "required": [
+                  "book_id",
+                  "status"
+                ]
+              }
+            }
+          }
+        }
       },
       "parameters": [],
       "get": {
@@ -13817,13 +14255,15 @@
               "enum": [
                 1,
                 2,
-                3
+                3,
+                0
               ],
               "example": 1
             },
             "in": "query",
             "name": "status",
-            "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ;"
+            "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ; 0 - ALL",
+            "required": true
           }
         ],
         "description": "",
@@ -13914,16 +14354,24 @@
           "Lists",
           "Audio Books"
         ],
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "audio_book_id",
-            "required": true
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio_book_id": {
+                    "type": "integer"
+                  }
+                },
+                "required": [
+                  "audio_book_id"
+                ]
+              }
+            }
           }
-        ]
+        }
       },
       "put": {
         "summary": "Set / Change audio book status in users list",
@@ -14059,30 +14507,7 @@
           }
         },
         "description": "",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "audio_book_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer",
-              "enum": [
-                1,
-                2,
-                3
-              ]
-            },
-            "in": "query",
-            "name": "status",
-            "required": true,
-            "description": "1 want listen, 2 listening, 3 listened"
-          }
-        ],
+        "parameters": [],
         "security": [
           {
             "Authorization": []
@@ -14091,7 +14516,70 @@
         "tags": [
           "Lists",
           "Audio Books"
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio_book_id": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "number",
+                    "description": "WANT_LISTEN = '1'; LISTENING = '2'; HAD_LISTEN = '3';",
+                    "enum": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "required": [
+                  "audio_book_id",
+                  "status"
+                ]
+              }
+            },
+            "application/xml": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            },
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "audio_book_id": {
+                    "type": "integer"
+                  },
+                  "status": {
+                    "type": "number",
+                    "description": "WANT_LISTEN = '1'; LISTENING = '2'; HAD_LISTEN = '3';",
+                    "enum": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                "required": [
+                  "audio_book_id",
+                  "status"
+                ]
+              }
+            },
+            "text/html": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          },
+          "description": ""
+        }
       },
       "parameters": [],
       "get": {
@@ -14426,12 +14914,14 @@
               "enum": [
                 1,
                 2,
-                3
+                3,
+                0
               ]
             },
             "in": "query",
             "name": "status",
-            "description": "1 - WANT_LISTEN; 2 - LISTENING; 3 - HAD_LISTEN"
+            "description": "1 - WANT_LISTEN; 2 - LISTENING; 3 - HAD_LISTEN; 0 - ALL",
+            "required": true
           }
         ]
       }
@@ -14932,13 +15422,116 @@
               ]
             },
             "in": "query",
-            "name": "groupBy",
+            "name": "sortBy",
             "description": "1 - SHOW_ALL; 2 - GROUP_BY_BOOK; 3 - GROUP_BY_AUTHOR;",
             "required": true
           }
         ],
         "tags": [
           "Quotes"
+        ]
+      }
+    },
+    "/profile/lists/counter": {
+      "parameters": [],
+      "get": {
+        "summary": "Show user quotes",
+        "operationId": "get-profile-lists-counter",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "user_id": 12,
+                        "books_count": 1,
+                        "audio_books_count": 1,
+                        "compilations_count": 2,
+                        "quotes_count": 4,
+                        "authors_count": 0,
+                        "book_reviews_count": 1,
+                        "audio_reviews_count": 1,
+                        "total_reviews_count": 2,
+                        "avatar": null
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "user_id",
+                        "books_count",
+                        "audio_books_count",
+                        "compilations_count",
+                        "quotes_count",
+                        "authors_count",
+                        "book_reviews_count",
+                        "audio_reviews_count",
+                        "total_reviews_count"
+                      ],
+                      "properties": {
+                        "user_id": {
+                          "type": "number"
+                        },
+                        "books_count": {
+                          "type": "number"
+                        },
+                        "audio_books_count": {
+                          "type": "number"
+                        },
+                        "compilations_count": {
+                          "type": "number"
+                        },
+                        "quotes_count": {
+                          "type": "number"
+                        },
+                        "authors_count": {
+                          "type": "number"
+                        },
+                        "book_reviews_count": {
+                          "type": "number"
+                        },
+                        "audio_reviews_count": {
+                          "type": "number"
+                        },
+                        "total_reviews_count": {
+                          "type": "number"
+                        },
+                        "avatar": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [],
+        "tags": [
+          "Lists",
+          "User profile"
         ]
       }
     },
@@ -18409,6 +19002,1558 @@
         ]
       }
     },
+    "/authors/{author}": {
+      "get": {
+        "summary": "Author page",
+        "tags": [
+          "Authors"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "author": "Араматов",
+                        "avatar": "authors/bfj7dpoieMKT1LpaVH8M4UAixy3zQWczO4IXey9e.jpg",
+                        "about": "Автор",
+                        "author_reviews_count": 0,
+                        "author_quotes_count": 0,
+                        "books_count": 2,
+                        "audio_books_count": 2,
+                        "total_books": 4,
+                        "non_author_compilation": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "21154221wйййasйц",
+                              "background": "http://localhost/storage/CompilationImages/4wg4ckSdenFOtUSV6iJqYJPd14bOUVn6Hkjze5BK.jpg",
+                              "books_count": 1
+                            }
+                          ],
+                          "first_page_url": "http://book-parser2/api/authors/1?non-author-compilation=1",
+                          "from": 1,
+                          "last_page": 3,
+                          "last_page_url": "http://book-parser2/api/authors/1?non-author-compilation=3",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Назад",
+                              "active": false
+                            },
+                            {
+                              "url": "http://book-parser2/api/authors/1?non-author-compilation=1",
+                              "label": "1",
+                              "active": true
+                            }
+                          ],
+                          "next_page_url": "http://book-parser2/api/authors/1?non-author-compilation=2",
+                          "path": "http://book-parser2/api/authors/1",
+                          "per_page": 3,
+                          "prev_page_url": null,
+                          "to": 3,
+                          "total": 7
+                        },
+                        "similar_authors": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 2,
+                              "author": "Писюнков",
+                              "avatar": "authors/bfj7dpoieMKT1LpaVH8M4UAixy3zQWczO4IXey9e.jpg",
+                              "books_count": 0,
+                              "laravel_through_key": 1
+                            }
+                          ],
+                          "first_page_url": "http://book-parser2/api/authors/1?similar-authors=1",
+                          "from": 1,
+                          "last_page": 1,
+                          "last_page_url": "http://book-parser2/api/authors/1?similar-authors=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Назад",
+                              "active": false
+                            },
+                            {
+                              "url": "http://book-parser2/api/authors/1?similar-authors=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Вперёд &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://book-parser2/api/authors/1",
+                          "per_page": 3,
+                          "prev_page_url": null,
+                          "to": 3,
+                          "total": 3
+                        },
+                        "in_favorite": true,
+                        "series": [
+                          {
+                            "id": 1,
+                            "series": "Generic",
+                            "laravel_through_key": 1,
+                            "books": [
+                              {
+                                "id": 2,
+                                "title": "2222222",
+                                "series_id": 1,
+                                "active": 1,
+                                "views_count": 0,
+                                "rate_avg": 0,
+                                "type": "books",
+                                "genres": [
+                                  {
+                                    "name": "Проза"
+                                  }
+                                ],
+                                "authors": [
+                                  {
+                                    "author": "Араматов"
+                                  }
+                                ],
+                                "image": {
+                                  "book_id": 2,
+                                  "link": "books-covers/jNjqUncXXncaA0dsHfgpMbLanppFtvTltfzHXCaE.jpg"
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "books": [
+                          {
+                            "id": 1,
+                            "title": "1111111",
+                            "active": 1,
+                            "series_id": null,
+                            "views_count": 0,
+                            "rate_avg": 0,
+                            "type": "books",
+                            "genres": [
+                              {
+                                "name": "Проза"
+                              }
+                            ],
+                            "authors": [
+                              {
+                                "author": "Араматов"
+                              }
+                            ],
+                            "image": {
+                              "book_id": 1,
+                              "link": "books-covers/jNjqUncXXncaA0dsHfgpMbLanppFtvTltfzHXCaE.jpg"
+                            }
+                          }
+                        ],
+                        "audio_books": [
+                          {
+                            "id": 3,
+                            "active": 1,
+                            "title": "avsavfdvf",
+                            "genre_id": 1,
+                            "views_count": 0,
+                            "rate_avg": 0,
+                            "type": "audioBooks",
+                            "genre": {
+                              "id": 1,
+                              "name": "Фантастика4"
+                            },
+                            "authors": [
+                              {
+                                "author": "Араматов"
+                              }
+                            ],
+                            "image": {
+                              "book_id": 3,
+                              "link": "waergwrhgehge"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "author",
+                        "avatar",
+                        "about",
+                        "author_reviews_count",
+                        "author_quotes_count",
+                        "books_count",
+                        "audio_books_count",
+                        "total_books",
+                        "non_author_compilation",
+                        "similar_authors",
+                        "in_favorite",
+                        "series",
+                        "books",
+                        "audio_books"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "author": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "about": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "author_reviews_count": {
+                          "type": "number"
+                        },
+                        "author_quotes_count": {
+                          "type": "number"
+                        },
+                        "books_count": {
+                          "type": "number"
+                        },
+                        "audio_books_count": {
+                          "type": "number"
+                        },
+                        "total_books": {
+                          "type": "number"
+                        },
+                        "non_author_compilation": {
+                          "type": "object",
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "next_page_url",
+                            "path",
+                            "per_page",
+                            "to",
+                            "total"
+                          ],
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "background": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "background",
+                                  "books_count"
+                                ]
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "url": {
+                                    "type": "string"
+                                  },
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "active"
+                                ]
+                              }
+                            },
+                            "next_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "similar_authors": {
+                          "type": "object",
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "to",
+                            "total"
+                          ],
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "author": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "avatar": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  },
+                                  "laravel_through_key": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "author",
+                                  "avatar",
+                                  "books_count",
+                                  "laravel_through_key"
+                                ]
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "url": {
+                                    "type": "string"
+                                  },
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "active"
+                                ]
+                              }
+                            },
+                            "next_page_url": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {},
+                            "to": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "in_favorite": {
+                          "type": "boolean",
+                          "description": "is author already in favorite"
+                        },
+                        "series": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "series": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "laravel_through_key": {
+                                "type": "number"
+                              },
+                              "books": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "series_id": {
+                                      "type": "number"
+                                    },
+                                    "active": {
+                                      "type": "number"
+                                    },
+                                    "views_count": {
+                                      "type": "number"
+                                    },
+                                    "rate_avg": {
+                                      "type": "number"
+                                    },
+                                    "type": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "genres": {
+                                      "type": "array",
+                                      "uniqueItems": true,
+                                      "minItems": 1,
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "type": "string",
+                                            "minLength": 1
+                                          }
+                                        },
+                                        "required": [
+                                          "name"
+                                        ]
+                                      }
+                                    },
+                                    "authors": {
+                                      "type": "array",
+                                      "uniqueItems": true,
+                                      "minItems": 1,
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "author": {
+                                            "type": "string",
+                                            "minLength": 1
+                                          }
+                                        },
+                                        "required": [
+                                          "author"
+                                        ]
+                                      }
+                                    },
+                                    "image": {
+                                      "type": "object",
+                                      "properties": {
+                                        "book_id": {
+                                          "type": "number"
+                                        },
+                                        "link": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        }
+                                      },
+                                      "required": [
+                                        "book_id",
+                                        "link"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "title",
+                                    "series_id",
+                                    "active",
+                                    "views_count",
+                                    "rate_avg",
+                                    "type"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "series",
+                              "laravel_through_key"
+                            ]
+                          }
+                        },
+                        "books": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "description": "outside series books",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "number"
+                              },
+                              "series_id": {},
+                              "views_count": {
+                                "type": "number"
+                              },
+                              "rate_avg": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "genres": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "name"
+                                  ]
+                                }
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "author"
+                                  ]
+                                }
+                              },
+                              "image": {
+                                "type": "object",
+                                "properties": {
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "link": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "book_id",
+                                  "link"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "title",
+                              "active",
+                              "views_count",
+                              "rate_avg",
+                              "type"
+                            ]
+                          }
+                        },
+                        "audio_books": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "active": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "genre_id": {
+                                "type": "number"
+                              },
+                              "views_count": {
+                                "type": "number"
+                              },
+                              "rate_avg": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "genre": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name"
+                                ]
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "author"
+                                  ]
+                                }
+                              },
+                              "image": {
+                                "type": "object",
+                                "properties": {
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "link": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "book_id",
+                                  "link"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "active",
+                              "title",
+                              "genre_id",
+                              "views_count",
+                              "rate_avg",
+                              "type"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "",
+                  "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 1,
+                        "author": "Араматов",
+                        "avatar": "authors/bfj7dpoieMKT1LpaVH8M4UAixy3zQWczO4IXey9e.jpg",
+                        "about": "Автор",
+                        "author_reviews_count": 0,
+                        "author_quotes_count": 0,
+                        "books_count": 2,
+                        "audio_books_count": 2,
+                        "total_books": 4,
+                        "non_author_compilation": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 1,
+                              "title": "21154221wйййasйц",
+                              "background": "http://localhost/storage/CompilationImages/4wg4ckSdenFOtUSV6iJqYJPd14bOUVn6Hkjze5BK.jpg",
+                              "books_count": 1
+                            }
+                          ],
+                          "first_page_url": "http://book-parser2/api/authors/1?non-author-compilation=1",
+                          "from": 1,
+                          "last_page": 3,
+                          "last_page_url": "http://book-parser2/api/authors/1?non-author-compilation=3",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Назад",
+                              "active": false
+                            },
+                            {
+                              "url": "http://book-parser2/api/authors/1?non-author-compilation=1",
+                              "label": "1",
+                              "active": true
+                            }
+                          ],
+                          "next_page_url": "http://book-parser2/api/authors/1?non-author-compilation=2",
+                          "path": "http://book-parser2/api/authors/1",
+                          "per_page": 3,
+                          "prev_page_url": null,
+                          "to": 3,
+                          "total": 7
+                        },
+                        "similar_authors": {
+                          "current_page": 1,
+                          "data": [
+                            {
+                              "id": 2,
+                              "author": "Писюнков",
+                              "avatar": "authors/bfj7dpoieMKT1LpaVH8M4UAixy3zQWczO4IXey9e.jpg",
+                              "books_count": 0,
+                              "laravel_through_key": 1
+                            }
+                          ],
+                          "first_page_url": "http://book-parser2/api/authors/1?similar-authors=1",
+                          "from": 1,
+                          "last_page": 1,
+                          "last_page_url": "http://book-parser2/api/authors/1?similar-authors=1",
+                          "links": [
+                            {
+                              "url": null,
+                              "label": "&laquo; Назад",
+                              "active": false
+                            },
+                            {
+                              "url": "http://book-parser2/api/authors/1?similar-authors=1",
+                              "label": "1",
+                              "active": true
+                            },
+                            {
+                              "url": null,
+                              "label": "Вперёд &raquo;",
+                              "active": false
+                            }
+                          ],
+                          "next_page_url": null,
+                          "path": "http://book-parser2/api/authors/1",
+                          "per_page": 3,
+                          "prev_page_url": null,
+                          "to": 3,
+                          "total": 3
+                        },
+                        "in_favorite": true,
+                        "series": [
+                          {
+                            "id": 1,
+                            "series": "Generic",
+                            "laravel_through_key": 1,
+                            "books": [
+                              {
+                                "id": 2,
+                                "title": "2222222",
+                                "series_id": 1,
+                                "active": 1,
+                                "views_count": 0,
+                                "rate_avg": 0,
+                                "type": "books",
+                                "genres": [
+                                  {
+                                    "name": "Проза"
+                                  }
+                                ],
+                                "authors": [
+                                  {
+                                    "author": "Араматов"
+                                  }
+                                ],
+                                "image": {
+                                  "book_id": 2,
+                                  "link": "books-covers/jNjqUncXXncaA0dsHfgpMbLanppFtvTltfzHXCaE.jpg"
+                                }
+                              }
+                            ]
+                          }
+                        ],
+                        "books": [
+                          {
+                            "id": 1,
+                            "title": "1111111",
+                            "active": 1,
+                            "series_id": null,
+                            "views_count": 0,
+                            "rate_avg": 0,
+                            "type": "books",
+                            "genres": [
+                              {
+                                "name": "Проза"
+                              }
+                            ],
+                            "authors": [
+                              {
+                                "author": "Араматов"
+                              }
+                            ],
+                            "image": {
+                              "book_id": 1,
+                              "link": "books-covers/jNjqUncXXncaA0dsHfgpMbLanppFtvTltfzHXCaE.jpg"
+                            }
+                          }
+                        ],
+                        "audio_books": [
+                          {
+                            "id": 3,
+                            "active": 1,
+                            "title": "avsavfdvf",
+                            "genre_id": 1,
+                            "views_count": 0,
+                            "rate_avg": 0,
+                            "type": "audioBooks",
+                            "genre": {
+                              "id": 1,
+                              "name": "Фантастика4"
+                            },
+                            "authors": [
+                              {
+                                "author": "Араматов"
+                              }
+                            ],
+                            "image": {
+                              "book_id": 3,
+                              "link": "waergwrhgehge"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "data": {
+                      "type": "object",
+                      "required": [
+                        "id",
+                        "author",
+                        "avatar",
+                        "about",
+                        "author_reviews_count",
+                        "author_quotes_count",
+                        "books_count",
+                        "audio_books_count",
+                        "total_books",
+                        "non_author_compilation",
+                        "similar_authors",
+                        "in_favorite",
+                        "series",
+                        "books",
+                        "audio_books"
+                      ],
+                      "properties": {
+                        "id": {
+                          "type": "number"
+                        },
+                        "author": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "avatar": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "about": {
+                          "type": "string",
+                          "minLength": 1
+                        },
+                        "author_reviews_count": {
+                          "type": "number"
+                        },
+                        "author_quotes_count": {
+                          "type": "number"
+                        },
+                        "books_count": {
+                          "type": "number"
+                        },
+                        "audio_books_count": {
+                          "type": "number"
+                        },
+                        "total_books": {
+                          "type": "number"
+                        },
+                        "non_author_compilation": {
+                          "type": "object",
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "next_page_url",
+                            "path",
+                            "per_page",
+                            "to",
+                            "total"
+                          ],
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "title": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "background": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "title",
+                                  "background",
+                                  "books_count"
+                                ]
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "url": {
+                                    "type": "string"
+                                  },
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "active"
+                                ]
+                              }
+                            },
+                            "next_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "similar_authors": {
+                          "type": "object",
+                          "required": [
+                            "current_page",
+                            "data",
+                            "first_page_url",
+                            "from",
+                            "last_page",
+                            "last_page_url",
+                            "links",
+                            "path",
+                            "per_page",
+                            "to",
+                            "total"
+                          ],
+                          "properties": {
+                            "current_page": {
+                              "type": "number"
+                            },
+                            "data": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "author": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "avatar": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "books_count": {
+                                    "type": "number"
+                                  },
+                                  "laravel_through_key": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "author",
+                                  "avatar",
+                                  "books_count",
+                                  "laravel_through_key"
+                                ]
+                              }
+                            },
+                            "first_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "from": {
+                              "type": "number"
+                            },
+                            "last_page": {
+                              "type": "number"
+                            },
+                            "last_page_url": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "links": {
+                              "type": "array",
+                              "uniqueItems": true,
+                              "minItems": 1,
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "url": {
+                                    "type": "string"
+                                  },
+                                  "label": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  },
+                                  "active": {
+                                    "type": "boolean"
+                                  }
+                                },
+                                "required": [
+                                  "label",
+                                  "active"
+                                ]
+                              }
+                            },
+                            "next_page_url": {
+                              "type": "string"
+                            },
+                            "path": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "per_page": {
+                              "type": "number"
+                            },
+                            "prev_page_url": {
+                              "type": "string"
+                            },
+                            "to": {
+                              "type": "number"
+                            },
+                            "total": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "in_favorite": {
+                          "type": "boolean"
+                        },
+                        "series": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "series": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "laravel_through_key": {
+                                "type": "number"
+                              },
+                              "books": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
+                                    "title": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "series_id": {
+                                      "type": "number"
+                                    },
+                                    "active": {
+                                      "type": "number"
+                                    },
+                                    "views_count": {
+                                      "type": "number"
+                                    },
+                                    "rate_avg": {
+                                      "type": "number"
+                                    },
+                                    "type": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    },
+                                    "genres": {
+                                      "type": "array",
+                                      "uniqueItems": true,
+                                      "minItems": 1,
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "name": {
+                                            "type": "string",
+                                            "minLength": 1
+                                          }
+                                        },
+                                        "required": [
+                                          "name"
+                                        ]
+                                      }
+                                    },
+                                    "authors": {
+                                      "type": "array",
+                                      "uniqueItems": true,
+                                      "minItems": 1,
+                                      "items": {
+                                        "type": "object",
+                                        "properties": {
+                                          "author": {
+                                            "type": "string",
+                                            "minLength": 1
+                                          }
+                                        },
+                                        "required": [
+                                          "author"
+                                        ]
+                                      }
+                                    },
+                                    "image": {
+                                      "type": "object",
+                                      "properties": {
+                                        "book_id": {
+                                          "type": "number"
+                                        },
+                                        "link": {
+                                          "type": "string",
+                                          "minLength": 1
+                                        }
+                                      },
+                                      "required": [
+                                        "book_id",
+                                        "link"
+                                      ]
+                                    }
+                                  },
+                                  "required": [
+                                    "id",
+                                    "title",
+                                    "series_id",
+                                    "active",
+                                    "views_count",
+                                    "rate_avg",
+                                    "type"
+                                  ]
+                                }
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "series",
+                              "laravel_through_key"
+                            ]
+                          }
+                        },
+                        "books": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "description": "books out of series",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "active": {
+                                "type": "number"
+                              },
+                              "series_id": {},
+                              "views_count": {
+                                "type": "number"
+                              },
+                              "rate_avg": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "genres": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "name": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "name"
+                                  ]
+                                }
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "author"
+                                  ]
+                                }
+                              },
+                              "image": {
+                                "type": "object",
+                                "properties": {
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "link": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "book_id",
+                                  "link"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "title",
+                              "active",
+                              "views_count",
+                              "rate_avg",
+                              "type"
+                            ]
+                          }
+                        },
+                        "audio_books": {
+                          "type": "array",
+                          "uniqueItems": true,
+                          "minItems": 1,
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "active": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "genre_id": {
+                                "type": "number"
+                              },
+                              "views_count": {
+                                "type": "number"
+                              },
+                              "rate_avg": {
+                                "type": "number"
+                              },
+                              "type": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "genre": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "name": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "name"
+                                ]
+                              },
+                              "authors": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "author": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
+                                  },
+                                  "required": [
+                                    "author"
+                                  ]
+                                }
+                              },
+                              "image": {
+                                "type": "object",
+                                "properties": {
+                                  "book_id": {
+                                    "type": "number"
+                                  },
+                                  "link": {
+                                    "type": "string",
+                                    "minLength": 1
+                                  }
+                                },
+                                "required": [
+                                  "book_id",
+                                  "link"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "active",
+                              "title",
+                              "genre_id",
+                              "views_count",
+                              "rate_avg",
+                              "type"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-authors-page",
+        "parameters": []
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "integer"
+          },
+          "name": "author",
+          "in": "path",
+          "required": true
+        }
+      ]
+    },
     "/bookmarks": {
       "post": {
         "summary": "Create bookmark",
@@ -20931,364 +23076,6 @@
         ]
       },
       "parameters": []
-    },
-    "/authors/page": {
-      "get": {
-        "summary": "Author info by ID",
-        "tags": [],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "",
-                  "type": "object",
-                  "properties": {
-                    "status": {
-                      "type": "string",
-                      "minLength": 1
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {
-                        "id": {
-                          "type": "number"
-                        },
-                        "author": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "avatar": {},
-                        "about": {},
-                        "author_reviews_count": {
-                          "type": "number"
-                        },
-                        "author_quotes_count": {
-                          "type": "number"
-                        },
-                        "books_count": {
-                          "type": "number"
-                        },
-                        "compilation": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        },
-                        "books": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "title",
-                              "text",
-                              "year_id",
-                              "link",
-                              "params",
-                              "active",
-                              "fixed",
-                              "donor_id",
-                              "count_pages",
-                              "type"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "title": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "text": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "series_id": {},
-                              "year_id": {
-                                "type": "number"
-                              },
-                              "link": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "params": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "active": {
-                                "type": "number"
-                              },
-                              "fixed": {
-                                "type": "number"
-                              },
-                              "donor_id": {
-                                "type": "number"
-                              },
-                              "count_pages": {
-                                "type": "number"
-                              },
-                              "created_at": {},
-                              "updated_at": {},
-                              "type": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "image": {
-                                "type": "object",
-                                "properties": {
-                                  "book_id": {
-                                    "type": "number"
-                                  },
-                                  "link": {
-                                    "type": "string",
-                                    "minLength": 1
-                                  }
-                                },
-                                "required": [
-                                  "book_id",
-                                  "link"
-                                ]
-                              }
-                            }
-                          }
-                        },
-                        "audio_books": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        },
-                        "series": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "required": [
-                              "id",
-                              "series",
-                              "laravel_through_key"
-                            ],
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "series": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "laravel_through_key": {
-                                "type": "number"
-                              },
-                              "books": {
-                                "type": "array",
-                                "uniqueItems": true,
-                                "minItems": 1,
-                                "items": {
-                                  "required": [
-                                    "id",
-                                    "title",
-                                    "text",
-                                    "series_id",
-                                    "year_id",
-                                    "link",
-                                    "params",
-                                    "active",
-                                    "fixed",
-                                    "donor_id",
-                                    "count_pages",
-                                    "type"
-                                  ],
-                                  "properties": {
-                                    "id": {
-                                      "type": "number"
-                                    },
-                                    "title": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "text": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "series_id": {
-                                      "type": "number"
-                                    },
-                                    "year_id": {
-                                      "type": "number"
-                                    },
-                                    "link": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "params": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "active": {
-                                      "type": "number"
-                                    },
-                                    "fixed": {
-                                      "type": "number"
-                                    },
-                                    "donor_id": {
-                                      "type": "number"
-                                    },
-                                    "count_pages": {
-                                      "type": "number"
-                                    },
-                                    "created_at": {},
-                                    "updated_at": {},
-                                    "type": {
-                                      "type": "string",
-                                      "minLength": 1
-                                    },
-                                    "image": {
-                                      "type": "object",
-                                      "properties": {
-                                        "book_id": {
-                                          "type": "number"
-                                        },
-                                        "link": {
-                                          "type": "string",
-                                          "minLength": 1
-                                        }
-                                      },
-                                      "required": [
-                                        "book_id",
-                                        "link"
-                                      ]
-                                    },
-                                    "rates": {
-                                      "type": "array",
-                                      "items": {
-                                        "required": [],
-                                        "properties": {}
-                                      }
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        },
-                        "similar_authors": {
-                          "type": "array",
-                          "items": {
-                            "required": [],
-                            "properties": {}
-                          }
-                        }
-                      },
-                      "required": [
-                        "id",
-                        "author",
-                        "author_reviews_count",
-                        "author_quotes_count",
-                        "books_count",
-                        "compilation",
-                        "books",
-                        "audio_books",
-                        "series",
-                        "similar_authors"
-                      ]
-                    }
-                  },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "id": 2,
-                        "author": "Иван Щукин",
-                        "avatar": null,
-                        "about": null,
-                        "author_reviews_count": 0,
-                        "author_quotes_count": 0,
-                        "books_count": 3,
-                        "compilation": [],
-                        "books": [
-                          {
-                            "id": 34322,
-                            "title": "Капитан \"Единорога\"",
-                            "text": " Томас Чезари, несмотря на свои шестнадцать лет, уже владелец и капитан космического корабля «Единорог». По завещанию отца, погибшего в космосе, он должен заработать миллион кредитов. Вроде бы ничего сложного, но… После не- счастного случая тело Томаса занял совсем другой человек — русский парень, морпех по имени Лёха. И теперь уже его ждут межзвездные полеты, новые планеты и космические сражения. Он познает настоящую дружбу, любовь и… предательство. Борьба за жизнь, радость побед и горечь поражений. И главный вопрос — кто и для чего отправил его в этот мир. Он узнает ответ… В нашей библиотеке вы можете бесплатно почитать книгу « Капитан \"Единорога\" ». Чтобы читать онлайн книгу « Капитан \"Единорога\" » перейдите по указанной ссылке. Приятного Вам чтения. ",
-                            "series_id": null,
-                            "year_id": 9,
-                            "link": "http://loveread.ec/view_global.php?id=63992",
-                            "params": "{\"ISBN:\": \"978-5-17-103359-0\", \"Год:\": \"2017\", \"Язык:\": \"Русский\", \"Автор:\": \"Иван Щукин\", \"Страниц:\": \"352\", \"Название:\": \"Капитан \\\"Единорога\\\"\", \"Издательство:\": \"АСТ\"}",
-                            "active": 1,
-                            "fixed": 1,
-                            "donor_id": 63992,
-                            "count_pages": 70,
-                            "created_at": null,
-                            "updated_at": null,
-                            "type": "books",
-                            "image": {
-                              "book_id": 34322,
-                              "link": "http://loveread.ec/img/photo_books/63992.jpg"
-                            }
-                          }
-                        ],
-                        "audio_books": [],
-                        "series": [
-                          {
-                            "id": 13300,
-                            "series": "В открытом эфире / Контрабандисты",
-                            "laravel_through_key": 2,
-                            "books": [
-                              {
-                                "id": 109100,
-                                "title": "Соло для капитана с оркестром",
-                                "text": " Мир магии и парусов, где деревянные корабли путешествуют от планеты к планете по волнам параллельного пространства, называемого эфиром. Сашка Белобрысов только-только свыкся с ролью штурмана в чисто женском экипаже, даже завел роман с капитаном... и тут, нежданно-негаданно, капитан пропадает с концами, оставляя Сашку за главного! Ему предстоит разобраться с загадками, которые копились на протяжении всего рейса, и выручить любимую женщину, при этом не ударив в грязь лицом как капитану... ну и не пренебрегая музыкой, разумеется — зря что ли группа «Контрабандисты» победила на недавнем фестивале! В нашей библиотеке вы можете бесплатно почитать книгу « Соло для капитана с оркестром ». Чтобы читать онлайн книгу « Соло для капитана с оркестром » перейдите по указанной ссылке. Приятного Вам чтения. ",
-                                "series_id": 13300,
-                                "year_id": 14,
-                                "link": "http://loveread.ec/view_global.php?id=97920",
-                                "params": "{\"Год:\": \"2021\", \"Язык:\": \"Русский\", \"Автор:\": \"Варвара Мадоши\", \"Серия:\": \"В открытом эфире / Контрабандисты\", \"Название:\": \"Соло для капитана с оркестром\"}",
-                                "active": 1,
-                                "fixed": 0,
-                                "donor_id": 97920,
-                                "count_pages": 0,
-                                "created_at": null,
-                                "updated_at": null,
-                                "type": "books",
-                                "image": {
-                                  "book_id": 109100,
-                                  "link": "http://loveread.ec/img/photo_books/97920.jpg"
-                                },
-                                "rates": []
-                              }
-                            ]
-                          }
-                        ],
-                        "similar_authors": []
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "operationId": "get-authors-page",
-        "parameters": [
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "id",
-            "required": true,
-            "description": "Author ID"
-          }
-        ]
-      }
     },
     "/websockets/notifications/likes": {
       "get": {

@@ -10,9 +10,11 @@ use App\Api\Traits\ElasticSearchTrait;
 use App\Http\Requests\ShowAudioBooksUserHasRequest;
 use App\Http\Requests\StoreAudioBookRequest;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
@@ -23,10 +25,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     const LISTENING = '2';
     const HAD_LISTEN = '3';
     const MAIN_PAGE_PAGINATE = 6;
+    const ALL = '0';
+
     public static array $availableListeningStatuses = [
         self::WANT_LISTEN,
         self::LISTENING,
-        self::HAD_LISTEN
+        self::HAD_LISTEN,
+        self::ALL
     ];
     protected $fillable = [
         'title',
@@ -111,7 +116,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         );
     }
 
-    public function audiobooks()
+    public function audiobooks(): HasMany
     {
         return $this->hasMany(
             AudioAudiobook::class,
@@ -210,6 +215,15 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function scopeFilter(Builder $builder, QueryFilter $filter)
     {
         $filter->apply($builder);
+    }
+
+    public function chapters(): HasMany
+    {
+        return $this->hasMany(
+            AudioAudiobook::class,
+            'book_id',
+            'id'
+        );
     }
 
     public function showAudioBookDetails($bookId)
@@ -356,5 +370,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         $book->save();
 
         return $book;
+    }
+
+    public function audioBookChapters(): AudioBook
+    {
+        return $this
+            ->where('id', $this->id)
+            ->with('chapters:id,book_id,title,index,extension,file_size')
+            ->firstOrFail(['id', 'title']);
     }
 }

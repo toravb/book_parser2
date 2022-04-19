@@ -6,19 +6,25 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use App\Api\Services\ApiAnswerService;
+use http\Exception\BadMethodCallException;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use App\Api\Http\Requests\UpdateQuoteRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Symfony\Component\HttpFoundation\Response;
+use TheSeer\Tokenizer\Exception;
 
 class Quote extends Model
 {
     use HasFactory;
 
     const SHOW_ALL = '1';
-    const GROUP_BY_BOOK = '2';
-    const GROUP_BY_AUTHOR = '3';
+    const SORT_BY_BOOK_TITLE = '2';
+    const SORT_BY_AUTHOR = '3';
     const QUOTES_PER_PAGE = 3;
 
     protected $appends = [
@@ -135,5 +141,17 @@ class Quote extends Model
                         }
                     ]);
             }])->withCount('likes');
+    }
+
+    public function updateQuote(UpdateQuoteRequest $request)
+    {
+        try {
+            $quoteForUpdate = $this->where('user_id', \auth()->id())->findOrFail($request->id);
+        } catch (\Throwable $exception) {
+            return ApiAnswerService::errorAnswer('Нет прав для редактирования', Response::HTTP_FORBIDDEN);
+        }
+        $quoteForUpdate->store(\auth()->id(), $request);
+
+        return ApiAnswerService::successfulAnswerWithData($quoteForUpdate);
     }
 }

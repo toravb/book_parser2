@@ -13,28 +13,9 @@ use Illuminate\Http\JsonResponse;
 
 class AuthorPageController extends Controller
 {
-    public function show(AuthorPageRequest $request): JsonResponse
+    public function show(Author $author): JsonResponse
     {
-        $authorWithSeries = Author::query()
-            ->with([
-                'books' => function ($query) {
-                    return $query
-                        ->with(['image'])
-                        ->whereNull('series_id');
-                },
-                'audioBooks',
-                'series',
-                'series.books.image',
-                'series.books.rates',
-                'similarAuthors.authors'
-            ])
-            ->withCount(['authorReviews', 'authorQuotes', 'books'])
-            ->find($request->id);
-
-        // TODO: посмотреть корректно ли отрабатывает подсчёт (для автора)
-        $authorWithSeries->compilation = Compilation::withCount('books')->get();
-
-        return ApiAnswerService::successfulAnswerWithData($authorWithSeries);
+        return ApiAnswerService::successfulAnswerWithData($author->authorPage());
     }
 
     public function showSeries(AuthorPageRequest $request): JsonResponse

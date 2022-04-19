@@ -18,6 +18,8 @@ class SaveReviewRequest extends FormRequest
     {
         $this->models = $types->getReviewModelTypes();
         $this->types = array_keys($types->getReviewTypes());
+
+        parent::__construct();
     }
 
     /**
