@@ -18,16 +18,24 @@ class Compilation extends Model implements SearchModelInterface
 
     const SORT_BY_DATE = '1';
     const SORT_BY_ALPHABET = '2';
+    const SORT_BY_VIEWS = '3';
     const COMPILATION_USER = '1';
     const COMPILATION_ADMIN = '2';
     const COMPILATION_ALL = '3';
     const COMPILATION_PER_PAGE = 20;
 
+    public function toArray()
+    {
+        if ($this->background and \Storage::exists($this->background)) {
+            $this->background = \Storage::url($this->background);
+        }
+
+        return parent::toArray();
+    }
+
     public function getTypeAttribute(): string
     {
-
         return 'compilation';
-
     }
 
     public function users()

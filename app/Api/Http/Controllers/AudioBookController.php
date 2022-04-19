@@ -32,10 +32,9 @@ class AudioBookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($audioBook);
     }
 
-    public function listeningMode(AudioBook $book, View $view, Request $request)
+    public function chapters(AudioBook $audiobook): JsonResponse
     {
-        //TODO: Добавить вывод глав с названиями
-
+        return ApiAnswerService::successfulAnswerWithData($audiobook->audioBookChapters());
     }
 
     public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): JsonResponse

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\Requests\BookmarkRequest;
 use Illuminate\Database\Eloquent\Model;
 
 class Chapter extends Model

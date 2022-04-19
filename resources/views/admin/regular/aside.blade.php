@@ -86,6 +86,23 @@
         </ul>
     </li>
 
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.review*')])>
+        <a href="javascript:void(0)" @class(['nav-link', 'active' => request()->route()->named('admin.review*')])>
+            <i class="nav-icon fas fa-list"></i>
+            <p>
+                Рецензии
+                <i class="right fas fa-angle-left"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{route('admin.review-types.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.review*')])>
+                    <p>Типы рецензий</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     {{--
     TODO: end up admin actions
     <li class="nav-item">

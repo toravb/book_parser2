@@ -7,6 +7,7 @@ use App\Api\Http\Requests\DeleteQuoteRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
+use App\Api\Http\Requests\UpdateQuoteRequest;
 use App\Api\Http\Requests\UserQuotesRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
@@ -14,7 +15,9 @@ use App\Http\Requests\GetQuotesForBookRequest;
 use App\Models\Quote;
 use App\Models\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class QuoteController extends Controller
 {
@@ -59,13 +62,25 @@ class QuoteController extends Controller
     }
 
     /**
+     * Update the specified resource in storage.
+     *
+     * @param Request $request
+     * @param Quote $quote
+     * @return JsonResponse
+     */
+    public function update(UpdateQuoteRequest $request, Quote $quote): JsonResponse
+    {
+        return $quote->updateQuote($request);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param Quote $quote
      * @param DeleteQuoteRequest $request
      * @return JsonResponse
      */
-    public function destroy(Quote $quote, DeleteQuoteRequest $request)
+    public function destroy(Quote $quote, DeleteQuoteRequest $request): JsonResponse
     {
         $rowsAffected = $quote->deleteQuote(Auth::id(), $request->quoteId);
 

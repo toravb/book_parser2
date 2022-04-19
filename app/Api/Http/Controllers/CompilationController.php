@@ -13,6 +13,7 @@ use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\Compilation;
+use App\Models\User;
 use App\Models\View;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,7 +22,6 @@ class CompilationController extends Controller
     const COMPILAION_LIST_QUANTITY = 5;
     const COMPILAION_BLOCK_QUANTITY = 24;
     const COMPILAION_USERS_QUANTITY = 9;
-
 
     public function store(StoreCompilationRequest $request, CompilationService $compilation)
     {
@@ -87,9 +87,14 @@ class CompilationController extends Controller
         $compilation = Compilation::filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
 
         $compilation->map(function ($query) {
-            $query->total_count = $query->books_count + $query->audio_books_count;
+            $query->total_books_count = $query->books_count + $query->audio_books_count;
         });
 
         return ApiAnswerService::successfulAnswerWithData($compilation);
+    }
+
+    public function countTypesInUserLists(User $user)
+    {
+        return ApiAnswerService::successfulAnswerWithData($user->countTypesInLists());
     }
 }

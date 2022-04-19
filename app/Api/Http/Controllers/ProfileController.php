@@ -6,6 +6,7 @@ use App\Api\Http\Requests\ProfileUpdateRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -15,14 +16,14 @@ use Laravel\Passport\Token;
 
 class ProfileController extends Controller
 {
-    public function profile(): \Illuminate\Http\JsonResponse
+    public function profile():JsonResponse
     {
         $user = User::with(['userSettings'])->findOrFail(auth()->id());
 
         return ApiAnswerService::successfulAnswerWithData($user);
     }
 
-    public function update(ProfileUpdateRequest $request): \Illuminate\Http\JsonResponse
+    public function update(ProfileUpdateRequest $request):JsonResponse
     {
         $user = Auth::user();
 
@@ -37,7 +38,7 @@ class ProfileController extends Controller
             $user->email = $request->email;
             $user->name = $request->name;
             $user->surname = $request->surname;
-            $user->nickname= $request->nickname;
+            $user->nickname = $request->nickname;
             $user->save();
 
             DB::commit();
@@ -51,7 +52,7 @@ class ProfileController extends Controller
         }
     }
 
-    public function destroy(): \Illuminate\Http\JsonResponse
+    public function destroy():JsonResponse
     {
         $tokens = \auth()->user()->tokens()->pluck('id');
 

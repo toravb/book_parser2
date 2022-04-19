@@ -22,7 +22,7 @@ class BookComment extends Model implements CommentInterface
         'parent_comment_id'
     ];
 
-    public function users(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
@@ -63,7 +63,7 @@ class BookComment extends Model implements CommentInterface
             ->where('book_id', $bookId)
             ->whereNull('parent_comment_id')
             ->select('id', 'book_id', 'user_id', 'content', 'updated_at')
-            ->with('users:id,name,avatar,nickname')
+            ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }
@@ -72,7 +72,7 @@ class BookComment extends Model implements CommentInterface
     {
         return $this->where('parent_comment_id', $commentId)
             ->select('id', 'book_id', 'user_id', 'content', 'updated_at')
-            ->with('users:id,name,avatar,nickname')
+            ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
             ->paginate($paginate);
     }

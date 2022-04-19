@@ -20,8 +20,6 @@ class CompilationService extends Compilation
         $table->created_by = $created_by;
         $table->type = $type;
         $table->save();
-
-
     }
 
     public function showCompilationDetails($id)

@@ -29,7 +29,7 @@ class ShowCompilationRequest extends FormRequest
     {
         return [
             'showType'=>['required', Rule::in([QueryFilter::SHOW_TYPE_BLOCK, QueryFilter::SHOW_TYPE_LIST])],
-            'selectionCategory'=>['sometimes', 'integer', 'exists:compilations,type'],
+            'selectionCategory'=>['sometimes','nullable', 'integer', 'exists:compilations,type'],
             'bookType'=>['sometimes', 'string', 'exists:book_compilation,compilationable_type'],
         ];
     }

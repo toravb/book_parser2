@@ -36,7 +36,7 @@ class AudioBookUser extends Model
 
             if ($record->status !== $status) {
                 $this->status = $status;
-                $this->updated_at = Carbon::now();
+                $this->created_at = Carbon::now();
 
                 $this->userAudioBook($userId, $bookId)->update($this->only(['status', 'updated_at']));
             }

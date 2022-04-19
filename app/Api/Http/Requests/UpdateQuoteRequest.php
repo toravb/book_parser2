@@ -2,11 +2,9 @@
 
 namespace App\Api\Http\Requests;
 
-use App\Models\Quote;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class UserQuotesRequest extends FormRequest
+class UpdateQuoteRequest extends SaveQuotesRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,20 +24,7 @@ class UserQuotesRequest extends FormRequest
     public function rules()
     {
         return [
-
-            'sortBy' => [
-                'required',
-                'integer',
-                Rule::in([
-                    Quote::SHOW_ALL,
-                    Quote::SORT_BY_BOOK_TITLE,
-                    Quote::SORT_BY_AUTHOR,
-                ])
-            ],
+            'id' => ['required', 'integer', 'exists:quotes']
         ];
     }
-}
-
-{
-
 }

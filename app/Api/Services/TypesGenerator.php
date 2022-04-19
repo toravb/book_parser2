@@ -12,14 +12,14 @@ class TypesGenerator implements Types
         'book' => 'App\\Models\\BookComment',
         'audio_book' => 'App\\Models\\AudioBookComment',
         'book_review' => 'App\\Models\\BookReviewComment',
-        'audio_review' => 'App\\Models\\AudioBookReviewComment',
+        'audio_book_review' => 'App\\Models\\AudioBookReviewComment',
     ];
 
     protected $commentModelTypes = [
         'book' => 'App\\Models\\Book',
         'audio_book' => 'App\\Models\\AudioBook',
         'book_review' => 'App\\Models\\BookReview',
-        'audio_review' => 'App\\Models\\AudioBookReview',
+        'audio_book_review' => 'App\\Models\\AudioBookReview',
     ];
 
     protected $likeTypes = [
@@ -50,11 +50,15 @@ class TypesGenerator implements Types
     protected array $notificationableTypes = [
         NewNotificationEvent::LIKED_COMMENT => [
             'book_comment' => 'App\\Models\\BookComment',
-            'audio_book_comment' => 'App\\Models\\AudioBookComment'
+            'audio_book_comment' => 'App\\Models\\AudioBookComment',
+            'book_review' => 'App\\Models\\BookReviewComment',
+            'audio_book_review' => 'App\\Models\\AudioBookReviewComment'
         ],
         NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => [
             'book' => 'App\\Models\\BookComment',
-            'audio_book' => 'App\\Models\\AudioBookComment'
+            'audio_book' => 'App\\Models\\AudioBookComment',
+            'book_review' => 'App\\Models\\BookReviewComment',
+            'audio_book_review' => 'App\\Models\\AudioBookReviewComment'
         ]
     ];
 
