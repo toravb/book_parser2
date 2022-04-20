@@ -88,14 +88,14 @@
                 <div class="form-check">
                     <label class="d-block col-12 form-check-label">
                         <input type="radio" name="is_active" value="1" class="form-check-input">
-                        Активна
+                        Активен
                     </label>
                 </div>
 
                 <div class="form-check">
                     <label class="d-block col-12 form-check-label">
                         <input type="radio" name="is_active" value="0" checked class="form-check-input">
-                        Скрыта
+                        Скрыт
                     </label>
                 </div>
             </div>

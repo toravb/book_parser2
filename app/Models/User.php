@@ -192,7 +192,7 @@ class User extends Authenticatable
     {
         $counter = $this
             ->select('id as user_id')
-            ->withCount(
+            ->withCount([
                 'bookStatuses as books_count',
                 'audioBookStatuses as audio_books_count',
                 'compilationUsers as compilations_count',
@@ -200,7 +200,7 @@ class User extends Authenticatable
                 'authors',
                 'reviews as book_reviews_count',
                 'audioReviews',
-            )->findOrFail(\auth()->id());
+            ])->findOrFail(\auth()->id());
 
         $counter->total_reviews_count = $counter->book_reviews_count + $counter->audio_reviews_count;
 
