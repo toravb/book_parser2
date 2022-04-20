@@ -111,6 +111,9 @@ class AudioBookFilter extends QueryFilter
     public function status($status)
     {
         if (in_array($status, AudioBook::$availableListeningStatuses)) {
+            if($status === AudioBook::ALL) {
+                return $this->builder;
+            }
             return $this->builder->where('status', $status);
         }
 

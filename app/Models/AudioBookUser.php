@@ -12,9 +12,6 @@ class AudioBookUser extends Model
 
     public $guarded = [];
 
-    public $timestamps = ['created_at'];
-    const UPDATED_AT = null;
-
     public function audioBook()
     {
         return $this->belongsTo(AudioBook::class);
@@ -33,15 +30,14 @@ class AudioBookUser extends Model
     public function createChangeStatus(int $userId, int $bookId, int $status)
     {
         $record = $this->userAudioBook($userId, $bookId)->first();
-
         if ($record) {
             $this->fill($record->toArray());
 
             if ($record->status !== $status) {
                 $this->status = $status;
-                $this->created_at = Carbon::now();
+                $this->updated_at = Carbon::now();
 
-                $this->userAudioBook($userId, $bookId)->update($this->only(['status', 'created_at']));
+                $this->userAudioBook($userId, $bookId)->update($this->only(['status', 'updated_at']));
             }
         } else {
             $this->fill([
@@ -49,7 +45,6 @@ class AudioBookUser extends Model
                 'audio_book_id' => $bookId,
                 'status' => $status,
             ]);
-
             $this->save();
         }
     }
