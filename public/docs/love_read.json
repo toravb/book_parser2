@@ -13763,36 +13763,52 @@
         "tags": [
           "Compilations"
         ],
-        "parameters": [
+        "parameters": [],
+        "security": [
           {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "compilation_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "book_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "books",
-                "audioBooks"
-              ]
-            },
-            "in": "query",
-            "name": "book_type",
-            "required": true
+            "Authorization": []
           }
-        ]
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "compilation_id": "1",
+                    "book_id": "3",
+                    "book_type": "audioBooks"
+                  }
+                },
+                "properties": {
+                  "compilation_id": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "book_id": {
+                    "type": "number",
+                    "example": 6
+                  },
+                  "book_type": {
+                    "type": "string",
+                    "enum": [
+                      "books",
+                      "audioBooks"
+                    ],
+                    "example": "books"
+                  }
+                },
+                "required": [
+                  "compilation_id",
+                  "book_id",
+                  "book_type"
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "/profile/lists/books": {
@@ -15609,37 +15625,51 @@
         "tags": [
           "Compilations"
         ],
-        "parameters": [
+        "parameters": [],
+        "description": "",
+        "security": [
           {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "compilation_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "integer"
-            },
-            "in": "query",
-            "name": "book_id",
-            "required": true
-          },
-          {
-            "schema": {
-              "type": "string",
-              "enum": [
-                "books",
-                "audioBooks"
-              ]
-            },
-            "in": "query",
-            "name": "book_type",
-            "required": true
+            "Authorization": []
           }
         ],
-        "description": ""
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "description": "",
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "compilation_id": "1",
+                    "book_id": "1",
+                    "book_type": "audioBooks"
+                  }
+                },
+                "properties": {
+                  "compilation_id": {
+                    "type": "integer"
+                  },
+                  "book_id": {
+                    "type": "integer"
+                  },
+                  "book_type": {
+                    "type": "string",
+                    "example": "books",
+                    "enum": [
+                      "books",
+                      "audioBooks"
+                    ]
+                  }
+                },
+                "required": [
+                  "compilation_id",
+                  "book_id",
+                  "book_type"
+                ]
+              }
+            }
+          }
+        }
       }
     },
     "/authors/series/{id}": {
