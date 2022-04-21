@@ -12,7 +12,12 @@ class ShowBooksInUsersListRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['sometimes', 'nullable', 'integer', Rule::in(Book::$availableReadingStatuses)],
+            'status' => [
+                'required',
+                'nullable',
+                'integer',
+                Rule::in(Book::$availableReadingStatuses)
+            ],
             'sortBy' => [
                 'required',
                 'integer',

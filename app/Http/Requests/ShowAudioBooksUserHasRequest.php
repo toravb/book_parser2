@@ -12,7 +12,12 @@ class ShowAudioBooksUserHasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'status' => ['sometimes', 'nullable', 'integer', Rule::in(AudioBook::$availableListeningStatuses)],
+            'status' => [
+                'required',
+                'nullable',
+                'integer',
+                Rule::in(AudioBook::$availableListeningStatuses)
+            ],
             'sortBy' => [
                 'required',
                 'integer',

@@ -115,6 +115,9 @@ class BookFilter extends QueryFilter
     public function status(string $status)
     {
         if (in_array($status, Book::$availableReadingStatuses)) {
+            if($status === Book::ALL) {
+                return $this->builder;
+            }
             return $this->builder->where('status', $status);
         }
 

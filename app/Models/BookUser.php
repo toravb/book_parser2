@@ -50,12 +50,6 @@ class BookUser extends Model
         }
     }
 
-
-//    public function scopeReading($query)
-//    {
-//        return $query->where('status', QueryFilter::SORT_BY_READERS_COUNT);
-//    }
-
     public function scopeUserBook($q, int $userId, int $bookId)
     {
         return $q->where('user_id', $userId)->where('book_id', $bookId);
