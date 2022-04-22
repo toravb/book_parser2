@@ -161,4 +161,28 @@ class Compilation extends Model implements SearchModelInterface
             ->where('location', $location)
             ->first();
     }
+
+    public function noTimeToReadMayListen(int $location): Compilation|null
+    {
+        return $this
+            ->select(['id', 'title'])
+            ->with(['audioBooks' => function ($query) {
+                $query
+                    ->select([
+                        'id',
+                        'title',
+                        'genre_id'
+                    ])
+                    ->with([
+                        'authors:author',
+                        'genre:id,name',
+                        'image:book_id,link'
+                    ])
+                    ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating ), 0 )')
+                    ->withCount('views')
+                    ->limit(20);
+            }])
+            ->where('location', $location)
+            ->first();
+    }
 }

@@ -258,34 +258,6 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ->withAvg('rates as rates_avg', 'rates.rating');
     }
 
-    public function mainPagePaginateList()
-    {
-        $audioBookList = $this
-            ->select([
-                'id',
-                'title',
-                'link_id',
-                'genre_id'
-            ])
-            ->with([
-                'authors:author',
-                'genre:id,name',
-                'image:book_id,link'
-            ])
-            ->withAvg('rates as rates_avg', 'rates.rating')
-            ->withCount('views')
-            ->limit(20)
-            ->get();
-
-        $audioBookList->map(function ($compilation) {
-            if ($compilation->rates_avg === null) {
-                $compilation->rates_avg = 0;
-            }
-        });
-
-        return $audioBookList;
-    }
-
     public function noveltiesBooks(): Builder
     {
         return $this

@@ -16,6 +16,7 @@ class MainPageController extends Controller
 {
 
     const MAIN_PAGE_NEW_BOOKS_COMPILATION = 1;
+    const MAIN_PAGE_NEW_AUDIOBOOKS_COMPILATION = 2;
     const MAIN_PER_PAGE = 16;
     const PERIOD_FOR_HOT_DAILY_UPDATES = 10;
 
@@ -23,9 +24,7 @@ class MainPageController extends Controller
     public function home(
         MainPageBookFilterRequest $request,
         Compilation               $compilation,
-        AudioBook                 $audioBook,
         BookReview                $review,
-        CategoryController        $categoryController,
         Book                      $book,
         BookFilter                $bookFilter
     ): \Illuminate\Http\JsonResponse
@@ -38,7 +37,7 @@ class MainPageController extends Controller
 
         $compilations = $compilation->withSumAudioAndBooksCount();
 
-        $audioBooksList = $audioBook->mainPagePaginateList();
+        $audioBooksList = $compilation->noTimeToReadMayListen(self::MAIN_PAGE_NEW_AUDIOBOOKS_COMPILATION);
 
         $mainPageReview = $review->latestReviewBookUser();
 
