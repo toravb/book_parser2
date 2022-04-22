@@ -15,9 +15,10 @@ use App\Models\Genre;
 class MainPageController extends Controller
 {
 
-    const MAIN_PAGE_COMPILATION_TYPE = 3;
+    const MAIN_PAGE_NEW_BOOKS_COMPILATION = 1;
     const MAIN_PER_PAGE = 16;
     const PERIOD_FOR_HOT_DAILY_UPDATES = 10;
+
 
     public function home(
         MainPageBookFilterRequest $request,
@@ -31,7 +32,7 @@ class MainPageController extends Controller
     {
         $genres = Genre::orderBy('name')->limit(13)->get();
 
-        $newBooksCompilation = $compilation->searchByType(self::MAIN_PAGE_COMPILATION_TYPE);
+        $newBooksCompilation = $compilation->newBooksMainPage(self::MAIN_PAGE_NEW_BOOKS_COMPILATION);
 
         $bookDailyHot = $book->hotDailyUpdates();
 
