@@ -12,7 +12,8 @@ class StoreGenreRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', Rule::unique(Genre::class)],
-            'is_hidden' => ['sometimes', 'nullable']
+            'is_hidden' => ['sometimes', 'nullable'],
+            'alias' => ['string', Rule::unique(Genre::class)],
         ];
     }
 
