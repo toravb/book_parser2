@@ -47,9 +47,6 @@ class BookController extends Controller
 
         $collection = $books->getCollection();
         foreach ($collection as &$book) {
-            if ($book->rates_avg === null) {
-                $book->rates_avg = 0;
-            }
 
             if ($model instanceof Book) {
 

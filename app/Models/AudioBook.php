@@ -309,13 +309,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function getBook(): Builder
     {
         return $this->with([
-            'authors',
-            'image',
-            'genre',
+            'authors:id,author',
+            'image:book_id,link',
+            'genre:id,name',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
 
     public function getElasticKey()

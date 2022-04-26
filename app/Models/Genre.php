@@ -7,6 +7,7 @@ use App\Http\Requests\StoreGenreRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Collection;
 
@@ -34,9 +35,9 @@ class Genre extends Model
         return $this->belongsToMany(Book::class);
     }
 
-    public function audioBooks(): BelongsToMany
+    public function audioBooks(): BelongsTo
     {
-        return $this->belongsToMany(AudioBook::class);
+        return $this->belongsTo(AudioBook::class, 'id', 'genre_id');
     }
 
     public function banners(): BelongsToMany

@@ -3251,19 +3251,6 @@
                 "schema": {
                   "description": "",
                   "type": "object",
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": [
-                        {
-                          "id": 1,
-                          "name": "Боевик",
-                          "created_at": null,
-                          "updated_at": null
-                        }
-                      ]
-                    }
-                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -3274,7 +3261,11 @@
                       "uniqueItems": true,
                       "minItems": 1,
                       "items": {
-                        "type": "object",
+                        "required": [
+                          "id",
+                          "name",
+                          "books_count"
+                        ],
                         "properties": {
                           "id": {
                             "type": "number"
@@ -3283,24 +3274,29 @@
                             "type": "string",
                             "minLength": 1
                           },
-                          "created_at": {
-                            "type": "string"
-                          },
-                          "updated_at": {
-                            "type": "string"
+                          "books_count": {
+                            "type": "number"
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ]
+                        }
                       }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ]
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 3,
+                          "name": "Лирика",
+                          "books_count": 0
+                        }
+                      ]
+                    }
+                  }
                 },
                 "examples": {
                   "example-1": {
@@ -3400,19 +3396,6 @@
                 "schema": {
                   "description": "",
                   "type": "object",
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": [
-                        {
-                          "id": 1,
-                          "name": "Боевик",
-                          "created_at": null,
-                          "updated_at": null
-                        }
-                      ]
-                    }
-                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -3423,7 +3406,11 @@
                       "uniqueItems": true,
                       "minItems": 1,
                       "items": {
-                        "type": "object",
+                        "required": [
+                          "id",
+                          "name",
+                          "audio_books_count"
+                        ],
                         "properties": {
                           "id": {
                             "type": "number"
@@ -3432,24 +3419,29 @@
                             "type": "string",
                             "minLength": 1
                           },
-                          "created_at": {
-                            "type": "string"
-                          },
-                          "updated_at": {
-                            "type": "string"
+                          "audio_books_count": {
+                            "type": "number"
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ]
+                        }
                       }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ]
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 3,
+                          "name": "Лирика",
+                          "audio_books_count": 1
+                        }
+                      ]
+                    }
+                  }
                 },
                 "examples": {
                   "example-1": {
@@ -14292,6 +14284,14 @@
             "name": "status",
             "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ; 0 - ALL",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByTitle",
+            "description": "Finding books by title"
           }
         ],
         "description": "",
@@ -14611,7 +14611,7 @@
       },
       "parameters": [],
       "get": {
-        "summary": "",
+        "summary": "Show user audiobooks",
         "operationId": "get-profile-lists-audio-books",
         "responses": {
           "200": {
@@ -14950,6 +14950,14 @@
             "name": "status",
             "description": "1 - WANT_LISTEN; 2 - LISTENING; 3 - HAD_LISTEN; 0 - ALL",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByTitle",
+            "description": "Finding audiobooks by title"
           }
         ]
       }
