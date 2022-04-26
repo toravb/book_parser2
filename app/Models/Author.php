@@ -167,11 +167,11 @@ class Author extends Model implements SearchModelInterface
                             'image' => function ($q) {
                                 return $q->where('page_id', null)->select('book_id', 'link');
                             },
-                            'authors'
+                            'authors:id,author'
                         ])
                         ->select('books.id', 'title')
                         ->withCount('views')
-                        ->withAvg('rates as rates_avg', 'rates.rating');
+                        ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
                 }
             ])->findOrFail($authorId);
     }
@@ -182,10 +182,10 @@ class Author extends Model implements SearchModelInterface
             ->with([
                 'audioBooks' => function ($query) {
                     return $query
-                        ->with(['images', 'authors'])
+                        ->with(['images:book_id,link', 'authors:id,author'])
                         ->select('audio_books.id', 'title')
                         ->withCount('views')
-                        ->withAvg('rates as rates_avg', 'rates.rating');
+                        ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
                 }
             ])->findOrFail($authorId);
     }

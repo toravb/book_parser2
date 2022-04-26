@@ -206,13 +206,18 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
-    public function filteringByLetterPage(ShowBooksFilterByLetterRequest $request, AudioBookFilter $audioBookFilter, BookFilter $bookFilter, BookFactory $bookFactory)
+    public function filteringByLetterPage(
+        ShowBooksFilterByLetterRequest $request,
+        AudioBookFilter                $audioBookFilter,
+        BookFilter                     $bookFilter,
+        BookFactory                    $bookFactory
+    )
     {
         $model = $bookFactory->createInstance($request->type);
         $books = $model
             ->getBookForLetterFilter()
             ->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
-            ->get();
+            ->paginate(300);
 
         return ApiAnswerService::successfulAnswerWithData($books);
     }
