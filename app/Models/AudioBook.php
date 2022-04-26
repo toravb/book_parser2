@@ -250,9 +250,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function ($query) {
-                return $query->select('name');
-            }])
+            ->with(['authors:id,author'])
             ->select(['id', 'title'])
             ->withCount('rates')
             ->withAvg('rates as rates_avg', 'rates.rating');

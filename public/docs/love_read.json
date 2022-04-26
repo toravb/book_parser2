@@ -9236,6 +9236,18 @@
             "name": "alphabetTitleIndex",
             "description": "alphabetical",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "books",
+                "audioBooks"
+              ]
+            },
+            "in": "query",
+            "name": "type",
+            "required": true
           }
         ],
         "description": ""
