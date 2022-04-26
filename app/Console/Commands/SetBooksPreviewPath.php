@@ -53,11 +53,12 @@ class SetBooksPreviewPath extends Command
                     continue;
                 }
                 $image_path = '/'.implode('/', $path);
-                $image_public_path = public_path($image_path);
-                if (is_file($image_public_path)){
+                $image_url = url($image_path);
+                $image_file_path = public_path($image_path);
+                if (is_file($image_file_path)){
                     try {
-                        DB::transaction(function () use ($image_public_path, $image){
-                            $image->update(['public_path' => $image_public_path]);
+                        DB::transaction(function () use ($image_url, $image){
+                            $image->update(['public_path' => $image_url]);
                             echo $image->id.' - [OK]'."\n";
                         });
                     }catch (\Exception $exception){
