@@ -18,6 +18,7 @@
             <input type="hidden" name="id" value="{{$genre->id}}">
 
             <div class="card-body">
+
                 <label class="col-12">
                     Название категории
                     <input
@@ -28,6 +29,64 @@
                         @class(['form-control', 'is-invalid' => $errors->has('name')])>
 
                     <x-error name="name"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Алиас
+                    <input
+                        type="text"
+                        name="alias"
+                        value="{{$genre->alias}}"
+
+                        required
+                        @class(['form-control', 'is-invalid' => $errors->has('alias')])>
+
+                    <x-error name="alias"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Meta title
+                    <input
+                        type="text"
+                        name="meta_title"
+                        value="{{$genre->meta_title}}"
+
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_title')])>
+
+                    <x-error name="meta_title"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Meta description
+                    <input
+                        type="text"
+                        name="meta_description"
+                        value="{{$genre->meta_description}}"
+
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_description')])>
+
+                    <x-error name="meta_description"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Meta keyword
+                    <input
+                        type="text"
+                        name="meta_keyword"
+                        value="{{$genre->meta_keyword}}"
+
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_keyword')])>
+
+                    <x-error name="meta_keyword"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Description
+                    <textarea
+                        name="description"
+                        @class(['form-control', 'is-invalid' => $errors->has('description')])>{{$genre->description}}</textarea>
+
+                    <x-error name="description"></x-error>
                 </label>
 
 

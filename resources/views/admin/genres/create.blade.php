@@ -26,6 +26,64 @@
                     <x-error name="name"></x-error>
                 </label>
 
+                <label class="col-12">
+                    Алиас
+                    <input
+                        type="text"
+                        name="alias"
+                        value="{{old('alias') ?? null}}"
+                        {{--                        TODO if this field will not fill, it must fill from "name" field--}}
+                        required
+                        @class(['form-control', 'is-invalid' => $errors->has('alias')])>
+
+                    <x-error name="alias"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Meta title
+                    <input
+                        type="text"
+                        name="meta_title"
+                        value="{{old('meta_title') ?? null}}"
+
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_title')])>
+
+                    <x-error name="meta_title"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Meta description
+                    <input
+                        type="text"
+                        name="meta_description"
+                        value="{{old('meta_description') ?? null}}"
+
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_description')])>
+
+                    <x-error name="meta_description"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Meta keyword
+                    <input
+                        type="text"
+                        name="meta_keyword"
+                        value="{{old('meta_keyword') ?? null}}"
+
+                        @class(['form-control', 'is-invalid' => $errors->has('meta_keyword')])>
+
+                    <x-error name="meta_keyword"></x-error>
+                </label>
+
+                <label class="col-12">
+                    Description
+
+                    <textarea
+                    name="description"
+                    @class(['form-control', 'is-invalid' => $errors->has('description')])>{{old('description') ?? null}}</textarea>
+
+                    <x-error name="description"></x-error>
+                </label>
 
                 <div class="col-12">
                     <div class="form-check">
