@@ -377,7 +377,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ])
             ->select(['id', 'title'])
             ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce ( avg( rates.rating), 0)');
     }
 
     public function hotDailyUpdates(): Collection

@@ -209,13 +209,10 @@ class BookController extends Controller
     public function filteringByLetterPage(ShowBooksFilterByLetterRequest $request, AudioBookFilter $audioBookFilter, BookFilter $bookFilter, BookFactory $bookFactory)
     {
         $model = $bookFactory->createInstance($request->type);
-        $books = $model->getBookForLetterFilter()->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
+        $books = $model
+            ->getBookForLetterFilter()
+            ->filter($model instanceof Book ? $bookFilter : $audioBookFilter)
             ->get();
-        foreach ($books as &$book) {
-            if ($book->rates_avg == null) {
-                $book->rates_avg = 0;
-            }
-        }
 
         return ApiAnswerService::successfulAnswerWithData($books);
     }

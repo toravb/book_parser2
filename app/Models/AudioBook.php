@@ -253,7 +253,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ->with(['authors:id,author'])
             ->select(['id', 'title'])
             ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
 
     public function mainPagePaginateList()
@@ -296,7 +296,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ])
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-            ->when($this->avg('audio_books.year_id') > 0, function ($q){
+            ->when($this->avg('audio_books.year_id') > 0, function ($q) {
                 $q->join('years', 'years.id', '=', 'audio_books.year_id');
             });
     }
