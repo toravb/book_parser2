@@ -143,6 +143,7 @@ class Compilation extends Model implements SearchModelInterface
             ->select(['id', 'title'])
             ->with(['books' => function (MorphToMany $query) {
                 $query
+                    ->where('active', true)
                     ->select(['id', 'title'])
                     ->with([
                         'authors:author',
@@ -150,6 +151,7 @@ class Compilation extends Model implements SearchModelInterface
                         'image:book_id,link'])
                     ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
                     ->withCount('views')
+                    ->latest()
                     ->limit(20);
             }]);
     }
@@ -168,6 +170,7 @@ class Compilation extends Model implements SearchModelInterface
             ->select(['id', 'title'])
             ->with(['audioBooks' => function ($query) {
                 $query
+                    ->where('active', true)
                     ->select([
                         'id',
                         'title',
@@ -180,6 +183,7 @@ class Compilation extends Model implements SearchModelInterface
                     ])
                     ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating ), 0 )')
                     ->withCount('views')
+                    ->latest()
                     ->limit(20);
             }])
             ->where('location', $location)
