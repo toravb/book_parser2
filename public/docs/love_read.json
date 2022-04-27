@@ -10870,24 +10870,28 @@
               "type": "number",
               "enum": [
                 1,
-                2
+                2,
+                3
               ]
             },
             "in": "query",
             "name": "selectionCategory",
-            "description": "As ID from path \"/selections\" (1 - тематические, 2 - регулярные)) if null - show all"
+            "description": "As ID from path \"/selections\" (1 - тематические, 2 - регулярные)) if 3 - show all",
+            "required": true
           },
           {
             "schema": {
               "type": "string",
               "enum": [
                 "books",
-                "audioBooks"
+                "audioBooks",
+                "all"
               ]
             },
             "in": "query",
             "name": "bookType",
-            "description": "values: books, audioBooks"
+            "description": "values: books, audioBooks, all",
+            "required": true
           }
         ]
       },

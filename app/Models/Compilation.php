@@ -23,6 +23,7 @@ class Compilation extends Model implements SearchModelInterface
     const COMPILATION_ADMIN = '2';
     const COMPILATION_ALL = '3';
     const COMPILATION_PER_PAGE = 20;
+    const CATEGORY_ALL = '3';
 
     public function toArray()
     {
@@ -32,6 +33,12 @@ class Compilation extends Model implements SearchModelInterface
 
         return parent::toArray();
     }
+
+    public static array $availableCompilationableTypes = [
+        QueryFilter::TYPE_BOOK,
+        QueryFilter::TYPE_AUDIO_BOOK,
+        QueryFilter::TYPE_ALL
+    ];
 
     public function getTypeAttribute(): string
     {

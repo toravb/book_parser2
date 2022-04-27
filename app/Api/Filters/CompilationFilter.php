@@ -3,10 +3,12 @@
 namespace App\Api\Filters;
 
 use App\Models\Compilation;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class CompilationFilter extends QueryFilter
 {
+
     public function showType(string $showType)
     {
         if ($showType === 'list') {
@@ -16,15 +18,14 @@ class CompilationFilter extends QueryFilter
                     return $query->with(['authors:author', 'image:book_id,link'])
                         ->select('id', 'title')
                         ->withCount('rates')
-                        ->withAvg('rates as rates_avg', 'rates.rating');
+                        ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
                 },
                 'audioBooks' => function ($query) {
                     return $query
                         ->with(['authors:author', 'image:book_id,link'])
                         ->select('id', 'title')
                         ->withCount('rates')
-                        ->withAvg('rates as rates_avg', 'rates.rating');
-                }
+                        ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');                }
 
             ])
                 ->select(['id', 'title']);
@@ -40,20 +41,26 @@ class CompilationFilter extends QueryFilter
     }
 
 
-    public function selectionCategory(string $selectionCategory)
+    public function selectionCategory(string $selectionCategory): Builder
     {
+        if ($selectionCategory === Compilation::CATEGORY_ALL) {
+            return $this->builder->where('location', null);
+        }
 
         return $this->builder->where('type', $selectionCategory);
     }
 
-    public function bookType(string $bookType)
+    public function bookType(string $bookType): Builder
     {
+        if ($bookType === QueryFilter::TYPE_ALL) {
+            return $this->builder;
+        }
 
         return $this->builder->whereHas($bookType);
 
     }
 
-    public function sortBy(string $sortBy): \Illuminate\Database\Eloquent\Builder
+    public function sortBy(string $sortBy): Builder
     {
         if ($sortBy === Compilation::SORT_BY_DATE) {
             return $this->builder->latest();
@@ -63,7 +70,7 @@ class CompilationFilter extends QueryFilter
             return $this->builder->orderBy('title');
         }
 
-        if ($sortBy === Compilation::SORT_BY_VIEWS){
+        if ($sortBy === Compilation::SORT_BY_VIEWS) {
             return $this->builder->withCount('views')->orderBy('views_count', 'desc');
         }
 

@@ -48,20 +48,14 @@ class CompilationController extends Controller
             foreach ($collection as &$compilation) {
 
                 foreach ($compilation->books as $book) {
-                    if ($book->rates_avg === null) {
-                        $book->rates_avg = 0;
-                    }
-
                     unset($book->pivot);
                     foreach ($book->authors as $author) {
                         unset($author->pivot);
                     }
                 }
-
             }
 
             $books->setCollection($collection);
-
         }
 
         return ApiAnswerService::successfulAnswerWithData($books);
