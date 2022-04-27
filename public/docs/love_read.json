@@ -14280,6 +14280,14 @@
             "name": "status",
             "description": "1 - WANT_READ; 2 - READING; 3 - HAD_READ; 0 - ALL",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByTitle",
+            "description": "Finding books by title"
           }
         ],
         "description": "",
@@ -14599,7 +14607,7 @@
       },
       "parameters": [],
       "get": {
-        "summary": "",
+        "summary": "Show user audiobooks",
         "operationId": "get-profile-lists-audio-books",
         "responses": {
           "200": {
@@ -14938,6 +14946,14 @@
             "name": "status",
             "description": "1 - WANT_LISTEN; 2 - LISTENING; 3 - HAD_LISTEN; 0 - ALL",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "findByTitle",
+            "description": "Finding audiobooks by title"
           }
         ]
       }

@@ -15,29 +15,29 @@ use App\Models\Genre;
 class MainPageController extends Controller
 {
 
-    const MAIN_PAGE_COMPILATION_TYPE = 3;
+    const MAIN_PAGE_NEW_BOOKS_COMPILATION = 1;
+    const MAIN_PAGE_NEW_AUDIOBOOKS_COMPILATION = 2;
     const MAIN_PER_PAGE = 16;
     const PERIOD_FOR_HOT_DAILY_UPDATES = 10;
+
 
     public function home(
         MainPageBookFilterRequest $request,
         Compilation               $compilation,
-        AudioBook                 $audioBook,
         BookReview                $review,
-        CategoryController        $categoryController,
         Book                      $book,
         BookFilter                $bookFilter
     ): \Illuminate\Http\JsonResponse
     {
         $genres = Genre::orderBy('name')->limit(13)->get();
 
-        $newBooksCompilation = $compilation->searchByType(self::MAIN_PAGE_COMPILATION_TYPE);
+        $newBooksCompilation = $compilation->newBooksMainPage(self::MAIN_PAGE_NEW_BOOKS_COMPILATION);
 
         $bookDailyHot = $book->hotDailyUpdates();
 
         $compilations = $compilation->withSumAudioAndBooksCount();
 
-        $audioBooksList = $audioBook->mainPagePaginateList();
+        $audioBooksList = $compilation->noTimeToReadMayListen(self::MAIN_PAGE_NEW_AUDIOBOOKS_COMPILATION);
 
         $mainPageReview = $review->latestReviewBookUser();
 

@@ -115,18 +115,7 @@ class Compilation extends Model implements SearchModelInterface
     public function searchByType(int $type): Compilation|null
     {
         return $this
-            ->select(['id', 'title'])
-            ->with(['books' => function (MorphToMany $query) {
-                $query
-                    ->select(['id', 'title'])
-                    ->with([
-                        'authors:author',
-                        'genres:name',
-                        'image:book_id,link'])
-                    ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-                    ->withCount('views')
-                    ->limit(20);
-            }])
+            ->compilationWithBooks()
             ->where('type', $type)
             ->first();
     }
@@ -146,5 +135,58 @@ class Compilation extends Model implements SearchModelInterface
     public function getElasticKey()
     {
         return $this->getKey();
+    }
+
+    public function scopeCompilationWithBooks(): Builder
+    {
+        return $this
+            ->select(['id', 'title'])
+            ->with(['books' => function (MorphToMany $query) {
+                $query
+                    ->where('active', true)
+                    ->select(['id', 'title'])
+                    ->with([
+                        'authors:author',
+                        'genres:name',
+                        'image:book_id,link'])
+                    ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+                    ->withCount('views')
+                    ->latest()
+                    ->limit(20);
+            }]);
+    }
+
+    public function newBooksMainPage(int $location): Compilation|null
+    {
+        return $this
+            ->compilationWithBooks()
+            ->where('location', $location)
+            ->first();
+    }
+
+    public function noTimeToReadMayListen(int $location): Compilation|null
+    {
+        return $this
+            ->select(['id', 'title'])
+            ->with(['audioBooks' => function ($query) {
+                $query
+                    ->where('active', true)
+                    ->select([
+                        'id',
+                        'title',
+                        'genre_id'
+                    ])
+                    ->with([
+                        'authors:author',
+                        'genre:id,name',
+                        'image:book_id,link'
+                    ])
+                    ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating ), 0 )')
+                    ->withCount('views')
+                    ->latest()
+                    ->limit(20);
+            }])
+            ->where('location', $location)
+            ->first();
     }
 }
