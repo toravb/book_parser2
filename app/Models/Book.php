@@ -306,14 +306,14 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function getBook(): Builder
     {
         return $this->with([
-            'authors',
-            'image',
-            'bookGenres',
+            'authors:id,author',
+            'image:id,link',
+            'bookGenres:id,name',
             'userList',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount(['rates', 'views'])
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
 
 
@@ -377,7 +377,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ])
             ->select(['id', 'title'])
             ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce ( avg( rates.rating), 0)');
     }
 
     public function hotDailyUpdates(): Collection

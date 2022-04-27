@@ -26,7 +26,8 @@ class ShowAudioBooksUserHasRequest extends FormRequest
                     QueryFilter::BESTSELLERS,
                     QueryFilter::SORT_BY_ALPHABET
                 ]),
-            ]
+            ],
+            'findByTitle' => ['sometimes', 'string', 'max:200']
         ];
     }
 

@@ -18,9 +18,9 @@ class AddSeoDataToGenresTable extends Migration
             $table->string('meta_description', 1000)->nullable();
             $table->string('meta_keyword', 1000)->nullable();
             $table->string('description', 5000)->nullable();
-            $table->string('alias')->unique();
-
+            $table->string('alias')->nullable()->unique();
         });
+
     }
 
     /**
