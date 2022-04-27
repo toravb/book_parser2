@@ -20,6 +20,7 @@
                             <x-th-sortable name="id" style="width: 150px;">ID</x-th-sortable>
                             <x-th-sortable name="is_hidden" style="width: 100px;">Скрыта?</x-th-sortable>
                             <x-th-sortable name="name">Название</x-th-sortable>
+                            <x-th-sortable name="alias">Алиас</x-th-sortable>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>
@@ -34,6 +35,9 @@
                                 </td>
                                 <td>
                                     {{$genre->name}}
+                                </td>
+                                <td>
+                                    {{$genre->alias}}
                                 </td>
                                 <td>
                                     <div class="d-flex">

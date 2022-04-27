@@ -16,11 +16,16 @@ class Genre extends Model
     use HasFactory;
 
     protected $hidden = ['pivot'];
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'alias', 'meta_title', 'meta_description', 'meta_keyword', 'description'];
 
     public function saveFromRequest(StoreGenreRequest $request)
     {
         $this->name = $request->name;
+        $this->alias = $request->alias;
+        $this->meta_title = $request->meta_title;
+        $this->meta_description = $request->meta_description;
+        $this->meta_keyword = $request->meta_keyword;
+        $this->description = $request->description;
         $this->is_hidden = (bool)$request->is_hidden;
         $this->save();
     }
