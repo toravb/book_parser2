@@ -250,12 +250,10 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function getBookForLetterFilter(): Builder
     {
         return $this
-            ->with(['authors' => function ($query) {
-                return $query->select('name');
-            }])
+            ->with(['authors:id,author'])
             ->select(['id', 'title'])
             ->withCount('rates')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
 
     public function noveltiesBooks(): Builder
@@ -270,7 +268,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ])
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-            ->when($this->avg('audio_books.year_id') > 0, function ($q){
+            ->when($this->avg('audio_books.year_id') > 0, function ($q) {
                 $q->join('years', 'years.id', '=', 'audio_books.year_id');
             });
     }
@@ -283,13 +281,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function getBook(): Builder
     {
         return $this->with([
-            'authors',
-            'image',
-            'genre',
+            'authors:id,author',
+            'image:book_id,link',
+            'genre:id,name',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount('views')
-            ->withAvg('rates as rates_avg', 'rates.rating');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
 
     public function getElasticKey()

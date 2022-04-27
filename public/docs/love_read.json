@@ -3251,19 +3251,6 @@
                 "schema": {
                   "description": "",
                   "type": "object",
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": [
-                        {
-                          "id": 1,
-                          "name": "Боевик",
-                          "created_at": null,
-                          "updated_at": null
-                        }
-                      ]
-                    }
-                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -3274,7 +3261,11 @@
                       "uniqueItems": true,
                       "minItems": 1,
                       "items": {
-                        "type": "object",
+                        "required": [
+                          "id",
+                          "name",
+                          "books_count"
+                        ],
                         "properties": {
                           "id": {
                             "type": "number"
@@ -3283,24 +3274,29 @@
                             "type": "string",
                             "minLength": 1
                           },
-                          "created_at": {
-                            "type": "string"
-                          },
-                          "updated_at": {
-                            "type": "string"
+                          "books_count": {
+                            "type": "number"
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ]
+                        }
                       }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ]
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 3,
+                          "name": "Лирика",
+                          "books_count": 0
+                        }
+                      ]
+                    }
+                  }
                 },
                 "examples": {
                   "example-1": {
@@ -3400,19 +3396,6 @@
                 "schema": {
                   "description": "",
                   "type": "object",
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": [
-                        {
-                          "id": 1,
-                          "name": "Боевик",
-                          "created_at": null,
-                          "updated_at": null
-                        }
-                      ]
-                    }
-                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -3423,7 +3406,11 @@
                       "uniqueItems": true,
                       "minItems": 1,
                       "items": {
-                        "type": "object",
+                        "required": [
+                          "id",
+                          "name",
+                          "audio_books_count"
+                        ],
                         "properties": {
                           "id": {
                             "type": "number"
@@ -3432,24 +3419,29 @@
                             "type": "string",
                             "minLength": 1
                           },
-                          "created_at": {
-                            "type": "string"
-                          },
-                          "updated_at": {
-                            "type": "string"
+                          "audio_books_count": {
+                            "type": "number"
                           }
-                        },
-                        "required": [
-                          "id",
-                          "name"
-                        ]
+                        }
                       }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ]
+                  ],
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 3,
+                          "name": "Лирика",
+                          "audio_books_count": 1
+                        }
+                      ]
+                    }
+                  }
                 },
                 "examples": {
                   "example-1": {
@@ -9235,6 +9227,18 @@
             "in": "query",
             "name": "alphabetTitleIndex",
             "description": "alphabetical",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string",
+              "enum": [
+                "books",
+                "audioBooks"
+              ]
+            },
+            "in": "query",
+            "name": "type",
             "required": true
           }
         ],
@@ -15917,9 +15921,6 @@
                         "id": {
                           "type": "number"
                         },
-                        "audio_author_id": {
-                          "type": "number"
-                        },
                         "books": {
                           "type": "array",
                           "uniqueItems": true,
@@ -15973,8 +15974,7 @@
                                 "items": {
                                   "required": [
                                     "id",
-                                    "author",
-                                    "audio_author_id"
+                                    "author"
                                   ],
                                   "properties": {
                                     "id": {
@@ -15983,11 +15983,6 @@
                                     "author": {
                                       "type": "string",
                                       "minLength": 1
-                                    },
-                                    "avatar": {},
-                                    "about": {},
-                                    "audio_author_id": {
-                                      "type": "number"
                                     }
                                   }
                                 }
@@ -15998,7 +15993,6 @@
                       },
                       "required": [
                         "id",
-                        "audio_author_id",
                         "books"
                       ]
                     }
@@ -16011,26 +16005,22 @@
                     "example-1": {
                       "status": "success",
                       "data": {
-                        "id": 2,
-                        "audio_author_id": 2,
+                        "id": 1,
                         "books": [
                           {
-                            "id": 5,
-                            "title": "А ведь жизнь так коротка",
-                            "views_count": 0,
-                            "rates_avg": 3.3333333333333335,
+                            "id": 1,
+                            "title": "A1111111",
+                            "views_count": 1,
+                            "rates_avg": 0,
                             "type": "books",
                             "image": {
-                              "book_id": 5,
-                              "link": "111"
+                              "book_id": 1,
+                              "link": "books-covers/jNjqUncXXncaA0dsHfgpMbLanppFtvTltfzHXCaE.jpg"
                             },
                             "authors": [
                               {
-                                "id": 2,
-                                "author": "Иван Щукин",
-                                "avatar": null,
-                                "about": null,
-                                "audio_author_id": 2
+                                "id": 1,
+                                "author": "Араматов"
                               }
                             ]
                           }
@@ -16085,10 +16075,7 @@
                         "id": {
                           "type": "number"
                         },
-                        "audio_author_id": {
-                          "type": "number"
-                        },
-                        "books": {
+                        "audio_books": {
                           "type": "array",
                           "uniqueItems": true,
                           "minItems": 1,
@@ -16118,21 +16105,25 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "image": {
-                                "type": "object",
-                                "properties": {
-                                  "book_id": {
-                                    "type": "number"
-                                  },
-                                  "link": {
-                                    "type": "string",
-                                    "minLength": 1
+                              "images": {
+                                "type": "array",
+                                "uniqueItems": true,
+                                "minItems": 1,
+                                "items": {
+                                  "required": [
+                                    "book_id",
+                                    "link"
+                                  ],
+                                  "properties": {
+                                    "book_id": {
+                                      "type": "number"
+                                    },
+                                    "link": {
+                                      "type": "string",
+                                      "minLength": 1
+                                    }
                                   }
-                                },
-                                "required": [
-                                  "book_id",
-                                  "link"
-                                ]
+                                }
                               },
                               "authors": {
                                 "type": "array",
@@ -16141,8 +16132,7 @@
                                 "items": {
                                   "required": [
                                     "id",
-                                    "author",
-                                    "audio_author_id"
+                                    "author"
                                   ],
                                   "properties": {
                                     "id": {
@@ -16151,11 +16141,6 @@
                                     "author": {
                                       "type": "string",
                                       "minLength": 1
-                                    },
-                                    "avatar": {},
-                                    "about": {},
-                                    "audio_author_id": {
-                                      "type": "number"
                                     }
                                   }
                                 }
@@ -16166,8 +16151,7 @@
                       },
                       "required": [
                         "id",
-                        "audio_author_id",
-                        "books"
+                        "audio_books"
                       ]
                     }
                   },
@@ -16179,26 +16163,24 @@
                     "example-1": {
                       "status": "success",
                       "data": {
-                        "id": 2,
-                        "audio_author_id": 2,
-                        "books": [
+                        "id": 1,
+                        "audio_books": [
                           {
-                            "id": 5,
-                            "title": "А ведь жизнь так коротка",
-                            "views_count": 0,
-                            "rates_avg": 3.3333333333333335,
-                            "type": "books",
-                            "image": {
-                              "book_id": 5,
-                              "link": "111"
-                            },
+                            "id": 3,
+                            "title": "avsavfdvf",
+                            "views_count": 1,
+                            "rates_avg": 0,
+                            "type": "audioBooks",
+                            "images": [
+                              {
+                                "book_id": 3,
+                                "link": "waergwrhgehge"
+                              }
+                            ],
                             "authors": [
                               {
-                                "id": 2,
-                                "author": "Иван Щукин",
-                                "avatar": null,
-                                "about": null,
-                                "audio_author_id": 2
+                                "id": 1,
+                                "author": "Араматов"
                               }
                             ]
                           }
