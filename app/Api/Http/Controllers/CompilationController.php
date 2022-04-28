@@ -46,7 +46,6 @@ class CompilationController extends Controller
             $collection = $books->getCollection();
 
             foreach ($collection as &$compilation) {
-
                 foreach ($compilation->books as $book) {
                     unset($book->pivot);
                     foreach ($book->authors as $author) {
@@ -57,7 +56,6 @@ class CompilationController extends Controller
 
             $books->setCollection($collection);
         }
-
         return ApiAnswerService::successfulAnswerWithData($books);
     }
 
