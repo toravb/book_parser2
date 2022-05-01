@@ -43,7 +43,7 @@ class SetAudioPath extends Command
     public function handle()
     {
         $disk = Storage::disk('sftp');
-        AudioAudiobook::query()->where('id', '>', 597254)->chunk(1000, function ($audiobooks) use ($disk){
+        AudioAudiobook::query()->where('id', '>', 0)->chunk(1000, function ($audiobooks) use ($disk){
             foreach ($audiobooks as $audiobook){
                 $book = $audiobook->book()->first();
                 if ($book){
