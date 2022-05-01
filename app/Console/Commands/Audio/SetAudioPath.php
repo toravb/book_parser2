@@ -43,7 +43,7 @@ class SetAudioPath extends Command
      */
     public function handle()
     {
-        AudioAudiobook::query()->where('id', '>', 0)->chunk(1000, function ($audiobooks) use ($disk){
+        AudioAudiobook::query()->where('id', '>', 0)->chunk(1000, function ($audiobooks){
             foreach ($audiobooks as $audiobook){
                 $book = $audiobook->book()->first();
                 if ($book){
