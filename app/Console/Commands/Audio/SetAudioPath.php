@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands\Audio;
 
+use App\Jobs\Audio\SetAudioPathJob;
 use App\Models\AudioAudiobook;
 use App\Models\AudioImage;
 use Illuminate\Console\Command;
@@ -42,25 +43,12 @@ class SetAudioPath extends Command
      */
     public function handle()
     {
-        $disk = Storage::disk('sftp');
         AudioAudiobook::query()->where('id', '>', 0)->chunk(1000, function ($audiobooks) use ($disk){
             foreach ($audiobooks as $audiobook){
                 $book = $audiobook->book()->first();
                 if ($book){
-                    $file = $book->slug.'/'.Str::slug($audiobook->title).'.'.$audiobook->extension??'mp3';
-                    if ($disk->exists($file)){
-                        $path = 'https://audio.loveread.webnauts.pro/audio_books/'.$file;
-                        try {
-                            DB::transaction(function () use ($path, $audiobook){
-                                $audiobook->update(['public_path' => $path]);
-                                echo $audiobook->id.' - [OK]'."\n";
-                            });
-                        }catch (\Exception $exception){
-                            dd($exception->getMessage());
-                        }
-                    }else{
-                        echo $audiobook->id.' - [SKIP]'."\n";
-                    }
+                    SetAudioPathJob::dispatch($audiobook, $book)->onQueue('setAudioPathQueue');
+                    echo $audiobook->id.' - [DISPATCHED]'."\n";
                 }else{
                     echo $audiobook->id.' - [SKIP]'."\n";
                 }
