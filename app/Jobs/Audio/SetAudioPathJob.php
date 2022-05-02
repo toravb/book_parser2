@@ -30,6 +30,7 @@ class SetAudioPathJob implements ShouldQueue
     public function __construct(AudioAudiobook $audiobook, AudioBook $book)
     {
         $this->audiobook = $audiobook;
+        $this->book = $book;
     }
 
     /**
