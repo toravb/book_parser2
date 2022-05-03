@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
-use App\Api\Http\Controllers\MainPageController;
+use App\Api\Http\Requests\UpdateUserCompilationRequest;
 use App\Api\Interfaces\SearchModelInterface;
+use App\Api\Traits\ElasticSearchTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use App\Api\Traits\ElasticSearchTrait;
 
 class Compilation extends Model implements SearchModelInterface
 {
@@ -208,5 +208,38 @@ class Compilation extends Model implements SearchModelInterface
             return true;
         }
         return false;
+    }
+
+    public function compilationUpdate(UpdateUserCompilationRequest $request): Compilation
+    {
+        if ($request->background) {
+            if ($this->background) \Storage::delete($this->background);
+
+            $this->background = \Storage::put('CompilationImages', $request->background);
+        }
+
+        $this->title = $request->title;
+        $this->description = $request->description;
+        $this->save();
+
+        return $this;
+    }
+
+    public function storeCompilation(
+        string $title,
+        string $backgroud,
+        string $description,
+        int    $created_by,
+        int    $type = null
+    ): Compilation
+    {
+        $this->title = $title;
+        $this->background = $backgroud;
+        $this->description = $description;
+        $this->created_by = $created_by;
+        $this->type = $type;
+        $this->save();
+
+        return $this;
     }
 }

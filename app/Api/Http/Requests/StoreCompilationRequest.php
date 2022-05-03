@@ -33,7 +33,6 @@ class StoreCompilationRequest extends FormRequest
             'image'=>['required', 'image', 'max:10240',],
             'description'=>['required', 'string', 'max:10000'],
             'compType'=>['sometimes', 'exists:users,is_admin'],
-
         ];
     }
 }

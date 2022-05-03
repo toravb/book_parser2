@@ -4,14 +4,15 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Filters\CompilationFilter;
 use App\Api\Filters\QueryFilter;
+use App\Api\Http\Requests\DestroyCompilationUserRequest;
 use App\Api\Http\Requests\GetIdRequest;
 use App\Api\Http\Requests\ShowCompilationRequest;
 use App\Api\Http\Requests\StoreCompilationRequest;
+use App\Api\Http\Requests\UpdateUserCompilationRequest;
 use App\Api\Http\Requests\UserCompilationsRequest;
 use App\Api\Services\ApiAnswerService;
 use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
-use App\Models\Book;
 use App\Models\Compilation;
 use App\Models\User;
 use App\Models\View;
@@ -23,7 +24,7 @@ class CompilationController extends Controller
     const COMPILAION_BLOCK_QUANTITY = 24;
     const COMPILAION_USERS_QUANTITY = 9;
 
-    public function store(StoreCompilationRequest $request, CompilationService $compilation)
+    public function store(StoreCompilationRequest $request, Compilation $compilation)
     {
         $user = Auth::user();
         $background = $request->file('image')->store('CompilationImages');
@@ -88,5 +89,25 @@ class CompilationController extends Controller
     public function countTypesInUserLists(User $user)
     {
         return ApiAnswerService::successfulAnswerWithData($user->countTypesInLists());
+    }
+
+    public function editUsersCompilation(UpdateUserCompilationRequest $request, Compilation $compilations)
+    {
+        try {
+            $compilation = $compilations->where('created_by', Auth::id())->findOrFail($request->id);
+        } catch (\Exception $e) {
+            return ApiAnswerService::errorAnswer('Нет прав для редактирования!', 403);
+        }
+        return ApiAnswerService::successfulAnswerWithData($compilation->compilationUpdate($request));
+    }
+
+    public function deleteUserCompilation(DestroyCompilationUserRequest $request, Compilation $compilations)
+    {
+        try {
+            $compilation = $compilations->where('created_by', Auth::id())->findOrFail($request->id);
+        } catch (\Exception $e) {
+            return ApiAnswerService::errorAnswer('Нет прав для удаления!', 403);
+        }
+        return ApiAnswerService::successfulAnswerWithData($compilation->delete());
     }
 }
