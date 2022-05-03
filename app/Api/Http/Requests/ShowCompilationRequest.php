@@ -3,8 +3,7 @@
 namespace App\Api\Http\Requests;
 
 use App\Api\Filters\QueryFilter;
-use App\Api\Http\Controllers\BookController;
-use App\Models\Book;
+use App\Models\Compilation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -27,10 +26,18 @@ class ShowCompilationRequest extends FormRequest
      */
     public function rules()
     {
+        if ($this->selectionCategory === Compilation::CATEGORY_ALL) {
+            return [
+                'showType' => ['required', Rule::in([QueryFilter::SHOW_TYPE_BLOCK, QueryFilter::SHOW_TYPE_LIST])],
+                'bookType' => ['required', 'string', Rule::in(Compilation::$availableCompilationableTypes)],
+                'selectionCategory' => ['required', 'integer']
+            ];
+        }
         return [
-            'showType'=>['required', Rule::in([QueryFilter::SHOW_TYPE_BLOCK, QueryFilter::SHOW_TYPE_LIST])],
-            'selectionCategory'=>['sometimes','nullable', 'integer', 'exists:compilations,type'],
-            'bookType'=>['sometimes', 'string', 'exists:book_compilation,compilationable_type'],
+            'showType' => ['required', Rule::in([QueryFilter::SHOW_TYPE_BLOCK, QueryFilter::SHOW_TYPE_LIST])],
+            'selectionCategory' => ['required', 'integer', 'exists:compilations,type'],
+            'bookType' => ['required', 'string', Rule::in(Compilation::$availableCompilationableTypes)],
         ];
+
     }
 }

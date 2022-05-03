@@ -11,17 +11,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class CompilationService extends Compilation
 {
-    public function storeCompilation(string $title, string $backgroud, string $description, int $created_by, int $type = null)
-    {
-        $table = new Compilation();
-        $table->title = $title;
-        $table->background = $backgroud;
-        $table->description = $description;
-        $table->created_by = $created_by;
-        $table->type = $type;
-        $table->save();
-    }
-
     public function showCompilationDetails($id)
     {
         return BookCompilation::with(['bookCompilationable' => function (MorphTo $morphTo) {
