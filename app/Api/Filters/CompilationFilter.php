@@ -26,10 +26,8 @@ class CompilationFilter extends QueryFilter
                         ->select('id', 'title')
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');                }
-
             ])
                 ->select(['id', 'title']);
-
         }
 
         if ($showType === 'block') {
