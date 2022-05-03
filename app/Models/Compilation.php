@@ -205,8 +205,10 @@ class Compilation extends Model implements SearchModelInterface
             return "no auth!";
         }
         if ($this->compilationUsers->isNotEmpty()) {
+            $this->unsetRelation('compilationUsers');
             return true;
         }
+        $this->unsetRelation('compilationUsers');
         return false;
     }
 
