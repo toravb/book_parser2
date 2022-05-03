@@ -285,7 +285,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'image:book_id,link',
             'genre:id,name',
         ])
-            ->select('id', 'title', 'year_id')
+            ->select('id', 'title', 'year_id', 'genre_id')
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }

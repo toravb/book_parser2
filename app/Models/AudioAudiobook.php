@@ -14,7 +14,8 @@ class AudioAudiobook extends Model
         'book_id',
         'link',
         'doParse',
-        'index'
+        'index',
+        'public_path',
     ];
 
     public static function create($fields)
