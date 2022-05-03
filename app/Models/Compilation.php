@@ -201,7 +201,7 @@ class Compilation extends Model implements SearchModelInterface
 
     public function getInFavoriteAttribute()
     {
-        if (!auth('api')->check()) {
+        if (\Auth::check()) {
             return "no auth!";
         }
         if ($this->compilationUsers->isNotEmpty()) {
