@@ -256,12 +256,16 @@ Route::group(['prefix' => 'books'], function () {
  */
 Route::group(['prefix' => 'compilations'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('/user', [CompilationController::class, 'showUserCompilations']);
+
+        Route::group(['prefix' => 'user'], function () {
+            Route::get('/', [CompilationController::class, 'showUserCompilations']);
+            Route::post('/favorite', [CompilationController::class, 'addCompilationToFavorite']);
+            Route::delete('/favorite', [CompilationController::class, 'removeCompilationFromFavorite']);
+        });
 
         Route::post('/', [CompilationController::class, 'store']);
         Route::post('/books', [BookController::class, 'saveBookToCompilation']);
         Route::post('/edit', [CompilationController::class, 'editUsersCompilation']);
-
 
         Route::delete('/', [CompilationController::class, 'deleteUserCompilation']);
         Route::delete('/books/delete', [BookController::class, 'deleteBookFromCompilation']);
