@@ -4,8 +4,10 @@ namespace App\Api\Http\Controllers;
 
 use App\Api\Filters\CompilationFilter;
 use App\Api\Filters\QueryFilter;
+use App\Api\Http\Requests\AddCompilationToFavoriteRequest;
 use App\Api\Http\Requests\DestroyCompilationUserRequest;
 use App\Api\Http\Requests\GetIdRequest;
+use App\Api\Http\Requests\RemoveCompilationFromFavoriteRequest;
 use App\Api\Http\Requests\ShowCompilationRequest;
 use App\Api\Http\Requests\StoreCompilationRequest;
 use App\Api\Http\Requests\UpdateUserCompilationRequest;
@@ -14,6 +16,7 @@ use App\Api\Services\ApiAnswerService;
 use App\Api\Services\CompilationService;
 use App\Http\Controllers\Controller;
 use App\Models\Compilation;
+use App\Models\CompilationUser;
 use App\Models\User;
 use App\Models\View;
 use Illuminate\Support\Facades\Auth;
@@ -109,5 +112,15 @@ class CompilationController extends Controller
             return ApiAnswerService::errorAnswer('Нет прав для удаления!', 403);
         }
         return ApiAnswerService::successfulAnswerWithData($compilation->delete());
+    }
+
+    public function addCompilationToFavorite(CompilationUser $compilationUser, AddCompilationToFavoriteRequest $request)
+    {
+        return ApiAnswerService::successfulAnswerWithData($compilationUser->addToFavorite(Auth::id(), $request->compilation_id));
+    }
+
+    public function removeCompilationFromFavorite(CompilationUser $compilationUser, RemoveCompilationFromFavoriteRequest $request)
+    {
+        return ApiAnswerService::successfulAnswerWithData($compilationUser->removeFromFavorite($request->compilation_id));
     }
 }

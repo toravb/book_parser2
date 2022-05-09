@@ -89,13 +89,20 @@ class Author extends Model implements SearchModelInterface
 
     public function series(): HasManyDeep
     {
-        return $this->hasManyDeep(Series::class, [AuthorToBook::class],
+        return $this->hasManyDeep(Series::class, ['author_to_books', Book::class],
             [
-                'author_id',
+                null,
+                null,
+                'id',
+                'id',
+            ],
+            [
+                null,
+                null,
                 'book_id',
-                'id',
-                'id',
-            ]);
+                'series_id'
+            ]
+        );
     }
 
 
