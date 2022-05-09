@@ -274,7 +274,7 @@ class Author extends Model implements SearchModelInterface
 
         $authorPageData->non_author_compilation =
             Compilation::select(['id', 'title', 'background'])
-                ->whereHas('books.authors', function ($query){
+                ->whereHas('books.authors', function ($query) {
                     $query->where('authors.id', $this->id);
                 })
                 ->withCount('books')
