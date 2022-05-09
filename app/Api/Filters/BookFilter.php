@@ -87,7 +87,9 @@ class BookFilter extends QueryFilter
         if ($sortBy === QueryFilter::SORT_BY_RATING_LAST_YEAR) {
             return $this->builder
                 ->orderBy('rates_avg', 'desc')
-                ->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
+                ->when(count(Book::whereNotNull('created_at')->get()) > 0 , function ($q){
+                    $q->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
+                });
         }
 
         if ($sortBy === QueryFilter::SORT_BY_REVIEWS) {
