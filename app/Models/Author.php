@@ -189,7 +189,7 @@ class Author extends Model implements SearchModelInterface
             ->with([
                 'audioBooks' => function ($query) {
                     return $query
-                        ->with(['images:book_id,link', 'authors:id,author'])
+                        ->with(['image:book_id,link', 'authors:id,author'])
                         ->select('audio_books.id', 'title')
                         ->withCount('views')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
