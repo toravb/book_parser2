@@ -239,7 +239,7 @@ class Author extends Model implements SearchModelInterface
                         'books.genres:name',
                         'books.authors:author',
                         'books.image:book_id,link'
-                    ]);
+                    ])->distinct();
                 },
                 'books' => function ($query) {
                     return $query
@@ -273,7 +273,10 @@ class Author extends Model implements SearchModelInterface
         $authorPageData->total_books = $authorPageData->books_count + $authorPageData->audio_books_count;
 
         $authorPageData->non_author_compilation =
-            Compilation::select('id', 'title', 'background')
+            Compilation::select(['id', 'title', 'background'])
+                ->whereHas('books.authors', function ($query){
+                    $query->where('authors.id', $this->id);
+                })
                 ->withCount('books')
                 ->paginate(self::NON_AUTHOR_COMPILATION_QUANTITY, [], 'non-author-compilation');
 
