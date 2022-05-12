@@ -267,6 +267,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->where('user_id', auth('api')->id());
     }
 
+    public function isInFavorite()
+    {
+        return $this->hasMany(BookUser::class)->where('user_id', auth('api')->id());
+    }
+
     public function compilations(): MorphToMany
     {
         return $this->morphToMany(Compilation::class,
@@ -362,6 +367,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function chapters(): HasMany
     {
         return $this->hasMany(Chapter::class);
+    }
+
+    public function chaptersWithPages(): HasMany
+    {
+        return $this->hasMany(Chapter::class)->with('page:id,page_number');
     }
 
     public function notifications(): MorphMany
