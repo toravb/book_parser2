@@ -190,11 +190,11 @@ class BookController extends Controller
             ->bookStatuses()
             ->filter($bookFilter)
             ->where('active', true)
-            ->addSelect('status')
+            ->addSelect(['status', 'book_user.created_at'])
             ->with([
                 'authors:id,author',
                 'image:book_id,link',
-                'bookGenres:name',
+                'bookGenres:id,name',
             ])
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')

@@ -22,12 +22,12 @@ class ShowBooksInUsersListRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::in([
-                    QueryFilter::SORT_BY_DATE,
                     QueryFilter::BESTSELLERS,
-                    QueryFilter::SORT_BY_ALPHABET
+                    QueryFilter::SORT_BY_ALPHABET,
+                    QueryFilter::BY_DATE_ADDED_IN_LIST
                 ]),
             ],
-            'findByTitle' => ['sometimes', 'string', 'max:200']
+            'findByTitle' => ['sometimes','nullable', 'string', 'max:200']
         ];
     }
 

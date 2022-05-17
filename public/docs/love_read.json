@@ -14676,7 +14676,9 @@
                                   ]
                                 }
                               },
-                              "image": {},
+                              "image": {
+                                "type": "string"
+                              },
                               "book_genres": {
                                 "type": "array",
                                 "uniqueItems": true,
@@ -14684,14 +14686,13 @@
                                 "items": {
                                   "type": "object",
                                   "properties": {
+                                    "id": {
+                                      "type": "number"
+                                    },
                                     "name": {
-                                      "type": "string",
-                                      "minLength": 1
+                                      "type": "string"
                                     }
-                                  },
-                                  "required": [
-                                    "name"
-                                  ]
+                                  }
                                 }
                               }
                             },
@@ -14830,15 +14831,15 @@
             "schema": {
               "type": "integer",
               "enum": [
-                1,
                 5,
-                6
+                6,
+                7
               ],
-              "example": 1
+              "example": 7
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - SORT_BY_DATE; 5 -BESTSELLERS; 6 - SORT_BY_ALPHABET;",
+            "description": "5 -BESTSELLERS; 6 - SORT_BY_ALPHABET; 7 - SORT_BY_DATE; ",
             "required": true
           },
           {
