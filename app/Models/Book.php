@@ -328,15 +328,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->with([
             'authors:id,author',
             'pages' => function ($query) use ($pageNumber) {
-                return $query->where('page_number', $pageNumber);
+                return $query
+                    ->select('id', 'book_id', 'content', 'page_number')
+                    ->where('page_number', $pageNumber);
             },
-            'chapters'=>function ($query) use ($pageNumber){
-            return $query
-                ->addSelect('chapters.id','page_id','chapters.book_id','title', 'pages.id', 'pages.page_number')
-                ->join('pages', 'chapters.page_id', '=', 'pages.id')
-                ->where('pages.page_number', '<=', $pageNumber)
-                ->orderBy('pages.page_number', 'desc')
-                ->first();
+            'chapters' => function ($query) use ($pageNumber) {
+                return $query
+                    ->addSelect('chapters.id', 'page_id', 'chapters.book_id', 'title', 'pages.id', 'pages.page_number')
+                    ->join('pages', 'chapters.page_id', '=', 'pages.id')
+                    ->where('pages.page_number', '<=', $pageNumber)
+                    ->orderBy('pages.page_number', 'desc')
+                    ->first();
             }
         ])
             ->select([

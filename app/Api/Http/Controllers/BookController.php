@@ -155,7 +155,7 @@ class BookController extends Controller
 
         $currentReading = $book->currentReading($request, $pageNumber);
 
-        $currentReading->readingProgress = round(($pageNumber / $currentReading->pages_count) * 100);
+        $currentReading->reading_progress = round(($pageNumber / $currentReading->pages_count) * 100);
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
