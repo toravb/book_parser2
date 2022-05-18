@@ -151,7 +151,11 @@ class BookController extends Controller
 
     public function readBook(CurrentReadingRequest $request, Book $book): JsonResponse
     {
-        $currentReading = $book->currentReading($request);
+        $pageNumber = $request->pageNumber ? $request->pageNumber : 1;
+
+        $currentReading = $book->currentReading($request, $pageNumber);
+
+        $currentReading->readingProgress = round(($pageNumber / $currentReading->pages_count) * 100);
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
