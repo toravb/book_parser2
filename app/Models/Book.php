@@ -334,10 +334,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
             },
             'chapters' => function ($query) use ($pageNumber) {
                 return $query
-                    ->addSelect('chapters.id', 'page_id', 'chapters.book_id', 'title', 'pages.id', 'pages.page_number')
+                    ->addSelect('chapters.*', 'page_id', 'chapters.book_id', 'title', 'pages.id', 'pages.page_number')
                     ->join('pages', 'chapters.page_id', '=', 'pages.id')
                     ->where('pages.page_number', '<=', $pageNumber)
                     ->orderBy('pages.page_number', 'desc')
+                    ->addSelect('chapters.id')
                     ->first();
             }
         ])
