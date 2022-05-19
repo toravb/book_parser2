@@ -5378,6 +5378,21 @@
                                   "id",
                                   "nickname"
                                 ]
+                              },
+                              "page": {
+                                "type": "object",
+                                "properties": {
+                                  "id": {
+                                    "type": "number"
+                                  },
+                                  "page_number": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "id",
+                                  "page_number"
+                                ]
                               }
                             },
                             "required": [
@@ -12857,7 +12872,7 @@
         }
       },
       "get": {
-        "summary": "Update quotes",
+        "summary": "Show quotes from book",
         "operationId": "get-quotes",
         "responses": {
           "200": {
@@ -12882,9 +12897,17 @@
                           "user_id",
                           "book_id",
                           "page_id",
-                          "position",
-                          "content",
-                          "color"
+                          "text",
+                          "color",
+                          "start_key",
+                          "start_text_index",
+                          "start_offset",
+                          "end_key",
+                          "end_text_index",
+                          "end_offset",
+                          "created_at",
+                          "updated_at",
+                          "type"
                         ],
                         "properties": {
                           "id": {
@@ -12899,10 +12922,7 @@
                           "page_id": {
                             "type": "number"
                           },
-                          "position": {
-                            "type": "number"
-                          },
-                          "content": {
+                          "text": {
                             "type": "string",
                             "minLength": 1
                           },
@@ -12910,8 +12930,53 @@
                             "type": "string",
                             "minLength": 1
                           },
-                          "created_at": {},
-                          "updated_at": {}
+                          "start_key": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "start_text_index": {
+                            "type": "number"
+                          },
+                          "start_offset": {
+                            "type": "number"
+                          },
+                          "end_key": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "end_text_index": {
+                            "type": "number"
+                          },
+                          "end_offset": {
+                            "type": "number"
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "type": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "page": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "page_number": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "page_number"
+                            ]
+                          }
                         }
                       }
                     }
@@ -12925,15 +12990,25 @@
                       "status": "success",
                       "data": [
                         {
-                          "id": 6,
-                          "user_id": 54,
-                          "book_id": 5,
-                          "page_id": 15,
-                          "position": 0,
-                          "content": "111111111111111 111111111111111 11111111111111",
-                          "color": "red",
-                          "created_at": null,
-                          "updated_at": null
+                          "id": 1,
+                          "user_id": 1,
+                          "book_id": 1,
+                          "page_id": 253,
+                          "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt52",
+                          "color": "brown",
+                          "start_key": "2",
+                          "start_text_index": 5,
+                          "start_offset": 3,
+                          "end_key": "6",
+                          "end_text_index": 7,
+                          "end_offset": 5,
+                          "created_at": "2022-04-18T15:52:20.000000Z",
+                          "updated_at": "2022-04-18T17:04:47.000000Z",
+                          "type": "quotes",
+                          "page": {
+                            "id": 253,
+                            "page_number": 2
+                          }
                         }
                       ]
                     }
@@ -12959,14 +13034,15 @@
           },
           {
             "schema": {
-              "type": "boolean",
+              "type": "number",
               "enum": [
-                "0",
-                "1"
+                0,
+                1
               ]
             },
             "in": "query",
-            "name": "myQuotes"
+            "name": "myQuotes",
+            "required": true
           },
           {
             "schema": {
@@ -13036,7 +13112,7 @@
         ]
       },
       "put": {
-        "summary": "",
+        "summary": "Update quote",
         "operationId": "put-quotes",
         "responses": {
           "200": {
@@ -13306,6 +13382,22 @@
                 "schema": {
                   "description": "",
                   "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 2,
+                        "user_id": 56,
+                        "book_id": 1,
+                        "page_id": 5,
+                        "position": 0,
+                        "content": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt",
+                        "color": "brown",
+                        "created_at": "2022-01-21T15:01:29.000000Z",
+                        "updated_at": "2022-01-21T15:01:29.000000Z"
+                      }
+                    }
+                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -13313,6 +13405,18 @@
                     },
                     "data": {
                       "type": "object",
+                      "required": [
+                        "id",
+                        "user_id",
+                        "book_id",
+                        "page_id",
+                        "position",
+                        "content",
+                        "color",
+                        "created_at",
+                        "updated_at",
+                        "page"
+                      ],
                       "properties": {
                         "id": {
                           "type": "number"
@@ -13344,41 +13448,29 @@
                         "updated_at": {
                           "type": "string",
                           "minLength": 1
+                        },
+                        "page": {
+                          "type": "object",
+                          "required": [
+                            "id",
+                            "page_number"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "page_number": {
+                              "type": "number"
+                            }
+                          }
                         }
-                      },
-                      "required": [
-                        "id",
-                        "user_id",
-                        "book_id",
-                        "page_id",
-                        "position",
-                        "content",
-                        "color",
-                        "created_at",
-                        "updated_at"
-                      ]
+                      }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "id": 2,
-                        "user_id": 56,
-                        "book_id": 1,
-                        "page_id": 5,
-                        "position": 0,
-                        "content": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt",
-                        "color": "brown",
-                        "created_at": "2022-01-21T15:01:29.000000Z",
-                        "updated_at": "2022-01-21T15:01:29.000000Z"
-                      }
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -15919,6 +16011,7 @@
                           "book_id",
                           "user_id",
                           "text",
+                          "page_id",
                           "likes_count",
                           "type"
                         ],
@@ -15935,6 +16028,9 @@
                           "text": {
                             "type": "string",
                             "minLength": 1
+                          },
+                          "page_id": {
+                            "type": "number"
                           },
                           "likes_count": {
                             "type": "number"
@@ -15963,22 +16059,7 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "image": {
-                                "type": "object",
-                                "properties": {
-                                  "book_id": {
-                                    "type": "number"
-                                  },
-                                  "link": {
-                                    "type": "string",
-                                    "minLength": 1
-                                  }
-                                },
-                                "required": [
-                                  "book_id",
-                                  "link"
-                                ]
-                              },
+                              "image": {},
                               "authors": {
                                 "type": "array",
                                 "uniqueItems": true,
@@ -16006,8 +16087,22 @@
                               "rates_count",
                               "rates_avg",
                               "type",
-                              "image",
                               "authors"
+                            ]
+                          },
+                          "page": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "page_number": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "page_number"
                             ]
                           }
                         }
@@ -16025,26 +16120,28 @@
                         {
                           "id": 1,
                           "book_id": 1,
-                          "user_id": 12,
-                          "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt",
-                          "likes_count": 1,
+                          "user_id": 1,
+                          "text": "eqqq1111gfargesgvdfg gfdsgesgr vdfsvgrfebvgt52",
+                          "page_id": 253,
+                          "likes_count": 0,
                           "type": "quotes",
                           "book": {
                             "id": 1,
-                            "title": "3333333",
+                            "title": "А вот еще...",
                             "rates_count": 0,
                             "rates_avg": 0,
                             "type": "books",
-                            "image": {
-                              "book_id": 1,
-                              "link": "1111111111"
-                            },
+                            "image": null,
                             "authors": [
                               {
                                 "id": 1,
-                                "author": "Писюнков"
+                                "author": "Араматов"
                               }
                             ]
+                          },
+                          "page": {
+                            "id": 253,
+                            "page_number": 2
                           }
                         }
                       ]

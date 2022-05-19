@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
-use App\Api\Http\Requests\GetIdRequest;
+use App\Api\Http\Requests\QuoteIdExistsRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
 use App\Api\Services\ApiAnswerService;
@@ -13,6 +13,7 @@ use App\Api\Http\Requests\UpdateQuoteRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Symfony\Component\HttpFoundation\Response;
@@ -62,6 +63,11 @@ class Quote extends Model
         return $this->hasMany(QuoteLike::class);
     }
 
+    public function page(): BelongsTo
+    {
+        return $this->belongsTo(Page::class, 'page_id', 'id');
+    }
+
     public function store(int $userId, SaveQuotesRequest $request)
     {
         $this->user_id = $userId;
@@ -83,17 +89,18 @@ class Quote extends Model
     {
         return $this->where('book_id', $request->bookId)
             ->when($request->search, function ($query) use ($request) {
-                return $query->where('content', 'like', '%' . $request->search . '%');
+                return $query->where('text', 'like', '%' . $request->search . '%');
             })
             ->when($request->myQuotes, function ($query) use ($userId) {
                 return $query->where('user_id', $userId);
             })
+            ->with('page:id,page_number')
             ->get();
     }
 
-    public function showInBook(GetIdRequest $request)
+    public function showInBook(QuoteIdExistsRequest $request)
     {
-        return $this->find($request->id);
+        return $this->with('page:id,page_number')->find($request->id);
     }
 
     /**
@@ -115,9 +122,9 @@ class Quote extends Model
     public function getQuotesForBookPage(int $bookId): LengthAwarePaginator
     {
         return $this
-            ->select('id', 'user_id', 'book_id', 'text', 'updated_at')
+            ->select('id', 'user_id', 'book_id', 'text','page_id', 'updated_at')
             ->where('book_id', $bookId)
-            ->with('user:id,avatar,nickname')
+            ->with('user:id,avatar,nickname', 'page:id,page_number')
             ->withCount('likes', 'views')
             ->paginate(self::QUOTES_PER_PAGE);
     }
@@ -129,18 +136,21 @@ class Quote extends Model
     public function showUserQuotes(int $userId): Builder
     {
         return $this->where('user_id', $userId)
-            ->select('quotes.id', 'quotes.book_id', 'user_id', 'quotes.text')
-            ->with(['book' => function ($query) {
-                $query->select('books.id', 'title')
-                    ->withCount('rates')
-                    ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-                    ->with([
-                        'image:book_id,link',
-                        'authors' => function ($query) {
-                            $query->select('authors.id', 'author');
-                        }
-                    ]);
-            }])->withCount('likes');
+            ->select('quotes.id', 'quotes.book_id', 'user_id', 'quotes.text', 'quotes.page_id')
+            ->with([
+                'book' => function ($query) {
+                    $query->select('books.id', 'title')
+                        ->withCount('rates')
+                        ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
+                        ->with([
+                            'image:book_id,link',
+                            'authors' => function ($query) {
+                                $query->select('authors.id', 'author');
+                            }
+                        ]);
+                },
+                'page:id,page_number'
+            ])->withCount('likes');
     }
 
     public function updateQuote(UpdateQuoteRequest $request)

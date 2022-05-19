@@ -25,7 +25,7 @@ class ShowQuotesRequest extends FormRequest
     {
         return [
             'bookId' => ['required', 'numeric', 'exists:quotes,book_id'],
-            'myQuotes' => ['sometimes', 'boolean'],
+            'myQuotes' => ['required', 'boolean'],
             'search' => ['sometimes', 'string']
         ];
     }

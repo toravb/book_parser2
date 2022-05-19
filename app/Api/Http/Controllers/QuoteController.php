@@ -5,6 +5,7 @@ namespace App\Api\Http\Controllers;
 use App\Api\Filters\QuoteFilter;
 use App\Api\Http\Requests\DeleteQuoteRequest;
 use App\Api\Http\Requests\GetIdRequest;
+use App\Api\Http\Requests\QuoteIdExistsRequest;
 use App\Api\Http\Requests\SaveQuotesRequest;
 use App\Api\Http\Requests\ShowQuotesRequest;
 use App\Api\Http\Requests\UpdateQuoteRequest;
@@ -54,7 +55,7 @@ class QuoteController extends Controller
      * @param View $view
      * @return JsonResponse
      */
-    public function show($id, GetIdRequest $request, Quote $quote, View $view)
+    public function show($id, QuoteIdExistsRequest $request, Quote $quote, View $view)
     {
         $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $quote->getTypeAttribute());
         $quoteInBook = $quote->showInBook($request);
