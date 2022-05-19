@@ -104,6 +104,10 @@ class BookFilter extends QueryFilter
             return $this->builder->orderBy('title', 'asc');
         }
 
+        if($sortBy === QueryFilter::BY_DATE_ADDED_IN_LIST) {
+            return $this->builder->orderBy('book_user.created_at', 'desc');
+        }
+
         return $this->builder;
     }
 
