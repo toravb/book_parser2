@@ -15632,14 +15632,14 @@
             "schema": {
               "type": "integer",
               "enum": [
-                1,
                 5,
-                6
+                6,
+                7
               ]
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - SORT_BY_DATE; 5 -BESTSELLERS; 6 - SORT_BY_ALPHABET;",
+            "description": " 5 -BESTSELLERS; 6 - SORT_BY_ALPHABET; 7 - SORT_BY_DATE;",
             "required": true
           },
           {
