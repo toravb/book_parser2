@@ -34,8 +34,6 @@ class Compilation extends Model implements SearchModelInterface
         return parent::toArray();
     }
 
-    protected $appends = ['in_favorite'];
-
     public static array $availableCompilationableTypes = [
         QueryFilter::TYPE_BOOK,
         QueryFilter::TYPE_AUDIO_BOOK,
@@ -83,7 +81,8 @@ class Compilation extends Model implements SearchModelInterface
 
     public function compilationUsers()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)
+            ->where('id', auth('api')->id());
     }
 
     public function compilationType()
@@ -197,19 +196,6 @@ class Compilation extends Model implements SearchModelInterface
             }])
             ->where('location', $location)
             ->first();
-    }
-
-    public function getInFavoriteAttribute()
-    {
-        if (\Auth::check()) {
-            return "no auth!";
-        }
-        if ($this->compilationUsers->isNotEmpty()) {
-            $this->unsetRelation('compilationUsers');
-            return true;
-        }
-        $this->unsetRelation('compilationUsers');
-        return false;
     }
 
     public function compilationUpdate(UpdateUserCompilationRequest $request): Compilation
