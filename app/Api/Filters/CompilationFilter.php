@@ -25,9 +25,11 @@ class CompilationFilter extends QueryFilter
                         ->with(['authors:author', 'image:book_id,link'])
                         ->select('id', 'title')
                         ->withCount('rates')
-                        ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');                }
+                        ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
+                }
             ])
-                ->select(['id', 'title']);
+                ->select(['id', 'title'])
+                ->withExists('compilationUsers as in_favorite');
         }
 
         if ($showType === 'block') {

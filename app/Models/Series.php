@@ -7,6 +7,7 @@ use App\Api\Traits\ElasticSearchTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Series extends Model implements SearchModelInterface
 {
@@ -35,19 +36,22 @@ class Series extends Model implements SearchModelInterface
         $this->save();
     }
 
-    public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function books(): HasMany
     {
         return $this->hasMany(Book::class, 'series_id', 'id');
     }
 
-    public function getSeries($id): \Illuminate\Database\Eloquent\Builder
+    public function getSeries($id): Series
     {
         return $this->with(['books' => function ($query) {
-            return $query->select('id', 'year_id', 'series_id', 'title', 'link', 'text')
-                ->with(['year', 'genres', 'authors', 'image', 'userList'])
-                ->withCount(['rates', 'bookLikes', 'comments', 'views'])
-                ->withAvg('rates as rates_avg', 'rates.rating');
-        }])->withCount('books');
+            return $query->select('id', 'year_id', 'series_id', 'title', 'text')
+                ->with(['year', 'genres:id,name', 'authors:id,author', 'image:book_id,link'])
+                ->withExists('userList as in_favorite')
+                ->withCount(['rates', 'bookLikes', 'comments'])
+                ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
+        }])
+            ->withCount('books')
+            ->findOrFail($id);
     }
 
     public function baseSearchQuery(): Builder
