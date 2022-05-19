@@ -151,7 +151,11 @@ class BookController extends Controller
 
     public function readBook(CurrentReadingRequest $request, Book $book): JsonResponse
     {
-        $currentReading = $book->currentReading($request);
+        $pageNumber = $request->pageNumber ? $request->pageNumber : 1;
+
+        $currentReading = $book->currentReading($request, $pageNumber);
+
+        $currentReading->reading_progress = round(($pageNumber / $currentReading->pages_count) * 100);
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }
@@ -191,11 +195,11 @@ class BookController extends Controller
             ->bookStatuses()
             ->filter($bookFilter)
             ->where('active', true)
-            ->addSelect('status')
+            ->addSelect(['status', 'book_user.created_at'])
             ->with([
                 'authors:id,author',
                 'image:book_id,link',
-                'bookGenres:name',
+                'bookGenres:id,name',
             ])
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')

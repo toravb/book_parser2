@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Api\Filters\QueryFilter;
 use App\Api\Http\Controllers\MainPageController;
+use App\Api\Http\Requests\CurrentReadingRequest;
 use App\Api\Interfaces\BookInterface;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Models\Notification;
@@ -322,13 +323,23 @@ class Book extends Model implements BookInterface, SearchModelInterface
     }
 
 
-    public function currentReading($request): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|_IH_Book_C|_IH_Book_QB|null
+    public function currentReading(CurrentReadingRequest $request, int $pageNumber): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|_IH_Book_C|_IH_Book_QB|null
     {
-        $number = $request->pageNumber ? $request->pageNumber : 1;
         return $this->with([
             'authors:id,author',
-            'pages' => function ($query) use ($number) {
-                return $query->where('page_number', $number);
+            'pages' => function ($query) use ($pageNumber) {
+                return $query
+                    ->select('id', 'book_id', 'content', 'page_number')
+                    ->where('page_number', $pageNumber);
+            },
+            'chapters' => function ($query) use ($pageNumber) {
+                return $query
+                    ->addSelect('chapters.*', 'page_id', 'chapters.book_id', 'title', 'pages.id', 'pages.page_number')
+                    ->join('pages', 'chapters.page_id', '=', 'pages.id')
+                    ->where('pages.page_number', '<=', $pageNumber)
+                    ->orderBy('pages.page_number', 'desc')
+                    ->addSelect('chapters.id')
+                    ->first();
             }
         ])
             ->select([
@@ -372,6 +383,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function chaptersWithPages(): HasMany
     {
         return $this->hasMany(Chapter::class)->with('page:id,page_number');
+    }
+
+    public function chapterForReadingProgress()
+    {
+        return $this->hasOne(Chapter::class);
     }
 
     public function notifications(): MorphMany
