@@ -248,10 +248,12 @@ class Book extends Model implements BookInterface, SearchModelInterface
     }
 
     public function setReaders(Book $book){
-        $allBooks = $book->get();
+        $allBooks = $book
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
+            ->get();
         foreach ($allBooks as $oneBook){
             $oneBook->readers_count = $oneBook->readers()->count();
-            $oneBook->rate_avg = $oneBook->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')->first()->rates_avg;
+            $oneBook->rate_avg = $oneBook->rates_avg;
             $oneBook->reviews_count = $oneBook->reviews()->count();
             $oneBook->save();
 
