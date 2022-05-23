@@ -80,24 +80,25 @@ class BookFilter extends QueryFilter
 
         if ($sortBy === QueryFilter::SORT_BY_READERS_COUNT) {
             return $this->builder
-                ->withCount('readers as readersCount')
-                ->orderBy('readersCount', 'desc');
+//                ->withCount('readers as readersCount')
+                ->orderBy('readers_count', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_RATING_LAST_YEAR) {
             return $this->builder
-                ->orderBy('rates_avg', 'desc')
+                ->orderBy('rate_avg', 'desc')
                 ->when(count(Book::whereNotNull('created_at')->get()) > 0 , function ($q){
                     $q->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
                 });
         }
 
         if ($sortBy === QueryFilter::SORT_BY_REVIEWS) {
-            return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
+//            return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
+            return $this->builder->orderBy('reviews_count', 'desc');
         }
 
         if ($sortBy === QueryFilter::BESTSELLERS) {
-            return $this->builder->orderBy('rates_avg', 'desc');
+            return $this->builder->orderBy('rate_avg', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_ALPHABET) {

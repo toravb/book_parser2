@@ -247,6 +247,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->bookStatuses()->where('status', QueryFilter::SORT_BY_READERS_COUNT);
     }
 
+    public function setReaders(Book $book){
+        $allBooks = $book->get();
+        foreach ($allBooks as $oneBook){
+            $oneBook->readers_count = $oneBook->readers()->count();
+            $oneBook->rate_avg = $oneBook->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')->first()->rates_avg;
+            $oneBook->reviews_count = $oneBook->reviews()->count();
+            $oneBook->save();
+
+        }
+    }
+
     public function scopePopular($query)
     {
         return $query->orderBy('rates_avg', 'desc');
