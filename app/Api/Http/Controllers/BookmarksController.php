@@ -12,13 +12,7 @@ class BookmarksController extends Controller
 {
     public function create(BookmarkRequest $request, Bookmark $bookmark): JsonResponse
     {
-        $bookmark = $bookmark->addGetBookmark($request);
-        $bookmark->page = $bookmark
-            ->page()
-            ->select(['id', 'book_id', 'page_number'])
-            ->get();
-
-        return ApiAnswerService::successfulAnswerWithData($bookmark);
+        return ApiAnswerService::successfulAnswerWithData($bookmark->addGetBookmark($request));
     }
 
     public function destroy(Bookmark $bookmark): JsonResponse

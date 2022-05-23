@@ -6841,11 +6841,12 @@
       "get": {
         "summary": "Show book chapters",
         "tags": [
-          "Book"
+          "Book",
+          "Bookmarks"
         ],
         "responses": {
           "200": {
-            "description": "OK.\nIf chapters wosn't find, will be returned empty array",
+            "description": "OK.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6864,10 +6865,10 @@
                         "required": [
                           "id",
                           "book_id",
-                          "page_num",
-                          "anchor",
-                          "anchor_index",
-                          "name"
+                          "user_id",
+                          "created_at",
+                          "updated_at",
+                          "page_id"
                         ],
                         "properties": {
                           "id": {
@@ -6876,19 +6877,72 @@
                           "book_id": {
                             "type": "number"
                           },
-                          "page_num": {
+                          "user_id": {
                             "type": "number"
                           },
-                          "anchor": {
+                          "created_at": {
                             "type": "string",
                             "minLength": 1
                           },
-                          "anchor_index": {
-                            "type": "number"
-                          },
-                          "name": {
+                          "updated_at": {
                             "type": "string",
                             "minLength": 1
+                          },
+                          "page_id": {
+                            "type": "number"
+                          },
+                          "chapter": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "book_id": {
+                                "type": "number"
+                              },
+                              "page_id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "page_number": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "book_id",
+                              "page_id",
+                              "title",
+                              "created_at",
+                              "updated_at",
+                              "page_number"
+                            ]
+                          },
+                          "page": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "page_number": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "page_number"
+                            ]
                           }
                         }
                       }
@@ -6903,12 +6957,25 @@
                       "status": "success",
                       "data": [
                         {
-                          "id": 1,
-                          "book_id": 8,
-                          "page_num": 22,
-                          "anchor": "swfwf frarf frearfef",
-                          "anchor_index": 4,
-                          "name": "awrfref fraesrferfesrferferf"
+                          "id": 4,
+                          "book_id": 1,
+                          "user_id": 1,
+                          "created_at": "2022-05-18T18:25:23.000000Z",
+                          "updated_at": "2022-05-18T18:25:23.000000Z",
+                          "page_id": 254,
+                          "chapter": {
+                            "id": 3,
+                            "book_id": 1,
+                            "page_id": 253,
+                            "title": "1",
+                            "created_at": "2022-04-13T21:40:25.000000Z",
+                            "updated_at": "2022-04-13T21:40:25.000000Z",
+                            "page_number": 2
+                          },
+                          "page": {
+                            "id": 254,
+                            "page_number": 3
+                          }
                         }
                       ]
                     }
@@ -7158,7 +7225,12 @@
             }
           }
         },
-        "operationId": "get-books-book-bookmarks"
+        "operationId": "get-books-book-bookmarks",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       }
     },
     "/books/{id}/read": {
@@ -15632,14 +15704,14 @@
             "schema": {
               "type": "integer",
               "enum": [
-                1,
                 5,
-                6
+                6,
+                7
               ]
             },
             "in": "query",
             "name": "sortBy",
-            "description": "1 - SORT_BY_DATE; 5 -BESTSELLERS; 6 - SORT_BY_ALPHABET;",
+            "description": " 5 -BESTSELLERS; 6 - SORT_BY_ALPHABET; 7 - SORT_BY_DATE;",
             "required": true
           },
           {
@@ -21446,19 +21518,138 @@
           "content": {
             "application/json": {
               "schema": {
+                "description": "",
                 "type": "object",
                 "properties": {
-                  "book_id": {
-                    "type": "integer"
+                  "status": {
+                    "type": "string",
+                    "minLength": 1
                   },
-                  "page_id": {
-                    "type": "integer"
+                  "data": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "number"
+                      },
+                      "book_id": {
+                        "type": "number"
+                      },
+                      "user_id": {
+                        "type": "number"
+                      },
+                      "created_at": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "updated_at": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "page_id": {
+                        "type": "number"
+                      },
+                      "chapter": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "number"
+                          },
+                          "book_id": {
+                            "type": "number"
+                          },
+                          "page_id": {
+                            "type": "number"
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "created_at": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "updated_at": {
+                            "type": "string",
+                            "minLength": 1
+                          },
+                          "page_number": {
+                            "type": "number"
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "book_id",
+                          "page_id",
+                          "title",
+                          "created_at",
+                          "updated_at",
+                          "page_number"
+                        ]
+                      },
+                      "page": {
+                        "type": "array",
+                        "uniqueItems": true,
+                        "minItems": 1,
+                        "items": {
+                          "required": [
+                            "id",
+                            "page_number"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "number"
+                            },
+                            "page_number": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "book_id",
+                      "user_id",
+                      "created_at",
+                      "updated_at",
+                      "page_id",
+                      "chapter",
+                      "page"
+                    ]
                   }
                 },
                 "required": [
-                  "book_id",
-                  "page_id"
-                ]
+                  "status",
+                  "data"
+                ],
+                "x-examples": {
+                  "example-1": {
+                    "status": "success",
+                    "data": {
+                      "id": 8,
+                      "book_id": 1,
+                      "user_id": 1,
+                      "created_at": "2022-05-18T20:28:26.000000Z",
+                      "updated_at": "2022-05-18T20:28:26.000000Z",
+                      "page_id": 260,
+                      "chapter": {
+                        "id": 4,
+                        "book_id": 1,
+                        "page_id": 259,
+                        "title": "2",
+                        "created_at": "2022-04-13T21:40:25.000000Z",
+                        "updated_at": "2022-04-13T21:40:25.000000Z",
+                        "page_number": 7
+                      },
+                      "page": [
+                        {
+                          "id": 260,
+                          "page_number": 8
+                        }
+                      ]
+                    }
+                  }
+                }
               }
             }
           }

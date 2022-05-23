@@ -182,6 +182,7 @@ class BookController extends Controller
                 ->addSelect('chapters.*', 'pages.id', 'pages.page_number')
                 ->join('pages', 'chapters.page_id', '=', 'pages.id')
                 ->orderBy('pages.page_number', 'desc')
+                ->addSelect('chapters.id')
                 ->first();
         }
 
