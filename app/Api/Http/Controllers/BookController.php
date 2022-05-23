@@ -35,6 +35,11 @@ class BookController extends Controller
     const NOVELTIES_PAGINATE = 32;
     const MY_BOOK_LIST_QUANTITY = 12;
 
+    public function setReaders(){
+        $book = new(Book::class);
+        $book->setReaders($book);
+    }
+
     public function show(GetBooksRequest $request, BookFilter $bookFilter, AudioBookFilter $audioBookFilter, BookFactory $bookFactory)
     {
         $perPageList = $request->type === QueryFilter::TYPE_BOOK ? QueryFilter::PER_PAGE_LIST : QueryFilter::PER_PAGE_LIST_AUDIO;
