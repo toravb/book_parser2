@@ -98,6 +98,10 @@ class AudioBookFilter extends QueryFilter
             return $this->builder->orderBy('title', 'asc');
         }
 
+        if($sortBy === QueryFilter::BY_DATE_ADDED_IN_LIST) {
+            return $this->builder->orderBy('audio_book_user.created_at', 'desc');
+        }
+
         return $this->builder;
     }
 

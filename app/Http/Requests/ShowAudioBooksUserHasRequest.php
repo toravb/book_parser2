@@ -22,7 +22,7 @@ class ShowAudioBooksUserHasRequest extends FormRequest
                 'required',
                 'integer',
                 Rule::in([
-                    QueryFilter::SORT_BY_DATE,
+                    QueryFilter::BY_DATE_ADDED_IN_LIST,
                     QueryFilter::BESTSELLERS,
                     QueryFilter::SORT_BY_ALPHABET
                 ]),
