@@ -9,17 +9,14 @@ use App\Api\Notifications\LikedComment;
 
 class NewNotificationListener
 {
-
     public function __construct(public Types $types, public Notification $notification)
     {
 
     }
 
-
     public function handle(NewNotificationEvent $event)
     {
         $notificationableModelTypes = $this->types->getNotificationTypes();
-
 
         $modelType = $notificationableModelTypes[$event->type][$event->notificationableType];
 
@@ -28,7 +25,7 @@ class NewNotificationListener
         $notificationableHandlers = $this->types->getNotificationHandleObjects();
         $notificationHandlerClass = $notificationableHandlers[$event->type];
 
-        if ($event->type === NewNotificationEvent::LIKED_COMMENT) {
+        if ($event->type === NewNotificationEvent::LIKED_COMMENT or $event->type === NewNotificationEvent::LIKED_QUOTE) {
             $notificationHandler = new $notificationHandlerClass(
                 $event->userId,
                 $event->notificationableId,
@@ -40,7 +37,7 @@ class NewNotificationListener
             );
         }
 
-        if($event->type === NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED) {
+        if ($event->type === NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED) {
             $notificationHandler = new $notificationHandlerClass(
                 $event->userId,
                 $event->notificationableId,

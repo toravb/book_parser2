@@ -90,7 +90,7 @@ class LikeController extends Controller
                 $field => $request->id,
             ]);
 
-        if ($record) {
+        if ($record AND $request->type !== 'quote') {
             NewNotificationEvent::dispatch(NewNotificationEvent::LIKED_COMMENT, $request->type,  $request->id, $userId);
 
             $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
@@ -98,7 +98,16 @@ class LikeController extends Controller
                 'status' => 'success',
                 'data' => $likesCount,
             ]);
-        } else {
+        } elseif ($record AND $request->type === 'quote') {
+            NewNotificationEvent::dispatch(NewNotificationEvent::LIKED_QUOTE, $request->type,  $request->id, $userId);
+
+            $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
+            return response()->json([
+                'status' => 'success',
+                'data' => $likesCount,
+            ]);
+        }
+        else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Something went wrong, try again later',

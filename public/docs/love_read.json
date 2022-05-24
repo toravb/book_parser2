@@ -6587,7 +6587,8 @@
                     "type": "string",
                     "enum": [
                       "book_comment",
-                      "audio_book_comment"
+                      "audio_book_comment",
+                      "quote"
                     ]
                   }
                 },
@@ -6597,9 +6598,15 @@
                 ]
               },
               "examples": {
-                "like": {
+                "like quote": {
                   "value": {
-                    "id": 0,
+                    "id": 1,
+                    "type": "quote"
+                  }
+                },
+                "like book comment": {
+                  "value": {
+                    "id": 1,
                     "type": "book_comment"
                   }
                 }
@@ -6702,7 +6709,8 @@
                     "type": "string",
                     "enum": [
                       "book_comment",
-                      "audio_book_comment"
+                      "audio_book_comment",
+                      "quote"
                     ]
                   }
                 },
@@ -6710,9 +6718,24 @@
                   "id",
                   "type"
                 ]
+              },
+              "examples": {
+                "delete book comment like": {
+                  "value": {
+                    "id": 1,
+                    "type": "book_comment"
+                  }
+                },
+                "delete quote like": {
+                  "value": {
+                    "id": 1,
+                    "type": "quote"
+                  }
+                }
               }
             }
-          }
+          },
+          "description": ""
         }
       }
     },
@@ -6734,7 +6757,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK.\nIf chapters wosn't find, will be returned empty array",
+            "description": "OK.",
             "content": {
               "application/json": {
                 "schema": {
@@ -6753,10 +6776,10 @@
                         "required": [
                           "id",
                           "book_id",
-                          "page_num",
-                          "anchor",
-                          "anchor_index",
-                          "name"
+                          "user_id",
+                          "created_at",
+                          "updated_at",
+                          "page_id"
                         ],
                         "properties": {
                           "id": {
@@ -6765,19 +6788,72 @@
                           "book_id": {
                             "type": "number"
                           },
-                          "page_num": {
+                          "user_id": {
                             "type": "number"
                           },
-                          "anchor": {
+                          "created_at": {
                             "type": "string",
                             "minLength": 1
                           },
-                          "anchor_index": {
-                            "type": "number"
-                          },
-                          "name": {
+                          "updated_at": {
                             "type": "string",
                             "minLength": 1
+                          },
+                          "page_id": {
+                            "type": "number"
+                          },
+                          "chapter": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "book_id": {
+                                "type": "number"
+                              },
+                              "page_id": {
+                                "type": "number"
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "created_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "updated_at": {
+                                "type": "string",
+                                "minLength": 1
+                              },
+                              "page_number": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "book_id",
+                              "page_id",
+                              "title",
+                              "created_at",
+                              "updated_at",
+                              "page_number"
+                            ]
+                          },
+                          "page": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "number"
+                              },
+                              "page_number": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "page_number"
+                            ]
                           }
                         }
                       }
@@ -6792,12 +6868,25 @@
                       "status": "success",
                       "data": [
                         {
-                          "id": 1,
-                          "book_id": 8,
-                          "page_num": 22,
-                          "anchor": "swfwf frarf frearfef",
-                          "anchor_index": 4,
-                          "name": "awrfref fraesrferfesrferferf"
+                          "id": 4,
+                          "book_id": 1,
+                          "user_id": 1,
+                          "created_at": "2022-05-18T18:25:23.000000Z",
+                          "updated_at": "2022-05-18T18:25:23.000000Z",
+                          "page_id": 254,
+                          "chapter": {
+                            "id": 3,
+                            "book_id": 1,
+                            "page_id": 253,
+                            "title": "1",
+                            "created_at": "2022-04-13T21:40:25.000000Z",
+                            "updated_at": "2022-04-13T21:40:25.000000Z",
+                            "page_number": 2
+                          },
+                          "page": {
+                            "id": 254,
+                            "page_number": 3
+                          }
                         }
                       ]
                     }
@@ -21923,6 +22012,14 @@
           }
         },
         "parameters": [],
+        "tags": [
+          "Bookmarks"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
         "requestBody": {
           "content": {
             "application/json": {
