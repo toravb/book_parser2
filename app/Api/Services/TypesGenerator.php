@@ -59,12 +59,16 @@ class TypesGenerator implements Types
             'audio_book' => 'App\\Models\\AudioBookComment',
             'book_review' => 'App\\Models\\BookReviewComment',
             'audio_book_review' => 'App\\Models\\AudioBookReviewComment'
+        ],
+        NewNotificationEvent::LIKED_QUOTE => [
+            'quote' => 'App\\Models\\Quote'
         ]
     ];
 
     protected array $notificationableHandleTypes = [
         NewNotificationEvent::LIKED_COMMENT => 'App\\Api\\Notifications\\LikedComment',
-        NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => 'App\\Api\\Notifications\\CommentsNotifications'
+        NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => 'App\\Api\\Notifications\\CommentsNotifications',
+        NewNotificationEvent::LIKED_QUOTE => 'App\\Api\\Notifications\\LikedQuoteNotification'
     ];
 
     protected $reviewTypes = [

@@ -12,6 +12,7 @@ class NewNotificationEvent
 
     const LIKED_COMMENT = 'liked_comment';
     const ANSWER_ON_COMMENT_AND_ALSO_COMMENTED = 'answer_on_comment_and_also_commented';
+    const LIKED_QUOTE = 'liked_quote';
 
     public string $type;
     public int $notificationableId;

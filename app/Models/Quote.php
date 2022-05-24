@@ -122,7 +122,7 @@ class Quote extends Model
     public function getQuotesForBookPage(int $bookId): LengthAwarePaginator
     {
         return $this
-            ->select('id', 'user_id', 'book_id', 'text','page_id', 'updated_at')
+            ->select('id', 'user_id', 'book_id', 'text', 'page_id', 'updated_at')
             ->where('book_id', $bookId)
             ->with('user:id,avatar,nickname', 'page:id,page_number')
             ->withCount('likes', 'views')
@@ -163,5 +163,10 @@ class Quote extends Model
         $quoteForUpdate->store(\auth()->id(), $request);
 
         return ApiAnswerService::successfulAnswerWithData($quoteForUpdate);
+    }
+
+    public static function getNotificationQuote(int $quoteId): Quote
+    {
+        return self::findOrFail($quoteId);
     }
 }
