@@ -169,4 +169,9 @@ class Quote extends Model
     {
         return self::findOrFail($quoteId);
     }
+
+    public function getQuoteObject(): Quote
+    {
+        return $this;
+    }
 }

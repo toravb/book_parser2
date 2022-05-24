@@ -3,6 +3,7 @@
 namespace App\Api\Notifications;
 
 use App\Api\Events\NewLikeNotificationEvent;
+use App\Api\Events\NewQuoteLikeNotificationEvent;
 use App\Api\Interfaces\NotificationInterface;
 use App\Api\Models\NotificationUser;
 use App\Api\Models\UserSettings;
@@ -10,12 +11,12 @@ use App\Models\User;
 
 class LikedQuoteNotification implements NotificationInterface
 {
-    public $comment;
+    public $quote;
     public User $sender;
 
     public function __construct(
         private int    $senderUserId,
-        private int    $commentId,
+        private int    $quoteId,
         private array  $notificationableTypes,
         private string $type,
         public string  $likedType,
@@ -23,19 +24,19 @@ class LikedQuoteNotification implements NotificationInterface
         public int     $notificationId
     )
     {
-        $this->comment = $this->notificationableTypes[$this->type][$this->likedType]::getNotificationQuote($this->commentId);
+        $this->quote = $this->notificationableTypes[$this->type][$this->likedType]::getNotificationQuote($this->quoteId);
 
         $this->sender = User::select('id', 'avatar', 'name')->findOrFail($this->senderUserId);
     }
 
     public function sendNotification()
     {
-        if ($this->comment->user_id !== $this->sender->id) {
-            $settings = UserSettings::where('user_id', $this->comment->user_id)->first();
+        if ($this->quote->user_id !== $this->sender->id) {
+            $settings = UserSettings::where('user_id', $this->quote->user_id)->first();
             if ($settings->likes) {
                 $notificationUserModel = new NotificationUser();
-                $notificationUserModel->createRelation($this->comment->user_id, $this->notificationId, NewLikeNotificationEvent::TYPE);
-                NewLikeNotificationEvent::dispatch([$this->comment->user_id], $this->sender, $this->comment->getBookObject(), $this->createdAt);
+                $notificationUserModel->createRelation($this->quote->user_id, $this->notificationId, NewQuoteLikeNotificationEvent::TYPE);
+                NewQuoteLikeNotificationEvent::dispatch([$this->quote->user_id], $this->sender, $this->quote->getQuoteObject(), $this->createdAt);
             }
         }
     }
