@@ -39,13 +39,12 @@ class AuthorPageController extends Controller
         return ApiAnswerService::successfulAnswerWithData($series);
     }
 
-    public function showQuotes($authorId, $bookId): JsonResponse
+    public function showQuotes(Author $author, Book $book): JsonResponse
     {
-        $author = Author::withQuotesCount($authorId);
-        $books = Book::where('id', $bookId)
-            ->latestBookQuoteWithUser($authorId);
+        $authors = $author->withQuotesCount();
+        $books = $book->booksWithQuotesForAuthorPage($author->id);
 
-        return ApiAnswerService::successfulAnswerWithData([$author, $books]);
+        return ApiAnswerService::successfulAnswerWithData([$authors, $books]);
     }
 
     public function showReviews($authorId, $bookId): JsonResponse
