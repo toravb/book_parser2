@@ -78,20 +78,22 @@ class AudioBookFilter extends QueryFilter
 
         if ($sortBy === QueryFilter::SORT_BY_LISTENERS) {
             return $this->builder
-                ->withCount('audioBookStatuses as listenerCount')
-                ->orderBy('listenerCount', 'desc');
+//                ->withCount('audioBookStatuses as listenerCount')
+                ->orderBy('listeners_count', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_RATING_LAST_YEAR) {
-            return $this->builder->orderBy('rates_avg', 'desc')->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
+            return $this->builder->orderBy('rate_avg', 'desc')
+                ->whereYear('created_at', '>=', Carbon::now()->subYear()->year);
         }
 
         if ($sortBy === QueryFilter::SORT_BY_REVIEWS) {
-            return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
+            return $this->builder->orderBy('reviews_count', 'desc');
+//            return $this->builder->withCount('reviews as reviewsCount')->orderBy('reviewsCount', 'desc');
         }
 
         if ($sortBy === QueryFilter::BESTSELLERS) {
-            return $this->builder->orderBy('rates_avg', 'desc');
+            return $this->builder->orderBy('rate_avg', 'desc');
         }
 
         if ($sortBy === QueryFilter::SORT_BY_ALPHABET) {
