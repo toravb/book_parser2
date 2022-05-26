@@ -38,6 +38,8 @@ class BookController extends Controller
     public function setReaders(){
         $book = new(Book::class);
         $book->setReaders($book);
+        $audioBook = new(AudioBook::class);
+        $audioBook->setListeners($audioBook);
     }
 
     public function show(GetBooksRequest $request, BookFilter $bookFilter, AudioBookFilter $audioBookFilter, BookFactory $bookFactory)
