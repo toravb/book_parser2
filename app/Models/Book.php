@@ -498,8 +498,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this->select(['books.id', 'title'])
             ->whereHas('quotes')
-            ->whereHas('authors', function ($q) use ($authorId) {
-                return $q->where('authors.id', $authorId);
+            ->whereHas('authors', function ($query) use ($authorId) {
+                return $query->where('authors.id', $authorId);
             })
             ->with([
                 'authors:id,author',
