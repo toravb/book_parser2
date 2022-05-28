@@ -57,10 +57,22 @@ class Genre extends Model
             ->get();
     }
 
+    public function relatedWithBook(){
+        return $this->select('id', 'name')
+            ->whereHas('books')
+            ->get();
+    }
+
     public function audioBooksCount(): array|Collection
     {
         return $this->select('id', 'name')
             ->withCount('audioBooks')
+            ->get();
+    }
+
+    public function relatedWithAudioBook(){
+        return $this->select('id', 'name')
+            ->whereHas('audioBooks')
             ->get();
     }
 }
