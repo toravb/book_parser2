@@ -326,7 +326,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this->with([
             'authors:id,author',
-            'image:id,link',
+            'image:id,link,book_id',
             'bookGenres:id,name',
             'userList',
         ])
