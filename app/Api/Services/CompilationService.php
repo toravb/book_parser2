@@ -27,7 +27,7 @@ class CompilationService extends Compilation
                 },
             ])->morphWith([
                 Book::class => ['authors', 'image', 'bookGenres:id,name'],
-                AudioBook::class => ['authors', 'images', 'genre:id,name'],
+                AudioBook::class => ['authors', 'image', 'genre:id,name'],
             ]);
         }])->where(
             'compilation_id', $id
