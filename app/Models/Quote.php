@@ -136,7 +136,14 @@ class Quote extends Model
     public function showUserQuotes(int $userId): Builder
     {
         return $this->where('user_id', $userId)
-            ->select('quotes.id', 'quotes.book_id', 'user_id', 'quotes.text', 'quotes.page_id')
+            ->select(
+                'quotes.id',
+                'quotes.book_id',
+                'user_id',
+                'quotes.text',
+                'quotes.page_id',
+                'quotes.start_key'
+            )
             ->with([
                 'book' => function ($query) {
                     $query->select('books.id', 'title')
