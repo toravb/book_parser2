@@ -62,6 +62,33 @@
         </ul>
     </li>
 
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.compilations.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.compilations.*')])>
+            <i class="nav-icon fas fa-list"></i>
+            <p>
+                Подборки
+                <i class="fas fa-angle-left right"></i>
+            </p>
+        </a>
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{route('admin.compilations.novelties.index')}}"
+                    @class(['nav-link', 'active' => request()->route()->named('admin.compilations.novelties.index')])>
+                    <p>Новинки книг(Главная)</p>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{route('admin.compilations.no-time-for-read.index')}}"
+                    @class(['nav-link', 'active' => request()->route()->named('admin.compilations.no-time-for-read.index')])>
+                    <p>Некогда читать, слушайте(Главная)</p>
+                </a>
+            </li>
+        </ul>
+    </li>
+
     <li class="nav-item">
         <a href="{{route('admin.years.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.years.*')])>
             <i class="nav-icon fa-solid fa-calendar"></i>
@@ -79,7 +106,7 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.banners.index')}}" @class(['nax-link', 'active' => request()->route()->named('admin.banners.*')])>
+                <a href="{{route('admin.banners.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.banners.*')])>
                     <p>Администрирование</p>
                 </a>
             </li>
