@@ -203,7 +203,7 @@ class Author extends Model implements SearchModelInterface
             ->where('author', 'like', $letter . '%')
             ->select('id', 'author')
             ->orderBy('author')
-            ->get();
+            ->paginate(300);
     }
 
     public function toSearchArray(): array
