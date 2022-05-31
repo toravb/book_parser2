@@ -9956,226 +9956,90 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "",
                   "type": "object",
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": {
-                        "id": 5,
-                        "title": "111",
-                        "description": "111111",
-                        "year_id": 2,
-                        "genre_id": 1,
-                        "series_id": 2,
-                        "link_id": 1,
-                        "views_count": 1,
-                        "listeners_count": 1,
-                        "rates_count": 1,
-                        "reviews_count": 3,
-                        "rates_avg": 2.5,
-                        "type": "audioBooks",
-                        "authors": [
-                          {
-                            "id": 2,
-                            "name": "236535",
-                            "created_at": null,
-                            "updated_at": null,
-                            "laravel_through_key": 5
-                          }
-                        ],
-                        "image": {
-                          "id": 1,
-                          "link": "szgdsghdeg",
-                          "book_id": 5,
-                          "doParse": 1,
-                          "created_at": null,
-                          "updated_at": null
-                        },
-                        "genre": {
-                          "id": 1,
-                          "name": "Класическая литература",
-                          "created_at": "2022-01-28T17:30:14.000000Z",
-                          "updated_at": null
-                        },
-                        "actors": [
-                          {
-                            "id": 1,
-                            "name": "Zyec",
-                            "created_at": null,
-                            "updated_at": null,
-                            "laravel_through_key": 5
-                          }
-                        ],
-                        "series": {
-                          "id": 2,
-                          "name": "Tratata",
-                          "created_at": "2022-02-01T17:16:26.000000Z",
-                          "updated_at": null
-                        },
-                        "year": {
-                          "id": 2,
-                          "year": "2008"
-                        },
-                        "link": {
-                          "id": 1,
-                          "link": "zdrfghdghs",
-                          "doParse": 123,
-                          "created_at": null,
-                          "updated_at": null
-                        },
-                        "comments": [
-                          {
-                            "id": 1,
-                            "user_id": 56,
-                            "audio_book_id": 5,
-                            "content": "111122332115421qs",
-                            "parent_comment_id": null,
-                            "created_at": "2022-02-03T14:11:43.000000Z",
-                            "updated_at": "2022-02-03T14:46:57.000000Z"
-                          }
-                        ],
-                        "reviews": [
-                          {
-                            "id": 3,
-                            "user_id": 56,
-                            "audio_book_id": 5,
-                            "review_type_id": 2,
-                            "title": "1234564564656q",
-                            "content": "agaegvaergea",
-                            "created_at": "2022-02-03T10:33:56.000000Z",
-                            "updated_at": "2022-02-03T10:33:56.000000Z"
-                          }
-                        ]
-                      }
-                    }
-                  },
                   "properties": {
                     "status": {
-                      "type": "string",
-                      "minLength": 1
+                      "type": "string"
                     },
                     "data": {
                       "type": "object",
-                      "required": [
-                        "id",
-                        "title",
-                        "description",
-                        "year_id",
-                        "genre_id",
-                        "series_id",
-                        "link_id",
-                        "views_count",
-                        "listeners_count",
-                        "rates_count",
-                        "reviews_count",
-                        "rates_avg",
-                        "type",
-                        "authors",
-                        "image",
-                        "genre",
-                        "actors",
-                        "series",
-                        "year",
-                        "link",
-                        "comments",
-                        "reviews"
-                      ],
                       "properties": {
                         "id": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "title": {
-                          "type": "string",
-                          "minLength": 1
+                          "type": "string"
                         },
                         "description": {
-                          "type": "string",
-                          "minLength": 1
+                          "type": "string"
                         },
                         "year_id": {
-                          "type": "number"
-                        },
-                        "genre_id": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "series_id": {
-                          "type": "number"
+                          "type": "null"
                         },
                         "link_id": {
-                          "type": "number"
+                          "type": "integer"
+                        },
+                        "genre_id": {
+                          "type": "integer"
                         },
                         "views_count": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "listeners_count": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "rates_count": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "reviews_count": {
-                          "type": "number"
+                          "type": "integer"
                         },
                         "rates_avg": {
-                          "type": "number"
+                          "type": "integer"
+                        },
+                        "total_duration": {
+                          "type": "string"
                         },
                         "type": {
-                          "type": "string",
-                          "minLength": 1
+                          "type": "string"
                         },
                         "authors": {
                           "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
                           "items": {
                             "type": "object",
                             "properties": {
                               "id": {
-                                "type": "number"
+                                "type": "integer"
                               },
-                              "name": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "created_at": {
+                              "author": {
                                 "type": "string"
                               },
-                              "updated_at": {
-                                "type": "string"
+                              "avatar": {
+                                "type": "null"
                               },
-                              "laravel_through_key": {
-                                "type": "number"
+                              "about": {
+                                "type": "null"
                               }
-                            },
-                            "required": [
-                              "id",
-                              "name",
-                              "laravel_through_key"
-                            ]
+                            }
                           }
                         },
                         "image": {
                           "type": "object",
-                          "required": [
-                            "id",
-                            "link",
-                            "book_id",
-                            "doParse"
-                          ],
                           "properties": {
                             "id": {
-                              "type": "number"
+                              "type": "integer"
                             },
                             "link": {
-                              "type": "string",
-                              "minLength": 1
+                              "type": "string"
                             },
                             "book_id": {
-                              "type": "number"
+                              "type": "integer"
                             },
                             "doParse": {
-                              "type": "number"
+                              "type": "integer"
                             },
                             "created_at": {
                               "type": "string"
@@ -10187,41 +10051,49 @@
                         },
                         "genre": {
                           "type": "object",
-                          "required": [
-                            "id",
-                            "name",
-                            "created_at"
-                          ],
                           "properties": {
                             "id": {
-                              "type": "number"
+                              "type": "integer"
                             },
                             "name": {
-                              "type": "string",
-                              "minLength": 1
+                              "type": "string"
                             },
                             "created_at": {
-                              "type": "string",
-                              "minLength": 1
+                              "type": "string"
                             },
                             "updated_at": {
                               "type": "string"
+                            },
+                            "is_hidden": {
+                              "type": "integer"
+                            },
+                            "meta_title": {
+                              "type": "null"
+                            },
+                            "meta_description": {
+                              "type": "null"
+                            },
+                            "meta_keyword": {
+                              "type": "null"
+                            },
+                            "description": {
+                              "type": "null"
+                            },
+                            "alias": {
+                              "type": "null"
                             }
                           }
                         },
                         "actors": {
                           "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
                           "items": {
                             "type": "object",
                             "properties": {
                               "id": {
-                                "type": "number"
+                                "type": "integer"
                               },
                               "name": {
-                                "type": "string",
-                                "minLength": 1
+                                "type": "string"
                               },
                               "created_at": {
                                 "type": "string"
@@ -10230,73 +10102,28 @@
                                 "type": "string"
                               },
                               "laravel_through_key": {
-                                "type": "number"
+                                "type": "integer"
                               }
-                            },
-                            "required": [
-                              "id",
-                              "name",
-                              "laravel_through_key"
-                            ]
+                            }
                           }
                         },
                         "series": {
-                          "type": "object",
-                          "required": [
-                            "id",
-                            "name",
-                            "created_at"
-                          ],
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "name": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "created_at": {
-                              "type": "string",
-                              "minLength": 1
-                            },
-                            "updated_at": {
-                              "type": "string"
-                            }
-                          }
+                          "type": "null"
                         },
                         "year": {
-                          "type": "object",
-                          "required": [
-                            "id",
-                            "year"
-                          ],
-                          "properties": {
-                            "id": {
-                              "type": "number"
-                            },
-                            "year": {
-                              "type": "string",
-                              "minLength": 1
-                            }
-                          }
+                          "type": "null"
                         },
                         "link": {
                           "type": "object",
-                          "required": [
-                            "id",
-                            "link",
-                            "doParse"
-                          ],
                           "properties": {
                             "id": {
-                              "type": "number"
+                              "type": "integer"
                             },
                             "link": {
-                              "type": "string",
-                              "minLength": 1
+                              "type": "string"
                             },
                             "doParse": {
-                              "type": "number"
+                              "type": "integer"
                             },
                             "created_at": {
                               "type": "string"
@@ -10304,105 +10131,147 @@
                             "updated_at": {
                               "type": "string"
                             }
-                          }
-                        },
-                        "comments": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "user_id": {
-                                "type": "number"
-                              },
-                              "audio_book_id": {
-                                "type": "number"
-                              },
-                              "content": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "parent_comment_id": {
-                                "type": "number"
-                              },
-                              "created_at": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "updated_at": {
-                                "type": "string",
-                                "minLength": 1
-                              }
-                            },
-                            "required": [
-                              "id",
-                              "user_id",
-                              "audio_book_id",
-                              "content",
-                              "created_at",
-                              "updated_at"
-                            ]
-                          }
-                        },
-                        "reviews": {
-                          "type": "array",
-                          "uniqueItems": true,
-                          "minItems": 1,
-                          "items": {
-                            "type": "object",
-                            "properties": {
-                              "id": {
-                                "type": "number"
-                              },
-                              "user_id": {
-                                "type": "number"
-                              },
-                              "audio_book_id": {
-                                "type": "number"
-                              },
-                              "review_type_id": {
-                                "type": "number"
-                              },
-                              "title": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "content": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "created_at": {
-                                "type": "string",
-                                "minLength": 1
-                              },
-                              "updated_at": {
-                                "type": "string",
-                                "minLength": 1
-                              }
-                            },
-                            "required": [
-                              "id",
-                              "user_id",
-                              "audio_book_id",
-                              "review_type_id",
-                              "title",
-                              "content",
-                              "created_at",
-                              "updated_at"
-                            ]
                           }
                         }
                       }
                     }
                   },
-                  "required": [
-                    "status",
-                    "data"
-                  ]
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 3,
+                        "title": "Конец твоего мира",
+                        "description": "Адьяшанти «Путь освобождения». Это не книга о духовном росте, самосовершенствовании, или измененных состояниях сознания. Она о духовном пробуждении, ведущем от сна эго к пробужденному состоянию за пределами эго так быстро и эффективно, как это возможно. Путешествие это не то, что можно заранее вообразить и просветление это не то, что зачастую продаётся под видом его. Я не хочу рассказывать вам, как достичь блаженства или бесконечного счастья, найти<br /> родственную душу, или расписать десять легких шагов, чтобы быстро сделать миллион долларов. Я не верю в лживую рекламу или заманивание духовных ищущих ложными обещаниями. Многие духовные искатели уже живут на постоянной диете бесполезной пищи, этих хорошо звучащих банальностей, которые имеют очень малый или никакого трансформирующего эффекта, кроме как притупление неудовлетворённости, которая обязательно присуща состоянию сна. Если вы предпочитаете вещи такого рода, эта книга не для вас.",
+                        "year_id": 0,
+                        "series_id": null,
+                        "link_id": 3,
+                        "genre_id": 27,
+                        "views_count": 2,
+                        "listeners_count": 0,
+                        "rates_count": 0,
+                        "reviews_count": 0,
+                        "rates_avg": 0,
+                        "total_duration": "12",
+                        "type": "audioBooks",
+                        "authors": [
+                          {
+                            "id": 29334,
+                            "author": "Адьяшанти",
+                            "avatar": null,
+                            "about": null
+                          }
+                        ],
+                        "image": {
+                          "id": 3,
+                          "link": "https://s4.knigavuhe.org/2/covers/7203/2-2.jpg?2",
+                          "book_id": 3,
+                          "doParse": 0,
+                          "created_at": "2021-12-26T23:00:11.000000Z",
+                          "updated_at": "2021-12-27T00:08:42.000000Z"
+                        },
+                        "genre": {
+                          "id": 27,
+                          "name": "Эзотерика",
+                          "created_at": "2022-03-23T20:34:37.000000Z",
+                          "updated_at": "2022-03-23T20:34:37.000000Z",
+                          "is_hidden": 0,
+                          "meta_title": null,
+                          "meta_description": null,
+                          "meta_keyword": null,
+                          "description": null,
+                          "alias": null
+                        },
+                        "actors": [
+                          {
+                            "id": 3,
+                            "name": "Nikosho",
+                            "created_at": "2021-12-26T23:00:11.000000Z",
+                            "updated_at": "2021-12-26T23:00:11.000000Z",
+                            "laravel_through_key": 3
+                          }
+                        ],
+                        "series": null,
+                        "year": null,
+                        "link": {
+                          "id": 3,
+                          "link": "https://knigavuhe.org/book/konec-tvoego-mira/",
+                          "doParse": 0,
+                          "created_at": "2021-12-26T22:23:20.000000Z",
+                          "updated_at": "2022-03-29T07:09:04.000000Z"
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "id": 3,
+                        "title": "Конец твоего мира",
+                        "description": "Адьяшанти «Путь освобождения». Это не книга о духовном росте, самосовершенствовании, или измененных состояниях сознания. Она о духовном пробуждении, ведущем от сна эго к пробужденному состоянию за пределами эго так быстро и эффективно, как это возможно. Путешествие это не то, что можно заранее вообразить и просветление это не то, что зачастую продаётся под видом его. Я не хочу рассказывать вам, как достичь блаженства или бесконечного счастья, найти<br /> родственную душу, или расписать десять легких шагов, чтобы быстро сделать миллион долларов. Я не верю в лживую рекламу или заманивание духовных ищущих ложными обещаниями. Многие духовные искатели уже живут на постоянной диете бесполезной пищи, этих хорошо звучащих банальностей, которые имеют очень малый или никакого трансформирующего эффекта, кроме как притупление неудовлетворённости, которая обязательно присуща состоянию сна. Если вы предпочитаете вещи такого рода, эта книга не для вас.",
+                        "year_id": 0,
+                        "series_id": null,
+                        "link_id": 3,
+                        "genre_id": 27,
+                        "views_count": 2,
+                        "listeners_count": 0,
+                        "rates_count": 0,
+                        "reviews_count": 0,
+                        "rates_avg": 0,
+                        "total_duration": "12",
+                        "type": "audioBooks",
+                        "authors": [
+                          {
+                            "id": 29334,
+                            "author": "Адьяшанти",
+                            "avatar": null,
+                            "about": null
+                          }
+                        ],
+                        "image": {
+                          "id": 3,
+                          "link": "https://s4.knigavuhe.org/2/covers/7203/2-2.jpg?2",
+                          "book_id": 3,
+                          "doParse": 0,
+                          "created_at": "2021-12-26T23:00:11.000000Z",
+                          "updated_at": "2021-12-27T00:08:42.000000Z"
+                        },
+                        "genre": {
+                          "id": 27,
+                          "name": "Эзотерика",
+                          "created_at": "2022-03-23T20:34:37.000000Z",
+                          "updated_at": "2022-03-23T20:34:37.000000Z",
+                          "is_hidden": 0,
+                          "meta_title": null,
+                          "meta_description": null,
+                          "meta_keyword": null,
+                          "description": null,
+                          "alias": null
+                        },
+                        "actors": [
+                          {
+                            "id": 3,
+                            "name": "Nikosho",
+                            "created_at": "2021-12-26T23:00:11.000000Z",
+                            "updated_at": "2021-12-26T23:00:11.000000Z",
+                            "laravel_through_key": 3
+                          }
+                        ],
+                        "series": null,
+                        "year": null,
+                        "link": {
+                          "id": 3,
+                          "link": "https://knigavuhe.org/book/konec-tvoego-mira/",
+                          "doParse": 0,
+                          "created_at": "2021-12-26T22:23:20.000000Z",
+                          "updated_at": "2022-03-29T07:09:04.000000Z"
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
