@@ -362,7 +362,8 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     {
         return $this
             ->where('id', $this->id)
-            ->with('chapters:id,book_id,title,index,extension,file_size')
+            ->with('chapters:id,book_id,title,link,extension,file_size,duration,public_path,index')
+            ->withAggregate('chapters as total_duration', 'Coalesce( sum( audio_audiobooks.duration), 0)')
             ->firstOrFail(['id', 'title']);
     }
 }
