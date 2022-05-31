@@ -10465,67 +10465,111 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "",
                   "type": "object",
                   "properties": {
                     "status": {
-                      "type": "string",
-                      "minLength": 1
+                      "type": "string"
                     },
                     "data": {
-                      "type": "array",
-                      "uniqueItems": true,
-                      "minItems": 1,
-                      "items": {
-                        "required": [
-                          "id",
-                          "title",
-                          "type"
-                        ],
-                        "properties": {
-                          "id": {
-                            "type": "number"
-                          },
-                          "title": {
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "type": {
-                            "type": "string",
-                            "minLength": 1
-                          },
-                          "chapters": {
-                            "type": "array",
-                            "uniqueItems": true,
-                            "minItems": 1,
-                            "items": {
-                              "required": [
-                                "id",
-                                "book_id",
-                                "title",
-                                "index",
-                                "link"
-                              ],
-                              "properties": {
-                                "id": {
-                                  "type": "number"
-                                },
-                                "book_id": {
-                                  "type": "number"
-                                },
-                                "title": {
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "index": {
-                                  "type": "number"
-                                },
-                                "link": {
-                                  "type": "string",
-                                  "minLength": 1
-                                },
-                                "extension": {},
-                                "file_size": {}
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "active": {
+                          "type": "integer"
+                        },
+                        "title": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        },
+                        "params": {
+                          "type": "string"
+                        },
+                        "series_id": {
+                          "type": "null"
+                        },
+                        "link_id": {
+                          "type": "integer"
+                        },
+                        "year_id": {
+                          "type": "integer"
+                        },
+                        "litres": {
+                          "type": "integer"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        },
+                        "image_name": {
+                          "type": "string"
+                        },
+                        "meta_description": {
+                          "type": "null"
+                        },
+                        "meta_keywords": {
+                          "type": "null"
+                        },
+                        "alias_url": {
+                          "type": "null"
+                        },
+                        "genre_id": {
+                          "type": "integer"
+                        },
+                        "slug": {
+                          "type": "string"
+                        },
+                        "listeners_count": {
+                          "type": "integer"
+                        },
+                        "rate_avg": {
+                          "type": "integer"
+                        },
+                        "reviews_count": {
+                          "type": "integer"
+                        },
+                        "total_duration": {
+                          "type": "string"
+                        },
+                        "type": {
+                          "type": "string"
+                        },
+                        "chapters": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "book_id": {
+                                "type": "integer"
+                              },
+                              "title": {
+                                "type": "string"
+                              },
+                              "link": {
+                                "type": "string"
+                              },
+                              "extension": {
+                                "type": "string"
+                              },
+                              "file_size": {
+                                "type": "null"
+                              },
+                              "duration": {
+                                "type": "integer"
+                              },
+                              "public_path": {
+                                "type": "string"
+                              },
+                              "index": {
+                                "type": "integer"
                               }
                             }
                           }
@@ -10533,31 +10577,332 @@
                       }
                     }
                   },
-                  "required": [
-                    "status",
-                    "data"
-                  ],
                   "x-examples": {
                     "example-1": {
                       "status": "success",
-                      "data": [
-                        {
-                          "id": 3,
-                          "title": "avsavfdvf",
-                          "type": "audioBooks",
-                          "chapters": [
-                            {
-                              "id": 1,
-                              "book_id": 3,
-                              "title": "311111",
-                              "index": 1,
-                              "link": "wfweargvwerb",
-                              "extension": null,
-                              "file_size": null
-                            }
-                          ]
-                        }
-                      ]
+                      "data": {
+                        "id": 3,
+                        "active": 1,
+                        "title": "Конец твоего мира",
+                        "description": "Адьяшанти «Путь освобождения». Это не книга о духовном росте, самосовершенствовании, или измененных состояниях сознания. Она о духовном пробуждении, ведущем от сна эго к пробужденному состоянию за пределами эго так быстро и эффективно, как это возможно. Путешествие это не то, что можно заранее вообразить и просветление это не то, что зачастую продаётся под видом его. Я не хочу рассказывать вам, как достичь блаженства или бесконечного счастья, найти<br /> родственную душу, или расписать десять легких шагов, чтобы быстро сделать миллион долларов. Я не верю в лживую рекламу или заманивание духовных ищущих ложными обещаниями. Многие духовные искатели уже живут на постоянной диете бесполезной пищи, этих хорошо звучащих банальностей, которые имеют очень малый или никакого трансформирующего эффекта, кроме как притупление неудовлетворённости, которая обязательно присуща состоянию сна. Если вы предпочитаете вещи такого рода, эта книга не для вас.",
+                        "params": "[]",
+                        "series_id": null,
+                        "link_id": 3,
+                        "year_id": 0,
+                        "litres": 0,
+                        "created_at": "2021-12-26T23:00:11.000000Z",
+                        "updated_at": "2022-05-01T03:54:56.000000Z",
+                        "image_name": "cover.jpg",
+                        "meta_description": null,
+                        "meta_keywords": null,
+                        "alias_url": null,
+                        "genre_id": 27,
+                        "slug": "konec-tvoego-mira",
+                        "listeners_count": 0,
+                        "rate_avg": 0,
+                        "reviews_count": 0,
+                        "total_duration": "12",
+                        "type": "audioBooks",
+                        "chapters": [
+                          {
+                            "id": 19,
+                            "book_id": 3,
+                            "title": "01. Исследование жизни после пробуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/01-issledovanie-zhizni-posle-probuzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/01-issledovanie-zizni-posle-probuzdeniya.mp3",
+                            "index": 0
+                          },
+                          {
+                            "id": 23,
+                            "book_id": 3,
+                            "title": "02. Подлинное пробуждение",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/02-podlinnoe-probuzhdenie.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/02-podlinnoe-probuzdenie.mp3",
+                            "index": 1
+                          },
+                          {
+                            "id": 26,
+                            "book_id": 3,
+                            "title": "03. Обрести и потерять",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/03-obresti-i-poterjat.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/03-obresti-i-poteryat.mp3",
+                            "index": 2
+                          },
+                          {
+                            "id": 29,
+                            "book_id": 3,
+                            "title": "04. Путь в нирвану идет через самсару",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/04-put-v-nirvanu-idet-cherez-samsaru.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/04-put-v-nirvanu-idet-cerez-samsaru.mp3",
+                            "index": 3
+                          },
+                          {
+                            "id": 32,
+                            "book_id": 3,
+                            "title": "05. Полная открытость",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/05-polnaja-otkrytost.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/05-polnaya-otkrytost.mp3",
+                            "index": 4
+                          },
+                          {
+                            "id": 35,
+                            "book_id": 3,
+                            "title": "06. Распространенные заблуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/06-rasprostranennye-zabluzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/06-rasprostranennye-zabluzdeniya.mp3",
+                            "index": 5
+                          },
+                          {
+                            "id": 39,
+                            "book_id": 3,
+                            "title": "07. Зеркало жизни отражает процесc пробуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/07-zerkalo-zhizni-otrazhaet-procesc-probuzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/07-zerkalo-zizni-otrazaet-procesc-probuzdeniya.mp3",
+                            "index": 6
+                          },
+                          {
+                            "id": 42,
+                            "book_id": 3,
+                            "title": "08. Энергетическая составляющая пробуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/08-ehnergeticheskaja-sostavljajushhaja-probuzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/08-energeticeskaya-sostavlyayushhaya-probuzdeniya.mp3",
+                            "index": 7
+                          },
+                          {
+                            "id": 45,
+                            "book_id": 3,
+                            "title": "10. Усилия или милость",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/10-usilija-ili-milost.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/10-usiliya-ili-milost.mp3",
+                            "index": 8
+                          },
+                          {
+                            "id": 50,
+                            "book_id": 3,
+                            "title": "11. Естественное состояние",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/11-estestvennoe-sostojanie.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/11-estestvennoe-sostoyanie.mp3",
+                            "index": 9
+                          },
+                          {
+                            "id": 53,
+                            "book_id": 3,
+                            "title": "12. История одной свадьбы",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/12-istorija-odnojj-svadby.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/12-istoriya-odnoi-svadby.mp3",
+                            "index": 10
+                          },
+                          {
+                            "id": 56,
+                            "book_id": 3,
+                            "title": "13. Интервью с Адьяшанти",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/13-intervju-s-adjashanti.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/13-intervyu-s-adyasanti.mp3",
+                            "index": 11
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": {
+                        "id": 3,
+                        "active": 1,
+                        "title": "Конец твоего мира",
+                        "description": "Адьяшанти «Путь освобождения». Это не книга о духовном росте, самосовершенствовании, или измененных состояниях сознания. Она о духовном пробуждении, ведущем от сна эго к пробужденному состоянию за пределами эго так быстро и эффективно, как это возможно. Путешествие это не то, что можно заранее вообразить и просветление это не то, что зачастую продаётся под видом его. Я не хочу рассказывать вам, как достичь блаженства или бесконечного счастья, найти<br /> родственную душу, или расписать десять легких шагов, чтобы быстро сделать миллион долларов. Я не верю в лживую рекламу или заманивание духовных ищущих ложными обещаниями. Многие духовные искатели уже живут на постоянной диете бесполезной пищи, этих хорошо звучащих банальностей, которые имеют очень малый или никакого трансформирующего эффекта, кроме как притупление неудовлетворённости, которая обязательно присуща состоянию сна. Если вы предпочитаете вещи такого рода, эта книга не для вас.",
+                        "params": "[]",
+                        "series_id": null,
+                        "link_id": 3,
+                        "year_id": 0,
+                        "litres": 0,
+                        "created_at": "2021-12-26T23:00:11.000000Z",
+                        "updated_at": "2022-05-01T03:54:56.000000Z",
+                        "image_name": "cover.jpg",
+                        "meta_description": null,
+                        "meta_keywords": null,
+                        "alias_url": null,
+                        "genre_id": 27,
+                        "slug": "konec-tvoego-mira",
+                        "listeners_count": 0,
+                        "rate_avg": 0,
+                        "reviews_count": 0,
+                        "total_duration": "12",
+                        "type": "audioBooks",
+                        "chapters": [
+                          {
+                            "id": 19,
+                            "book_id": 3,
+                            "title": "01. Исследование жизни после пробуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/01-issledovanie-zhizni-posle-probuzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/01-issledovanie-zizni-posle-probuzdeniya.mp3",
+                            "index": 0
+                          },
+                          {
+                            "id": 23,
+                            "book_id": 3,
+                            "title": "02. Подлинное пробуждение",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/02-podlinnoe-probuzhdenie.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/02-podlinnoe-probuzdenie.mp3",
+                            "index": 1
+                          },
+                          {
+                            "id": 26,
+                            "book_id": 3,
+                            "title": "03. Обрести и потерять",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/03-obresti-i-poterjat.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/03-obresti-i-poteryat.mp3",
+                            "index": 2
+                          },
+                          {
+                            "id": 29,
+                            "book_id": 3,
+                            "title": "04. Путь в нирвану идет через самсару",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/04-put-v-nirvanu-idet-cherez-samsaru.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/04-put-v-nirvanu-idet-cerez-samsaru.mp3",
+                            "index": 3
+                          },
+                          {
+                            "id": 32,
+                            "book_id": 3,
+                            "title": "05. Полная открытость",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/05-polnaja-otkrytost.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/05-polnaya-otkrytost.mp3",
+                            "index": 4
+                          },
+                          {
+                            "id": 35,
+                            "book_id": 3,
+                            "title": "06. Распространенные заблуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/06-rasprostranennye-zabluzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/06-rasprostranennye-zabluzdeniya.mp3",
+                            "index": 5
+                          },
+                          {
+                            "id": 39,
+                            "book_id": 3,
+                            "title": "07. Зеркало жизни отражает процесc пробуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/07-zerkalo-zhizni-otrazhaet-procesc-probuzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/07-zerkalo-zizni-otrazaet-procesc-probuzdeniya.mp3",
+                            "index": 6
+                          },
+                          {
+                            "id": 42,
+                            "book_id": 3,
+                            "title": "08. Энергетическая составляющая пробуждения",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/08-ehnergeticheskaja-sostavljajushhaja-probuzhdenija.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/08-energeticeskaya-sostavlyayushhaya-probuzdeniya.mp3",
+                            "index": 7
+                          },
+                          {
+                            "id": 45,
+                            "book_id": 3,
+                            "title": "10. Усилия или милость",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/10-usilija-ili-milost.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/10-usiliya-ili-milost.mp3",
+                            "index": 8
+                          },
+                          {
+                            "id": 50,
+                            "book_id": 3,
+                            "title": "11. Естественное состояние",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/11-estestvennoe-sostojanie.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/11-estestvennoe-sostoyanie.mp3",
+                            "index": 9
+                          },
+                          {
+                            "id": 53,
+                            "book_id": 3,
+                            "title": "12. История одной свадьбы",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/12-istorija-odnojj-svadby.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/12-istoriya-odnoi-svadby.mp3",
+                            "index": 10
+                          },
+                          {
+                            "id": 56,
+                            "book_id": 3,
+                            "title": "13. Интервью с Адьяшанти",
+                            "link": "https://s1.knigavuhe.org/2/audio/7203/13-intervju-s-adjashanti.mp3?1",
+                            "extension": "mp3",
+                            "file_size": null,
+                            "duration": 1,
+                            "public_path": "https://audio.loveread.webnauts.pro/audio_books/konec-tvoego-mira/13-intervyu-s-adyasanti.mp3",
+                            "index": 11
+                          }
+                        ]
+                      }
                     }
                   }
                 }
