@@ -72,20 +72,10 @@ class BookReview extends Model implements ReviewInterface
     {
         return $this
             ->with([
-                'user' => function ($query) {
-                    $query->select('id', 'nickname', 'avatar');
-                },
-                'book' => function ($query) {
-                    $query->select('id', 'title')
-                        ->with([
-                            'image' => function ($query) {
-                                $query->select('book_id', 'link');
-                            },
-                            'authors' => function ($query) {
-                                $query->select('authors.id', 'author');
-                            },
-                        ]);
-                },
+                'user:id,nickname,avatar',
+                'book:id,title',
+                'book.image:book_id,link',
+                'book.authors:id,author'
             ])
             ->withCount(['views', 'likes', 'comments'])
             ->orderBy('created_at')

@@ -158,10 +158,10 @@ class Author extends Model implements SearchModelInterface
             ->withCount('authorQuotes')->find($author_id);
     }
 
-    public function reviewAuthorCount(int $authorId): ?Author
+    public function reviewAuthorCount(): ?Author
     {
         return $this->select('id', 'author')
-            ->withCount('authorReviews')->find($authorId);
+            ->withCount('authorReviews')->find($this->id);
     }
 
     public function showOtherBooks($authorId): ?Author
