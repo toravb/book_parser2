@@ -247,25 +247,27 @@ class BookController extends Controller
         if ($request->type === QueryFilter::TYPE_ALL) {
 
             $newBooks = $books
-                ->select('books.id', 'books.created_at')
+                ->select('books.id', 'books.created_at', 'books.rate_avg')
                 ->selectRaw("coalesce('books', '0') as 'type'")
-                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
-                    $query->withAvg('rates as rates_avg', 'rates.rating');
-                });
+//                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
+//                    $query->withAvg('rates as rates_avg', 'rates.rating');
+//                })
+            ;
 
             $newAudioBooks = $audioBooks
-                ->select('audio_books.id', 'audio_books.created_at')
+                ->select('audio_books.id', 'audio_books.created_at', 'audio_books.rate_avg')
                 ->selectRaw("coalesce('audioBooks', '0') as 'type'")
-                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
-                    $query->withAvg('rates as rates_avg', 'rates.rating');
-                });
+//                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
+//                    $query->withAvg('rates as rates_avg', 'rates.rating');
+//                })
+            ;
 
             $novelties = $newBooks->unionAll($newAudioBooks)
                 ->when($request->sortBy === QueryFilter::SORT_BY_DATE, function (Builder $query) {
                     $query->latest();
                 })
                 ->when($request->sortBy === QueryFilter::BESTSELLERS, function (Builder $query) {
-                    $query->orderBy('rates_avg', 'desc');
+                    $query->orderBy('rate_avg', 'desc');
                 })
                 ->paginate(self::NOVELTIES_PAGINATE);
 
