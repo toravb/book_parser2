@@ -254,7 +254,15 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'link',
         ])
             ->where('id', $bookId)
-            ->select('id', 'title', 'description', 'year_id', 'series_id', 'link_id', 'genre_id')
+            ->select('id',
+                'title',
+                'description',
+                'year_id',
+                'series_id',
+                'link_id',
+                'genre_id',
+                'params->translator as translator',
+            )
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->withAggregate('chapters as total_duration', 'Coalesce( sum( audio_audiobooks.duration), 0)')

@@ -376,9 +376,15 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'image:book_id,link',
             'bookGenres:name',
             'year',
-            'publishers:publisher'])
+            'publishers:publisher','series'])
             ->where('id', $bookId)
-            ->select('id', 'title', 'text', 'year_id')
+            ->select('id',
+                'title',
+                'text',
+                'year_id',
+                'series_id',
+                'params->translator as translator',
+            )
             ->withCount(['rates', 'bookLikes', 'comments', 'reviews', 'quotes', 'views'])
             ->withAvg('rates as rates_avg', 'rates.rating')
             ->firstOrFail();
