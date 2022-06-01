@@ -327,7 +327,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this->with([
             'authors:id,author',
-            'image:id,link',
+            'image:id,link,book_id',
             'bookGenres:id,name',
             'userList',
         ])
@@ -494,17 +494,21 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $book->id;
     }
 
-    public function latestBookQuoteWithUser(int $bookId): LengthAwarePaginator
+    public function booksWithQuotesForAuthorPage(int $authorId): LengthAwarePaginator
     {
         return $this->select(['books.id', 'title'])
-            ->withCount(['views', 'rates'])
             ->whereHas('quotes')
+            ->whereHas('authors', function ($query) use ($authorId) {
+                return $query->where('authors.id', $authorId);
+            })
             ->with([
                 'authors:id,author',
                 'image:book_id,link',
                 'latestQuote:id,user_id,book_id,text,created_at',
                 'latestQuote.user:id,name,avatar',
             ])
+            ->withAggregate('rates as rates_avg', 'coalesce( avg( rates.rating), 0)')
+            ->withCount('views')
             ->paginate(8);
     }
 

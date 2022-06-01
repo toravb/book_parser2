@@ -39,7 +39,11 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         'params',
         'series_id',
         'link_id',
-        'litres'
+        'litres',
+
+        'listeners_count',
+        'rate_avg',
+        'reviews_count',
     ];
     protected $hidden = ['pivot'];
     protected $appends = [
@@ -197,6 +201,18 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->hasMany(AudioBookUser::class, 'audio_book_id', 'id');
     }
 
+    public function setListeners(AudioBook $audioBook){
+        $allAudioBooks = $audioBook
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
+            ->get();
+        foreach ($allAudioBooks as $oneAudioBook){
+            $oneAudioBook->listeners_count = $oneAudioBook->audioBookStatuses()->count();
+            $oneAudioBook->rate_avg = $oneAudioBook->rates_avg;
+            $oneAudioBook->reviews_count = $oneAudioBook->reviews()->count();
+            $oneAudioBook->save();
+        }
+    }
+
     public function reviews(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(AudioBookReview::class);
@@ -237,13 +253,11 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'year',
             'link',
         ])
-            //TODO: после выяснения подробностей нужно добавить:
-            // Продолжительность файла
-            // После, дописать доку
             ->where('id', $bookId)
             ->select('id', 'title', 'description', 'year_id', 'series_id', 'link_id', 'genre_id')
             ->withCount(['views', 'audioBookStatuses as listeners_count', 'rates', 'reviews'])
             ->withAvg('rates as rates_avg', 'rates.rating')
+            ->withAggregate('chapters as total_duration', 'Coalesce( sum( audio_audiobooks.duration), 0)')
             ->firstOrFail();
     }
 
@@ -346,7 +360,8 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     {
         return $this
             ->where('id', $this->id)
-            ->with('chapters:id,book_id,title,index,extension,file_size')
+            ->with('chapters:id,book_id,title,link,extension,file_size,duration,public_path,index')
+            ->withAggregate('chapters as total_duration', 'Coalesce( sum( audio_audiobooks.duration), 0)')
             ->firstOrFail(['id', 'title']);
     }
 }

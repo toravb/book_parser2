@@ -33,11 +33,12 @@ class CategoryController extends Controller
 
     public function withBooksCount(Genre $genre): JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($genre->booksCount());
+        return ApiAnswerService::successfulAnswerWithData($genre->relatedWithBook());
     }
 
     public function withAudioBooksCount(Genre $genre): JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($genre->audioBooksCount());
+        return ApiAnswerService::successfulAnswerWithData($genre->relatedWithAudioBook());
     }
+
 }
