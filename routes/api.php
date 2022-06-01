@@ -231,6 +231,7 @@ Route::group(['prefix' => 'books'], function () {
 
     Route::get('/{id}', [BookController::class, 'showSingle']);
     Route::get('/{book}/chapters', [ChaptersController::class, 'showBookChapters']);
+    Route::get('/{book}/similar', [BookController::class, 'getSimilarBooks']);
     Route::get('/{id}/read', [BookController::class, 'readBook']);
 
     //Get quotes
