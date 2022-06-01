@@ -246,9 +246,9 @@ class Author extends Model implements SearchModelInterface
                         ->select('books.id', 'books.title', 'books.active', 'books.series_id')
                         ->where('books.active', true)
                         ->with([
-                            'genres:name',
                             'authors:author',
-                            'image:book_id,link'
+                            'image:book_id,link',
+                            'genres:name'
                         ])
                         ->withCount('views')
                         ->withAggregate('rates as rate_avg', 'Coalesce(Avg(rates.rating), 0)')
