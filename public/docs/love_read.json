@@ -6928,7 +6928,7 @@
         }
       ],
       "get": {
-        "summary": "Show book chapters",
+        "summary": "Show similar books",
         "tags": [
           "Book"
         ],
@@ -7255,7 +7255,7 @@
             }
           }
         },
-        "operationId": "get-books-id-chapters"
+        "operationId": "get-similar-books-id"
       }
     },
     "/books/{book}/bookmarks": {
