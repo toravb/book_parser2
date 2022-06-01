@@ -305,6 +305,7 @@ Route::group(['prefix' => 'audio-books'], function () {
     Route::get('/genres', [CategoryController::class, 'showAudioBookGenres']);
     Route::get('/{id}', [AudioBookController::class, 'showAudioBookDetails']);
     Route::get('/{audiobook}/chapters', [AudioBookController::class, 'chapters']);
+    Route::get('/{audiobook}/similar', [AudioBookController::class, 'similar']);
 
     Route::middleware('auth:api')->group(function () {
         Route::post('/store-rating', [RateController::class, 'storeRateAudioBook']);
