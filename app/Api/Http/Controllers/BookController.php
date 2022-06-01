@@ -305,6 +305,7 @@ class BookController extends Controller
 
     public function getSimilarBooks(Book $book): JsonResponse
     {
-        return ApiAnswerService::successfulAnswerWithData($book->getSimilarBooks());
+        $genreId = $book->genres()->firstOrFail(['id'])->id;
+        return ApiAnswerService::successfulAnswerWithData($book->getSimilarBooks($genreId));
     }
 }

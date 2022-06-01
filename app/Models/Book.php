@@ -537,11 +537,13 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->paginate(8);
     }
 
-    public function getSimilarBooks()
+    public function getSimilarBooks($genreId)
     {
         return Book::getBook()
             ->limit(4)
-            ->where('genre_id', $this->genre_id)
+            ->whereHas('bookGenres', function ($q) use($genreId){
+                $q->where('id', $genreId);
+            })
             ->get();
 
     }
