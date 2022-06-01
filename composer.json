@@ -6,7 +6,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.0",
+        "ext-dom": "*",
         "almasaeed2010/adminlte": "~3.0",
+        "awobaz/compoships": "^2.1",
         "cviebrock/eloquent-sluggable": "^8.0",
         "doctrine/dbal": "^3.2",
         "elasticsearch/elasticsearch": "^7.17",
@@ -24,8 +26,7 @@
         "socialiteproviders/vkontakte": "^4.2",
         "socialiteproviders/yandex": "^4.1",
         "socialiteproviders/zoho": "^4.1",
-        "staudenmeir/eloquent-has-many-deep": "^1.7",
-      "ext-dom": "*"
+        "staudenmeir/eloquent-has-many-deep": "^1.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

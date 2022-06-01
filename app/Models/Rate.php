@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Rate extends Model
 {
     use HasFactory;
+    use \Awobaz\Compoships\Compoships;
+
 
     protected $fillable = [
         'user_id',
@@ -66,4 +68,5 @@ class Rate extends Model
             ->withCount('rates')
             ->get();
     }
+
 }

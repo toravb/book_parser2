@@ -7,6 +7,7 @@ use App\Api\Interfaces\ReviewInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class BookReview extends Model implements ReviewInterface
@@ -14,6 +15,7 @@ class BookReview extends Model implements ReviewInterface
     const PER_PAGE = 3;
 
     use HasFactory;
+    use \Awobaz\Compoships\Compoships;
 
     protected $fillable = [
         'user_id',
@@ -66,6 +68,11 @@ class BookReview extends Model implements ReviewInterface
     public function comments(): hasMany
     {
         return $this->hasMany(BookReviewComment::class);
+    }
+
+    public function UserBookRate(): HasOne
+    {
+        return $this->hasOne(Rate::class, ['user_id', 'book_id'], ['user_id', 'book_id']);
     }
 
     public function latestReviewBookUser()
