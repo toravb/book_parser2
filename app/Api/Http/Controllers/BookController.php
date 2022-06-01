@@ -303,7 +303,7 @@ class BookController extends Controller
 
     }
 
-    public function similar(Book $book): JsonResponse
+    public function getSimilarBooks(Book $book): JsonResponse
     {
         return ApiAnswerService::successfulAnswerWithData($book->getSimilarBooks());
     }
