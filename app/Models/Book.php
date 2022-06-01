@@ -518,33 +518,21 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->paginate(8);
     }
 
-    // TODO: Пока не выходит баг исправить. Если пользователь не оценил книгу, последняя рецензия не выводиться - проблема в join
-    public function latestBookReviewWithUser(int $bookId): LengthAwarePaginator
+    public function latestBookReviewWithUser(int $authorId): LengthAwarePaginator
     {
         return $this->select(['books.id', 'title'])
+            ->whereHas('authors', function ($query) use ($authorId) {
+                $query->where('authors.id', $authorId);
+            })
             ->whereHas('reviews')
-            ->withCount(['views', 'rates'])
+            ->withCount('views')
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating),0)')
             ->with([
                 'authors:id,author',
                 'image:book_id,link',
-                'latestReview' => function ($query) {
-                    $query
-                        ->select(
-                            'book_reviews.id',
-                            'book_reviews.user_id',
-                            'book_reviews.book_id',
-                            'content',
-                            'book_reviews.created_at',
-                            'rates.user_id',
-                            'rates.book_id',
-                            'rates.rating as user_book_rate',
-                        )
-                        ->with('user:id,name,avatar')
-                        ->leftJoin('rates', function ($join) {
-                            $join->on('rates.book_id', '=', 'book_reviews.book_id');
-                            $join->on('rates.user_id', '=', 'book_reviews.user_id');
-                        });
-                }
+                'latestReview:id,user_id,book_id,content,created_at',
+                'latestReview.user:id,name,avatar',
+                'latestReview.userBookRate:user_id,book_id,rating'
             ])
             ->paginate(8);
     }

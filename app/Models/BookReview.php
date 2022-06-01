@@ -7,6 +7,7 @@ use App\Api\Interfaces\ReviewInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class BookReview extends Model implements ReviewInterface
@@ -14,6 +15,7 @@ class BookReview extends Model implements ReviewInterface
     const PER_PAGE = 3;
 
     use HasFactory;
+    use \Awobaz\Compoships\Compoships;
 
     protected $fillable = [
         'user_id',
@@ -68,24 +70,19 @@ class BookReview extends Model implements ReviewInterface
         return $this->hasMany(BookReviewComment::class);
     }
 
+    public function UserBookRate(): HasOne
+    {
+        return $this->hasOne(Rate::class, ['user_id', 'book_id'], ['user_id', 'book_id']);
+    }
+
     public function latestReviewBookUser()
     {
         return $this
             ->with([
-                'user' => function ($query) {
-                    $query->select('id', 'nickname', 'avatar');
-                },
-                'book' => function ($query) {
-                    $query->select('id', 'title')
-                        ->with([
-                            'image' => function ($query) {
-                                $query->select('book_id', 'link');
-                            },
-                            'authors' => function ($query) {
-                                $query->select('authors.id', 'author');
-                            },
-                        ]);
-                },
+                'user:id,nickname,avatar',
+                'book:id,title',
+                'book.image:book_id,link',
+                'book.authors:id,author'
             ])
             ->withCount(['views', 'likes', 'comments'])
             ->orderBy('created_at')
