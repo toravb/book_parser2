@@ -152,10 +152,10 @@ class Author extends Model implements SearchModelInterface
         return $this->belongsToMany(User::class, 'user_author');
     }
 
-    public function withQuotesCount(int $author_id): ?Author
+    public function withQuotesCount()
     {
         return $this->select(['id', 'author'])
-            ->withCount('authorQuotes')->find($author_id);
+            ->withCount('authorQuotes')->find($this->id);
     }
 
     public function reviewAuthorCount(int $authorId): ?Author
@@ -203,7 +203,7 @@ class Author extends Model implements SearchModelInterface
             ->where('author', 'like', $letter . '%')
             ->select('id', 'author')
             ->orderBy('author')
-            ->get();
+            ->paginate(300);
     }
 
     public function toSearchArray(): array
