@@ -37,6 +37,11 @@ class AudioBookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($audiobook->audioBookChapters());
     }
 
+    public function similar(AudioBook $audiobook): JsonResponse
+    {
+        return ApiAnswerService::successfulAnswerWithData($audiobook->getSimilarAudioBooks());
+    }
+
     public function changeCreateStatus(CreateChangeAudioBookStatusRequest $request, AudioBookUser $audioBookUser): JsonResponse
     {
         $audioBookUser->createChangeStatus(\auth()->id(), $request->audio_book_id, $request->status);

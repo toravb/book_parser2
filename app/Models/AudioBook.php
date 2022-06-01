@@ -372,4 +372,13 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ->withAggregate('chapters as total_duration', 'Coalesce( sum( audio_audiobooks.duration), 0)')
             ->firstOrFail(['id', 'title']);
     }
+
+    public function getSimilarAudioBooks()
+    {
+        return AudioBook::getBook()
+            ->limit(4)
+            ->where('genre_id', $this->genre_id)
+            ->get();
+
+    }
 }
