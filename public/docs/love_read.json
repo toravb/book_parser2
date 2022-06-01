@@ -6916,6 +6916,348 @@
         "operationId": "get-books-id-chapters"
       }
     },
+    "/books/{book}/similar": {
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "book",
+          "in": "path",
+          "required": true
+        }
+      ],
+      "get": {
+        "summary": "Show book chapters",
+        "tags": [
+          "Book"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "title": {
+                            "type": "string"
+                          },
+                          "year_id": {
+                            "type": "integer"
+                          },
+                          "rates_count": {
+                            "type": "integer"
+                          },
+                          "views_count": {
+                            "type": "integer"
+                          },
+                          "rates_avg": {
+                            "type": "integer"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "authors": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "author": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "image": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "link": {
+                                "type": "string"
+                              },
+                              "book_id": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "book_genres": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": {
+                                  "type": "integer"
+                                },
+                                "name": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          },
+                          "user_list": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 55,
+                          "title": "А тому ли я дала? Когда хотелось счастья, а получилось как всегда",
+                          "year_id": 4,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 52,
+                              "author": "Ника Набокова"
+                            }
+                          ],
+                          "image": {
+                            "id": 55,
+                            "link": "http://loveread.ec/img/photo_books/86337.jpg",
+                            "book_id": 55
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        },
+                        {
+                          "id": 74,
+                          "title": "А я тебя «нет». Как не бояться отказов и идти напролом к своей цели",
+                          "year_id": 17,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 69,
+                              "author": "Джиа Джианг"
+                            }
+                          ],
+                          "image": {
+                            "id": 74,
+                            "link": "http://loveread.ec/img/photo_books/71591.jpg",
+                            "book_id": 74
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        },
+                        {
+                          "id": 130,
+                          "title": "Абсолютно женское чтиво. Стилизм",
+                          "year_id": 7,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 121,
+                              "author": "Юлия Осина"
+                            }
+                          ],
+                          "image": {
+                            "id": 130,
+                            "link": "http://loveread.ec/img/photo_books/87325.jpg",
+                            "book_id": 130
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        },
+                        {
+                          "id": 153,
+                          "title": "Авантюра времени",
+                          "year_id": 9,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 142,
+                              "author": "Клод Романо"
+                            }
+                          ],
+                          "image": {
+                            "id": 153,
+                            "link": "http://loveread.ec/img/photo_books/69542.jpg",
+                            "book_id": 153
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        }
+                      ]
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 55,
+                          "title": "А тому ли я дала? Когда хотелось счастья, а получилось как всегда",
+                          "year_id": 4,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 52,
+                              "author": "Ника Набокова"
+                            }
+                          ],
+                          "image": {
+                            "id": 55,
+                            "link": "http://loveread.ec/img/photo_books/86337.jpg",
+                            "book_id": 55
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        },
+                        {
+                          "id": 74,
+                          "title": "А я тебя «нет». Как не бояться отказов и идти напролом к своей цели",
+                          "year_id": 17,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 69,
+                              "author": "Джиа Джианг"
+                            }
+                          ],
+                          "image": {
+                            "id": 74,
+                            "link": "http://loveread.ec/img/photo_books/71591.jpg",
+                            "book_id": 74
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        },
+                        {
+                          "id": 130,
+                          "title": "Абсолютно женское чтиво. Стилизм",
+                          "year_id": 7,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 121,
+                              "author": "Юлия Осина"
+                            }
+                          ],
+                          "image": {
+                            "id": 130,
+                            "link": "http://loveread.ec/img/photo_books/87325.jpg",
+                            "book_id": 130
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        },
+                        {
+                          "id": 153,
+                          "title": "Авантюра времени",
+                          "year_id": 9,
+                          "rates_count": 0,
+                          "views_count": 0,
+                          "rates_avg": 0,
+                          "type": "books",
+                          "authors": [
+                            {
+                              "id": 142,
+                              "author": "Клод Романо"
+                            }
+                          ],
+                          "image": {
+                            "id": 153,
+                            "link": "http://loveread.ec/img/photo_books/69542.jpg",
+                            "book_id": 153
+                          },
+                          "book_genres": [
+                            {
+                              "id": 18,
+                              "name": "Психология"
+                            }
+                          ],
+                          "user_list": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-books-id-chapters"
+      }
+    },
     "/books/{book}/bookmarks": {
       "parameters": [
         {
