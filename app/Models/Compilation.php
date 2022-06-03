@@ -108,6 +108,7 @@ class Compilation extends Model implements SearchModelInterface
                 'audioBooks',
                 'views'
             ])
+            ->whereNull('location')
             ->whereNotNull('type')
             ->orderBy('created_at')
             ->limit(20)
