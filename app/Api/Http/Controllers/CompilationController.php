@@ -69,6 +69,8 @@ class CompilationController extends Controller
             ->withCount(['books', 'audioBooks'])
             ->findOrfail($request->id);
 
+        $compilation->in_favorite = $compilation->compilationUsers()->exists();
+
         $books = $compilationService->showCompilationDetails($request->id);
 
         $compilation->generalBooksCount = $compilation->books_count + $compilation->audio_books_count;

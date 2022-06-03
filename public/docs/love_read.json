@@ -13136,6 +13136,7 @@
                             "type",
                             "books_count",
                             "audio_books_count",
+                            "in_favorite",
                             "generalBooksCount"
                           ],
                           "properties": {
@@ -13162,6 +13163,9 @@
                             },
                             "audio_books_count": {
                               "type": "number"
+                            },
+                            "in_favorite": {
+                              "type": "boolean"
                             },
                             "generalBooksCount": {
                               "type": "number"
@@ -13420,6 +13424,11 @@
         "operationId": "get-compilations-id",
         "tags": [
           "Compilations"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       },
       "parameters": [
