@@ -15,14 +15,14 @@ class CompilationFilter extends QueryFilter
 
             return $this->builder->with([
                 'books' => function ($query) {
-                    return $query->with(['authors:author', 'image:book_id,link'])
+                    return $query->with(['authors:id,author', 'image:book_id,link'])
                         ->select('id', 'title')
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
                 },
                 'audioBooks' => function ($query) {
                     return $query
-                        ->with(['authors:author', 'image:book_id,link'])
+                        ->with(['authors:id,author', 'image:book_id,link'])
                         ->select('id', 'title')
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
@@ -80,12 +80,15 @@ class CompilationFilter extends QueryFilter
     public function compType(string $compType)
     {
         return $this->builder
-            ->select('id', 'title', 'background')
+            ->select('id', 'title', 'background', 'created_by')
             ->when($compType === Compilation::COMPILATION_USER, function ($query) {
                 $query->where('created_by', \auth()->id());
             })->when($compType === Compilation::COMPILATION_ADMIN, function ($query) {
-                $query->orWhereNotNull('type');
-            })->withCount(['books', 'audioBooks']);
+                $query->whereNotNull('type')->whereHas('compilationUsers');
+            })->when($compType === Compilation::COMPILATION_ALL, function ($query) {
+                $query->where('created_by', \auth()->id())->orWhereHas('compilationUsers');
+            })
+            ->withCount(['books', 'audioBooks']);
     }
 
     public function letter(string $letter)
