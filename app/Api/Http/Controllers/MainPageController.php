@@ -29,7 +29,7 @@ class MainPageController extends Controller
         BookFilter                $bookFilter
     ): \Illuminate\Http\JsonResponse
     {
-        $genres = Genre::orderBy('name')->limit(13)->get();
+        $genres = Genre::whereHas('books')->orderBy('name')->limit(13)->get();
 
         $newBooksCompilation = $compilation->newBooksMainPage(self::MAIN_PAGE_NEW_BOOKS_COMPILATION);
 
