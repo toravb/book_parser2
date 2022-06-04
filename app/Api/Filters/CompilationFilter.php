@@ -23,7 +23,7 @@ class CompilationFilter extends QueryFilter
                 'audioBooks' => function ($query) {
                     return $query
                         ->with(['authors:id,author', 'image:book_id,link', 'genre:id,name'])
-                        ->select('id', 'title')
+                        ->select('id', 'title', 'genre_id')
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
                 }
