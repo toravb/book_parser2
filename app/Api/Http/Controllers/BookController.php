@@ -271,7 +271,6 @@ class BookController extends Controller
                 ->when($request->sortBy === QueryFilter::BESTSELLERS, function (Builder $query) {
                     $query->orderBy('rate_avg', 'desc');
                 })
-                ->limit(1000)
                 ->paginate(self::NOVELTIES_PAGINATE);
 
             $allBooks = collect();
