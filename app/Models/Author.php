@@ -174,7 +174,8 @@ class Author extends Model implements SearchModelInterface
                             'image' => function ($q) {
                                 return $q->where('page_id', null)->select('book_id', 'link');
                             },
-                            'authors:id,author'
+                            'authors:id,author',
+                            'genres:id,name'
                         ])
                         ->select('books.id', 'title')
                         ->withCount('views')
