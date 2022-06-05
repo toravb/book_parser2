@@ -252,6 +252,7 @@ class BookController extends Controller
 //                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
 //                    $query->withAvg('rates as rates_avg', 'rates.rating');
 //                })
+            ->limit(500)
             ;
 
             $newAudioBooks = $audioBooks
@@ -260,6 +261,7 @@ class BookController extends Controller
 //                ->when(\request()->sortBy === QueryFilter::BESTSELLERS, function ($query) {
 //                    $query->withAvg('rates as rates_avg', 'rates.rating');
 //                })
+                ->limit(500)
             ;
 
             $novelties = $newBooks->unionAll($newAudioBooks)
@@ -269,6 +271,7 @@ class BookController extends Controller
                 ->when($request->sortBy === QueryFilter::BESTSELLERS, function (Builder $query) {
                     $query->orderBy('rate_avg', 'desc');
                 })
+                ->limit(1000)
                 ->paginate(self::NOVELTIES_PAGINATE);
 
             $allBooks = collect();
