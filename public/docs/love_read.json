@@ -7932,6 +7932,11 @@
             "name": "pageNumber",
             "description": "Page number should be in selected book (id in path params)"
           }
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       },
       "parameters": [
@@ -7945,6 +7950,312 @@
           "description": "book id"
         }
       ]
+    },
+    "/books/{id}/read/saved-progress": {
+      "get": {
+        "summary": "Show saved reading progress",
+        "tags": [
+          "Book"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "book_id": {
+                          "type": "integer"
+                        },
+                        "page_number": {
+                          "type": "integer"
+                        },
+                        "reading_progress": {
+                          "type": "integer"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 8,
+                        "user_id": 1,
+                        "book_id": 2,
+                        "page_number": 2,
+                        "reading_progress": 2,
+                        "created_at": "2022-06-06T12:09:53.000000Z",
+                        "updated_at": "2022-06-06T12:09:53.000000Z"
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "status": "string",
+                      "data": {
+                        "id": 0,
+                        "title": "string",
+                        "pages_count": 0,
+                        "type": "string",
+                        "authors": [
+                          {
+                            "id": 0,
+                            "author": "string"
+                          }
+                        ],
+                        "pages": [
+                          {
+                            "id": 0,
+                            "book_id": 0,
+                            "link": "string",
+                            "content": "string",
+                            "page_number": 0
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "id": [
+                          "Выбранное значение для id некорректно."
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "example-1": {
+                    "value": {
+                      "message": "string",
+                      "errors": {
+                        "pageNumber": [
+                          {}
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "operationId": "get-books-id-read-saved-progress",
+        "description": "",
+        "parameters": [],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "schema": {
+            "type": "string"
+          },
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "book id"
+        }
+      ],
+      "post": {
+        "summary": "Store current reading progress",
+        "operationId": "post-books-id-read-saved-progress",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "user_id": {
+                          "type": "integer"
+                        },
+                        "book_id": {
+                          "type": "integer"
+                        },
+                        "page_number": {
+                          "type": "integer"
+                        },
+                        "reading_progress": {
+                          "type": "integer"
+                        },
+                        "created_at": {
+                          "type": "string"
+                        },
+                        "updated_at": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": {
+                        "id": 6,
+                        "user_id": 1,
+                        "book_id": 1,
+                        "page_number": 45,
+                        "reading_progress": 52,
+                        "created_at": "2022-06-06T12:01:15.000000Z",
+                        "updated_at": "2022-06-06T12:40:42.000000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Unprocessable Entity (WebDAV)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "errors": {
+                      "type": "object",
+                      "properties": {
+                        "page_number": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "page_number": [
+                          "Выбранное значение для page number некорректно."
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "incorrect page number": {
+                    "value": {
+                      "message": "string",
+                      "errors": {
+                        "page_number": [
+                          "string"
+                        ]
+                      }
+                    }
+                  },
+                  "incorrect book id": {
+                    "value": {
+                      "message": "The given data was invalid.",
+                      "errors": {
+                        "id": [
+                          "Выбранное значение для id некорректно."
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "page_number": "45"
+                  }
+                },
+                "properties": {
+                  "page_number": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Book"
+        ]
+      }
     },
     "/books/letter/{letter}": {
       "parameters": [

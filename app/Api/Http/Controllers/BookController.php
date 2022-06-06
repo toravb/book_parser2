@@ -23,6 +23,7 @@ use App\Models\Book;
 use App\Models\BookCompilation;
 use App\Models\BookUser;
 use App\Models\Compilation;
+use App\Models\ReadingStatus;
 use App\Models\View;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +36,8 @@ class BookController extends Controller
     const NOVELTIES_PAGINATE = 32;
     const MY_BOOK_LIST_QUANTITY = 12;
 
-    public function setReaders(){
+    public function setReaders()
+    {
         $book = new(Book::class);
         $book->setReaders($book);
         $audioBook = new(AudioBook::class);
@@ -156,13 +158,17 @@ class BookController extends Controller
         return ApiAnswerService::successfulAnswerWithData($bookUser);
     }
 
-    public function readBook(CurrentReadingRequest $request, Book $book): JsonResponse
+    public function readBook(CurrentReadingRequest $request, Book $book, ReadingStatus $readingStatus): JsonResponse
     {
         $pageNumber = $request->pageNumber ? $request->pageNumber : 1;
 
         $currentReading = $book->currentReading($request, $pageNumber);
 
         $currentReading->reading_progress = round(($pageNumber / $currentReading->pages_count) * 100);
+
+        if (\auth('api')->check()) {
+            $readingStatus->storeCurrentReadingStatus($request->id, $pageNumber, $currentReading->reading_progress);
+        }
 
         return ApiAnswerService::successfulAnswerWithData($currentReading);
     }

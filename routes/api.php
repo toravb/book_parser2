@@ -31,6 +31,7 @@ use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
+use App\Http\Controllers\ReadingStatusesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -232,7 +233,15 @@ Route::group(['prefix' => 'books'], function () {
     Route::get('/{id}', [BookController::class, 'showSingle']);
     Route::get('/{book}/chapters', [ChaptersController::class, 'showBookChapters']);
     Route::get('/{book}/similar', [BookController::class, 'getSimilarBooks']);
-    Route::get('/{id}/read', [BookController::class, 'readBook']);
+
+    Route::group(['prefix' => '/{id}/read'], function () {
+        Route::get('', [BookController::class, 'readBook']);
+
+        //reading progress
+        Route::get('/saved-progress', [ReadingStatusesController::class, 'showSavedReadingProgress']);
+
+        Route::post('/saved-progress', [ReadingStatusesController::class, 'storeReadingProgress']);
+    });
 
     //Get quotes
     Route::get('/{id}/quotes', [QuoteController::class, 'getQuotesForBookPage']);
