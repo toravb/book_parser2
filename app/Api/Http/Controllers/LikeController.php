@@ -90,24 +90,29 @@ class LikeController extends Controller
                 $field => $request->id,
             ]);
 
-        if ($record AND $request->type !== 'quote') {
-            NewNotificationEvent::dispatch(NewNotificationEvent::LIKED_COMMENT, $request->type,  $request->id, $userId);
-
-            $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
-            return response()->json([
-                'status' => 'success',
-                'data' => $likesCount,
-            ]);
-        } elseif ($record AND $request->type === 'quote') {
-            NewNotificationEvent::dispatch(NewNotificationEvent::LIKED_QUOTE, $request->type,  $request->id, $userId);
-
-            $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
-            return response()->json([
-                'status' => 'success',
-                'data' => $likesCount,
-            ]);
+        if ($record) {
+            switch ($request->type) {
+                case ('quote'):
+                    $const = NewNotificationEvent::LIKED_QUOTE;
+                    break;
+                case ('book_review'):
+                case ('audio_book_review'):
+                    $const = NewNotificationEvent::LIKED_REVIEW;
+                    break;
+                default:
+                    $const = NewNotificationEvent::LIKED_COMMENT;
+            }
         }
-        else {
+
+        if ($record) {
+            NewNotificationEvent::dispatch($const, $request->type, $request->id, $userId);
+
+            $likesCount = $this->likeTypes[$request->type]::where($field, $request->id)->count();
+            return response()->json([
+                'status' => 'success',
+                'data' => $likesCount,
+            ]);
+        } else {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Something went wrong, try again later',

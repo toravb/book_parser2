@@ -101,4 +101,19 @@ class BookReview extends Model implements ReviewInterface
             ->withCount(['likes', 'comments'])
             ->paginate(self::PER_PAGE);
     }
+
+    public static function getNotificationReview(int $reviewId)
+    {
+        return self::with([
+            'book' => function ($query) {
+                return $query->select('id', 'title');
+            }
+        ])
+            ->findOrFail($reviewId);
+    }
+
+    public function getBookObject()
+    {
+        return $this->books;
+    }
 }

@@ -14,8 +14,15 @@ class NewNotificationListener
 
     }
 
+    public static array $likedType = [
+        NewNotificationEvent::LIKED_COMMENT,
+        NewNotificationEvent::LIKED_QUOTE,
+        NewNotificationEvent::LIKED_REVIEW
+    ];
+
     public function handle(NewNotificationEvent $event)
     {
+
         $notificationableModelTypes = $this->types->getNotificationTypes();
 
         $modelType = $notificationableModelTypes[$event->type][$event->notificationableType];
@@ -25,7 +32,8 @@ class NewNotificationListener
         $notificationableHandlers = $this->types->getNotificationHandleObjects();
         $notificationHandlerClass = $notificationableHandlers[$event->type];
 
-        if ($event->type === NewNotificationEvent::LIKED_COMMENT or $event->type === NewNotificationEvent::LIKED_QUOTE) {
+
+        if (in_array($event->type, self::$likedType)) {
             $notificationHandler = new $notificationHandlerClass(
                 $event->userId,
                 $event->notificationableId,
