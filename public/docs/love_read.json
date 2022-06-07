@@ -4088,6 +4088,9 @@
                               "rates_avg": {
                                 "type": "number"
                               },
+                              "in_favorite": {
+                                "type": "boolean"
+                              },
                               "book_likes_count": {
                                 "type": "number"
                               },
@@ -4187,6 +4190,7 @@
                               "title",
                               "rates_count",
                               "rates_avg",
+                              "in_favorite",
                               "book_likes_count",
                               "book_comments_count",
                               "text",
@@ -4432,6 +4436,11 @@
             "in": "query",
             "name": "alphabetSpeakerIndex",
             "description": "only when type is \"audioBooks\""
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       }

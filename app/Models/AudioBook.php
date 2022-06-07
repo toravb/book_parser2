@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
@@ -201,11 +202,12 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->hasMany(AudioBookUser::class, 'audio_book_id', 'id');
     }
 
-    public function setListeners(AudioBook $audioBook){
+    public function setListeners(AudioBook $audioBook)
+    {
         $allAudioBooks = $audioBook
             ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
             ->get();
-        foreach ($allAudioBooks as $oneAudioBook){
+        foreach ($allAudioBooks as $oneAudioBook) {
             $oneAudioBook->listeners_count = $oneAudioBook->audioBookStatuses()->count();
             $oneAudioBook->rate_avg = $oneAudioBook->rates_avg;
             $oneAudioBook->reviews_count = $oneAudioBook->reviews()->count();
@@ -240,6 +242,12 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'book_id',
             'id'
         );
+    }
+
+    public function userList(): HasOne
+    {
+        return $this->hasOne(AudioBookUser::class)
+            ->where('user_id', auth('api')->id());
     }
 
     public function showAudioBookDetails($bookId)
@@ -309,7 +317,8 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         ])
             ->select('id', 'title', 'year_id', 'genre_id')
             ->withCount('views')
-            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
+            ->withExists('userList as in_favorite');
     }
 
     public function getElasticKey()

@@ -329,11 +329,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'authors:id,author',
             'image:id,link,book_id',
             'bookGenres:id,name',
-            'userList',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount(['rates', 'views'])
-            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
+            ->withExists('userList as in_favorite');
     }
 
 
@@ -376,7 +376,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'image:book_id,link',
             'bookGenres:name',
             'year',
-            'publishers:publisher','series'])
+            'publishers:publisher', 'series'])
             ->where('id', $bookId)
             ->select('id',
                 'title',
@@ -541,7 +541,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return Book::getBook()
             ->limit(4)
-            ->whereHas('bookGenres', function ($q) use($genreId){
+            ->whereHas('bookGenres', function ($q) use ($genreId) {
                 $q->where('id', $genreId);
             })
             ->get();
