@@ -60,4 +60,18 @@ class AudioBookReview extends Model implements ReviewInterface
             ->withCount(['likes', 'comments'])
             ->paginate(BookReview::PER_PAGE);
     }
+
+    public static function getNotificationReview(int $reviewId)
+    {
+        return self::with([
+            'audioBook' => function ($query) {
+                return $query->select('id', 'title');
+            }
+        ])
+            ->findOrFail($reviewId);
+    }
+    public function getBookObject()
+    {
+        return $this->audioBook;
+    }
 }

@@ -6588,7 +6588,9 @@
                     "enum": [
                       "book_comment",
                       "audio_book_comment",
-                      "quote"
+                      "quote",
+                      "book_review",
+                      "audio_book_review"
                     ]
                   }
                 },
@@ -6608,6 +6610,18 @@
                   "value": {
                     "id": 1,
                     "type": "book_comment"
+                  }
+                },
+                "book_review": {
+                  "value": {
+                    "id": 0,
+                    "type": "book_review"
+                  }
+                },
+                "audio_book_review": {
+                  "value": {
+                    "id": 0,
+                    "type": "audio_book_review"
                   }
                 }
               }

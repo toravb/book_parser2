@@ -15,14 +15,14 @@ class NewLikeNotificationEvent implements ShouldBroadcastNow
 
     private $channel;
     public string $type;
-    const TYPE =  'new_comment_like';
+    const TYPE = 'new_comment_like';
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(public array $to, public User  $sender, public $book, public $createdAt)
+    public function __construct(public array $to, public User $sender, public $book, public $createdAt)
     {
         $this->type = self::TYPE;
         $this->channel = config('broadcasting.name_notification_channel');
