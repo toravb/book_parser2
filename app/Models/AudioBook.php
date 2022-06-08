@@ -317,8 +317,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         ])
             ->select('id', 'title', 'year_id', 'genre_id')
             ->withCount('views')
-            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
-            ->withExists('userList as in_favorite');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
 
     public function getElasticKey()

@@ -4088,14 +4088,14 @@
                               "rates_avg": {
                                 "type": "number"
                               },
-                              "in_favorite": {
-                                "type": "boolean"
-                              },
                               "book_likes_count": {
                                 "type": "number"
                               },
                               "book_comments_count": {
                                 "type": "number"
+                              },
+                              "in_favorite": {
+                                "type": "boolean"
                               },
                               "text": {
                                 "type": "string",
@@ -4190,9 +4190,9 @@
                               "title",
                               "rates_count",
                               "rates_avg",
-                              "in_favorite",
                               "book_likes_count",
                               "book_comments_count",
+                              "in_favorite",
                               "text",
                               "type"
                             ]

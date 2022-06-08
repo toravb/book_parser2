@@ -332,10 +332,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
         ])
             ->select('id', 'title', 'year_id')
             ->withCount(['rates', 'views'])
-            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
-            ->withExists('userList as in_favorite');
+            ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
-
 
     public function currentReading(CurrentReadingRequest $request, int $pageNumber): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|_IH_Book_C|_IH_Book_QB|null
     {
