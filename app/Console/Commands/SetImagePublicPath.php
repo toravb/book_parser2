@@ -51,7 +51,6 @@ class SetImagePublicPath extends Command
                     $disk = Storage::disk('book');
                     if ($disk->exists(@end($name))){
                         $path = url('img/photo_books/'.@end($name));
-                        dd($path);
                         try {
                             DB::transaction(function () use ($image, $path){
                                 $image->public_path = $path;
