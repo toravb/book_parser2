@@ -49,8 +49,12 @@ class SetImagePublicPath extends Command
                 if ($image->link){
                     $name = explode('/', $image->link);
                     $disk = Storage::disk('book');
-                    if ($disk->exists(@end($name))){
-                        $path = url('img/photo_books/'.@end($name));
+                    $f_name = '';
+                    for ($i = 5; $i < count($name); $i++){
+                        $f_name .= '/'.$name[$i];
+                    }
+                    if ($disk->exists($f_name)){
+                        $path = url('img/photo_books'.$f_name);
                         try {
                             DB::transaction(function () use ($image, $path){
                                 $image->public_path = $path;
@@ -60,6 +64,8 @@ class SetImagePublicPath extends Command
                             dd($exception->getMessage());
                         }
                         echo $image->id.' - [OK]'."\n";
+                    }else{
+                        echo $image->link."\n";
                     }
                 }
             }
