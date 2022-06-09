@@ -33,6 +33,11 @@ class BookReviewComment extends Model implements CommentInterface
         return $this->hasMany(BookReviewCommentLike::class);
     }
 
+    public function getBookObject()
+    {
+        return $this->books;
+    }
+
     public static function getNotificationComment(int $commentId)
     {
         return self::with([
