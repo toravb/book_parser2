@@ -13,6 +13,7 @@ class BookLink extends Model
 
     protected $fillable = [
         'link',
+        'donor_id',
         'doParse'
     ];
 

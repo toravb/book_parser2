@@ -45,32 +45,32 @@ class AppServiceProvider extends ServiceProvider
         Relation::enforceMorphMap($typesGenerator->getViewsTypes());
         Relation::enforceMorphMap($typesGenerator->getReviewTypes());
 
-        Queue::looping(function (Looping $event) {
-            if ($event->queue == 'audio_parse_authors') {
-                $status = AudioSite::where('id', '=', 1)->first()->authorStatus()->first();
-                if ($status && (!$status->doParse || $status->paused)) {
-                    return false;
-                }
-            }
-            if ($event->queue == 'audio_parse_books') {
-                $status = AudioSite::where('id', '=', 1)->first()->bookStatus()->first();
-                if ($status && (!$status->doParse || $status->paused)) {
-                    return false;
-                }
-            }
-            if ($event->queue == 'audio_parse_images') {
-                $status = AudioSite::where('id', '=', 1)->first()->imageStatus()->first();
-                if ($status && (!$status->doParse || $status->paused)) {
-                    return false;
-                }
-            }
-            if ($event->queue == 'audio_parse_audio') {
-                $status = AudioSite::where('id', '=', 1)->first()->audioBookStatus()->first();
-                if ($status && (!$status->doParse || $status->paused)) {
-                    return false;
-                }
-            }
-        });
+//        Queue::looping(function (Looping $event) {
+//            if ($event->queue == 'audio_parse_authors') {
+//                $status = AudioSite::where('id', '=', 1)->first()->authorStatus()->first();
+//                if ($status && (!$status->doParse || $status->paused)) {
+//                    return false;
+//                }
+//            }
+//            if ($event->queue == 'audio_parse_books') {
+//                $status = AudioSite::where('id', '=', 1)->first()->bookStatus()->first();
+//                if ($status && (!$status->doParse || $status->paused)) {
+//                    return false;
+//                }
+//            }
+//            if ($event->queue == 'audio_parse_images') {
+//                $status = AudioSite::where('id', '=', 1)->first()->imageStatus()->first();
+//                if ($status && (!$status->doParse || $status->paused)) {
+//                    return false;
+//                }
+//            }
+//            if ($event->queue == 'audio_parse_audio') {
+//                $status = AudioSite::where('id', '=', 1)->first()->audioBookStatus()->first();
+//                if ($status && (!$status->doParse || $status->paused)) {
+//                    return false;
+//                }
+//            }
+//        });
 
         $this->app->bind(Client::class, function () {
             return ClientBuilder::create()
