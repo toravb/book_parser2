@@ -26,7 +26,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($books[0]['books'] as $book)
+                        @foreach($books as $book)
                             <tr>
                                 <td>
                                     {{ $book->id }}
@@ -57,7 +57,7 @@
                                     <div class="d-flex">
                                         <x-button-edit :route="route('admin.books.edit', $book)"></x-button-edit>
 
-                                        <x-button-delete :route="route('admin.compilations.novelties.destroy', $book)"></x-button-delete>
+                                        <x-button-delete :route="route('admin.compilations.novelties.remove-from-novelties', $book['id'])"></x-button-delete>
                                     </div>
                                 </td>
                             </tr>
