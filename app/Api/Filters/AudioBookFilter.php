@@ -14,6 +14,7 @@ class AudioBookFilter extends QueryFilter
         if ($viewTypeList === QueryFilter::SHOW_TYPE_LIST) {
             return $this->builder->withCount(['views', 'rates'])
                 ->with('year')
+                ->withExists('userList as in_favorite')
                 ->addSelect('description');
         }
 

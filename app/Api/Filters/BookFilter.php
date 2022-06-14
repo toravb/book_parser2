@@ -16,6 +16,7 @@ class BookFilter extends QueryFilter
                     'year',
                     'publishers'
                 ])
+                ->withExists('userList as in_favorite')
                 ->addSelect('text');
         }
 

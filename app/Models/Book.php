@@ -329,13 +329,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'authors:id,author',
             'image:id,link,book_id',
             'bookGenres:id,name',
-            'userList',
         ])
             ->select('id', 'title', 'year_id')
             ->withCount(['rates', 'views'])
             ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
     }
-
 
     public function currentReading(CurrentReadingRequest $request, int $pageNumber): Model|\Illuminate\Database\Eloquent\Collection|array|Builder|Book|_IH_Book_C|_IH_Book_QB|null
     {
@@ -376,7 +374,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'image:book_id,link',
             'bookGenres:name',
             'year',
-            'publishers:publisher','series'])
+            'publishers:publisher', 'series'])
             ->where('id', $bookId)
             ->select('id',
                 'title',
@@ -541,7 +539,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return Book::getBook()
             ->limit(4)
-            ->whereHas('bookGenres', function ($q) use($genreId){
+            ->whereHas('bookGenres', function ($q) use ($genreId) {
                 $q->where('id', $genreId);
             })
             ->get();

@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
@@ -241,6 +242,12 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'book_id',
             'id'
         );
+    }
+
+    public function userList(): HasOne
+    {
+        return $this->hasOne(AudioBookUser::class)
+            ->where('user_id', auth('api')->id());
     }
 
     public function showAudioBookDetails($bookId)
