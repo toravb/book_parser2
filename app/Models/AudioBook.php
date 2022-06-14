@@ -201,11 +201,12 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
         return $this->hasMany(AudioBookUser::class, 'audio_book_id', 'id');
     }
 
-    public function setListeners(AudioBook $audioBook){
+    public function setListeners(AudioBook $audioBook)
+    {
         $allAudioBooks = $audioBook
             ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)')
             ->get();
-        foreach ($allAudioBooks as $oneAudioBook){
+        foreach ($allAudioBooks as $oneAudioBook) {
             $oneAudioBook->listeners_count = $oneAudioBook->audioBookStatuses()->count();
             $oneAudioBook->rate_avg = $oneAudioBook->rates_avg;
             $oneAudioBook->reviews_count = $oneAudioBook->reviews()->count();

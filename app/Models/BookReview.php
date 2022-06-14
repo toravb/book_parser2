@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Api\Filters\BookFilter;
 use App\Api\Http\Controllers\MainPageController;
 use App\Api\Interfaces\ReviewInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -115,5 +117,31 @@ class BookReview extends Model implements ReviewInterface
     public function getBookObject()
     {
         return $this->books;
+    }
+
+    public function getUserReviews(int $userID, $request): Collection
+    {
+        return $this->where('user_id', $userID)
+            ->whereHas('book', function ($query) use ($request) {
+                return $query->filter(new BookFilter($request));
+            })
+            ->select([
+                'id',
+                'title',
+                'content',
+                'created_at',
+                'book_id'
+            ])
+            ->with([
+                'book:id,title',
+                'book.image:book_id,public_path as link',
+                'book.authors:id,author'
+            ])
+            ->withCount([
+                'likes',
+                'views',
+                'comments'
+            ])
+            ->get();
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Api\Filters\AudioBookFilter;
 use App\Api\Interfaces\ReviewInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -70,8 +72,35 @@ class AudioBookReview extends Model implements ReviewInterface
         ])
             ->findOrFail($reviewId);
     }
+
     public function getBookObject()
     {
         return $this->audioBook;
+    }
+
+    public function getUserReviews(int $userID, $request): Collection
+    {
+        return $this->where('user_id', $userID)
+            ->whereHas('audioBook', function ($query) use ($request) {
+                return $query->filter(new AudioBookFilter($request));
+            })
+            ->select([
+                'id',
+                'title',
+                'content',
+                'created_at',
+                'audio_book_id'
+            ])
+            ->with([
+                'audioBook:id,title',
+                'audioBook.image:book_id,public_path as link',
+                'audioBook.authors:id,author'
+            ])
+            ->withCount([
+                'likes',
+                'views',
+                'comments'
+            ])
+            ->get();
     }
 }

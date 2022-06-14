@@ -5,10 +5,13 @@ namespace App\Api\Http\Controllers;
 use App\Api\Http\Requests\DeleteReviewRequest;
 use App\Api\Http\Requests\GetReviewRequest;
 use App\Api\Http\Requests\SaveReviewRequest;
+use App\Api\Http\Requests\SearchInUserReviewsRequest;
 use App\Api\Http\Requests\UpdateReviewRequest;
 use App\Api\Interfaces\Types;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
+use App\Models\AudioBookReview;
+use App\Models\BookReview;
 use App\Models\ReviewType;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
@@ -64,13 +67,14 @@ class ReviewController extends Controller
         return ApiAnswerService::successfulAnswerWithData($review);
     }
 
-    public function showUserReviews()
+    public function showUserReviews(SearchInUserReviewsRequest $request, BookReview $bookReview, AudioBookReview $audioBookReview)
     {
-        // TODO: добавить кол-во лайков на отзыв + комментарии + просмотры
-        $reviews = \auth()->user()->reviews()
-            ->with(['book' => function ($query) {
-                $query->with(['authors']);
-            }])->get();
+        $userID = \auth()->user()->id;
+
+        $bookReviews = $bookReview->getUserReviews($userID, $request);
+        $audioBookReviews = $audioBookReview->getUserReviews($userID, $request);
+
+        $reviews = $bookReviews->concat($audioBookReviews);
 
         return ApiAnswerService::successfulAnswerWithData($reviews);
     }
