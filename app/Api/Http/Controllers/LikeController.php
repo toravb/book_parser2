@@ -122,6 +122,9 @@ class LikeController extends Controller
 
     private function getFieldName($type)
     {
+        if ($type === 'audio_book_review_comment') {
+            return 'audio_review_comment_id';
+        }
         return $type . '_id';
     }
 

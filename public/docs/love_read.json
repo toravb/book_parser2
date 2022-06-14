@@ -4094,6 +4094,9 @@
                               "book_comments_count": {
                                 "type": "number"
                               },
+                              "in_favorite": {
+                                "type": "boolean"
+                              },
                               "text": {
                                 "type": "string",
                                 "minLength": 1
@@ -4189,6 +4192,7 @@
                               "rates_avg",
                               "book_likes_count",
                               "book_comments_count",
+                              "in_favorite",
                               "text",
                               "type"
                             ]
@@ -4432,6 +4436,11 @@
             "in": "query",
             "name": "alphabetSpeakerIndex",
             "description": "only when type is \"audioBooks\""
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       }
@@ -6590,7 +6599,9 @@
                       "audio_book_comment",
                       "quote",
                       "book_review",
-                      "audio_book_review"
+                      "audio_book_review",
+                      "book_review_comment",
+                      "audio_book_review_coment"
                     ]
                   }
                 },
@@ -6614,14 +6625,26 @@
                 },
                 "book_review": {
                   "value": {
-                    "id": 0,
+                    "id": 2,
                     "type": "book_review"
                   }
                 },
                 "audio_book_review": {
                   "value": {
-                    "id": 0,
+                    "id": 2,
                     "type": "audio_book_review"
+                  }
+                },
+                "like book_review_comment": {
+                  "value": {
+                    "id": 2,
+                    "type": "book_review_comment"
+                  }
+                },
+                "like audio_book_review_comment": {
+                  "value": {
+                    "id": 2,
+                    "type": "audio_book_review_comment"
                   }
                 }
               }
@@ -6724,7 +6747,11 @@
                     "enum": [
                       "book_comment",
                       "audio_book_comment",
-                      "quote"
+                      "quote",
+                      "book_review",
+                      "book_review_comment",
+                      "audio_book_review",
+                      "audio_book_review_comment"
                     ]
                   }
                 },
@@ -6744,6 +6771,30 @@
                   "value": {
                     "id": 1,
                     "type": "quote"
+                  }
+                },
+                "delete book review like": {
+                  "value": {
+                    "id": 2,
+                    "type": "book_review"
+                  }
+                },
+                "delete book review comment like": {
+                  "value": {
+                    "id": 2,
+                    "type": "book_review_comment"
+                  }
+                },
+                "delete audiobook review like": {
+                  "value": {
+                    "id": 2,
+                    "type": "audio_book_review"
+                  }
+                },
+                "delete audiobook review comment like": {
+                  "value": {
+                    "id": 2,
+                    "type": "audio_book_review_comment"
                   }
                 }
               }

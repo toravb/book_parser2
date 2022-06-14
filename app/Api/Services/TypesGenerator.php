@@ -29,7 +29,9 @@ class TypesGenerator implements Types
         'audio_book_comment' => 'App\\Api\\Models\\AudioBookCommentLike',
         'book_review' => 'App\\Models\\BookReviewLike',
         'audio_book_review' => 'App\\Models\\AudioBookReviewLike',
-        'quote' => 'App\\Models\\QuoteLike'
+        'quote' => 'App\\Models\\QuoteLike',
+        'book_review_comment' => 'App\\Models\\BookReviewCommentLike',
+        'audio_book_review_comment' => 'App\\Models\\AudioBookReviewCommentLike'
     ];
 
     protected $likeModelTypes = [
@@ -39,7 +41,9 @@ class TypesGenerator implements Types
         'audio_book_comment' => 'App\\Models\\AudioBookComment',
         'book_review' => 'App\\Models\\BookReview',
         'audio_book_review' => 'App\\Models\\AudioBookReview',
-        'quote' => 'App\\Models\\Quote'
+        'quote' => 'App\\Models\\Quote',
+        'book_review_comment' => 'App\\Models\\BookReviewComment',
+        'audio_book_review_comment' => 'App\\Models\\AudioBookReviewComment'
     ];
 
     protected $compilationsBookTypes = [
@@ -51,14 +55,14 @@ class TypesGenerator implements Types
         NewNotificationEvent::LIKED_COMMENT => [
             'book_comment' => 'App\\Models\\BookComment',
             'audio_book_comment' => 'App\\Models\\AudioBookComment',
-            'book_review' => 'App\\Models\\BookReviewComment',
-            'audio_book_review' => 'App\\Models\\AudioBookReviewComment'
+            'book_review_comment' => 'App\\Models\\BookReviewComment',
+            'audio_book_review_comment' => 'App\\Models\\AudioBookReviewComment'
         ],
         NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => [
             'book' => 'App\\Models\\BookComment',
             'audio_book' => 'App\\Models\\AudioBookComment',
-            'book_review' => 'App\\Models\\BookReviewComment',
-            'audio_book_review' => 'App\\Models\\AudioBookReviewComment'
+            'book_review_comment' => 'App\\Models\\BookReviewComment',
+            'audio_book_review_comment' => 'App\\Models\\AudioBookReviewComment'
         ],
         NewNotificationEvent::LIKED_QUOTE => [
             'quote' => 'App\\Models\\Quote'

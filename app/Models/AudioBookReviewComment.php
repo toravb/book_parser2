@@ -38,14 +38,16 @@ class AudioBookReviewComment extends Model implements CommentInterface
         );
     }
 
+    public function getBookObject()
+    {
+        return $this->audioBook;
+    }
+
     public static function getNotificationComment(int $commentId)
     {
         return self::query()
-            ->with([
-                'bookReview' => function ($query) {
-                    return $query->select('id', 'title');
-                }
-            ])->findOrFail($commentId);
+            ->with('bookReview:id,title')
+            ->findOrFail($commentId);
     }
 
     public function getComments(int $typeId, int $paginate)
