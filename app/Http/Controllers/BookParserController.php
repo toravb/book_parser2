@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\BookLink;
 use Exception;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 include_once app_path('Modules/simple_html_dom.php');
 
@@ -268,5 +269,16 @@ class BookParserController extends Controller
             break;
         }
         return $authors;
+    }
+
+    public static function parseImage($url, $path)
+    {
+        try {
+            $content = file_get_contents($url);
+            Storage::disk('book')->put($path, $content);
+        }catch (Exception $exception) {
+            return false;
+        }
+        return true;
     }
 }
