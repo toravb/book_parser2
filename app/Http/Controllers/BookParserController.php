@@ -6,6 +6,7 @@ use App\Models\BookLink;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use function Symfony\Component\String\b;
 
 include_once app_path('Modules/simple_html_dom.php');
 
@@ -280,5 +281,84 @@ class BookParserController extends Controller
             return false;
         }
         return true;
+    }
+
+    public static function parsePage($url, $book_id, $page_num)
+    {
+        $url = 'http://loveread.ec/read_book.php?id=359';
+        $response = file_get_contents($url);
+        $html = str_get_html($response);
+        $is_blocked = false;
+        $data = [
+            'content' => false,
+            'nav' => false,
+            'images' => false,
+        ];
+
+        if ($page_num == 1) {
+            $is_blocked = self::checkBlocked($html);
+            if (!$is_blocked) {
+                $data['nav'] = self::parseNav($html, $book_id);
+            }
+        }
+        if ($is_blocked){
+            return false;
+        }
+
+        foreach ($html->find('.MsoNormal') as $content){
+            foreach ($content->find('form') as $nav){
+                $nav->parent->remove();
+            }
+            foreach ($content->find('img') as $image){
+                $src = $image->getAttribute('src');
+                $data['images'][] = [
+                    'url' => self::DOMAIN.$src,
+                    'page_num' => $page_num,
+                ];
+            }
+            $data['content'] = $content->save();
+            break;
+        }
+        return $data;
+    }
+
+    public static function parseNav($html, $book_id)
+    {
+        $data = [];
+        $links = $html->find('.navigation a');
+        try {
+            if (@end($links)->text() == 'Вперед'){
+                unset($links[count($links)-1]);
+            }
+            $last_page_link = @end($links)->getAttribute('href');
+            $last_page_num = explode('p=', $last_page_link);
+            $num = @end($last_page_num);
+            for ($i = 2; $i <= $num; $i++){
+                $href = 'read_book.php?id='.$book_id.'&p='.$i;
+                $data[] = [
+                    'url' => self::DOMAIN.$href,
+                    'page_num' => $i,
+                ];
+            }
+            if (empty($data)){
+                return false;
+            }
+        }catch (Exception $exception){
+            return false;
+        }
+        return $data;
+    }
+
+    public static function checkBlocked($html)
+    {
+        foreach ($html->find('.MsoNormal') as $content){
+            foreach ($content->find('em') as $sub_content){
+                if ($sub_content->text() == 'Эта книга удалена по требованию правообладателя. Прочитать её на нашем сайте нельзя.'){
+                    return true;
+                }
+                break;
+            }
+        }
+        return false;
     }
 }
