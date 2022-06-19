@@ -57,42 +57,42 @@ class ParsePageJob implements ShouldQueue
                     $page->save();
                     return $page;
                 });
-                if ($data['nav']){
-                    foreach ($data['nav'] as $nav){
-                        $link = PageLink::query()
-                            ->where('book_id', '=', $page_link->book_id)
-                            ->where('page_num', '=', $nav['page_num'])
-                            ->first();
-                        if (!$link){
-                            $link = DB::transaction(function () use ($nav, $page_link){
-                                $link = new PageLink();
-                                $link->link = $nav['url'];
-                                $link->page_num = $nav['page_num'];
-                                $link->book_id = $page_link->book_id;
-                                $link->doParse = 1;
-                                $link->save();
-                                return $link;
-                            });
-                        }
+            }
+            if ($data['nav']){
+                foreach ($data['nav'] as $nav){
+                    $link = PageLink::query()
+                        ->where('book_id', '=', $page_link->book_id)
+                        ->where('page_num', '=', $nav['page_num'])
+                        ->first();
+                    if (!$link){
+                        $link = DB::transaction(function () use ($nav, $page_link){
+                            $link = new PageLink();
+                            $link->link = $nav['url'];
+                            $link->page_num = $nav['page_num'];
+                            $link->book_id = $page_link->book_id;
+                            $link->doParse = 1;
+                            $link->save();
+                            return $link;
+                        });
                     }
                 }
-                if ($data['images']){
-                    foreach ($data['images'] as $p_image){
-                        $image = Image::query()
-                            ->where('book_id', '=', $page->book_id)
-                            ->where('page_id', '=', $page->id)
-                            ->first();
-                        if (!$image){
-                            $image = DB::transaction(function () use ($p_image, $page){
-                                $image = new Image();
-                                $image->link = $p_image['url'];
-                                $image->page_id = $page->id;
-                                $image->book_id = $page->book_id;
-                                $image->doParse = 1;
-                                $image->save();
-                                return $image;
-                            });
-                        }
+            }
+            if ($data['images']){
+                foreach ($data['images'] as $p_image){
+                    $image = Image::query()
+                        ->where('book_id', '=', $page->book_id)
+                        ->where('page_id', '=', $page->id)
+                        ->first();
+                    if (!$image){
+                        $image = DB::transaction(function () use ($p_image, $page){
+                            $image = new Image();
+                            $image->link = $p_image['url'];
+                            $image->page_id = $page->id;
+                            $image->book_id = $page->book_id;
+                            $image->doParse = 1;
+                            $image->save();
+                            return $image;
+                        });
                     }
                 }
             }
