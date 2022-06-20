@@ -84,15 +84,21 @@ class ParsePageJob implements ShouldQueue
                         ->where('page_id', '=', $page->id)
                         ->first();
                     if (!$image){
-                        $image = DB::transaction(function () use ($p_image, $page){
-                            $image = new Image();
-                            $image->link = $p_image['url'];
-                            $image->page_id = $page->id;
-                            $image->book_id = $page->book_id;
-                            $image->doParse = 1;
-                            $image->save();
-                            return $image;
-                        });
+                        try {
+                            $image = DB::transaction(function () use ($p_image, $page){
+                                $image = new Image();
+                                $image->link = $p_image['url'];
+                                $image->page_id = $page->id;
+                                $image->book_id = $page->book_id;
+                                $image->doParse = 1;
+                                $image->save();
+                                return $image;
+                            });
+                        }catch (\Exception $exception) {
+                            if ($exception->getCode() != 23000) {
+                                throw $exception;
+                            }
+                        }
                     }
                 }
             }
