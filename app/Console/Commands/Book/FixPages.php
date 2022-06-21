@@ -57,7 +57,6 @@ class FixPages extends Command
                     $link->doParse = 1;
                     $link->save();
                 });
-                dd();
                 echo $link->id.' - [FIXED]'."\n";
             }
         }
