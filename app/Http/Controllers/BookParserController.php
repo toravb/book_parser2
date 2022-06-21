@@ -285,7 +285,6 @@ class BookParserController extends Controller
 
     public static function parsePage($url, $book_id, $page_num)
     {
-        $url = 'http://loveread.ec/read_book.php?id=359';
         $response = file_get_contents($url);
         $html = str_get_html($response);
         $is_blocked = false;
