@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands\Book;
 
+use App\Models\Page;
 use App\Models\PageLink;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 
 class FixPages extends Command
 {
@@ -43,7 +45,20 @@ class FixPages extends Command
             $array = explode('||', $content);
             foreach ($array as $value){
                 $link = PageLink::query()->where('id', '=', $value)->first();
-                dd($link);
+                $page_num = explode('p=', $link->link);
+                $page = Page::query()
+                    ->where('book_id', '=', $link->book_id)
+                    ->where('page_number', '=', @end($page_num))
+                    ->first();
+                DB::transaction(function () use ($page, $link){
+                    if ($page){
+                        $page->delete();
+                    }
+                    $link->doParse = 1;
+                    $link->save();
+                });
+                dd();
+                echo $link->id.' - [FIXED]'."\n";
             }
         }
         echo '[COMPLETED]'."\n";
