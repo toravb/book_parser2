@@ -160,21 +160,21 @@ class ParseBooks extends Command
                             });
                         }
                     }
-                    if ($params['book_pages_link']){
-                        $page_links = PageLink::query()
-                            ->where('book_id', '=', $book->id)
-                            ->where('page_num', '=', 1)
-                            ->first();
-                        if (!$page_links) {
-                            DB::transaction(function () use ($book, $params) {
-                                $page_link = new PageLink();
-                                $page_link->book_id = $book->id;
-                                $page_link->page_num = 1;
-                                $page_link->doParse = true;
-                                $page_link->link = $params['book_pages_link'];
-                                $page_link->save();
-                            });
-                        }
+                }
+                if ($params['book_pages_link']){
+                    $page_links = PageLink::query()
+                        ->where('book_id', '=', $book->id)
+                        ->where('page_num', '=', 1)
+                        ->first();
+                    if (!$page_links) {
+                        DB::transaction(function () use ($book, $params) {
+                            $page_link = new PageLink();
+                            $page_link->book_id = $book->id;
+                            $page_link->page_num = 1;
+                            $page_link->doParse = true;
+                            $page_link->link = $params['book_pages_link'];
+                            $page_link->save();
+                        });
                     }
                 }
                 if ($genre){
