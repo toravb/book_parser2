@@ -61,8 +61,8 @@ class TypesGenerator implements Types
         NewNotificationEvent::ANSWER_ON_COMMENT_AND_ALSO_COMMENTED => [
             'book' => 'App\\Models\\BookComment',
             'audio_book' => 'App\\Models\\AudioBookComment',
-            'book_review_comment' => 'App\\Models\\BookReviewComment',
-            'audio_book_review_comment' => 'App\\Models\\AudioBookReviewComment'
+            'book_review' => 'App\\Models\\BookReviewComment',
+            'audio_book_review' => 'App\\Models\\AudioBookReviewComment'
         ],
         NewNotificationEvent::LIKED_QUOTE => [
             'quote' => 'App\\Models\\Quote'

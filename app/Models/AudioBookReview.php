@@ -46,9 +46,9 @@ class AudioBookReview extends Model implements ReviewInterface
         return $this->hasMany(AudioBookReviewComment::class);
     }
 
-    public function likes(): MorphMany
+    public function likes(): HasMany
     {
-        return $this->morphMany(Like::class, 'likeable', 'like_type', 'like_id');
+        return $this->hasMany(AudioBookReviewLike::class);
     }
 
     public function getReviews(int $id)

@@ -52,9 +52,9 @@ class BookReview extends Model implements ReviewInterface
         return $this->belongsTo(Book::class);
     }
 
-    public function likes(): MorphMany
+    public function likes(): HasMany
     {
-        return $this->morphMany(Like::class, 'likeable', 'like_type', 'like_id');
+        return $this->hasMany(BookReviewLike::class);
     }
 
     public function reviewTypes()
