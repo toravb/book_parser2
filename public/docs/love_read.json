@@ -5365,6 +5365,9 @@
                               "views_count": {
                                 "type": "number"
                               },
+                              "is_liked": {
+                                "type": "boolean"
+                              },
                               "type": {
                                 "type": "string",
                                 "minLength": 1
@@ -5412,6 +5415,7 @@
                               "updated_at",
                               "likes_count",
                               "views_count",
+                              "is_liked",
                               "type"
                             ]
                           }
@@ -5564,6 +5568,11 @@
         "description": "",
         "tags": [
           "Quotes"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       },
       "parameters": [
@@ -5692,6 +5701,9 @@
                               "likes_count": {
                                 "type": "number"
                               },
+                              "is_liked": {
+                                "type": "boolean"
+                              },
                               "users": {
                                 "type": "object",
                                 "properties": {
@@ -5722,7 +5734,8 @@
                               "user_id",
                               "content",
                               "updated_at",
-                              "likes_count"
+                              "likes_count",
+                              "is_liked"
                             ]
                           }
                         },
@@ -5895,7 +5908,12 @@
             "description": "pagination"
           }
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       },
       "parameters": [
         {
@@ -5914,7 +5932,7 @@
               "book",
               "audio_book",
               "book_review",
-              "audio_review"
+              "audio_book_review"
             ]
           },
           "name": "type",
@@ -6038,6 +6056,7 @@
                               "likes_count": {
                                 "type": "number"
                               },
+                              "is_liked": {},
                               "users": {
                                 "type": "object",
                                 "properties": {
@@ -6068,7 +6087,8 @@
                               "user_id",
                               "content",
                               "updated_at",
-                              "likes_count"
+                              "likes_count",
+                              "is_liked"
                             ]
                           }
                         },
@@ -6224,7 +6244,7 @@
                 "book",
                 "audio_book",
                 "book_review",
-                "audio_review"
+                "audio_book_review"
               ]
             },
             "in": "query",
@@ -6257,7 +6277,12 @@
             "required": true
           }
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       },
       "parameters": [
         {

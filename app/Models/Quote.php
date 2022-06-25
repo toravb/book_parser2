@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Symfony\Component\HttpFoundation\Response;
 use TheSeer\Tokenizer\Exception;
@@ -61,6 +62,11 @@ class Quote extends Model
     public function likes(): HasMany
     {
         return $this->hasMany(QuoteLike::class);
+    }
+
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(QuoteLike::class)->where('user_id', auth('api')->id());
     }
 
     public function page(): BelongsTo
@@ -126,6 +132,7 @@ class Quote extends Model
             ->where('book_id', $bookId)
             ->with('user:id,avatar,nickname', 'page:id,page_number')
             ->withCount('likes', 'views')
+            ->withExists('userLike as is_liked')
             ->paginate(self::QUOTES_PER_PAGE);
     }
 

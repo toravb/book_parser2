@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use App\Api\Interfaces\CommentInterface;
+use App\Api\Models\AudioBookCommentLike;
 use App\Api\Models\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBookReviewComment extends Model implements CommentInterface
@@ -38,6 +40,16 @@ class AudioBookReviewComment extends Model implements CommentInterface
         );
     }
 
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(
+            AudioBookReviewCommentLike::class,
+            'audio_review_comment_id',
+            'id'
+        )
+            ->where('user_id', auth('api')->id());
+    }
+
     public function getBookObject()
     {
         return $this->audioBook;
@@ -58,6 +70,7 @@ class AudioBookReviewComment extends Model implements CommentInterface
             ->select('id', 'audio_book_review_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
 
@@ -67,6 +80,7 @@ class AudioBookReviewComment extends Model implements CommentInterface
             ->select('id', 'audio_book_review_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
 }

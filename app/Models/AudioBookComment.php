@@ -5,19 +5,17 @@ namespace App\Models;
 use App\Api\Interfaces\CommentInterface;
 use App\Api\Models\AudioBookCommentLike;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
 
 class AudioBookComment extends Model implements CommentInterface
 {
-
     protected $fillable = [
         'user_id',
         'audio_book_id',
         'content',
         'parent_comment_id'
     ];
-
-    protected $appends = ['is_liked'];
 
     public static function getNotificationComment(int $commentId)
     {
@@ -44,6 +42,11 @@ class AudioBookComment extends Model implements CommentInterface
         return $this->hasMany(AudioBookCommentLike::class);
     }
 
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(AudioBookCommentLike::class)->where('user_id', auth('api')->id());
+    }
+
     public function getBookObject()
     {
         return $this->audioBook;
@@ -56,22 +59,9 @@ class AudioBookComment extends Model implements CommentInterface
             ->whereNull('parent_comment_id')
             ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
-            ->with('likes', function ($q){
-                $q->where('user_id', auth('api')->id());
-            })
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
-    }
-
-    public function getIsLikedAttribute($value)
-    {
-        if (!auth('api')->check()){
-            return "no auth!";
-        }
-        if (count($this->likes) > 0) {
-            return true;
-        }
-        return false;
     }
 
     public function getCommentsOnComment(int $commentId, int $paginate)
@@ -80,6 +70,7 @@ class AudioBookComment extends Model implements CommentInterface
             ->select('id', 'audio_book_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
 }
