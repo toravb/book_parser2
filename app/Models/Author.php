@@ -190,7 +190,7 @@ class Author extends Model implements SearchModelInterface
             ->with([
                 'audioBooks' => function ($query) {
                     return $query
-                        ->with(['image:book_id,link', 'authors:id,author', 'genre:id,name'])
+                        ->with(['image:book_id,public_path as link', 'authors:id,author', 'genre:id,name'])
                         ->select('audio_books.id', 'title', 'genre_id')
                         ->withCount('views')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
@@ -239,7 +239,7 @@ class Author extends Model implements SearchModelInterface
                         },
                         'books.genres:name',
                         'books.authors:author',
-                        'books.image:book_id,link'
+                        'books.image:book_id,public_path as link'
                     ])->distinct();
                 },
                 'books' => function ($query) {
@@ -248,7 +248,7 @@ class Author extends Model implements SearchModelInterface
                         ->where('books.active', true)
                         ->with([
                             'authors:author',
-                            'image:book_id,link',
+                            'image:book_id,public_path as link',
                             'genres:name'
                         ])
                         ->withCount('views')
@@ -262,7 +262,7 @@ class Author extends Model implements SearchModelInterface
                         ->with([
                             'genre:id,name',
                             'authors:author',
-                            'image:book_id,link'
+                            'image:book_id,public_path as link'
                         ])
                         ->withCount('views')
                         ->withAggregate('rates as rate_avg', 'Coalesce(Avg(rates.rating), 0)');

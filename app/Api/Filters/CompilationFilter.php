@@ -15,14 +15,14 @@ class CompilationFilter extends QueryFilter
 
             return $this->builder->with([
                 'books' => function ($query) {
-                    return $query->with(['authors:id,author', 'image:book_id,link', 'genres:id,name'])
+                    return $query->with(['authors:id,author', 'image:book_id,public_path as link', 'genres:id,name'])
                         ->select('id', 'title')
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');
                 },
                 'audioBooks' => function ($query) {
                     return $query
-                        ->with(['authors:id,author', 'image:book_id,link', 'genre:id,name'])
+                        ->with(['authors:id,author', 'image:book_id,public_path as link', 'genre:id,name'])
                         ->select('id', 'title', 'genre_id')
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');

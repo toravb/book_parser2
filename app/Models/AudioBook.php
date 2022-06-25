@@ -293,7 +293,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ->with([
                 'genre:id,name',
                 'authors:id,author',
-                'image:book_id,link',
+                'image:book_id,public_path as link',
                 'year:id,year'
             ])
             ->withCount('views')
@@ -312,7 +312,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     {
         return $this->with([
             'authors:id,author',
-            'image:book_id,link',
+            'image:book_id,public_path as link',
             'genre:id,name',
         ])
             ->select('id', 'title', 'year_id', 'genre_id')

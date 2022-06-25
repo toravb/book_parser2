@@ -211,7 +211,7 @@ class BookController extends Controller
             ->addSelect(['status', 'book_user.created_at'])
             ->with([
                 'authors:id,author',
-                'image:book_id,link',
+                'image:book_id,public_path as link',
                 'bookGenres:id,name',
             ])
             ->withCount('views')

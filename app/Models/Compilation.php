@@ -157,7 +157,7 @@ class Compilation extends Model implements SearchModelInterface
                     ->with([
                         'authors:author',
                         'genres:name',
-                        'image:book_id,link'])
+                        'image:book_id,public_path as link'])
                     ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
                     ->withCount('views')
                     ->latest()
@@ -188,7 +188,7 @@ class Compilation extends Model implements SearchModelInterface
                     ->with([
                         'authors:author',
                         'genre:id,name',
-                        'image:book_id,link'
+                        'image:book_id,public_path as link'
                     ])
                     ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating ), 0 )')
                     ->withCount('views')

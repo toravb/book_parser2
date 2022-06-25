@@ -83,7 +83,7 @@ class BookReview extends Model implements ReviewInterface
             ->with([
                 'user:id,nickname,avatar',
                 'book:id,title',
-                'book.image:book_id,link',
+                'book.image:book_id,public_path as link',
                 'book.authors:id,author'
             ])
             ->withCount(['views', 'likes', 'comments'])

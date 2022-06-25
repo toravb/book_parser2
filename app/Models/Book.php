@@ -371,7 +371,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
     {
         return $this->with([
             'authors:id,author',
-            'image:book_id,link',
+            'image:book_id,public_path as link',
             'bookGenres:name',
             'year',
             'publishers:publisher', 'series'])
@@ -448,7 +448,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->with([
                 'genres:name',
                 'authors:author',
-                'image:book_id,link'
+                'image:book_id,public_path as link'
             ])
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
             ->withCount('views');
@@ -462,7 +462,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->with([
                 'genres:id,name',
                 'authors:author',
-                'image:book_id,link',
+                'image:book_id,public_path as link',
                 'year:id,year'
             ])
             ->withCount('views')
@@ -507,7 +507,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             })
             ->with([
                 'authors:id,author',
-                'image:book_id,link',
+                'image:book_id,public_path as link',
                 'latestQuote:id,user_id,book_id,text,created_at',
                 'latestQuote.user:id,name,avatar',
             ])
@@ -527,7 +527,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating),0)')
             ->with([
                 'authors:id,author',
-                'image:book_id,link',
+                'image:book_id,public_path as link',
                 'latestReview:id,user_id,book_id,content,created_at',
                 'latestReview.user:id,name,avatar',
                 'latestReview.userBookRate:user_id,book_id,rating'

@@ -45,7 +45,7 @@ class Series extends Model implements SearchModelInterface
     {
         return $this->with(['books' => function ($query) {
             return $query->select('id', 'year_id', 'series_id', 'title', 'text')
-                ->with(['year', 'genres:id,name', 'authors:id,author', 'image:book_id,link'])
+                ->with(['year', 'genres:id,name', 'authors:id,author', 'image:book_id,public_path as link'])
                 ->withExists('userList as in_favorite')
                 ->withCount(['rates', 'bookLikes', 'comments'])
                 ->withAggregate('rates as rates_avg', 'Coalesce( avg( rates.rating), 0)');

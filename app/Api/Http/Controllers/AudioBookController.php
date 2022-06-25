@@ -74,7 +74,7 @@ class AudioBookController extends Controller
             ->addSelect('status')
             ->with([
                 'authors:id,author',
-                'image:book_id,link',
+                'image:book_id,public_path as link',
                 'genre:id,name',
             ])->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')

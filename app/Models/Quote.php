@@ -150,7 +150,7 @@ class Quote extends Model
                         ->withCount('rates')
                         ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
                         ->with([
-                            'image:book_id,link',
+                            'image:book_id,public_path as link',
                             'authors' => function ($query) {
                                 $query->select('authors.id', 'author');
                             }
