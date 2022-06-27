@@ -34,10 +34,8 @@ class SaveQuotesRequest extends FormRequest
             'text' => ['required', 'string', 'max:300'],
             'color' => ['sometimes', 'string', 'max:10'],
             'start_key' => ['required', 'string', 'max:190'],
-            'start_text_index' => ['required', 'integer'],
             'start_offset' => ['required', 'integer'],
             'end_key' => ['required', 'string', 'max:190'],
-            'end_text_index' => ['required', 'integer'],
             'end_offset' => ['required', 'integer'],
         ];
     }
