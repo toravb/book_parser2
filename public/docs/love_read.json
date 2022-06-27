@@ -5365,6 +5365,9 @@
                               "views_count": {
                                 "type": "number"
                               },
+                              "is_liked": {
+                                "type": "boolean"
+                              },
                               "type": {
                                 "type": "string",
                                 "minLength": 1
@@ -5412,6 +5415,7 @@
                               "updated_at",
                               "likes_count",
                               "views_count",
+                              "is_liked",
                               "type"
                             ]
                           }
@@ -5564,6 +5568,11 @@
         "description": "",
         "tags": [
           "Quotes"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ]
       },
       "parameters": [
@@ -5692,6 +5701,9 @@
                               "likes_count": {
                                 "type": "number"
                               },
+                              "is_liked": {
+                                "type": "boolean"
+                              },
                               "users": {
                                 "type": "object",
                                 "properties": {
@@ -5722,7 +5734,8 @@
                               "user_id",
                               "content",
                               "updated_at",
-                              "likes_count"
+                              "likes_count",
+                              "is_liked"
                             ]
                           }
                         },
@@ -5895,7 +5908,12 @@
             "description": "pagination"
           }
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       },
       "parameters": [
         {
@@ -5914,7 +5932,7 @@
               "book",
               "audio_book",
               "book_review",
-              "audio_review"
+              "audio_book_review"
             ]
           },
           "name": "type",
@@ -6038,6 +6056,7 @@
                               "likes_count": {
                                 "type": "number"
                               },
+                              "is_liked": {},
                               "users": {
                                 "type": "object",
                                 "properties": {
@@ -6068,7 +6087,8 @@
                               "user_id",
                               "content",
                               "updated_at",
-                              "likes_count"
+                              "likes_count",
+                              "is_liked"
                             ]
                           }
                         },
@@ -6224,7 +6244,7 @@
                 "book",
                 "audio_book",
                 "book_review",
-                "audio_review"
+                "audio_book_review"
               ]
             },
             "in": "query",
@@ -6257,7 +6277,12 @@
             "required": true
           }
         ],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       },
       "parameters": [
         {
@@ -14274,17 +14299,11 @@
                   "start_key": {
                     "type": "string"
                   },
-                  "start_text_index": {
-                    "type": "integer"
-                  },
                   "start_offset": {
                     "type": "integer"
                   },
                   "end_key": {
                     "type": "string"
-                  },
-                  "end_text_index": {
-                    "type": "integer"
                   },
                   "end_offset": {
                     "type": "integer"
@@ -14294,10 +14313,8 @@
                   "book_id",
                   "text",
                   "start_key",
-                  "start_text_index",
                   "start_offset",
                   "end_key",
-                  "end_text_index",
                   "end_offset"
                 ]
               }
@@ -14317,6 +14334,32 @@
                 "schema": {
                   "description": "",
                   "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 1,
+                          "user_id": 1,
+                          "book_id": 1,
+                          "page_id": 253,
+                          "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt52",
+                          "color": "brown",
+                          "start_key": "2",
+                          "start_offset": 3,
+                          "end_key": "6",
+                          "end_offset": 5,
+                          "created_at": "2022-04-18T15:52:20.000000Z",
+                          "updated_at": "2022-04-18T17:04:47.000000Z",
+                          "type": "quotes",
+                          "page": {
+                            "id": 253,
+                            "page_number": 2
+                          }
+                        }
+                      ]
+                    }
+                  },
                   "properties": {
                     "status": {
                       "type": "string",
@@ -14327,23 +14370,7 @@
                       "uniqueItems": true,
                       "minItems": 1,
                       "items": {
-                        "required": [
-                          "id",
-                          "user_id",
-                          "book_id",
-                          "page_id",
-                          "text",
-                          "color",
-                          "start_key",
-                          "start_text_index",
-                          "start_offset",
-                          "end_key",
-                          "end_text_index",
-                          "end_offset",
-                          "created_at",
-                          "updated_at",
-                          "type"
-                        ],
+                        "type": "object",
                         "properties": {
                           "id": {
                             "type": "number"
@@ -14369,18 +14396,12 @@
                             "type": "string",
                             "minLength": 1
                           },
-                          "start_text_index": {
-                            "type": "number"
-                          },
                           "start_offset": {
                             "type": "number"
                           },
                           "end_key": {
                             "type": "string",
                             "minLength": 1
-                          },
-                          "end_text_index": {
-                            "type": "number"
                           },
                           "end_offset": {
                             "type": "number"
@@ -14412,42 +14433,29 @@
                               "page_number"
                             ]
                           }
-                        }
+                        },
+                        "required": [
+                          "id",
+                          "user_id",
+                          "book_id",
+                          "page_id",
+                          "text",
+                          "color",
+                          "start_key",
+                          "start_offset",
+                          "end_key",
+                          "end_offset",
+                          "created_at",
+                          "updated_at",
+                          "type"
+                        ]
                       }
                     }
                   },
                   "required": [
                     "status",
                     "data"
-                  ],
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": [
-                        {
-                          "id": 1,
-                          "user_id": 1,
-                          "book_id": 1,
-                          "page_id": 253,
-                          "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt52",
-                          "color": "brown",
-                          "start_key": "2",
-                          "start_text_index": 5,
-                          "start_offset": 3,
-                          "end_key": "6",
-                          "end_text_index": 7,
-                          "end_offset": 5,
-                          "created_at": "2022-04-18T15:52:20.000000Z",
-                          "updated_at": "2022-04-18T17:04:47.000000Z",
-                          "type": "quotes",
-                          "page": {
-                            "id": 253,
-                            "page_number": 2
-                          }
-                        }
-                      ]
-                    }
-                  }
+                  ]
                 }
               }
             }
@@ -14591,19 +14599,11 @@
                           "type": "string",
                           "minLength": 1
                         },
-                        "start_text_index": {
-                          "type": "string",
-                          "minLength": 1
-                        },
                         "start_offset": {
                           "type": "string",
                           "minLength": 1
                         },
                         "end_key": {
-                          "type": "string",
-                          "minLength": 1
-                        },
-                        "end_text_index": {
                           "type": "string",
                           "minLength": 1
                         },
@@ -14632,10 +14632,8 @@
                         "text",
                         "color",
                         "start_key",
-                        "start_text_index",
                         "start_offset",
                         "end_key",
-                        "end_text_index",
                         "end_offset",
                         "created_at",
                         "updated_at",
@@ -14658,10 +14656,8 @@
                         "text": "egfargesgvdfg gfdsgesgr vdfsvgrfebvgt",
                         "color": "brown",
                         "start_key": "2",
-                        "start_text_index": "5",
                         "start_offset": "3",
                         "end_key": "6",
-                        "end_text_index": "7",
                         "end_offset": "5",
                         "created_at": "2022-04-11T20:48:02.000000Z",
                         "updated_at": "2022-04-11T21:26:36.000000Z",
@@ -14719,6 +14715,19 @@
               "schema": {
                 "description": "",
                 "type": "object",
+                "x-examples": {
+                  "example-1": {
+                    "id": 0,
+                    "book_id": 0,
+                    "page_id": 0,
+                    "text": "string",
+                    "color": "string",
+                    "start_key": "string",
+                    "start_offset": 0,
+                    "end_key": "string",
+                    "end_offset": 0
+                  }
+                },
                 "properties": {
                   "id": {
                     "type": "number"
@@ -14741,18 +14750,12 @@
                     "type": "string",
                     "minLength": 1
                   },
-                  "start_text_index": {
-                    "type": "number"
-                  },
                   "start_offset": {
                     "type": "number"
                   },
                   "end_key": {
                     "type": "string",
                     "minLength": 1
-                  },
-                  "end_text_index": {
-                    "type": "number"
                   },
                   "end_offset": {
                     "type": "number"
@@ -14765,27 +14768,10 @@
                   "text",
                   "color",
                   "start_key",
-                  "start_text_index",
                   "start_offset",
                   "end_key",
-                  "end_text_index",
                   "end_offset"
-                ],
-                "x-examples": {
-                  "example-1": {
-                    "id": 0,
-                    "book_id": 0,
-                    "page_id": 0,
-                    "text": "string",
-                    "color": "string",
-                    "start_key": "string",
-                    "start_text_index": 0,
-                    "start_offset": 0,
-                    "end_key": "string",
-                    "end_text_index": 0,
-                    "end_offset": 0
-                  }
-                }
+                ]
               }
             }
           }

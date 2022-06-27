@@ -76,10 +76,8 @@ class Quote extends Model
         $this->text = $request->text;
         $this->color = $request->color;
         $this->start_key = $request->start_key;
-        $this->start_text_index = $request->start_text_index;
         $this->start_offset = $request->start_offset;
         $this->end_key = $request->end_key;
-        $this->end_text_index = $request->end_text_index;
         $this->end_offset = $request->end_offset;
 
         $this->save();
