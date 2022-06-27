@@ -84,9 +84,6 @@ class BookController extends Controller
     {
         $books = $book->singleBook($id);
 
-        if ($books->rates_avg === null) {
-            $books->rates_avg = 0;
-        }
         foreach ($books->authors as $author) {
             unset($author->pivot);
         }
@@ -96,7 +93,6 @@ class BookController extends Controller
         foreach ($books->bookGenres as $genres) {
             unset($genres->pivot);
         }
-
 
         $view->addView(\auth('api')->user()?->id, $request->ip(), $id, $book->getTypeAttribute());
 

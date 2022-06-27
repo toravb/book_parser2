@@ -7,6 +7,7 @@ use App\Api\Models\Notification;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class BookReviewComment extends Model implements CommentInterface
@@ -33,6 +34,11 @@ class BookReviewComment extends Model implements CommentInterface
         return $this->hasMany(BookReviewCommentLike::class);
     }
 
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(BookReviewCommentLike::class)->where('user_id', auth('api')->id());
+    }
+
     public function getBookObject()
     {
         return $this->books;
@@ -56,6 +62,7 @@ class BookReviewComment extends Model implements CommentInterface
             ->select('id', 'book_review_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
 
@@ -65,6 +72,7 @@ class BookReviewComment extends Model implements CommentInterface
             ->select('id', 'book_review_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
 }

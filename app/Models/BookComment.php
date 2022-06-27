@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class BookComment extends Model implements CommentInterface
@@ -42,6 +43,11 @@ class BookComment extends Model implements CommentInterface
         return $this->hasMany(BookCommentLike::class);
     }
 
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(BookCommentLike::class)->where('user_id', auth('api')->id());
+    }
+
     public static function getNotificationComment(int $commentId)
     {
         return self::with([
@@ -65,6 +71,7 @@ class BookComment extends Model implements CommentInterface
             ->select('id', 'book_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
 
@@ -74,7 +81,7 @@ class BookComment extends Model implements CommentInterface
             ->select('id', 'book_id', 'user_id', 'content', 'updated_at')
             ->with('user:id,name,avatar,nickname')
             ->withCount('likes')
+            ->withExists('userLike as is_liked')
             ->paginate($paginate);
     }
-
 }
