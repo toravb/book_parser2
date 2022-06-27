@@ -17629,6 +17629,15 @@
                           "start_key": {
                             "type": "string"
                           },
+                          "start_offset": {
+                            "type": "number"
+                          },
+                          "end_key": {
+                            "type": "string"
+                          },
+                          "end_offset": {
+                            "type": "number"
+                          },
                           "likes_count": {
                             "type": "number"
                           },
@@ -17711,6 +17720,9 @@
                           "text",
                           "page_id",
                           "start_key",
+                          "start_offset",
+                          "end_key",
+                          "end_offset",
                           "likes_count",
                           "type"
                         ]

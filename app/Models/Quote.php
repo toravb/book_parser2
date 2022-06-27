@@ -147,7 +147,10 @@ class Quote extends Model
                 'user_id',
                 'quotes.text',
                 'quotes.page_id',
-                'quotes.start_key'
+                'quotes.start_key',
+                'quotes.start_offset',
+                'quotes.end_key',
+                'quotes.end_offset',
             )
             ->with([
                 'book' => function ($query) {
