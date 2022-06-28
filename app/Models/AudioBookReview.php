@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class AudioBookReview extends Model implements ReviewInterface
@@ -51,6 +52,11 @@ class AudioBookReview extends Model implements ReviewInterface
         return $this->hasMany(AudioBookReviewLike::class);
     }
 
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(AudioBookReviewLike::class)->where('user_id', auth('api')->id());
+    }
+
     public function getReviews(int $id)
     {
         return $this
@@ -59,6 +65,7 @@ class AudioBookReview extends Model implements ReviewInterface
                 'reviewTypes'
             ])
             ->where('audio_book_id', $id)
+            ->withExists('userLike as is_liked')
             ->withCount(['likes', 'comments'])
             ->paginate(BookReview::PER_PAGE);
     }
