@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
+use App\Models\BookCompilation;
 use App\Models\Compilation;
 use Illuminate\Http\Request;
 
@@ -13,19 +14,16 @@ class MainPageNoveltiesCompilationController extends Controller
     public function index(Compilation $compilation)
     {
         $books = Book::query()
-        ->whereHas('compilations', function ($query) {
-            return $query->where('location', '1');
-        })
+            ->whereHas('compilations', function ($query) {
+                return $query->where('location', '1');
+            })
             ->select(['id', 'title', 'active', 'year_id'])
             ->with([
                 'genres:id,name',
                 'authors:id,author',
                 'year:id,year'
             ])
-//            ->with(['books:id,title,active,nyear_id', 'books.year:id,year'])
-//            ->where('location', 1)
             ->get();
-//        dd($books);
         return view('admin.compilations.main_page_new_books.index', compact('books'));
     }
 
@@ -54,16 +52,14 @@ class MainPageNoveltiesCompilationController extends Controller
         //
     }
 
-    public function removeFromNovelties(Book $book)
+    public function removeFromNovelties($bookID, Compilation $compilation, BookCompilation $noveltiesCompilation)
     {
-//        $books = $book->get();
-        dd($book);
-        $compilations = new Compilation();
-        $compilation = $compilations->where('location', 1)->get();
-        $compilations->where('compilation_id', $compilation->id)
-            ->where('compilationable_id', $book->id)
-            ->where('compilationable_type', $book->type)
+        $bookCompilation = $compilation->where('location', 1)->first();
+
+        $noveltiesCompilation->where('compilation_id', $bookCompilation->id)
+            ->where('compilationable_id', $bookID)
             ->delete();
-        return ApiAnswerService::redirect(route('admin.compilations.novelties.index'));
+
+        return redirect(route('admin.compilations.novelties.index'));
     }
 }
