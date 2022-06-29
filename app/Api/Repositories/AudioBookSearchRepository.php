@@ -10,6 +10,7 @@ class AudioBookSearchRepository extends BookSearchRepository
     {
         $model = new $this->searchableTypes[$modelType];
         $items = $this->searchOnElasticsearch($query, $limit, $offset, $model);
+
         $collection = $this->buildCollection($items, $model);
         foreach ($collection as $book) {
             if($book->rates_avg === null) {

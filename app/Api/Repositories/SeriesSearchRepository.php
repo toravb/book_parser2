@@ -32,6 +32,6 @@ class SeriesSearchRepository extends ElasticsearchRepository
 
         return $merged->sortBy(function ($series) use ($ids) {
             return array_search($series->getElasticKey(), $ids);
-        });
+        })->values();
     }
 }
