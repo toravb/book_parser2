@@ -62,6 +62,6 @@ class ElasticsearchRepository implements SearchRepositoryInterface
         return $model->baseSearchQuery()->findMany($ids)
             ->sortBy(function ($article) use ($ids) {
                 return array_search($article->getKey(), $ids);
-            });
+            })->values();
     }
 }

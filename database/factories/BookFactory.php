@@ -17,12 +17,10 @@ class BookFactory extends Factory
         return [
             'title'=>$this->faker->title(),
             'text'=>$this->faker->text(200),
-            'link'=>$this->faker->text(10),
             'active'=>$this->faker->boolean(80),
             'fixed'=>$this->faker->boolean(80),
             'count_pages'=>$this->faker->randomDigitNotNull(),
             'params'=> '{}',
-
         ];
     }
 }
