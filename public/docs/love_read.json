@@ -1521,9 +1521,18 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "parent_review_id": {},
-                              "created_at": {},
-                              "updated_at": {},
+                              "parent_review_id": {
+                                "type": "number"
+                              },
+                              "created_at": {
+                                "type": "string"
+                              },
+                              "updated_at": {
+                                "type": "string"
+                              },
+                              "is_liked": {
+                                "type": "boolean"
+                              },
                               "views_count": {
                                 "type": "number"
                               },
@@ -1618,6 +1627,7 @@
                               "review_type_id",
                               "title",
                               "content",
+                              "is_liked",
                               "views_count",
                               "likes_count",
                               "comments_count"
@@ -1851,6 +1861,11 @@
             "name": "sortBy",
             "required": true,
             "description": "2 - readers, 3 - popular, 4 - reviews, 5 - hight rating"
+          }
+        ],
+        "security": [
+          {
+            "Authorization": []
           }
         ]
       }
@@ -5021,6 +5036,9 @@
                                 "type": "string",
                                 "minLength": 1
                               },
+                              "is_liked": {
+                                "type": "boolean"
+                              },
                               "likes_count": {
                                 "type": "number"
                               },
@@ -5072,6 +5090,7 @@
                               "content",
                               "created_at",
                               "updated_at",
+                              "is_liked",
                               "likes_count",
                               "comments_count"
                             ]
@@ -5222,7 +5241,12 @@
         },
         "operationId": "get-books-id-reviews",
         "parameters": [],
-        "description": ""
+        "description": "",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ]
       },
       "parameters": [
         {

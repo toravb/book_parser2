@@ -57,6 +57,11 @@ class BookReview extends Model implements ReviewInterface
         return $this->hasMany(BookReviewLike::class);
     }
 
+    public function userLike(): HasOne
+    {
+        return $this->hasOne(BookReviewLike::class)->where('user_id', auth('api')->id());
+    }
+
     public function reviewTypes()
     {
         return $this->belongsTo(ReviewType::class, 'review_type_id', 'id');
@@ -86,6 +91,7 @@ class BookReview extends Model implements ReviewInterface
                 'book.image:book_id,link',
                 'book.authors:id,author'
             ])
+            ->withExists('userLike as is_liked')
             ->withCount(['views', 'likes', 'comments'])
             ->orderBy('created_at')
             ->limit(20)
@@ -100,6 +106,7 @@ class BookReview extends Model implements ReviewInterface
                 'reviewTypes'
             ])
             ->where('book_id', $id)
+            ->withExists('userLike as is_liked')
             ->withCount(['likes', 'comments'])
             ->paginate(self::PER_PAGE);
     }
