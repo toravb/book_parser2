@@ -5,9 +5,12 @@ use App\Http\Controllers\Admin\AudioBooksController;
 use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\Controllers\Admin\CompilationsController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\MainPageNoTimeForReadCompilationController;
+use App\Http\Controllers\Admin\MainPageNoveltiesCompilationController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\ReviewTypesController;
 use App\Http\Controllers\Admin\YearsController;
@@ -78,6 +81,22 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      */
     Route::resource('banners', BannersController::class)->except(['show']);
 
+    /*
+     * Compilations
+     */
+    Route::group(['as' => 'compilations.', 'prefix' => 'compilations'], function () {
+        Route::resource('/', CompilationsController::class)->except(['show']);
+
+        Route::group(['as' => 'novelties.', 'prefix' => 'novelties'], function () {
+            Route::get('/', [MainPageNoveltiesCompilationController::class, 'index'])->name('index');
+            Route::get('/show-books', [MainPageNoveltiesCompilationController::class, 'showBooksForAdd'])->name('books-for-novelties');
+            Route::get('/add-book/{bookID}', [MainPageNoveltiesCompilationController::class, 'addBooksToNoveltiesCompilation'])->name('add-to-novelties');
+            Route::get('/remove/{bookID}', [MainPageNoveltiesCompilationController::class, 'removeFromNovelties'])->name('remove-from-novelties');
+        });
+
+        Route::resource('no-time-for-read', MainPageNoTimeForReadCompilationController::class)->except(['show']);
+
+    });
 
     /*
      * Old admin panel

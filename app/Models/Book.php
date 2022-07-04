@@ -142,9 +142,9 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->belongsToMany(Genre::class);
     }
 
-    public function scopeDataForAdminPanel($q)
+    public function scopeDataForAdminPanel($query)
     {
-        return $q->select([
+        return $query->select([
             'books.id',
             'title',
             'active',
@@ -155,6 +155,28 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'image:id,book_id,link',
             'year:id,year'
         ]);
+    }
+
+    public function scopeDataForNoveltiesCompilation($query)
+    {
+        $compilation = (new Compilation())->where('location', 1)->first();
+
+        return $query->select([
+            'books.id',
+            'title',
+            'active',
+            'year_id',
+        ])->orderBy(
+            'id',
+            'desc'
+        )->with([
+            'genres:id,name',
+            'authors:id,author',
+            'image:id,book_id,link',
+            'year:id,year'
+        ])->withExists(['bookCompilation as added' => function ($query) use ($compilation) {
+            return $query->where('compilation_id', $compilation->id);
+        }]);
     }
 
     public function year(): BelongsTo
@@ -310,7 +332,12 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
     public function bookCompilation(): MorphOne
     {
-        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+        return $this->morphOne(
+            BookCompilation::class,
+            'bookCompilationable',
+            'compilationable_type',
+            'compilationable_id'
+        );
     }
 
     public function comments(): HasMany
