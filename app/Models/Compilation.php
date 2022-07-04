@@ -218,7 +218,8 @@ class Compilation extends Model implements SearchModelInterface
         string $backgroud,
         string $description,
         int    $created_by,
-        int    $type = null
+        int    $type = null,
+        int    $location = 0
     ): Compilation
     {
         $this->title = $title;
@@ -226,6 +227,7 @@ class Compilation extends Model implements SearchModelInterface
         $this->description = $description;
         $this->created_by = $created_by;
         $this->type = $type;
+        $this->location = $location;
         $this->save();
 
         return $this;

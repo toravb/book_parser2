@@ -89,7 +89,9 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
 
         Route::group(['as' => 'novelties.', 'prefix' => 'novelties'], function () {
             Route::get('/', [MainPageNoveltiesCompilationController::class, 'index'])->name('index');
-            Route::get('/{bookID}', [MainPageNoveltiesCompilationController::class, 'removeFromNovelties'])->name('remove-from-novelties');
+            Route::get('/show-books', [MainPageNoveltiesCompilationController::class, 'showBooksForAdd'])->name('books-for-novelties');
+            Route::get('/add-book/{bookID}', [MainPageNoveltiesCompilationController::class, 'addBooksToNoveltiesCompilation'])->name('add-to-novelties');
+            Route::get('/remove/{bookID}', [MainPageNoveltiesCompilationController::class, 'removeFromNovelties'])->name('remove-from-novelties');
         });
 
         Route::resource('no-time-for-read', MainPageNoTimeForReadCompilationController::class)->except(['show']);
