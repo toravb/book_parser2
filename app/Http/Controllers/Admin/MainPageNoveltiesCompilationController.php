@@ -7,16 +7,16 @@ use App\Api\Services\ApiAnswerService;
 use App\Http\Controllers\Controller;
 use App\Models\Book;
 use App\Models\BookCompilation;
-use App\Models\Admin\Compilation;
+use App\Models\Admin\CompilationAdmin;
 use Illuminate\Http\Request;
 
 class MainPageNoveltiesCompilationController extends Controller
 {
     public function index()
     {
-        $compilation = new Compilation();
+        $compilation = new CompilationAdmin();
 
-        if((new Compilation())->where('location', 1)->exists()){
+        if ((new CompilationAdmin())->where('location', 1)->exists()) {
             $books = Book::query()
                 ->whereHas('compilations', function ($query) {
                     return $query->where('location', '1');
@@ -28,33 +28,18 @@ class MainPageNoveltiesCompilationController extends Controller
                     'year:id,year'
                 ])
                 ->get();
+
+            return view('admin.compilations.main_page_new_books.index', compact('books'));
         } else {
-            $compilation->storeCompilation(
-                '',
-                '',
-                '',
-                auth()->user()->id,
-                null,
-                1
-            );
+            $compilation->createMainPageCompilation(1);
         }
-        $books = Book::query()
-            ->whereHas('compilations', function ($query) {
-                return $query->where('location', '1');
-            })
-            ->select(['id', 'title', 'active', 'year_id'])
-            ->with([
-                'genres:id,name',
-                'authors:id,author',
-                'year:id,year'
-            ])
-            ->get();
-        return view('admin.compilations.main_page_new_books.index', compact('books'));
+
+        return view('admin.compilations.main_page_new_books.index');
     }
 
     public function addBooksToNoveltiesCompilation($bookID)
     {
-        (new Compilation())->addBookToNovelties($bookID);
+        (new CompilationAdmin())->addBookToNovelties($bookID);
 
         return redirect(route('admin.compilations.novelties.books-for-novelties'));
     }
@@ -64,13 +49,13 @@ class MainPageNoveltiesCompilationController extends Controller
         $books = $books
             ->dataForNoveltiesCompilation()
             ->filter($filter)
-            ->paginate(5)
+            ->paginate(25)
             ->withQueryString();
 
         return view('admin.compilations.main_page_new_books.add-books', compact('books'));
     }
 
-    public function removeFromNovelties($bookID, Compilation $compilation, BookCompilation $noveltiesCompilation)
+    public function removeFromNovelties($bookID, CompilationAdmin $compilation, BookCompilation $noveltiesCompilation)
     {
         $bookCompilation = $compilation->where('location', 1)->first();
 

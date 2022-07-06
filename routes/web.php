@@ -95,6 +95,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
         });
 
         Route::resource('no-time-for-read', MainPageNoTimeForReadCompilationController::class)->except(['show']);
+        Route::get('no-time-for-read/add/audiobooks', [MainPageNoTimeForReadCompilationController::class, 'showAudiobooks'])->name('no-time-for-read.add.audiobooks');
+
 
     });
 

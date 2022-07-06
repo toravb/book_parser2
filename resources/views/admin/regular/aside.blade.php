@@ -89,7 +89,7 @@
                     <li class="nav-item">
                         <a href="{{route('admin.compilations.no-time-for-read.index')}}"
                             @class(['nav-link', 'active' => request()->route()->named('admin.compilations.no-time-for-read.index')])>
-                            <p>Некогда читать, слушайте</p>
+                            <p>Некогда читать - слушайте!</p>
                         </a>
                     </li>
                 </ul>
