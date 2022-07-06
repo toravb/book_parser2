@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AudioBooksController;
 use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\Controllers\Admin\CompilationController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
@@ -78,6 +79,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      */
     Route::resource('banners', BannersController::class)->except(['show']);
 
+
+    /*
+     * Compilations
+     */
+    Route::resource('compilations', CompilationController::class)->except(['show']);
 
     /*
      * Old admin panel
