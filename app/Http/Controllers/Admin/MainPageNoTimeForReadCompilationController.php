@@ -45,7 +45,7 @@ class MainPageNoTimeForReadCompilationController extends Controller
 
     public function destroy($audiobook, Compilation $compilation)
     {
-        $compilation->removeBookFromAdminCompilation($audiobook, 0, Compilation::NO_TIME_FOR_READ_LOCATION);
+        $compilation->removeBookFromAdminCompilation($audiobook,Compilation::NO_TIME_FOR_READ_LOCATION);
 
         return ApiAnswerService::redirect(route('admin.compilations.no-time-for-read.index'));
     }

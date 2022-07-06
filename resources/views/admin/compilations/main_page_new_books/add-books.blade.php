@@ -49,7 +49,7 @@
                                     <div class="d-flex">
                                         @if(!$book->added)
                                         <x-button-add
-                                            :route="route('admin.compilations.novelties.add-to-novelties',$book)">
+                                            :route="route('admin.compilations.novelties.edit',$book)">
                                         </x-button-add>
                                         @endif
                                     </div>

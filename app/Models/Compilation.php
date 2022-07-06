@@ -267,7 +267,7 @@ class Compilation extends Model implements SearchModelInterface
         return $bookCompilation;
     }
 
-    public function removeBookFromAdminCompilation(int $bookID, int $compilationID, int $location)
+    public function removeBookFromAdminCompilation(int $bookID, int $location,  int $compilationID = 0)
     {
         if (!$location == 0) {
             $compilation = (new Compilation())

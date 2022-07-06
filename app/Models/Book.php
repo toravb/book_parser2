@@ -166,10 +166,7 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'title',
             'active',
             'year_id',
-        ])->orderBy(
-            'id',
-            'desc'
-        )->with([
+        ])->with([
             'genres:id,name',
             'authors:id,author',
             'image:id,book_id,link',
@@ -573,5 +570,18 @@ class Book extends Model implements BookInterface, SearchModelInterface
             })
             ->get();
 
+    }
+
+    public function bookForNoveltiesMainPageCompilation(): Builder
+    {
+        return $this->whereHas('compilations', function ($query) {
+            return $query->where('location', Compilation::NOVELTIES_LOCATION);
+        })
+            ->select(['id', 'title', 'active', 'year_id'])
+            ->with([
+                'genres:id,name',
+                'authors:id,author',
+                'year:id,year'
+            ]);
     }
 }
