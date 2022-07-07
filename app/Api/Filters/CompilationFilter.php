@@ -80,7 +80,8 @@ class CompilationFilter extends QueryFilter
     public function compType(string $compType)
     {
         return $this->builder
-            ->select('id', 'title', 'background', 'created_by')
+            //TODO: When uncommitted select, SORT_BY_VIEWS doesn't working.
+//            ->select('id', 'title', 'background', 'created_by')
             ->when($compType === Compilation::COMPILATION_USER, function ($query) {
                 $query->where('created_by', \auth()->id());
             })->when($compType === Compilation::COMPILATION_ADMIN, function ($query) {

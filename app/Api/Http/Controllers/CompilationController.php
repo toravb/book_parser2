@@ -82,7 +82,7 @@ class CompilationController extends Controller
 
     public function showUserCompilations(UserCompilationsRequest $request, CompilationFilter $compilationFilter): \Illuminate\Http\JsonResponse
     {
-        $compilation = Compilation::whereNull('location')->filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
+        $compilation = Compilation::query()->whereNull('location')->filter($compilationFilter)->paginate(self::COMPILAION_USERS_QUANTITY);
 
         $compilation->map(function ($query) {
             $query->total_books_count = $query->books_count + $query->audio_books_count;

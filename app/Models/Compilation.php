@@ -9,6 +9,7 @@ use App\Api\Traits\ElasticSearchTrait;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 
 class Compilation extends Model implements SearchModelInterface
@@ -90,7 +91,7 @@ class Compilation extends Model implements SearchModelInterface
         return $this->belongsTo(CompilationType::class);
     }
 
-    public function views(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    public function views(): MorphMany
     {
         return $this->morphMany(View::class, 'viewable');
     }
