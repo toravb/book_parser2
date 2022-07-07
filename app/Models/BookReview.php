@@ -131,24 +131,21 @@ class BookReview extends Model implements ReviewInterface
         return $this->where('user_id', $userID)
             ->whereHas('book', function ($query) use ($request) {
                 return $query->filter(new BookFilter($request));
-            })
-            ->select([
+            })->select([
                 'id',
                 'title',
                 'content',
                 'created_at',
                 'book_id'
-            ])
+            ])->withExists('userLike as is_liked')
             ->with([
                 'book:id,title',
                 'book.image:book_id,public_path as link',
                 'book.authors:id,author'
-            ])
-            ->withCount([
+            ])->withCount([
                 'likes',
                 'views',
                 'comments'
-            ])
-            ->get();
+            ])->get();
     }
 }
