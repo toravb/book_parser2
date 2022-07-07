@@ -33,10 +33,10 @@
                                     {!! $compilation->title !!}
                                 </td>
                                 <td>
-                                    {!! $compilation->background !!}
+                                    {{ $compilation->background }}
                                 </td>
                                 <td>
-                                    {{ $compilation->type }}
+                                    {{ $compilation['compilationType'] }}
                                 </td>
                                 <td>
                                     <div class="d-flex">
@@ -51,8 +51,6 @@
                         @endforeach
                         </tbody>
                     </table>
-
-                    {{$books->links()}}
                 </div>
             </div>
         </div>

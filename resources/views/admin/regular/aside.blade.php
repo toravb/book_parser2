@@ -62,6 +62,24 @@
         </ul>
     </li>
 
+    <li @class(['nav-item', 'menu-open' => request()->route()->named('admin.compilations.*')])>
+        <a href="#" @class(['nav-link', 'active' => request()->route()->named('admin.compilations.*')])>
+            <i class="nav-icon fas fa-list"></i>
+            <p>
+                Подборки
+                <i class="fas fa-angle-left right"></i>
+            </p>
+        </a>
+
+        <ul class="nav nav-treeview">
+            <li class="nav-item">
+                <a href="{{route('admin.compilations.index')}}"
+                @class(['nav-link', 'active' => request()->route()->named('admin.compilations.index')])>
+                <p>Администрирование</p>
+                </a>
+            </li>
+        </ul>
+
     <li class="nav-item">
         <a href="{{route('admin.years.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.years.*')])>
             <i class="nav-icon fa-solid fa-calendar"></i>
