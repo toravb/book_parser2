@@ -43,7 +43,7 @@ class ParsePageJob implements ShouldQueue
         $page_link = $this->pageLink;
         $page_number = $page_link->page_num;
         if (!$page_number){
-            $page_num = explode('p=', $page_link);
+            $page_num = explode('p=', $page_link->link);
             $page_number = @end($page_num);
         }
         $data = BookParserController::parsePage($page_link->link, $page_link->book_id, $page_number);
