@@ -41,18 +41,23 @@ class ParsePageJob implements ShouldQueue
     public function handle()
     {
         $page_link = $this->pageLink;
-        $data = BookParserController::parsePage($page_link->link, $page_link->book_id, $page_link->page_num);
+        $page_number = $page_link->page_num;
+        if (!$page_number){
+            $page_num = explode('p=', $page_link);
+            $page_number = @end($page_num);
+        }
+        $data = BookParserController::parsePage($page_link->link, $page_link->book_id, $page_number);
         if ($data){
             $page = Page::query()
                 ->where('book_id', '=', $page_link->book_id)
-                ->where('page_number', '=', $page_link->page_num)
+                ->where('page_number', '=', $page_number)
                 ->first();
             if (!$page){
-                $page = DB::transaction(function () use ($data, $page_link){
+                $page = DB::transaction(function () use ($data, $page_link, $page_number){
                     $page = new Page();
                     $page->book_id = $page_link->book_id;
                     $page->content = $data['content'];
-                    $page->page_number = $page_link->page_num;
+                    $page->page_number = $page_number;
                     $page->link = $page_link->link;
                     $page->save();
                     return $page;
