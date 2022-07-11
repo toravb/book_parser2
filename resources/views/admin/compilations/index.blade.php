@@ -33,10 +33,19 @@
                                     {!! $compilation->title !!}
                                 </td>
                                 <td>
-                                    {{ $compilation->background }}
+                                    <a
+                                        target="_blank"
+                                        href="{{ Storage::url($compilation->background) }}"
+                                    >
+                                        <img
+                                            src="{{ Storage::url($compilation->background) }}"
+                                            class="img-thumbnail img-size-64"
+                                            alt="Обложка"
+                                        />
+                                    </a>
                                 </td>
                                 <td>
-                                    {{ $compilation['compilationType'] }}
+                                    {{ $compilation['compilationType']->name }}
                                 </td>
                                 <td>
                                     <div class="d-flex">

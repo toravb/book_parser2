@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\Admin\CompilationController;
+use App\Http\Controllers\Admin\CompilationTypesController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
@@ -84,6 +85,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      * Compilations
      */
     Route::resource('compilations', CompilationController::class)->except(['show']);
+
+    /*
+     * Compilation type
+     */
+    Route::resource('compilation-types', CompilationTypesController::class)->except(['show']);
 
     /*
      * Old admin panel

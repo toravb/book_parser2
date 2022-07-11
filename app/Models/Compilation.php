@@ -6,13 +6,16 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\UpdateUserCompilationRequest;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\StoreCompilationRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Compilation extends Model implements SearchModelInterface
 {
@@ -90,7 +93,7 @@ class Compilation extends Model implements SearchModelInterface
 
     public function compilationType(): BelongsTo
     {
-        return $this->belongsTo(CompilationType::class);
+        return $this->belongsTo(CompilationType::class, 'type_id', 'id');
     }
 
     public function views(): MorphMany
@@ -112,7 +115,7 @@ class Compilation extends Model implements SearchModelInterface
                 'views'
             ])
             ->whereNull('location')
-            ->whereNotNull('type')
+            ->whereNotNull('type_id')
             ->orderBy('created_at')
             ->limit(20)
             ->get();
@@ -128,7 +131,7 @@ class Compilation extends Model implements SearchModelInterface
     {
         return $this
             ->compilationWithBooks()
-            ->where('type', $type)
+            ->where('type_id', $type)
             ->first();
     }
 
@@ -229,14 +232,36 @@ class Compilation extends Model implements SearchModelInterface
         $this->background = $background;
         $this->description = $description;
         $this->created_by = $created_by;
-        $this->type = $type;
+        $this->type_id = $type;
         $this->save();
 
         return $this;
     }
 
-    public function compilationsForAdmin(): Collection
+    public function compilationsForAdmin()
     {
-        return $this->whereNotNull('type')->with(['compilationType'])->get();
+        return $this->whereNotNull('type_id')->with('compilationType:id,name');
+    }
+
+    public function saveFromRequest(StoreCompilationRequest $request)
+    {
+        $this->title = $request->title;
+        $this->description = $request->description ?? '';
+        $this->type_id = $request->type_id;
+
+        $this->save();
+
+        if ($request->background_image_remove and $this->background) {
+            \Storage::delete($this->background);
+            $this->background = 'нет изображения';
+            $this->save();
+        }
+
+        if ($request->background) {
+            if ($this->background) \Storage::delete($this->background);
+
+            $this->background = \Storage::put('CompilationImages', $request->background);
+            $this->save();
+        }
     }
 }
