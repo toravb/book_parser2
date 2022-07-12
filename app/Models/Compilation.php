@@ -28,6 +28,8 @@ class Compilation extends Model implements SearchModelInterface
     const COMPILATION_ALL = '3';
     const COMPILATION_PER_PAGE = 20;
     const CATEGORY_ALL = '3';
+    const NOVELTIES_LOCATION = 1;
+    const NO_TIME_FOR_READ_LOCATION = 2;
 
     public function toArray()
     {
@@ -223,7 +225,8 @@ class Compilation extends Model implements SearchModelInterface
         string $background,
         string $description,
         int    $created_by,
-        int    $type = null
+        int    $type = null,
+        int    $location = 0
     ): Compilation
     {
         $this->title = $title;
@@ -231,9 +234,59 @@ class Compilation extends Model implements SearchModelInterface
         $this->description = $description;
         $this->created_by = $created_by;
         $this->type_id = $type;
+        $this->location = $location;
         $this->save();
 
         return $this;
+    }
+
+    public function createMainPageAdminCompilation(int $location)
+    {
+        $compilation = new Compilation();
+
+        $compilation->title = '';
+        $compilation->background = '';
+        $compilation->description = '';
+        $compilation->created_by = auth()->id();
+        $compilation->location = $location;
+        $compilation->save();
+    }
+
+    public function addBookToAdminCompilation(int $bookID, string $type, int $location = 0, int $compilationID = 0)
+    {
+        $bookCompilation = new BookCompilation();
+
+        if (!$location == 0) {
+            $compilations = new Compilation();
+            $compilationAdmin = $compilations->where('location', $location)->first();
+            $bookCompilation->compilation_id = $compilationAdmin->id;
+        } else {
+            $bookCompilation->compilation_id = $compilationID;
+        }
+
+        $bookCompilation->compilationable_id = $bookID;
+        $bookCompilation->compilationable_type = $type;
+        $bookCompilation->save();
+
+        return $bookCompilation;
+    }
+
+    public function removeBookFromAdminCompilation(int $bookID, int $location,  int $compilationID = 0)
+    {
+        if (!$location == 0) {
+            $compilation = (new Compilation())
+                ->where('location', $location)
+                ->first();
+            $id = $compilation->id;
+        } else {
+            $id = $compilationID;
+        }
+
+        $bookCompilation = new BookCompilation();
+        $bookCompilation
+            ->where('compilation_id', $id)
+            ->where('compilationable_id', $bookID)
+            ->delete();
     }
 
     public function compilationsForAdmin()
