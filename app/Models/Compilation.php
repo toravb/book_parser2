@@ -6,16 +6,14 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\UpdateUserCompilationRequest;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
-use App\Http\Requests\StoreCompilationRequest;
+use App\Http\Requests\Admin\StoreCompilationRequest;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class Compilation extends Model implements SearchModelInterface
 {
@@ -248,20 +246,19 @@ class Compilation extends Model implements SearchModelInterface
         $this->title = $request->title;
         $this->description = $request->description ?? '';
         $this->type_id = $request->type_id;
+        $this->created_by = $request->created_by ?? Auth::id();
 
-        $this->save();
 
         if ($request->background_image_remove and $this->background) {
             \Storage::delete($this->background);
             $this->background = 'нет изображения';
-            $this->save();
         }
 
         if ($request->background) {
             if ($this->background) \Storage::delete($this->background);
 
             $this->background = \Storage::put('CompilationImages', $request->background);
-            $this->save();
         }
+        $this->save();
     }
 }
