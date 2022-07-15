@@ -1,12 +1,6 @@
 <x-layouts.admin-layout>
 
-    <x-slot name="title">Некогда читать - слушайте!(Главная страница)</x-slot>
-
-    <x-slot name="actions">
-        <x-href-add :route="route('admin.compilations.no-time-for-read.add.audiobooks')"
-                    label="Добавить книги"></x-href-add>
-    </x-slot>
-
+    <x-slot name="title">Список книг для добавления в подборку {{ $compilation->title }}</x-slot>
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -20,50 +14,51 @@
                             <x-th-sortable name="id">ID</x-th-sortable>
                             <x-th-sortable name="active">Активна?</x-th-sortable>
                             <x-th-sortable name="title">Название</x-th-sortable>
-                            <th>Жанр</th>
+                            <th>Категории</th>
                             <th>Автор</th>
                             <x-th-sortable name="year">Год</x-th-sortable>
                             <th style="width: 100px;"></th>
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($audiobooks as $audiobook)
+                        @foreach($books as $book)
                             <tr>
                                 <td>
-                                    {{ $audiobook->id }}
+                                    {{ $book->id }}
                                 </td>
                                 <td>
-                                    {{$audiobook->active ? 'Да' : 'Нет'}}
+                                    {{$book->active ? 'Да' : 'Нет'}}
                                 </td>
                                 <td>
-                                    {!! $audiobook->title !!}
+                                    {!! $book->title !!}
                                 </td>
                                 <td>
-                                    {{ $audiobook->genre?->name }}
+                                    @foreach($book->genres??[] as $genre)
+                                        {{$genre->name}} <br>
+                                    @endforeach
                                 </td>
                                 <td>
-                                    @foreach($audiobook->authors??[] as $author)
+                                    @foreach($book->authors??[] as $author)
                                         {{$author->author}} <br>
                                     @endforeach
                                 </td>
                                 <td>
-                                    {{$audiobook->year?->year}}
+                                    {{$book->year?->year}}
                                 </td>
                                 <td>
                                     <div class="d-flex">
-                                        <x-button-edit
-                                            :route="route('admin.audio-books.edit', $audiobook)"></x-button-edit>
-                                        <x-button-delete
-                                            :title="('Удалить книгу из подборки?')"
-                                            :text="('')"
-                                            :route="route('admin.compilations.no-time-for-read.destroy', $audiobook)"></x-button-delete>
+                                        @if(!$book->added)
+                                            <x-button-add
+                                                :route="route('admin.compilations.store-book', [$compilation, $book, 'type'=>$book->type])">
+                                            </x-button-add>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
                         @endforeach
                         </tbody>
                     </table>
-                    {{$audiobooks->links()}}
+                    {{$books->links()}}
                 </div>
             </div>
         </div>

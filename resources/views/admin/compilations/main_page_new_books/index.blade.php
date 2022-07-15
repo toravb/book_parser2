@@ -59,6 +59,7 @@
                                         <x-button-edit :route="route('admin.books.edit', $book)"></x-button-edit>
 
                                         <x-button-delete
+                                            :title="('Удалить книгу из подборки?')"
                                             :text="('')"
                                             :route="route('admin.compilations.novelties.destroy', $book)"></x-button-delete>
                                     </div>

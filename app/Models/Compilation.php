@@ -271,7 +271,7 @@ class Compilation extends Model implements SearchModelInterface
         return $bookCompilation;
     }
 
-    public function removeBookFromAdminCompilation(int $bookID, int $location,  int $compilationID = 0)
+    public function removeBookFromAdminCompilation(int $bookID, int $location, int $compilationID = 0)
     {
         if (!$location == 0) {
             $compilation = (new Compilation())
@@ -313,5 +313,15 @@ class Compilation extends Model implements SearchModelInterface
             $this->background = \Storage::put('CompilationImages', $request->background);
         }
         $this->save();
+    }
+
+    public function adminCompilationWithBooks()
+    {
+        return $this->with([
+            'books:id,title',
+            'books.image:book_id,public_path',
+            'audioBooks:id,title',
+            'audioBooks.image:book_id,public_path'
+        ])->get();
     }
 }

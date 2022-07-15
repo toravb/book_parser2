@@ -2,7 +2,7 @@
     <a
         class="btn btn-success"
         href="{{$route}}"
-        title="Редактировать"
+        title="Добавить"
     >
         <i class="fa-solid fa-plus"></i>
     </a>

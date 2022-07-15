@@ -435,4 +435,17 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             }]);
     }
 
+    public function booksForAddToAdminCompilations(int $compilationID): Builder
+    {
+        return $this
+            ->select(['audio_books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'genre:id,name',
+                'authors:id,author',
+                'year:id,year'
+            ])
+            ->withExists(['bookCompilation as added' => function ($query) use ($compilationID) {
+                return $query->where('compilation_id', $compilationID);
+            }]);
+    }
 }

@@ -2,6 +2,14 @@
 
     <x-slot name="title">Редактировать подборку "{{$compilation->title}}"</x-slot>
 
+    <x-slot name="actions">
+        <x-href-add :route="route('admin.compilations.add-books', [$compilation])"
+                    label="Добавить книги"></x-href-add>
+
+        <x-href-add :route="route('admin.compilations.add-audiobooks', [$compilation])"
+                    label="Добавить аудиокниги"></x-href-add>
+    </x-slot>
+
     <div class="content">
         <form
             action="{{route('admin.compilations.update', $compilation)}}"

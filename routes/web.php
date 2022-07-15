@@ -86,9 +86,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
     /*
      * Compilations
      */
-    Route::group(['as' => 'compilations.', 'prefix' => 'compilations'], function () {
-        Route::resource('/', CompilationsController::class)->except(['show']);
 
+    Route::group(['as' => 'compilations.', 'prefix' => 'compilations'], function () {
+        Route::get('/{compilation}/add', [CompilationController::class, 'booksToAdd'])->name('add-books');
+        Route::get('/{compilation}/add-audiobooks', [CompilationController::class, 'audiobooksToAdd'])->name('add-audiobooks');
+        Route::get('/{compilation}/add-book/{book}', [CompilationController::class, 'storeBooksInCompilation'])->name('store-book');
+
+        Route::delete('/{compilation}/remove/{id}/{type}', [CompilationController::class, 'removeBookFromCompilation'])->name('remove-book');
         /*
          * Main page compilation novelties
          */
@@ -103,12 +107,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
 
 
     });
+    Route::resource('compilations', CompilationController::class);
 
-    /*
-     * Compilations
-     */
-    Route::resource('compilations', CompilationController::class)->except(['show']);
-
+//    /*
+//     * Compilations
+//     */
+//    Route::resource('compilations', CompilationController::class)->except(['show']);
+//
     /*
      * Compilation type
      */

@@ -49,10 +49,14 @@
                                 </td>
                                 <td>
                                     <div class="d-flex">
+                                        <x-button-show
+                                            :route="route('admin.compilations.show', $compilation)"></x-button-show>
+
                                         <x-button-edit
                                             :route="route('admin.compilations.edit', $compilation)"></x-button-edit>
 
                                         <x-button-delete
+                                            :title="('Удалить подборку?')"
                                             :route="route('admin.compilations.destroy', $compilation)"></x-button-delete>
                                     </div>
                                 </td>
