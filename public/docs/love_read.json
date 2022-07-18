@@ -12007,7 +12007,7 @@
     "/compilations/edit": {
       "post": {
         "summary": "Edit user compilation",
-        "operationId": "post-compilations",
+        "operationId": "post-compilations-edit",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -15491,6 +15491,38 @@
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 2,
+                          "title": "Гарри и его друждба",
+                          "content": "Ну такое себе)))",
+                          "created_at": "2022-04-18T09:05:17.000000Z",
+                          "book_id": 1,
+                          "likes_count": 0,
+                          "views_count": 0,
+                          "comments_count": 1,
+                          "book": {
+                            "id": 1,
+                            "title": "А вот еще...",
+                            "type": "books",
+                            "image": {
+                              "book_id": 1,
+                              "link": "http://loveread.ec/img/photo_books/73015.jpg"
+                            },
+                            "authors": [
+                              {
+                                "id": 1,
+                                "author": "Араматов"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  },
                   "properties": {
                     "status": {
                       "type": "string"
@@ -15514,6 +15546,9 @@
                           },
                           "book_id": {
                             "type": "integer"
+                          },
+                          "is_liked": {
+                            "type": "boolean"
                           },
                           "likes_count": {
                             "type": "integer"
@@ -15565,38 +15600,6 @@
                           }
                         }
                       }
-                    }
-                  },
-                  "x-examples": {
-                    "example-1": {
-                      "status": "success",
-                      "data": [
-                        {
-                          "id": 2,
-                          "title": "Гарри и его друждба",
-                          "content": "Ну такое себе)))",
-                          "created_at": "2022-04-18T09:05:17.000000Z",
-                          "book_id": 1,
-                          "likes_count": 0,
-                          "views_count": 0,
-                          "comments_count": 1,
-                          "book": {
-                            "id": 1,
-                            "title": "А вот еще...",
-                            "type": "books",
-                            "image": {
-                              "book_id": 1,
-                              "link": "http://loveread.ec/img/photo_books/73015.jpg"
-                            },
-                            "authors": [
-                              {
-                                "id": 1,
-                                "author": "Араматов"
-                              }
-                            ]
-                          }
-                        }
-                      ]
                     }
                   }
                 }

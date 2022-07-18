@@ -47,7 +47,7 @@ class CompilationFilter extends QueryFilter
             return $this->builder->where('location', null);
         }
 
-        return $this->builder->where('type', $selectionCategory);
+        return $this->builder->where('type_id', $selectionCategory);
     }
 
     public function bookType(string $bookType): Builder
@@ -84,7 +84,7 @@ class CompilationFilter extends QueryFilter
             ->when($compType === Compilation::COMPILATION_USER, function ($query) {
                 $query->where('created_by', \auth()->id());
             })->when($compType === Compilation::COMPILATION_ADMIN, function ($query) {
-                $query->whereNotNull('type')->whereHas('compilationUsers');
+                $query->whereNotNull('type_id')->whereHas('compilationUsers');
             })->when($compType === Compilation::COMPILATION_ALL, function ($query) {
                 $query->where('created_by', \auth()->id())->orWhereHas('compilationUsers');
             })
