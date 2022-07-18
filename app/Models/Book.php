@@ -92,25 +92,25 @@ class Book extends Model implements BookInterface, SearchModelInterface
         $this->meta_keywords = $request->meta_keywords;
         $this->alias_url = $request->alias_url ?? Str::slug($request->title);
 
-        $this->links ?? $this->link = '';
+//        $this->links ?? $this->link = '';
         $this->params ?? $this->params = '{}';
 
         $this->save();
 
         if ($request->cover_image_remove and $this->image) {
-            Storage::delete($this->image->link);
+            Storage::delete($this->image->public_path);
             $this->image->delete();
         }
 
         if ($request->cover_image) {
             if ($this->image) {
                 $image = $this->image;
-                Storage::delete($image->link);
+                Storage::delete($image->public_path);
             } else {
                 $image = new Image();
             }
 
-            $image->link = Storage::put('books-covers', $request->cover_image);
+            $image->public_path = Storage::put('books-covers', $request->cover_image);
 
             $this->image()->save($image);
         }
@@ -142,9 +142,26 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->belongsToMany(Genre::class);
     }
 
-    public function scopeDataForAdminPanel($q)
+    public function scopeDataForAdminPanel($query)
     {
-        return $q->select([
+        return $query->select([
+            'books.id',
+            'title',
+            'active',
+            'year_id',
+        ])->with([
+            'genres:id,name',
+            'authors:id,author',
+            'image:id,book_id,public_path as link',
+            'year:id,year'
+        ]);
+    }
+
+    public function scopeDataForNoveltiesCompilation($query)
+    {
+        $compilation = (new Compilation())->where('location', 1)->first();
+
+        return $query->select([
             'books.id',
             'title',
             'active',
@@ -154,7 +171,9 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'authors:id,author',
             'image:id,book_id,link',
             'year:id,year'
-        ]);
+        ])->withExists(['bookCompilation as added' => function ($query) use ($compilation) {
+            return $query->where('compilation_id', $compilation->id);
+        }]);
     }
 
     public function year(): BelongsTo
@@ -310,7 +329,12 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
     public function bookCompilation(): MorphOne
     {
-        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+        return $this->morphOne(
+            BookCompilation::class,
+            'bookCompilationable',
+            'compilationable_type',
+            'compilationable_id'
+        );
     }
 
     public function comments(): HasMany
@@ -546,5 +570,32 @@ class Book extends Model implements BookInterface, SearchModelInterface
             })
             ->get();
 
+    }
+
+    public function bookForNoveltiesMainPageCompilation(): Builder
+    {
+        return $this->whereHas('compilations', function ($query) {
+            return $query->where('location', Compilation::NOVELTIES_LOCATION);
+        })
+            ->select(['books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'genres:id,name',
+                'authors:id,author',
+                'year:id,year'
+            ]);
+    }
+
+    public function booksForAddToAdminCompilations(int $compilationID): Builder
+    {
+        return $this
+            ->select(['books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'genres:id,name',
+                'authors:id,author',
+                'year:id,year'
+            ])
+            ->withExists(['bookCompilation as added' => function ($query) use ($compilationID) {
+                return $query->where('compilation_id', $compilationID);
+            }]);
     }
 }

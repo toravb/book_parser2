@@ -97,11 +97,11 @@ class SocialAuthController extends Controller
 
             $idSocialNetwork->updateOrCreateNetworks($column, $userId, $socialId);
             Cache::put('socialToken' . $userId, $socialUser->token, 60);
-            return redirect(url(config('app.front_url')) . '/login?token=' .
+            return redirect(url(config('app.front_url')) . '?token=' .
                 $socialUser->token . '&id=' . $userId);
         } catch (Exception $e) {
             Log::error($e);
-            return redirect(url(config('app.front_url')) . '/login?error=Something went wrong');
+            return redirect(url(config('app.front_url')) . '?error=Something went wrong');
         }
     }
 
