@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class View extends Model
 {
@@ -14,7 +15,7 @@ class View extends Model
             'viewable_type'
         ];
 
-    public function viewable(): \Illuminate\Database\Eloquent\Relations\MorphTo
+    public function viewable(): MorphTo
     {
         return $this->morphTo();
     }
