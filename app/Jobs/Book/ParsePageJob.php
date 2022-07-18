@@ -70,15 +70,21 @@ class ParsePageJob implements ShouldQueue
                         ->where('page_num', '=', $nav['page_num'])
                         ->first();
                     if (!$link){
-                        $link = DB::transaction(function () use ($nav, $page_link){
-                            $link = new PageLink();
-                            $link->link = $nav['url'];
-                            $link->page_num = $nav['page_num'];
-                            $link->book_id = $page_link->book_id;
-                            $link->doParse = 1;
-                            $link->save();
-                            return $link;
-                        });
+                        try {
+                            $link = DB::transaction(function () use ($nav, $page_link){
+                                $link = new PageLink();
+                                $link->link = $nav['url'];
+                                $link->page_num = $nav['page_num'];
+                                $link->book_id = $page_link->book_id;
+                                $link->doParse = 1;
+                                $link->save();
+                                return $link;
+                            });
+                        }catch (\Exception $exception){
+                            if ($exception->getCode() != 23000) {
+                                throw $exception;
+                            }
+                        }
                     }
                 }
             }
