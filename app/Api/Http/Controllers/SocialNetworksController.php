@@ -78,7 +78,7 @@ class SocialNetworksController extends Controller
             $column = $request->provider . '_id';
             $hash = $request->input('state');
             if(!$hash) {
-                return redirect(url(config('app.front_url')) . '/login?error=You did not went from your account');
+                return redirect(url(config('app.front_url')) . '?error=You did not went from your account');
             }
             $socialUser = Socialite::driver($request->provider)->stateless()->user();
 
@@ -90,18 +90,18 @@ class SocialNetworksController extends Controller
                 ->where('token_valid_until', '>', Carbon::now())
                 ->first();
             if(!$socialIdUser) {
-                return redirect(url(config('app.front_url')) . '/login?error=Time for binding account maximum 1 hour. Refresh the page and try again');
+                return redirect(url(config('app.front_url')) . '?error=Time for binding account maximum 1 hour. Refresh the page and try again');
             }
 
             if ($socialIdUser) {
                 $idSocialNetwork->updateAfterBinding($column, $socialIdUser->user_id, $socialId);
                 return redirect(url(config('app.front_url')) . '?success=You bind social network to your account');
             } else {
-                return redirect(url(config('app.front_url')) . '/login?error=You did not went from your account');
+                return redirect(url(config('app.front_url')) . '?error=You did not went from your account');
             }
         } catch (Exception $e) {
             Log::error($e);
-            return redirect(url(config('app.front_url')) . '/login?error=Something went wrong');
+            return redirect(url(config('app.front_url')) . '?error=Something went wrong');
         }
     }
 }
