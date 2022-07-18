@@ -90,24 +90,21 @@ class AudioBookReview extends Model implements ReviewInterface
         return $this->where('user_id', $userID)
             ->whereHas('audioBook', function ($query) use ($request) {
                 return $query->filter(new AudioBookFilter($request));
-            })
-            ->select([
+            })->select([
                 'id',
                 'title',
                 'content',
                 'created_at',
                 'audio_book_id'
-            ])
+            ])->withExists('userLike as is_liked')
             ->with([
                 'audioBook:id,title',
                 'audioBook.image:book_id,public_path as link',
                 'audioBook.authors:id,author'
-            ])
-            ->withCount([
+            ])->withCount([
                 'likes',
                 'views',
                 'comments'
-            ])
-            ->get();
+            ])->get();
     }
 }

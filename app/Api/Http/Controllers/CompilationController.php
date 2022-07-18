@@ -65,7 +65,7 @@ class CompilationController extends Controller
 
     public function showCompilationDetails(GetIdRequest $request, CompilationService $compilationService, View $view)
     {
-        $compilation = Compilation::select('id', 'title', 'background', 'description', 'type')
+        $compilation = Compilation::select('id', 'title', 'background', 'description', 'type_id')
             ->withCount(['books', 'audioBooks'])
             ->findOrfail($request->id);
 

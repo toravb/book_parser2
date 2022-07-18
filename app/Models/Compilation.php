@@ -6,11 +6,14 @@ use App\Api\Filters\QueryFilter;
 use App\Api\Http\Requests\UpdateUserCompilationRequest;
 use App\Api\Interfaces\SearchModelInterface;
 use App\Api\Traits\ElasticSearchTrait;
+use App\Http\Requests\Admin\StoreCompilationRequest;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Facades\Auth;
 
 class Compilation extends Model implements SearchModelInterface
 {
@@ -25,6 +28,8 @@ class Compilation extends Model implements SearchModelInterface
     const COMPILATION_ALL = '3';
     const COMPILATION_PER_PAGE = 20;
     const CATEGORY_ALL = '3';
+    const NOVELTIES_LOCATION = 1;
+    const NO_TIME_FOR_READ_LOCATION = 2;
 
     public function toArray()
     {
@@ -86,9 +91,9 @@ class Compilation extends Model implements SearchModelInterface
             ->where('id', auth('api')->id());
     }
 
-    public function compilationType()
+    public function compilationType(): BelongsTo
     {
-        return $this->belongsTo(CompilationType::class);
+        return $this->belongsTo(CompilationType::class, 'type_id', 'id');
     }
 
     public function views(): MorphMany
@@ -110,7 +115,7 @@ class Compilation extends Model implements SearchModelInterface
                 'views'
             ])
             ->whereNull('location')
-            ->whereNotNull('type')
+            ->whereNotNull('type_id')
             ->orderBy('created_at')
             ->limit(20)
             ->get();
@@ -126,7 +131,7 @@ class Compilation extends Model implements SearchModelInterface
     {
         return $this
             ->compilationWithBooks()
-            ->where('type', $type)
+            ->where('type_id', $type)
             ->first();
     }
 
@@ -217,19 +222,106 @@ class Compilation extends Model implements SearchModelInterface
 
     public function storeCompilation(
         string $title,
-        string $backgroud,
+        string $background,
         string $description,
         int    $created_by,
-        int    $type = null
+        int    $type = null,
+        int    $location = 0
     ): Compilation
     {
         $this->title = $title;
-        $this->background = $backgroud;
+        $this->background = $background;
         $this->description = $description;
         $this->created_by = $created_by;
-        $this->type = $type;
+        $this->type_id = $type;
+        $this->location = $location;
         $this->save();
 
         return $this;
+    }
+
+    public function createMainPageAdminCompilation(int $location)
+    {
+        $compilation = new Compilation();
+
+        $compilation->title = '';
+        $compilation->background = '';
+        $compilation->description = '';
+        $compilation->created_by = auth()->id();
+        $compilation->location = $location;
+        $compilation->save();
+    }
+
+    public function addBookToAdminCompilation(int $bookID, string $type, int $location = 0, int $compilationID = 0)
+    {
+        $bookCompilation = new BookCompilation();
+
+        if (!$location == 0) {
+            $compilations = new Compilation();
+            $compilationAdmin = $compilations->where('location', $location)->first();
+            $bookCompilation->compilation_id = $compilationAdmin->id;
+        } else {
+            $bookCompilation->compilation_id = $compilationID;
+        }
+
+        $bookCompilation->compilationable_id = $bookID;
+        $bookCompilation->compilationable_type = $type;
+        $bookCompilation->save();
+
+        return $bookCompilation;
+    }
+
+    public function removeBookFromAdminCompilation(int $bookID, int $location, int $compilationID = 0)
+    {
+        if (!$location == 0) {
+            $compilation = (new Compilation())
+                ->where('location', $location)
+                ->first();
+            $id = $compilation->id;
+        } else {
+            $id = $compilationID;
+        }
+
+        $bookCompilation = new BookCompilation();
+        $bookCompilation
+            ->where('compilation_id', $id)
+            ->where('compilationable_id', $bookID)
+            ->delete();
+    }
+
+    public function compilationsForAdmin()
+    {
+        return $this->whereNotNull('type_id')->with('compilationType:id,name');
+    }
+
+    public function saveFromRequest(StoreCompilationRequest $request)
+    {
+        $this->title = $request->title;
+        $this->description = $request->description ?? '';
+        $this->type_id = $request->type_id;
+        $this->created_by = $request->created_by ?? Auth::id();
+
+
+        if ($request->background_image_remove and $this->background) {
+            \Storage::delete($this->background);
+            $this->background = 'нет изображения';
+        }
+
+        if ($request->background) {
+            if ($this->background) \Storage::delete($this->background);
+
+            $this->background = \Storage::put('CompilationImages', $request->background);
+        }
+        $this->save();
+    }
+
+    public function adminCompilationWithBooks()
+    {
+        return $this->with([
+            'books:id,title',
+            'books.image:book_id,public_path',
+            'audioBooks:id,title',
+            'audioBooks.image:book_id,public_path'
+        ])->get();
     }
 }
