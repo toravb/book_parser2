@@ -143,6 +143,11 @@ class User extends Authenticatable
         return $this->hasMany(Compilation::class, 'created_by', 'id');
     }
 
+    public function favoriteCompilations(): HasMany
+    {
+        return $this->hasMany(CompilationUser::class, 'user_id', 'id');
+    }
+
     public function readingSettings()
     {
         return $this->hasMany(ReadingSettings::class);
@@ -195,7 +200,8 @@ class User extends Authenticatable
             ->withCount([
                 'bookStatuses as books_count',
                 'audioBookStatuses as audio_books_count',
-                'compilationUsers as compilations_count',
+                'compilationUsers',
+                'favoriteCompilations',
                 'quotes',
                 'authors',
                 'reviews as book_reviews_count',
@@ -203,6 +209,7 @@ class User extends Authenticatable
             ])->findOrFail(\auth()->id());
 
         $counter->total_reviews_count = $counter->book_reviews_count + $counter->audio_reviews_count;
+        $counter->compilations_count = $counter->compilation_users_count + $counter->favorite_compilations_count;
 
         return $counter;
     }
