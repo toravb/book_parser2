@@ -19,7 +19,6 @@ class Compilation extends Model implements SearchModelInterface
 {
     use HasFactory, ElasticSearchTrait;
 
-
     const SORT_BY_DATE = '1';
     const SORT_BY_ALPHABET = '2';
     const SORT_BY_VIEWS = '3';
