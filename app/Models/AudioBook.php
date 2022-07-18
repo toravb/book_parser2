@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class AudioBook extends Model implements BookInterface, SearchModelInterface
 {
@@ -169,7 +170,12 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
 
     public function bookCompilation()
     {
-        return $this->morphOne(BookCompilation::class, 'bookCompilationable');
+        return $this->morphOne(
+            BookCompilation::class,
+            'bookCompilationable',
+            'compilationable_type',
+            'compilationable_id'
+        );
     }
 
     public function link()
@@ -289,7 +295,7 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     public function noveltiesBooks(): Builder
     {
         return $this
-            ->select('audio_books.id', 'audio_books.title', 'audio_books.year_id', 'genre_id')
+            ->select('id', 'title', 'year_id', 'genre_id')
             ->with([
                 'genre:id,name',
                 'authors:id,author',
@@ -298,8 +304,8 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ])
             ->withCount('views')
             ->withAggregate('rates as rates_avg', 'Coalesce( Avg( rates.rating ), 0 )')
-            ->when($this->avg('audio_books.year_id') > 0, function ($q) {
-                $q->join('years', 'years.id', '=', 'audio_books.year_id');
+            ->when($this->avg('year_id') > 0, function ($q) {
+                $q->join('years', 'years.id', '=', 'year_id');
             });
     }
 
@@ -329,11 +335,11 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
     {
         return $this
             ->select(
-                'audio_books.id',
-                'audio_books.active',
-                'audio_books.title',
-                'audio_books.year_id',
-                'audio_books.genre_id'
+                'id',
+                'active',
+                'title',
+                'year_id',
+                'genre_id'
             )
             ->with([
                 'genre:id,name',
@@ -355,9 +361,9 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             'active' => $status,
             'title' => $title,
             'description' => $description,
-            'genre_id' => $genre,
-            'series_id' => $series,
-            'year_id' => $yearId
+//            'genre_id' => $genre,
+//            'series_id' => $series,
+//            'year_id' => $yearId
         ]);
 
         return $book->id;
@@ -388,5 +394,58 @@ class AudioBook extends Model implements BookInterface, SearchModelInterface
             ->where('genre_id', $this->genre_id)
             ->get();
 
+    }
+
+    public function getAudioBooksForMainPageComp(): Builder
+    {
+        return AudioBook::whereHas('compilations', function (Builder $query) {
+            return $query->where('location', Compilation::NO_TIME_FOR_READ_LOCATION);
+        })
+            ->select([
+                'audio_books.id',
+                'title',
+                'active',
+                'genre_id',
+                'year_id'
+            ])
+            ->with([
+                'genre:id,name',
+                'year:id,year',
+                'authors:id,author'
+            ]);
+    }
+
+    public function scopeDataForNoTimeToReadCompilation(Builder $query): Builder
+    {
+        $compilation = (new Compilation())->where('location', Compilation::NO_TIME_FOR_READ_LOCATION)->first();
+
+        return $this
+            ->select(
+                'audio_books.id',
+                'active',
+                'title',
+                'year_id',
+                'genre_id'
+            )->with([
+                'genre:id,name',
+                'authors:id,author',
+                'year:id,year'
+            ])->withExists(['bookCompilation as added' => function ($query) use ($compilation) {
+                return $query->where('compilation_id', $compilation->id);
+            }]);
+    }
+
+    public function booksForAddToAdminCompilations(int $compilationID): Builder
+    {
+        return $this
+            ->select(['audio_books.id', 'title', 'active', 'year_id'])
+            ->with([
+                'genre:id,name',
+                'authors:id,author',
+                'year:id,year'
+            ])
+            ->withExists(['bookCompilation as added' => function ($query) use ($compilationID) {
+                return $query->where('compilation_id', $compilationID);
+            }]);
     }
 }
