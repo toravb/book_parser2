@@ -60,6 +60,7 @@ class Genre extends Model
     public function relatedWithBook(){
         return $this->select('id', 'name')
             ->whereHas('books')
+            ->withCount('books')
             ->get();
     }
 
@@ -73,6 +74,7 @@ class Genre extends Model
     public function relatedWithAudioBook(){
         return $this->select('id', 'name')
             ->whereHas('audioBooks')
+            ->withCount('audioBooks as books_count')
             ->get();
     }
 }
