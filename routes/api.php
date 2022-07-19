@@ -28,6 +28,7 @@ use App\Api\Http\Controllers\UserController;
 use App\Api\Http\Controllers\UsersRecommendationsController;
 use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
+use App\AuthApi\Http\Controllers\ResetPasswordController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
 use App\Http\Controllers\ReadingSettingsController;
@@ -56,8 +57,10 @@ Route::group(['middleware' => 'guest'], function () {
     //Social networks
     Route::get('/auth/{provider}', [SocialAuthController::class, 'redirectToGoogle']);
     Route::get('/auth/{provider}/callback', [SocialAuthController::class, 'handleGoogleCallback']);
+
     Route::post('/auth', [SocialAuthController::class, 'authConfirm']);
     Route::post('/password_forgot', [PasswordController::class, 'forgot']);
+    Route::post('/password_reset', [ResetPasswordController::class, 'reset']);
 });
 /*
  * -------
