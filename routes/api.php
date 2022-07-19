@@ -116,7 +116,7 @@ Route::middleware('auth:api')->group(function () {
 
             Route::get('/counter', [CompilationController::class, 'countTypesInUserLists']);
 
-            Route::get('/progress-list', [ReadingStatusesController::class, 'booksWithReadingProgress']);
+            Route::get('/progresses', [ReadingStatusesController::class, 'booksWithReadingProgress']);
         });
     });
     /*
