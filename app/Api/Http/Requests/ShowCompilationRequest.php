@@ -35,7 +35,7 @@ class ShowCompilationRequest extends FormRequest
         }
         return [
             'showType' => ['required', Rule::in([QueryFilter::SHOW_TYPE_BLOCK, QueryFilter::SHOW_TYPE_LIST])],
-            'selectionCategory' => ['required', 'integer', 'exists:compilations,type'],
+            'selectionCategory' => ['required', 'integer', 'exists:compilations,type_id'],
             'bookType' => ['required', 'string', Rule::in(Compilation::$availableCompilationableTypes)],
         ];
 
