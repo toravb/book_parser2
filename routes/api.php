@@ -115,6 +115,8 @@ Route::middleware('auth:api')->group(function () {
             Route::get('/quotes', [QuoteController::class, 'showUserQuotes']);
 
             Route::get('/counter', [CompilationController::class, 'countTypesInUserLists']);
+
+            Route::get('/progress-list', [ReadingStatusesController::class, 'booksWithReadingProgress']);
         });
     });
     /*

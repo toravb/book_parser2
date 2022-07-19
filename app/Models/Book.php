@@ -347,6 +347,11 @@ class Book extends Model implements BookInterface, SearchModelInterface
         return $this->hasMany(UsersRecommendation::class);
     }
 
+    public function readingStatus(): HasOne
+    {
+        return $this->hasOne(ReadingStatus::class)->where('user_id', auth('api')->id());
+    }
+
     public function getBook(): Builder
     {
         return $this->with([
@@ -597,5 +602,17 @@ class Book extends Model implements BookInterface, SearchModelInterface
             ->withExists(['bookCompilation as added' => function ($query) use ($compilationID) {
                 return $query->where('compilation_id', $compilationID);
             }]);
+    }
+
+    public function forReadingProgressInUserList(): Builder
+    {
+        return $this
+            ->select('id')
+            ->whereHas('isInFavorite')
+            ->whereHas('readingStatus')
+            ->with([
+                'image:id,book_id,public_path as link',
+                'readingStatus:book_id,reading_progress as progress'
+            ]);
     }
 }

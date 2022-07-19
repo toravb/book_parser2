@@ -24,4 +24,9 @@ class ReadingStatusesController extends Controller
     {
         return ApiAnswerService::successfulAnswerWithData($readingStatus->show($request->id));
     }
+
+    public function booksWithReadingProgress(Book $book)
+    {
+        return ApiAnswerService::successfulAnswerWithData($book->forReadingProgressInUserList()->get());
+    }
 }
