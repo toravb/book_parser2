@@ -73,7 +73,7 @@
                     </div>
 
                     @if($actions??false)
-                        <div class="col d-flex justify-content-end">
+                        <div class="col d-flex justify-content-end align-items-center">
                             {{$actions}}
                         </div>
                     @endif

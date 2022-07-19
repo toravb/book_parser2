@@ -60,7 +60,7 @@
                         <option value="{{$book->year?->id}}" selected>{{$book->year?->year}}</option>
                     </x-select2>
 
-                    <x-error name="author_id"></x-error>
+                    <x-error name="year_id"></x-error>
                 </label>
 
                 <label class="col-12 d-block">

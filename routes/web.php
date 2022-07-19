@@ -5,9 +5,14 @@ use App\Http\Controllers\Admin\AudioBooksController;
 use App\Http\Controllers\Admin\AuthorsController;
 use App\Http\Controllers\Admin\BannersController;
 use App\Http\Controllers\Admin\BooksController;
+use App\Http\Controllers\Admin\CompilationController;
+use App\Http\Controllers\Admin\CompilationTypesController;
+use App\Http\Controllers\Admin\CompilationsController;
 use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\MainPageNoTimeForReadCompilationController;
+use App\Http\Controllers\Admin\MainPageNoveltiesCompilationController;
 use App\Http\Controllers\Admin\PagesController;
 use App\Http\Controllers\Admin\ReviewTypesController;
 use App\Http\Controllers\Admin\YearsController;
@@ -78,6 +83,41 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      */
     Route::resource('banners', BannersController::class)->except(['show']);
 
+    /*
+     * Compilations
+     */
+
+    Route::group(['as' => 'compilations.', 'prefix' => 'compilations'], function () {
+        Route::get('/{compilation}/add', [CompilationController::class, 'booksToAdd'])->name('add-books');
+        Route::get('/{compilation}/add-audiobooks', [CompilationController::class, 'audiobooksToAdd'])->name('add-audiobooks');
+        Route::get('/{compilation}/add-book/{book}', [CompilationController::class, 'storeBooksInCompilation'])->name('store-book');
+
+        Route::delete('/{compilation}/remove/{id}/{type}', [CompilationController::class, 'removeBookFromCompilation'])->name('remove-book');
+        /*
+         * Main page compilation novelties
+         */
+        Route::resource('novelties', MainPageNoveltiesCompilationController::class)->except(['show']);
+        Route::get('novelties/add/books', [MainPageNoveltiesCompilationController::class, 'showBooks'])->name('novelties.add.books');
+
+        /*
+         * Main page compilation no time for read - listen!
+         */
+        Route::resource('no-time-for-read', MainPageNoTimeForReadCompilationController::class)->except(['show']);
+        Route::get('no-time-for-read/add/audiobooks', [MainPageNoTimeForReadCompilationController::class, 'showAudiobooks'])->name('no-time-for-read.add.audiobooks');
+
+
+    });
+    Route::resource('compilations', CompilationController::class);
+
+//    /*
+//     * Compilations
+//     */
+//    Route::resource('compilations', CompilationController::class)->except(['show']);
+//
+    /*
+     * Compilation type
+     */
+    Route::resource('compilation-types', CompilationTypesController::class)->except(['show']);
 
     /*
      * Old admin panel

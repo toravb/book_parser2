@@ -285,7 +285,9 @@ class BookParserController extends Controller
 
     public static function parsePage($url, $book_id, $page_num)
     {
+        file_put_contents(storage_path('logs/book_parser_logs.log'), "$url - [".date("Y-m-d H:i:s")." START] \n", FILE_APPEND);
         $response = file_get_contents($url);
+        file_put_contents(storage_path('logs/book_parser_logs.log'), "$url - [".date("Y-m-d H:i:s")." END] \n", FILE_APPEND);
         $html = str_get_html($response);
         $is_blocked = false;
         $data = [
