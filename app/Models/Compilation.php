@@ -226,7 +226,7 @@ class Compilation extends Model implements SearchModelInterface
         $this->background = $backgroud;
         $this->description = $description;
         $this->created_by = $created_by;
-        $this->type = $type;
+        $this->type_id = $type;
         $this->save();
 
         return $this;
