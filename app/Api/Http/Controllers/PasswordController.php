@@ -6,6 +6,7 @@ namespace App\Api\Http\Controllers;
 use App\Api\Http\Requests\ChangePasswordRequest;
 use App\Api\Services\ApiAnswerService;
 use App\AuthApi\Http\Requests\ForgotPasswordRequest;
+use App\AuthApi\Http\Requests\ResetPasswordRequest;
 use App\AuthApi\Mails\PasswordForgotMail;
 use App\AuthApi\Models\PasswordReset;
 use App\Http\Controllers\Controller;
