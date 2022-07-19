@@ -206,10 +206,10 @@ class Compilation extends Model implements SearchModelInterface
 
     public function compilationUpdate(UpdateUserCompilationRequest $request): Compilation
     {
-        if ($request->background) {
+        if ($request->image) {
             if ($this->background) \Storage::delete($this->background);
 
-            $this->background = \Storage::put('CompilationImages', $request->background);
+            $this->background = \Storage::put('CompilationImages', $request->image);
         }
 
         $this->title = $request->title;
@@ -225,7 +225,7 @@ class Compilation extends Model implements SearchModelInterface
         string $description,
         int    $created_by,
         int    $type = null,
-        int    $location = 0
+        int    $location = null
     ): Compilation
     {
         $this->title = $title;
