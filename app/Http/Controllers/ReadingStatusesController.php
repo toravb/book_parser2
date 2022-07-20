@@ -24,7 +24,7 @@ class ReadingStatusesController extends Controller
     {
         return ApiAnswerService::successfulAnswerWithData($readingStatus->show($request->id));
     }
-
+// TODO: will need to add display for audiobooks listening status which user has
     public function booksWithReadingProgress(Book $book)
     {
         return ApiAnswerService::successfulAnswerWithData($book->forReadingProgressInUserList()->get());

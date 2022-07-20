@@ -607,12 +607,14 @@ class Book extends Model implements BookInterface, SearchModelInterface
     public function forReadingProgressInUserList(): Builder
     {
         return $this
-            ->select('id')
+            ->select('books.id')
             ->whereHas('isInFavorite')
             ->whereHas('readingStatus')
+            ->addSelect(['reading_statuses.book_id', 'reading_statuses.reading_progress as progress'])
             ->with([
                 'image:id,book_id,public_path as link',
-                'readingStatus:book_id,reading_progress as progress'
-            ]);
+            ])
+            ->join('reading_statuses', 'reading_statuses.book_id', '=', 'books.id')
+            ->orderBy('reading_statuses.updated_at', 'desc');
     }
 }
