@@ -17791,6 +17791,93 @@
         ]
       }
     },
+    "/profile/lists/progresses": {
+      "parameters": [],
+      "get": {
+        "summary": "Progress of reading/listening for user in lists",
+        "operationId": "get-profile-lists-progresses",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer"
+                          },
+                          "book_id": {
+                            "type": "integer"
+                          },
+                          "progress": {
+                            "type": "integer"
+                          },
+                          "type": {
+                            "type": "string"
+                          },
+                          "image": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "integer"
+                              },
+                              "book_id": {
+                                "type": "integer"
+                              },
+                              "link": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "x-examples": {
+                    "example-1": {
+                      "status": "success",
+                      "data": [
+                        {
+                          "id": 1,
+                          "book_id": 1,
+                          "progress": 1,
+                          "type": "books",
+                          "image": {
+                            "id": 23,
+                            "book_id": 1,
+                            "link": "http://loveread.ec/img/photo_books/73015.jpg"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [],
+        "tags": [
+          "Lists",
+          "User profile"
+        ],
+        "description": "display books and audiobooks which user has with status of reading"
+      }
+    },
     "/profile/lists/counter": {
       "parameters": [],
       "get": {
