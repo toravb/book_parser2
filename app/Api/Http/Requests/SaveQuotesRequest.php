@@ -31,7 +31,7 @@ class SaveQuotesRequest extends FormRequest
                 'integer',
                 Rule::exists('pages', 'id')->where('book_id', $this->book_id)
             ],
-            'text' => ['required', 'string', 'max:300'],
+            'text' => ['required', 'string', 'max:1000'],
             'color' => ['sometimes', 'string', 'max:10'],
             'start_key' => ['required', 'string', 'max:190'],
             'start_offset' => ['required', 'integer'],
