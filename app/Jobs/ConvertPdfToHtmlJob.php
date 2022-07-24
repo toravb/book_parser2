@@ -41,8 +41,9 @@ class ConvertPdfToHtmlJob implements ShouldQueue
         $fullPath = storage_path('app/public/' . $this->path) ;
 
         $pdf = new \TonchikTm\PdfToHtml\Pdf($fullPath, [
-            'pdftohtml_path' => base_path('poppler\bin\pdftohtml.exe'),
-            'pdfinfo_path' => base_path('poppler\bin\pdfinfo.exe'),
+
+            'pdftohtml_path' => base_path(config('filesystems.pdftohtml_path')),
+            'pdfinfo_path' => base_path(config('filesystems.pdfinfo_path')),
             'html' => [ // settings for processing html
                 'inlineCss' => true, // replaces css classes to inline css rules
                 'inlineImages' => true, // looks for images in html and replaces the src attribute to base64 hash
@@ -65,7 +66,7 @@ class ConvertPdfToHtmlJob implements ShouldQueue
                 'book_id' => $this->bookId
             ]);
         }
-        dump($this->path);
+      
         Storage::disk('public')->delete($this->path);
     }
 }
