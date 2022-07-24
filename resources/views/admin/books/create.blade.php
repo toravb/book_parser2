@@ -49,7 +49,32 @@
                 >
                 </x-select2>
 
-                <x-error name="author_id"></x-error>
+                <x-error name="year_id"></x-error>
+            </label>
+
+            <label class="col-12 d-block">
+                Серия
+                <x-select2
+                    :route="route('admin.series.index')"
+                    text-field="series"
+                    name="series_id"
+                >
+                </x-select2>
+
+                <x-error name="series_id"></x-error>
+            </label>
+
+            <label class="col-12 d-block">
+                Издательство
+                <x-select2
+                    multiple
+                    :route="route('admin.publishers.index')"
+                    text-field="publisher"
+                    name="publisher_ids[]"
+                >
+                </x-select2>
+
+                <x-error name="publisher_id"></x-error>
             </label>
 
             <label class="col-12 d-block">
@@ -72,6 +97,16 @@
                     class="form-control-file"
                 >
 
+                <x-error name="cover_image"></x-error>
+            </label>
+
+            <label class="col-12 d-block">
+                Загрузить книгу
+                <input
+                    type="file"
+                    name="file_for_parsing"
+                    class="form-control-file"
+                >
                 <x-error name="cover_image"></x-error>
             </label>
 

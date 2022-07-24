@@ -29,11 +29,13 @@
 @endif
 
 @if($errors->any())
+    @foreach($errors->all() as $error)
     <x-toast-notification
         icon="error"
         timer="4000"
-        title="Ошибка при отправке формы"
+        title="{{$error}}"
     ></x-toast-notification>
+    @endforeach
 @endif
 
 

@@ -9,7 +9,9 @@ use App\Http\Controllers\Admin\FileController;
 use App\Http\Controllers\Admin\GenresController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PagesController;
+use App\Http\Controllers\Admin\PublisherController;
 use App\Http\Controllers\Admin\ReviewTypesController;
+use App\Http\Controllers\Admin\SeriesController;
 use App\Http\Controllers\Admin\YearsController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +48,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      * Books
      */
     Route::resource('books', BooksController::class)->except(['show']);
+//    Route::post('books/upload', [BooksController::class, 'upload'])->name('books.upload');
+//    Route::get('books/upload_page', [BooksController::class, 'uploadPage'])->name('books.upload_page');
 
     /*
      * Page
@@ -72,6 +76,15 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin-panel', 'middleware' => 'auth
      * Years
      */
     Route::resource('years', YearsController::class)->except(['show', 'create']);
+
+    /**
+    * Series
+    */
+    Route::resource('series', SeriesController::class)->only(['index']);
+    /**
+     * Publishers
+     */
+    Route::resource('publishers', PublisherController::class)->only(['index']);
 
     /*
      * Banners

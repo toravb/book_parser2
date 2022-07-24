@@ -86,4 +86,6 @@ return [
         public_path('storage') => storage_path('app/public'),
     ],
 
+    'pdftohtml_path' => env('PDF_TO_HTML_PATH'),
+    'pdfinfo_path' => env('PDF_INFO_PATH'),
 ];

@@ -13,6 +13,7 @@ class UpdateBookRequest extends StoreBookRequest
     {
         $rules = [
             'id' => ['required', 'int', Rule::exists(Book::class)],
+            'title' => ['required', 'string', Rule::unique(Book::class)->ignore($this->id)],
             'alias_url' => ['nullable', 'string', 'max:255', Rule::unique(Book::class)->ignore($this->id)],
         ];
 

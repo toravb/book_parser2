@@ -64,6 +64,34 @@
                 </label>
 
                 <label class="col-12 d-block">
+                    Серия
+                    <x-select2
+                        :route="route('admin.series.index')"
+                        text-field="series"
+                        name="series_id"
+                    >
+                        <option value="{{$book->series?->id}}" selected>{{$book->series?->series}}</option>
+                    </x-select2>
+                    <x-error name="series_id"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
+                    Издательство
+                    <x-select2
+                        multiple
+                        :route="route('admin.publishers.index')"
+                        text-field="publisher"
+                        name="publisher_ids[]"
+                    >
+                        @foreach($book->publishers as $publisher)
+                            <option value="{{$publisher->id}}" selected>{{$publisher->publisher}}</option>
+                        @endforeach
+                    </x-select2>
+
+                    <x-error name="publisher_id"></x-error>
+                </label>
+
+                <label class="col-12 d-block">
                     Описание
                     <textarea
                         rows="5"

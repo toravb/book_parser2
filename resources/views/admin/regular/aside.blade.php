@@ -21,7 +21,12 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href="{{route('admin.books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.books.*')])>
+                <a href="{{route('admin.books.create')}}" @class(['nav-link', 'active' => request()->route()->named('admin.books.create')])>
+                    <p>Добавить книгу</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{route('admin.books.index')}}" @class(['nav-link', 'active' => request()->route()->named('admin.books.index')])>
                     <p>Администрирование</p>
                 </a>
             </li>

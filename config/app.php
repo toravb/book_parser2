@@ -237,6 +237,6 @@ return [
 
     ],
 
-    'front_url' => env('FRONT_URL')
-
+    'front_url' => env('FRONT_URL'),
+     'node_url' => env('NODE_URL')
 ];

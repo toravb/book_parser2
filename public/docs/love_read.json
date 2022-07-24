@@ -12,11 +12,7 @@
     },
     {
       "description": "Local",
-      "url": "http://book-parser2/api"
-    },
-    {
-      "url": "http://localhost/api",
-      "description": "Localhost"
+      "url": "http://loveread/api"
     }
   ],
   "paths": {
@@ -1521,18 +1517,9 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "parent_review_id": {
-                                "type": "number"
-                              },
-                              "created_at": {
-                                "type": "string"
-                              },
-                              "updated_at": {
-                                "type": "string"
-                              },
-                              "is_liked": {
-                                "type": "boolean"
-                              },
+                              "parent_review_id": {},
+                              "created_at": {},
+                              "updated_at": {},
                               "views_count": {
                                 "type": "number"
                               },
@@ -1627,7 +1614,6 @@
                               "review_type_id",
                               "title",
                               "content",
-                              "is_liked",
                               "views_count",
                               "likes_count",
                               "comments_count"
@@ -1861,11 +1847,6 @@
             "name": "sortBy",
             "required": true,
             "description": "2 - readers, 3 - popular, 4 - reviews, 5 - hight rating"
-          }
-        ],
-        "security": [
-          {
-            "Authorization": []
           }
         ]
       }
@@ -5036,9 +5017,6 @@
                                 "type": "string",
                                 "minLength": 1
                               },
-                              "is_liked": {
-                                "type": "boolean"
-                              },
                               "likes_count": {
                                 "type": "number"
                               },
@@ -5090,7 +5068,6 @@
                               "content",
                               "created_at",
                               "updated_at",
-                              "is_liked",
                               "likes_count",
                               "comments_count"
                             ]
@@ -5241,12 +5218,7 @@
         },
         "operationId": "get-books-id-reviews",
         "parameters": [],
-        "description": "",
-        "security": [
-          {
-            "Authorization": []
-          }
-        ]
+        "description": ""
       },
       "parameters": [
         {
@@ -17653,15 +17625,6 @@
                           "start_key": {
                             "type": "string"
                           },
-                          "start_offset": {
-                            "type": "number"
-                          },
-                          "end_key": {
-                            "type": "string"
-                          },
-                          "end_offset": {
-                            "type": "number"
-                          },
                           "likes_count": {
                             "type": "number"
                           },
@@ -17744,9 +17707,6 @@
                           "text",
                           "page_id",
                           "start_key",
-                          "start_offset",
-                          "end_key",
-                          "end_offset",
                           "likes_count",
                           "type"
                         ]

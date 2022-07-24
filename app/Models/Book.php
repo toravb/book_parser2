@@ -24,10 +24,10 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 use LaravelIdea\Helper\App\Models\_IH_Book_C;
 use LaravelIdea\Helper\App\Models\_IH_Book_QB;
 use Storage;
-use Str;
 
 class Book extends Model implements BookInterface, SearchModelInterface
 {
@@ -88,11 +88,12 @@ class Book extends Model implements BookInterface, SearchModelInterface
         $this->text = $request->text ?? '';
         $this->active = (bool)$request->active;
         $this->year_id = $request->year_id;
+        $this->series_id = $request->series_id;
         $this->meta_description = $request->meta_description;
         $this->meta_keywords = $request->meta_keywords;
         $this->alias_url = $request->alias_url ?? Str::slug($request->title);
 
-        $this->links ?? $this->link = '';
+//        $this->links ?? $this->link = '';
         $this->params ?? $this->params = '{}';
 
         $this->save();
@@ -117,6 +118,8 @@ class Book extends Model implements BookInterface, SearchModelInterface
 
         $this->authors()->sync($request->authors_ids);
         $this->genres()->sync($request->genres_id);
+        $this->publishers()->sync($request->publisher_ids);
+        return $this;
     }
 
     public function image(): HasOne
@@ -149,11 +152,14 @@ class Book extends Model implements BookInterface, SearchModelInterface
             'title',
             'active',
             'year_id',
+            'series_id'
         ])->with([
             'genres:id,name',
             'authors:id,author',
             'image:id,book_id,link',
-            'year:id,year'
+            'year:id,year',
+            'series:id,series',
+            'publishers:id,publisher'
         ]);
     }
 

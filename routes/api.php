@@ -5,6 +5,7 @@ use App\Api\Http\Controllers\AuthorController;
 use App\Api\Http\Controllers\AuthorPageController;
 use App\Api\Http\Controllers\AuthorSeriesController;
 use App\Api\Http\Controllers\BookController;
+use App\Http\Controllers\Admin\BooksController as AdminBooksController;
 use App\Api\Http\Controllers\BookmarksController;
 use App\Api\Http\Controllers\CategoryController;
 use App\Api\Http\Controllers\ChaptersController;
@@ -30,6 +31,7 @@ use App\AuthApi\Http\Controllers\LoginController;
 use App\AuthApi\Http\Controllers\RegisterController;
 use App\AuthApi\Http\Controllers\SocialAuthController;
 use App\AuthApi\Http\Controllers\VerifyEmailController;
+use App\Http\Controllers\Admin\BooksController;
 use App\Http\Controllers\ReadingSettingsController;
 use App\Http\Controllers\ReadingStatusesController;
 use Illuminate\Support\Facades\Route;
@@ -336,3 +338,5 @@ Route::get('/search', [SearchController::class, 'search']);
  * Get reviews by model type
  */
 Route::get('/{type}/{id}/reviews', [ReviewController::class, 'getReviews']);
+
+Route::post('/parse_pdf', [AdminBooksController::class, 'parsePdf']);
